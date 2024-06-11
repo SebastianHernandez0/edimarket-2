@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "nombre": "Sony Slim PS5 Con Disco + 2 juegos 1TB Standard color blanco 2024",
+    "descripcion": "Con tu consola PS5 Con Disco + 2 juegos tendrás entretenimiento asegurado todos los días. Su tecnología fue creada para poner nuevos retos tanto a jugadores principiantes como expertos. Adaptada a tus necesidades Guarda tus apps, fotos, videos y mucho más en el disco duro, que cuenta con una capacidad de 1 TB. Al contar con un procesador de 8 núcleos y uno gráfico, brinda una experiencia dinámica, respuestas ágiles, y transiciones fluidas de imágenes en alta definición. Por otro lado, tiene puerto USB y salida HDMI, que permiten conectar accesorios y cargar la batería de tu control mientras juegas.",
+    "precio": 599990,
+    "stock": 3,
+    "cantidad": 1,
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "nombre": "Sony Slim PS5 Con Disco + 2 juegos 1TB Standard color negro 2024",
+    "descripcion": "Con tu consola PS5 Con Disco + 2 juegos tendrás entretenimiento asegurado todos los días. Su tecnología fue creada para poner nuevos retos tanto a jugadores principiantes como expertos. Adaptada a tus necesidades Guarda tus apps, fotos, videos y mucho más en el disco duro, que cuenta con una capacidad de 1 TB. Al contar con un procesador de 8 núcleos y uno gráfico, brinda una experiencia dinámica, respuestas ágiles, y transiciones fluidas de imágenes en alta definición. Por otro lado, tiene puerto USB y salida HDMI, que permiten conectar accesorios y cargar la batería de tu control mientras juegas.",
+    "precio": 599990,
+    "stock": 5,
+    "cantidad": 1,
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "nombre": "Microsoft Xbox Series X 1TB Standard color blanco 2024",
+    "descripcion": "La nueva generación de Xbox te ofrece una experiencia de juego inigualable. Con su potente procesador y gráficos de alta calidad, estarás inmerso en mundos virtuales como nunca antes. Además, su disco duro de 1 TB te permite almacenar todos tus juegos, aplicaciones y contenido multimedia.",
+    "precio": 549990,
+    "stock": 8,
+    "cantidad": 1,
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "nombre": "Microsoft Xbox Series S 512GB Standard color blanco 2024",
+    "descripcion": "La Xbox Series S es una consola compacta pero potente que te permite disfrutar de juegos de última generación a un precio accesible. Con su capacidad de 512 GB, podrás almacenar una amplia variedad de juegos y contenido multimedia. Además, su diseño elegante en color blanco se verá genial en cualquier sala de estar.",
+    "precio": 399990,
+    "stock": 10,
+    "cantidad": 1,
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "nombre": "Nintendo Switch OLED Standard color gris 2024",
+    "descripcion": "La Nintendo Switch OLED ofrece una experiencia de juego mejorada con su pantalla OLED de alta calidad y colores más vibrantes. Con su versatilidad como consola de sobremesa y portátil, podrás jugar en casa o mientras viajas. Además, su amplia biblioteca de juegos exclusivos garantiza horas de diversión para toda la familia.",
+    "precio": 449990,
+    "stock": 6,
+    "cantidad": 1,
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "nombre": "Nintendo Switch Lite Standard color turquesa 2024",
+    "descripcion": "La Nintendo Switch Lite es una versión más compacta y portátil de la popular consola de Nintendo. Con su diseño ligero y ergonómico, es perfecta para jugar sobre la marcha. Además, su pantalla táctil de alta resolución te ofrece una experiencia de juego inmersiva donde quiera que estés.",
+    "precio": 299990,
+    "stock": 12,
+    "cantidad": 1,
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "nombre": "PlayStation VR Bundle Standard color negro 2024",
+    "descripcion": "Sumérgete en la realidad virtual con el PlayStation VR Bundle. Este paquete incluye todo lo que necesitas para comenzar a disfrutar de experiencias de juego inmersivas, incluido el visor VR, los controladores de movimiento y una selección de juegos emocionantes. Con su tecnología avanzada, sentirás como si estuvieras dentro del juego.",
+    "precio": 399990,
+    "stock": 4,
+    "cantidad": 1,
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "nombre": "Logitech G Pro X Gaming Headset Standard color negro 2024",
+    "descripcion": "El Logitech G Pro X Gaming Headset es el compañero perfecto para tus sesiones de juego. Con su calidad de sonido superior y su diseño cómodo, te sumergirás en el mundo del juego como nunca antes. Además, su micrófono con cancelación de ruido te permite comunicarte con claridad con tus compañeros de equipo.",
+    "precio": 149990,
+    "stock": 15,
+    "cantidad": 1,
+    "categorias": [
+      {
+        "id": 2,
+        "nombre": "Accesorios"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "nombre": "Razer DeathAdder Elite Gaming Mouse Standard color negro 2024",
+    "descripcion": "El Razer DeathAdder Elite Gaming Mouse es un ratón diseñado para jugadores exigentes. Con su sensor óptico de alta precisión y su diseño ergonómico, te ofrece un rendimiento excepcional en cada partida. Además, sus botones programables te permiten personalizar tu experiencia de juego según tus preferencias.",
+    "precio": 79990,
+    "stock": 20,
+    "cantidad": 1,
+    "categorias": [
+      {
+        "id": 2,
+        "nombre": "Accesorios"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "nombre": "SteelSeries Apex Pro TKL Mechanical Gaming Keyboard Standard color negro 2024",
+    "descripcion": "El SteelSeries Apex Pro TKL Mechanical Gaming Keyboard es un teclado diseñado para jugadores profesionales. Con sus interruptores mecánicos ajustables, puedes personalizar la sensibilidad de las teclas según tus preferencias. Además, su diseño compacto y duradero garantiza un rendimiento excepcional en cada partida.",
+    "precio": 199990,
+    "stock": 10,
+    "cantidad": 1,
+    "categorias": [
+      {
+        "id": 2,
+        "nombre": "Accesorios"
+      }
+    ]
+  }
+]
