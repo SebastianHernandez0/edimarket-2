@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 import { NavBurger } from "../navBurger/NavBurger";
+import { Perfil } from "../perfil/Perfil.jsx";
 
 export function Navbar() {
   const [openSearchBar, setOpenSearchBar] = useState(false);
@@ -118,14 +119,16 @@ export function Navbar() {
             </div>
           </div>
           <div className="navbar__user__menu__container ">
-            <div className="navbar__user__menu bg-gray-50 shadow-md">
-              <NavLink className="navbar__user__menu__link">
-                Iniciar sesión
-              </NavLink>
-              <NavLink className="navbar__user__menu__link">
-                Registrarse
-              </NavLink>
-            </div>
+            <Perfil>
+              <div className="navbar__user__menu bg-gray-50 shadow-md">
+                <NavLink className="navbar__user__menu__link">
+                  Iniciar sesión
+                </NavLink>
+                <NavLink className="navbar__user__menu__link">
+                  Registrarse
+                </NavLink>
+              </div>
+            </Perfil>
           </div>
         </div>
       </div>
