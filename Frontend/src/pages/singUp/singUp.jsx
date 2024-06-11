@@ -48,7 +48,7 @@ export function SingUp() {
             <p className="register__form__paragraph text-sm">
               ¿Ya tienes cuenta?
             </p>
-            <NavLink className="register__form__link text-sm text-teal-500 font-bold">
+            <NavLink to="/sing-in" className="register__form__link text-sm text-teal-500 font-bold">
               Iniciar Sesión
             </NavLink>
           </div>

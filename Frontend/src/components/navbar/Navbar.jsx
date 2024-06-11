@@ -119,7 +119,7 @@ export function Navbar() {
           <div className="navbar__user__menu__container ">
             <Perfil>
               <div className="navbar__user__menu bg-gray-50 shadow-md">
-                <NavLink className="navbar__user__menu__link">
+                <NavLink to="/sing-in" className="navbar__user__menu__link">
                   Iniciar sesión
                 </NavLink>
                 <NavLink to="/sing-up" className="navbar__user__menu__link">
