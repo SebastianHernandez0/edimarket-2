@@ -5,6 +5,7 @@ import { CgMenuRightAlt } from "react-icons/cg";
 import { IoClose } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { IoCartOutline } from "react-icons/io5";
 
 export function Navbar() {
   const [openSearchBar, setOpenSearchBar] = useState(false);
@@ -71,6 +72,13 @@ export function Navbar() {
             <div className="navbar__icons__menu__container">
               <CgMenuRightAlt className="navbar__user__icon navbar__user__icon__open" />
               <IoClose className="navbar__user__icon navbar__user__icon__close" />
+              <div className="navbar__menu__links bg-gray-50 shadow-md">
+                <NavLink className="navbar__menu__link"> Categorías</NavLink>
+                <NavLink className="navbar__menu__link">
+                  Carrito
+                  <IoCartOutline className="navbar__menu__link__icon" />
+                </NavLink>
+              </div>
             </div>
           </div>
           <div className="navbar__user__menu__container ">

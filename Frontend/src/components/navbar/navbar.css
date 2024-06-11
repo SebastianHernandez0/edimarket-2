@@ -110,3 +110,24 @@
   width: 200px;
   height: 150px;
 }
+.navbar__menu__links {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 140%;
+  right: -15px;
+  height: 200px;
+  width: 50%;
+}
+.navbar__menu__link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.navbar__menu__link__icon{
+  font-size: 1.5rem;
+  color: var(--dark_1);
+}
