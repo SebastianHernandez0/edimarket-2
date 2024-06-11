@@ -1,12 +1,19 @@
 import "../navbar/navbar.css";
 import { FiSearch } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, forwardRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 import { NavBurger } from "../navBurger/NavBurger";
 import { Perfil } from "../perfil/Perfil.jsx";
 import { SearchBar } from "../searchBar/SearchBar.jsx";
+
+// Crear un componente envolvente para manejar la referencia
+const UserIcon = forwardRef((props, ref) => (
+  <div ref={ref}>
+    <FaUserCircle {...props} />
+  </div>
+));
 
 export function Navbar() {
   const [openSearchBar, setOpenSearchBar] = useState(false);
@@ -15,6 +22,8 @@ export function Navbar() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 576);
   const navigate = useNavigate();
   const perfilMenuRef = useRef(null);
+  const perfilButtonRef = useRef(null);
+  const menuRef = useRef(null);
 
   useEffect(() => {
     if (navigate) {
@@ -64,7 +73,12 @@ export function Navbar() {
     }
 
     const handleClickOutside = (event) => {
-      if (perfilMenu && !perfilMenu.contains(event.target)) {
+      if (
+        perfilMenu &&
+        !perfilMenu.contains(event.target) &&
+        perfilButtonRef.current &&
+        !perfilButtonRef.current.contains(event.target)
+      ) {
         setOpenPerfilMenu(false);
       }
     };
@@ -74,7 +88,7 @@ export function Navbar() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [openPerfilMenu, setOpenPerfilMenu]);
+  }, [openPerfilMenu]);
 
   const handleBackToHome = () => {
     navigate("/");
@@ -103,7 +117,8 @@ export function Navbar() {
 
         <div className="navbar__user__container">
           <div className="navbar__user__icons__container">
-            <FaUserCircle
+            <UserIcon
+              ref={perfilButtonRef}
               onClick={handleOpenPerfilMenu}
               className="navbar__user__icon"
             />
@@ -115,8 +130,10 @@ export function Navbar() {
                 isMobile={isMobile}
                 setClicked={setClicked}
                 setIsMobile={setIsMobile}
+                menuRef={menuRef}
               />
               <div
+                ref={menuRef}
                 className={`navbar__menu__links bg-gray-50 shadow-md ${
                   clicked ? "navActiveMenu" : ""
                 }`}
@@ -129,7 +146,7 @@ export function Navbar() {
               </div>
             </div>
           </div>
-          <div className="navbar__user__menu__container " ref={perfilMenuRef}>
+          <div className="navbar__user__menu__container" ref={perfilMenuRef}>
             <Perfil>
               <div className="navbar__user__menu bg-gray-50 shadow-md">
                 <NavLink to="/sing-in" className="navbar__user__menu__link">
