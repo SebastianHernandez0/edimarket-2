@@ -5,11 +5,13 @@ import { SingIn } from "./pages/singIn/SingIn.jsx";
 import { Navbar } from "./components/navbar/Navbar.jsx";
 import { Footer } from "./components/footer/Footer.jsx";
 import "./App.css";
+import { Header } from "./components/header/Header.jsx";
 
 function App() {
   return (
     <section className="app__container">
       <Navbar />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sing-up" element={<SingUp />} />

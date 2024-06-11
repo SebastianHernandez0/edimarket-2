@@ -2,6 +2,7 @@
   display: grid;
   grid-template-areas:
     "navbar"
+    "header"
     "home"
     "footer";
   width: 100%;
