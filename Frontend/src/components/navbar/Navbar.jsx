@@ -21,8 +21,8 @@ export function Navbar() {
   const [clicked, setClicked] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 576);
   const navigate = useNavigate();
-  const perfilMenuRef = useRef(null);
   const perfilButtonRef = useRef(null);
+  const perfilMenuRef = useRef(null);
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -62,33 +62,6 @@ export function Navbar() {
       searchBar.classList.remove("searchInputActive");
     }
   }, [openSearchBar]);
-
-  useEffect(() => {
-    const perfilMenu = perfilMenuRef.current;
-
-    if (!openPerfilMenu) {
-      perfilMenu.classList.add("navUserActiveMenu");
-    } else {
-      perfilMenu.classList.remove("navUserActiveMenu");
-    }
-
-    const handleClickOutside = (event) => {
-      if (
-        perfilMenu &&
-        !perfilMenu.contains(event.target) &&
-        perfilButtonRef.current &&
-        !perfilButtonRef.current.contains(event.target)
-      ) {
-        setOpenPerfilMenu(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [openPerfilMenu]);
 
   const handleBackToHome = () => {
     navigate("/");
@@ -147,7 +120,12 @@ export function Navbar() {
             </div>
           </div>
           <div className="navbar__user__menu__container" ref={perfilMenuRef}>
-            <Perfil>
+            <Perfil
+              openPerfilMenu={openPerfilMenu}
+              setOpenPerfilMenu={setOpenPerfilMenu}
+              perfilMenuRef={perfilMenuRef}
+              perfilButtonRef={perfilButtonRef}
+            >
               <div className="navbar__user__menu bg-gray-50 shadow-md">
                 <NavLink to="/sing-in" className="navbar__user__menu__link">
                   Iniciar sesión
