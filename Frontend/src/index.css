@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*EJEMPLO DE VARIBALES PARA DARKMODE Y LIGHTMODE*/
+
+/* :root[app-theme="dark"] {
+    --color_1: #0d0e20; 
+  --color_2: #252859;
+  --color_3: #141726;
+  --color_4: #4bb2f2;
+  --color_5: #c2e0f2;
+  --color_6: #ffffffde;
+  --color_7: #141726;
+  --color_javascript: #f7df1d;
+  --navColor: #303473;
+  --titleColor1: #ffffffde;
+  --titleColor2: #4bb2f2;
+  --cardBackgroundDescColor: #000000;
+  --tecnologiesDescColor: #ffffffde;
+  --transparencyColor: #000000c7;
+  --transparencyColor2: #ffffffde;
+  --hoverColor: #ffffffde;
+} */
+
+:root[app-theme="light"] {
+  --celeste: #61b0f5;
+  --fucsia: #b905fa;
+  --rosado: #dba6ff;
+  --color_4: #dba6ff;
+  --verdeAgua: #42bea6;
+  --negro_1: #1d1927;
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
