@@ -1,15 +1,16 @@
 import "../navbar/navbar.css";
 import { FiSearch } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
-import { CgMenuRightAlt } from "react-icons/cg";
-import { IoClose } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
+import { NavBurger } from "../navBurger/NavBurger";
 
 export function Navbar() {
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [openPerfilMenu, setOpenPerfilMenu] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 576);
 
   const handleOpenPerfilMenu = () => {
     setOpenPerfilMenu(!openPerfilMenu);
@@ -41,6 +42,24 @@ export function Navbar() {
     }
   }, [openPerfilMenu]);
 
+  const toggleIcon = () => {
+    if (isMobile) {
+      setClicked(!clicked);
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 576);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <nav className="navbar__container shadow-sm">
       <div className="navbar__logo__container">
@@ -70,9 +89,12 @@ export function Navbar() {
               className="navbar__user__icon"
             />
             <div className="navbar__icons__menu__container">
-              <CgMenuRightAlt className="navbar__user__icon navbar__user__icon__open" />
-              <IoClose className="navbar__user__icon navbar__user__icon__close" />
-              <div className="navbar__menu__links bg-gray-50 shadow-md">
+              <NavBurger clicked={clicked} toggleIcon={toggleIcon} />
+              <div
+                className={`navbar__menu__links bg-gray-50 shadow-md ${
+                  clicked ? "navActiveMenu" : ""
+                }`}
+              >
                 <NavLink className="navbar__menu__link"> Categorías</NavLink>
                 <NavLink className="navbar__menu__link">
                   Carrito
