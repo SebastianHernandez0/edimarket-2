@@ -27,9 +27,11 @@
   --celeste: #61b0f5;
   --fucsia: #b905fa;
   --rosado: #dba6ff;
-  --color_4: #dba6ff;
+  --navbarColor: #e6ecdc;
+  --backgroundHomeColor: #f7f7f7;
   --verdeAgua: #42bea6;
-  --negro_1: #1d1927;
+  --dark_1: #1d1927;
+  --dark_2: #2c2a2a;
 }
 
 * {

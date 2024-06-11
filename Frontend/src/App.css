@@ -1,4 +1,6 @@
 .app__container {
   width: 100;
   height: 100vh;
+  min-width: 375px;
+  background-color: var(--backgroundHomeColor);
 }

@@ -1,0 +1,4 @@
+.home__container {
+  background-color: var(--backgroundHomeColor);
+  margin-top: 100px;
+}
