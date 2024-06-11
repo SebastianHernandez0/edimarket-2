@@ -104,7 +104,7 @@
   position: relative;
 }
 .navUserActiveMenu {
-  display: none;
+  transform: scale(0);
 }
 .navbar__user__menu {
   border-radius: 10px;
@@ -119,6 +119,8 @@
   padding: 20px;
   width: 200px;
   height: 150px;
+  transform: scale(100%);
+
 }
 .navbar__menu__links {
   display: flex;
@@ -190,10 +192,10 @@
     right: 7px;
   }
   .navbar__search__icon__insideinput:hover {
-    background: #00000018;
+    background: var(--navOpacity);
     border-radius: 50%;
     padding: 2px 0;
-    outline: 4px solid #00000018;
+    outline: 4px solid var(--navOpacity);
   }
   .navbar__logo__container {
     display: flex;
@@ -204,13 +206,18 @@
     position: relative;
     flex-direction: row;
     display: flex;
-    gap: 10px;
+    gap: 50px;
     align-items: center;
     justify-content: center;
     top: 0;
     right: 0;
     height: 0;
     transition: none;
+  }
+  .navbar__menu__link:hover {
+    background: var(--navOpacity);
+    outline: 7px solid var(--navOpacity);
+    border-radius: 5px;
   }
   .navbar__user__container {
     width: 100%;
@@ -223,5 +230,10 @@
   }
   .navbar__user__menu {
     top: 40px;
+  }
+  .navbar__user__icon:hover {
+    background: var(--navOpacity);
+    outline: 10px solid var(--navOpacity);
+    border-radius: 50%;
   }
 }

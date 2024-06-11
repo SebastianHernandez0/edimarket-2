@@ -32,10 +32,10 @@
   --verdeAgua: #42bea6;
   --dark_1: #2c2a2a;
   --dark_2: #8d8989;
+  --navOpacity: #00000018;
 }
 
 * {
   margin: 0;
   box-sizing: border-box;
 }
-
