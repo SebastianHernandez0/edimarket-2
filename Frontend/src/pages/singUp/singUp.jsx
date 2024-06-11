@@ -17,17 +17,25 @@ export function SingUp() {
           </div>
           <div className="register__form__input__container">
             <div className="register__input__container">
-              <input className="register__form__input" type="text" />
+              <input className="register__form__input" type="text" required />
               <p className="register__form__input__paragraph text-sm">Email</p>
             </div>
             <div className="register__input__container">
-              <input className="register__form__input" type="password" />
+              <input
+                className="register__form__input"
+                type="password"
+                required
+              />
               <p className="register__form__input__paragraph text-sm">
                 Contraseña
               </p>
             </div>
             <div className="register__input__container">
-              <input className="register__form__input" type="password" />
+              <input
+                className="register__form__input"
+                type="password"
+                required
+              />
               <p className="register__form__input__paragraph text-sm">
                 Confirmar Contraseña
               </p>
