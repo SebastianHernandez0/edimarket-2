@@ -99,6 +99,7 @@ export function Navbar() {
                 type="text"
               />
               <FiSearch className="navbar__search__icon navbar__search__icon__insideinput" />
+              <FiSearch className="navbar__search__icon__insideinput" />
             </div>
             <FiSearch
               onClick={handleOpenSearchBar}
