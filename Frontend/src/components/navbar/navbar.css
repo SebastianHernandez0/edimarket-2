@@ -72,6 +72,7 @@
 }
 
 .navbar__user__icons__container {
+  flex-direction: row;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -200,6 +201,27 @@
     max-width: 1300px;
   }
   .navbar__menu__links {
-    display: none;
+    position: relative;
+    flex-direction: row;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    right: 0;
+    height: 0;
+    transition: none;
+  }
+  .navbar__user__container {
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .navbar__user__icons__container {
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+  }
+  .navbar__user__menu {
+    top: 40px;
   }
 }
