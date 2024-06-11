@@ -15,10 +15,12 @@ export function Navbar() {
 
   const handleOpenPerfilMenu = () => {
     setOpenPerfilMenu(!openPerfilMenu);
-    if (openSearchBar) {
-      setOpenSearchBar(false);
-    } else if (clicked) {
-      setClicked(false);
+    if (isMobile) {
+      if (openSearchBar) {
+        setOpenSearchBar(false);
+      } else if (clicked) {
+        setClicked(false);
+      }
     }
   };
 
@@ -68,10 +70,9 @@ export function Navbar() {
       setIsMobile(window.innerWidth < 576);
     };
     if (!isMobile) {
-      setOpenPerfilMenu(true);
+      setOpenPerfilMenu(false);
       setOpenSearchBar(true);
     } else {
-      setOpenPerfilMenu(false);
       setOpenSearchBar(false);
     }
     window.addEventListener("resize", handleResize);
@@ -84,25 +85,28 @@ export function Navbar() {
   return (
     <nav className="navbar__container shadow-sm">
       <div className="navbar__logo__container">
-        <img
-          className="navbar__logo__img"
-          src="./imgs/aplication/navLogo2.1.png"
-          alt=""
-        />
-        <div className="navbar__search__container">
-          <div className="navbar__search__input__container">
-            <input
-              placeholder="Buscar producto"
-              className="navbar__search__input"
-              type="text"
-            />
-            <FiSearch className="navbar__search__icon navbar__search__icon__insideinput" />
-          </div>
-          <FiSearch
-            onClick={handleOpenSearchBar}
-            className="navbar__search__icon"
+        <div className="navbar__logo__section">
+          <img
+            className="navbar__logo__img"
+            src="./imgs/aplication/navLogo2.1.png"
+            alt=""
           />
+          <div className="navbar__search__container">
+            <div className="navbar__search__input__container">
+              <input
+                placeholder="Buscar producto"
+                className="navbar__search__input"
+                type="text"
+              />
+              <FiSearch className="navbar__search__icon navbar__search__icon__insideinput" />
+            </div>
+            <FiSearch
+              onClick={handleOpenSearchBar}
+              className="navbar__search__icon"
+            />
+          </div>
         </div>
+
         <div className="navbar__user__container">
           <div className="navbar__user__icons__container">
             <FaUserCircle

@@ -1,3 +1,4 @@
 .home__container {
-  padding-top: 150px;
+  grid-area: home;
+  margin-top: 130px;
 }
