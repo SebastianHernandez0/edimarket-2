@@ -3,4 +3,7 @@
   height: 100vh;
   min-width: 375px;
   background-color: var(--backgroundHomeColor);
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 500;
+  font-style: normal;
 }
