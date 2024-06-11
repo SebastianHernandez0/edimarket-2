@@ -14,10 +14,20 @@ export function Navbar() {
 
   const handleOpenPerfilMenu = () => {
     setOpenPerfilMenu(!openPerfilMenu);
+    if (openSearchBar) {
+      setOpenSearchBar(false);
+    } else if (clicked) {
+      setClicked(false);
+    }
   };
 
   const handleOpenSearchBar = () => {
     setOpenSearchBar(!openSearchBar);
+    if (openPerfilMenu) {
+      setOpenPerfilMenu(false);
+    } else if (clicked) {
+      setClicked(false);
+    }
   };
 
   useEffect(() => {
@@ -45,6 +55,10 @@ export function Navbar() {
   const toggleIcon = () => {
     if (isMobile) {
       setClicked(!clicked);
+    }
+    if (!clicked) {
+      setOpenPerfilMenu(false);
+      setOpenSearchBar(false);
     }
   };
 
