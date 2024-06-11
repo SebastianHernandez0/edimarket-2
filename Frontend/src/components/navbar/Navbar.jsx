@@ -13,7 +13,9 @@ export function Navbar() {
   };
 
   useEffect(() => {
-    const searchBar = document.querySelector(".navbar__search__input__container");
+    const searchBar = document.querySelector(
+      ".navbar__search__input__container"
+    );
 
     if (openSearchBar) {
       searchBar.classList.add("searchInputActive");
@@ -33,10 +35,11 @@ export function Navbar() {
         <div className="navbar__search__container">
           <div className="navbar__search__input__container">
             <input
-              placeholder="Busca un producto"
+              placeholder="Buscar producto"
               className="navbar__search__input"
               type="text"
             />
+            <FiSearch className="navbar__search__icon navbar__search__icon__insideinput" />
           </div>
           <FiSearch
             onClick={handleOpenSearchBar}

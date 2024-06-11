@@ -30,11 +30,12 @@
   --navbarColor: #e6ecdc;
   --backgroundHomeColor: #f7f7f7;
   --verdeAgua: #42bea6;
-  --dark_1: #1d1927;
-  --dark_2: #2c2a2a;
+  --dark_1: #2c2a2a;
+  --dark_2: #8d8989;
 }
 
 * {
   margin: 0;
   box-sizing: border-box;
 }
+
