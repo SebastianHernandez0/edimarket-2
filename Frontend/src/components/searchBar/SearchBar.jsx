@@ -1,7 +1,20 @@
 import "../perfil/perfil.css";
 import { FiSearch } from "react-icons/fi";
+import { useEffect } from "react";
 
-export function SearchBar({ className }) {
+export function SearchBar({ className, openSearchBar }) {
+  useEffect(() => {
+    const searchBar = document.querySelector(
+      ".navbar__search__input__container"
+    );
+
+    if (!openSearchBar) {
+      searchBar.classList.add("searchInputActive");
+    } else {
+      searchBar.classList.remove("searchInputActive");
+    }
+  }, [openSearchBar]);
+
   return (
     <div className={className}>
       <input

@@ -51,18 +51,6 @@ export function Navbar() {
     }
   };
 
-  useEffect(() => {
-    const searchBar = document.querySelector(
-      ".navbar__search__input__container"
-    );
-
-    if (!openSearchBar) {
-      searchBar.classList.add("searchInputActive");
-    } else {
-      searchBar.classList.remove("searchInputActive");
-    }
-  }, [openSearchBar]);
-
   const handleBackToHome = () => {
     navigate("/");
   };
@@ -79,7 +67,7 @@ export function Navbar() {
           />
           <div className="navbar__search__container">
             <div className="navbar__search__input__container">
-              <SearchBar />
+              <SearchBar openSearchBar={openSearchBar} />
             </div>
             <FiSearch
               onClick={handleOpenSearchBar}
