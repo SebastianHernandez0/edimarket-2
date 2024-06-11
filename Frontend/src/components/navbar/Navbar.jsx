@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 import { NavBurger } from "../navBurger/NavBurger";
 import { Perfil } from "../perfil/Perfil.jsx";
+import { SearchBar } from "../searchBar/SearchBar.jsx";
 
 export function Navbar() {
   const [openSearchBar, setOpenSearchBar] = useState(false);
@@ -93,13 +94,7 @@ export function Navbar() {
           />
           <div className="navbar__search__container">
             <div className="navbar__search__input__container">
-              <input
-                placeholder="Buscar producto"
-                className="navbar__search__input"
-                type="text"
-              />
-              <FiSearch className="navbar__search__icon navbar__search__icon__insideinput" />
-              <FiSearch className="navbar__search__icon__insideinput" />
+              <SearchBar />
             </div>
             <FiSearch
               onClick={handleOpenSearchBar}
