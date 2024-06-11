@@ -1,3 +1,4 @@
+import "../perfil/perfil.css";
 import { FiSearch } from "react-icons/fi";
 
 export function SearchBar({ className }) {

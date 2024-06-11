@@ -2,7 +2,7 @@ import "../navbar/navbar.css";
 import { FiSearch } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 import { NavBurger } from "../navBurger/NavBurger";
 import { Perfil } from "../perfil/Perfil.jsx";
@@ -14,6 +14,13 @@ export function Navbar() {
   const [clicked, setClicked] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 576);
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (navigate) {
+      setOpenPerfilMenu(false);
+    }
+  }, [navigate]);
   const handleOpenPerfilMenu = () => {
     setOpenPerfilMenu(!openPerfilMenu);
     if (isMobile) {
@@ -130,7 +137,7 @@ export function Navbar() {
                 <NavLink className="navbar__user__menu__link">
                   Iniciar sesión
                 </NavLink>
-                <NavLink className="navbar__user__menu__link">
+                <NavLink to="/sing-up" className="navbar__user__menu__link">
                   Registrarse
                 </NavLink>
               </div>
