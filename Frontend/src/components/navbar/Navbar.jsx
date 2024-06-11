@@ -63,11 +63,16 @@ export function Navbar() {
     }
   }, [openPerfilMenu]);
 
+  const handleBackToHome = () => {
+    navigate("/");
+  };
+
   return (
     <nav className="navbar__container shadow-sm">
       <div className="navbar__logo__container">
         <div className="navbar__logo__section">
           <img
+            onClick={handleBackToHome}
             className="navbar__logo__img"
             src="./imgs/aplication/navLogo2.1.png"
             alt=""
