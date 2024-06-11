@@ -137,3 +137,8 @@
   font-size: 1.5rem;
   color: var(--dark_1);
 }
+@media (min-width: 576px) {
+  .navbar__search__input__container {
+    position: static;
+  }
+}

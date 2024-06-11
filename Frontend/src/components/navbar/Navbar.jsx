@@ -67,13 +67,19 @@ export function Navbar() {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 576);
     };
-
+    if (!isMobile) {
+      setOpenPerfilMenu(true);
+      setOpenSearchBar(true);
+    } else {
+      setOpenPerfilMenu(false);
+      setOpenSearchBar(false);
+    }
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <nav className="navbar__container shadow-sm">
