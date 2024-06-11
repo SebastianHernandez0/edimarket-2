@@ -4,9 +4,15 @@ import { FaUserCircle } from "react-icons/fa";
 import { CgMenuRightAlt } from "react-icons/cg";
 import { IoClose } from "react-icons/io5";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 export function Navbar() {
   const [openSearchBar, setOpenSearchBar] = useState(false);
+  const [openPerfilMenu, setOpenPerfilMenu] = useState(false);
+
+  const handleOpenPerfilMenu = () => {
+    setOpenPerfilMenu(!openPerfilMenu);
+  };
 
   const handleOpenSearchBar = () => {
     setOpenSearchBar(!openSearchBar);
@@ -17,12 +23,22 @@ export function Navbar() {
       ".navbar__search__input__container"
     );
 
-    if (openSearchBar) {
+    if (!openSearchBar) {
       searchBar.classList.add("searchInputActive");
     } else {
       searchBar.classList.remove("searchInputActive");
     }
   }, [openSearchBar]);
+
+  useEffect(() => {
+    const perfilMenu = document.querySelector(".navbar__user__menu__container");
+
+    if (!openPerfilMenu) {
+      perfilMenu.classList.add("navUserActiveMenu");
+    } else {
+      perfilMenu.classList.remove("navUserActiveMenu");
+    }
+  }, [openPerfilMenu]);
 
   return (
     <nav className="navbar__container shadow-sm">
@@ -48,10 +64,23 @@ export function Navbar() {
         </div>
         <div className="navbar__user__container">
           <div className="navbar__user__icons__container">
-            <FaUserCircle className="navbar__user__icon" />
+            <FaUserCircle
+              onClick={handleOpenPerfilMenu}
+              className="navbar__user__icon"
+            />
             <div className="navbar__icons__menu__container">
               <CgMenuRightAlt className="navbar__user__icon navbar__user__icon__open" />
               <IoClose className="navbar__user__icon navbar__user__icon__close" />
+            </div>
+          </div>
+          <div className="navbar__user__menu__container ">
+            <div className="navbar__user__menu bg-gray-50 shadow-md">
+              <NavLink className="navbar__user__menu__link">
+                Iniciar sesión
+              </NavLink>
+              <NavLink className="navbar__user__menu__link">
+                Registrarse
+              </NavLink>
             </div>
           </div>
         </div>

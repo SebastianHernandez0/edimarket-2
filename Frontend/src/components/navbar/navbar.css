@@ -89,3 +89,24 @@
   font-size: 2.2rem;
   grid-area: a;
 }
+.navbar__user__menu__container {
+  width: 100%;
+  position: relative;
+}
+.navUserActiveMenu {
+  display: none;
+}
+.navbar__user__menu {
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-direction: column;
+  position: absolute;
+  top: 10px;
+  right: 80px;
+  padding: 20px;
+  width: 200px;
+  height: 150px;
+}
