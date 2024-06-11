@@ -13,7 +13,6 @@ export function Navbar() {
   const [openPerfilMenu, setOpenPerfilMenu] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 576);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +20,7 @@ export function Navbar() {
       setOpenPerfilMenu(false);
     }
   }, [navigate]);
+
   const handleOpenPerfilMenu = () => {
     setOpenPerfilMenu(!openPerfilMenu);
     if (isMobile) {
@@ -63,33 +63,6 @@ export function Navbar() {
     }
   }, [openPerfilMenu]);
 
-  const toggleIcon = () => {
-    if (isMobile) {
-      setClicked(!clicked);
-    }
-    if (!clicked) {
-      setOpenPerfilMenu(false);
-      setOpenSearchBar(false);
-    }
-  };
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 576);
-    };
-    if (!isMobile) {
-      setOpenPerfilMenu(false);
-      setOpenSearchBar(true);
-    } else {
-      setOpenSearchBar(false);
-    }
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [isMobile]);
-
   return (
     <nav className="navbar__container shadow-sm">
       <div className="navbar__logo__container">
@@ -117,7 +90,14 @@ export function Navbar() {
               className="navbar__user__icon"
             />
             <div className="navbar__icons__menu__container">
-              <NavBurger clicked={clicked} toggleIcon={toggleIcon} />
+              <NavBurger
+                clicked={clicked}
+                setOpenPerfilMenu={setOpenPerfilMenu}
+                setOpenSearchBar={setOpenSearchBar}
+                isMobile={isMobile}
+                setClicked={setClicked}
+                setIsMobile={setIsMobile}
+              />
               <div
                 className={`navbar__menu__links bg-gray-50 shadow-md ${
                   clicked ? "navActiveMenu" : ""
