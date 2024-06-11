@@ -1,7 +1,7 @@
 import "../navbar/navbar.css";
 import { FiSearch } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 import { NavBurger } from "../navBurger/NavBurger";
@@ -14,6 +14,7 @@ export function Navbar() {
   const [clicked, setClicked] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 576);
   const navigate = useNavigate();
+  const perfilMenuRef = useRef(null);
 
   useEffect(() => {
     if (navigate) {
@@ -54,14 +55,26 @@ export function Navbar() {
   }, [openSearchBar]);
 
   useEffect(() => {
-    const perfilMenu = document.querySelector(".navbar__user__menu__container");
+    const perfilMenu = perfilMenuRef.current;
 
     if (!openPerfilMenu) {
       perfilMenu.classList.add("navUserActiveMenu");
     } else {
       perfilMenu.classList.remove("navUserActiveMenu");
     }
-  }, [openPerfilMenu]);
+
+    const handleClickOutside = (event) => {
+      if (perfilMenu && !perfilMenu.contains(event.target)) {
+        setOpenPerfilMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openPerfilMenu, setOpenPerfilMenu]);
 
   const handleBackToHome = () => {
     navigate("/");
@@ -116,7 +129,7 @@ export function Navbar() {
               </div>
             </div>
           </div>
-          <div className="navbar__user__menu__container ">
+          <div className="navbar__user__menu__container " ref={perfilMenuRef}>
             <Perfil>
               <div className="navbar__user__menu bg-gray-50 shadow-md">
                 <NavLink to="/sing-in" className="navbar__user__menu__link">
