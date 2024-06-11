@@ -4,7 +4,7 @@ import "./singUp.css";
 
 export function SingUp() {
   return (
-    <section className="register__container">
+    <section className="register__container shadow-md rounded-md">
       <div className="register__form__container">
         <form className="register__form">
           <div className="register__form__title__container">
@@ -18,25 +18,29 @@ export function SingUp() {
           <div className="register__form__input__container">
             <div className="register__input__container">
               <input className="register__form__input" type="text" />
-              <p className="register__form__input__paragraph">Email</p>
+              <p className="register__form__input__paragraph text-sm">Email</p>
             </div>
             <div className="register__input__container">
               <input className="register__form__input" type="password" />
-              <p className="register__form__input__paragraph">Contraseña</p>
+              <p className="register__form__input__paragraph text-sm">
+                Contraseña
+              </p>
             </div>
             <div className="register__input__container">
               <input className="register__form__input" type="password" />
-              <p className="register__form__input__paragraph">
+              <p className="register__form__input__paragraph text-sm">
                 Confirmar Contraseña
               </p>
             </div>
           </div>
-          <PerfilBtn className="bg-teal-300">CREAR CUENTA</PerfilBtn>
+          <PerfilBtn className="register__form__btn bg-teal-300 w-6/12 h-11 rounded-3xl font-semibold text-center">
+            CREAR CUENTA
+          </PerfilBtn>
           <div className="register__form__singin">
             <p className="register__form__paragraph text-sm">
               ¿Ya tienes cuenta?
             </p>
-            <NavLink className="register__form__link text-sm">
+            <NavLink className="register__form__link text-sm text-teal-500 font-bold">
               Iniciar Sesión
             </NavLink>
           </div>

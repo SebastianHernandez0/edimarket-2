@@ -1,18 +1,18 @@
 .register__container {
   grid-area: home;
+  margin: 20px;
 }
 .register__container {
+  background: #ffffff;
+  max-width: 550px;
   display: flex;
-  width: 100%;
-  padding: 0 14px;
 }
 .register__form__container {
   display: flex;
   height: 500px;
   width: 100%;
-  border: 1px solid var(--dark_2);
   border-radius: 10px;
-  padding: 20px;
+  padding: 14px;
 }
 .register__form {
   width: 100%;
@@ -50,7 +50,7 @@
   outline: none;
 }
 .register__form__input__paragraph {
-  background: var(--backgroundHomeColor);
+  background: white;
   transition: 0.2s ease;
   position: absolute;
   top: 14px;
@@ -60,4 +60,23 @@
 
 .register__form__input:focus + .register__form__input__paragraph {
   transform: translate(-15px, -24px) scale(0.88);
+}
+.register__form__btn {
+  transition: filter 0.2s linear;
+}
+.register__form__btn:hover {
+  filter: brightness(80%);
+}
+.register__form__btn:active {
+  outline: 2px solid var(--dark_2);
+  border: none;
+}
+
+/*VERSIÓN DESKTOP*/
+
+@media (min-width: 576px) {
+  .register__container {
+    margin: 0 auto;
+    width: 100%;
+  }
 }
