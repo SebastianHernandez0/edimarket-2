@@ -3,6 +3,7 @@ import "../carritoModal/carritoModal.css";
 import { CartContext } from "../../context/CarritoContext";
 import { IoCloseOutline } from "react-icons/io5";
 import { ProductCard } from "../productCard/ProductCard";
+import { GeneralBtn } from "../generalBtn/GeneralBtn";
 
 export function CarritoModal() {
   const { cartModal, setCartModal, cart } = useContext(CartContext);
@@ -39,6 +40,11 @@ export function CarritoModal() {
                 </div>
               </ProductCard>
             ))}
+          </div>
+          <div className="card__button__container">
+            <GeneralBtn>
+              <div className="card__button">Ir al carrito</div>
+            </GeneralBtn>
           </div>
         </div>
       ) : (

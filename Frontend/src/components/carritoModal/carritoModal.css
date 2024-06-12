@@ -1,4 +1,5 @@
 .cartmodal__container {
+  overflow-y: scroll;
   grid-area: home;
   position: fixed;
   bottom: 0;
@@ -6,6 +7,7 @@
   width: 100%;
 }
 .cartmodal__body {
+  position: relative;
   overflow: hidden;
   height: 80vh;
   width: 100%;
@@ -26,7 +28,7 @@
   align-items: center;
   justify-content: space-between;
   padding-bottom: 20px;
-  border-bottom: 1px solid var(--dark_2);
+  border-bottom: 1px solid #bebebe;
 }
 
 .cart__card__img {
@@ -34,7 +36,7 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  border: 5px solid var(--verdeAgua);
+  border: 4px solid var(--verdeAgua);
 }
 
 .cart__card__paragraph {
@@ -45,10 +47,28 @@
 
 .cart__cards__container {
   margin-top: 20px;
+  overflow: scroll;
   display: flex;
   flex-direction: column;
   gap: 25px;
+  height: 500px;
 }
+
+.card__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: 45px;
+  border-radius: 30px;
+  position: absolute;
+  bottom: 20px;
+  left: 40px;
+  background: var(--verdeAgua);
+  color: var(--dark_1);
+  font-weight: 500;
+}
+
 @keyframes openModal {
   from {
     transform: translateY(100%);
