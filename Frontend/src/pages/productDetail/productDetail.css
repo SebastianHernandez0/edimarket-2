@@ -11,6 +11,9 @@
 .card__info {
   padding: 15px;
 }
+.card__img {
+  width: 100%;
+}
 .card__info__desc {
   padding: 10px;
 }
@@ -49,4 +52,35 @@
   background: var(--navbarColor);
   color: var(--dark_1);
   font-weight: 500;
+}
+
+/*VERSION DESKTOP*/
+
+@media (min-width: 576px) {
+  .productdetail__container {
+    display: flex;
+    margin: 0 auto;
+    max-width: 1400px;
+  }
+  .card__body {
+    display: grid;
+    grid-template-areas:
+      "imagen info"
+      "desc desc";
+    grid-template-columns: 2fr 1fr;
+  }
+  .card__info {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .card__info__details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .card__paragraph__name {
+    font-size: 1.8rem;
+  }
 }
