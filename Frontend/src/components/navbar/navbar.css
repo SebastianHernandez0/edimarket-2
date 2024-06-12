@@ -7,6 +7,7 @@
   justify-content: space-between;
   padding: 15px 13px;
   background-color: var(--navbarColor);
+  z-index: 100;
 }
 .navbar__logo__container {
   position: relative;
