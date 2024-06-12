@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard.jsx";
-import products from "/public/product.json";
+import { ProductContext } from "../../context/ProductContext.jsx";
 import "../products/products.css";
 
 export function Products() {
+  const { products } = useContext(ProductContext);
+
   return (
     <div className="products__container">
       <h1 className="products__title text-2xl font-semibold">
