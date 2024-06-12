@@ -14,9 +14,6 @@
 .card__img {
   width: 100%;
 }
-.card__info__desc {
-  padding: 10px;
-}
 .card__paragraph__name {
   font-weight: 700;
   text-align: center;

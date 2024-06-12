@@ -24,11 +24,10 @@ export function ProductDetail() {
                 })}
               </p>
               <p className="card__paragraph card__paragraph__stock">
-                Stock disponible
+                Stock disponible{" "}
                 <span className="font-semibold">{productById?.stock}</span>
               </p>
             </div>
-
             <div className="card__info__btn__container">
               <GeneralBtn className="card__info__btn card__info__btn__buy">
                 Comprar ahora
@@ -39,7 +38,12 @@ export function ProductDetail() {
             </div>
             <hr className="mt-8" />
           </div>
-          <div className="card__info__desc">{productById?.descripcion}</div>
+          <div className="card__info__desc__container mt-8 p-4">
+            <h1 className="card__info__desc__title text-2xl">Descripción</h1>
+            <div className="card__info__desc mt-10">
+              {productById?.descripcion}
+            </div>
+          </div>
         </ProductCard>
       </div>
     </section>
