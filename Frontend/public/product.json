@@ -12,7 +12,8 @@
         "nombre": "Consolas"
       }
     ],
-    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
+    "like": false
   },
   {
     "id": 2,
@@ -27,7 +28,8 @@
         "nombre": "Consolas"
       }
     ],
-    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
+    "like": false
   },
   {
     "id": 3,
@@ -42,7 +44,8 @@
         "nombre": "Consolas"
       }
     ],
-    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
+    "like": false
   },
   {
     "id": 4,
@@ -57,7 +60,8 @@
         "nombre": "Consolas"
       }
     ],
-    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
+    "like": false
   },
   {
     "id": 5,
@@ -72,7 +76,8 @@
         "nombre": "Consolas"
       }
     ],
-    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
+    "like": false
   },
   {
     "id": 6,
@@ -87,7 +92,8 @@
         "nombre": "Consolas"
       }
     ],
-    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
+    "like": false
   },
   {
     "id": 7,
@@ -102,7 +108,8 @@
         "nombre": "Consolas"
       }
     ],
-    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
+    "like": false
   },
   {
     "id": 8,
@@ -117,7 +124,8 @@
         "nombre": "Accesorios"
       }
     ],
-    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
+    "like": false
   },
   {
     "id": 9,
@@ -132,7 +140,8 @@
         "nombre": "Accesorios"
       }
     ],
-    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
+    "like": false
   },
   {
     "id": 10,
@@ -147,6 +156,7 @@
         "nombre": "Accesorios"
       }
     ],
-    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
+    "like": false
   }
 ]

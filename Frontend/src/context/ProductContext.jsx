@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 export const ProductContext = createContext();
 
-const productsURL = "/public/product.json";
+const productsURL = "/product.json";
 
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
