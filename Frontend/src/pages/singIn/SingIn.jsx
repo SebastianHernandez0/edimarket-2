@@ -28,11 +28,14 @@ export function SingIn() {
             </div>
           </div>
           <PerfilBtn className="login__form__btn bg-teal-300 w-6/12 h-11 rounded-3xl font-semibold text-center">
-            Iniciar sesión
+            INICIAR SESIÓN
           </PerfilBtn>
           <div className="login__form__singin">
             <p className="login__form__paragraph text-sm">¿No tienes cuenta?</p>
-            <NavLink to="/sing-up" className="login__form__link text-sm text-teal-500 font-bold">
+            <NavLink
+              to="/sing-up"
+              className="login__form__link text-sm text-teal-500 font-bold"
+            >
               Crear una cuenta
             </NavLink>
           </div>

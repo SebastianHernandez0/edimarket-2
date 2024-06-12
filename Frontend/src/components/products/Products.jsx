@@ -5,25 +5,22 @@ import "../products/products.css";
 import { useNavigate } from "react-router-dom";
 
 export function Products() {
-  const { products, productById, setProductById } = useContext(ProductContext);
+  const { products, setProductById } = useContext(ProductContext);
   const navigate = useNavigate();
 
   const handleProductDetail = (id) => {
     const product = products.find((product) => product.id === id);
     if (product) {
       setProductById(product);
+      navigate(`/product/${id}`);
     } else {
       console.log("producto no encontrado");
     }
   };
 
-  if (navigate) {
-    setProductById("");
-  }
-
-  if (productById) {
-    navigate(`/product/${productById.id}`);
-  }
+  useEffect(() => {
+    setProductById(null);
+  }, []);
 
   return (
     <div className="products__container">

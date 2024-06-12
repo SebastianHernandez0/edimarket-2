@@ -1,7 +1,42 @@
+import "../productDetail/productDetail.css";
+import { useContext } from "react";
+import { ProductContext } from "../../context/ProductContext";
+import { ProductCard } from "../../components/productCard/ProductCard";
+import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
+
 export function ProductDetail() {
+  const { productById } = useContext(ProductContext);
+
   return (
     <section className="productdetail__container">
-      <h1>Hola soy el detalle del producto</h1>
+      <div className="card__container">
+        <ProductCard className="card__body shadow-md rounded-md">
+          <img src={productById?.href} alt="" />
+          <div className="card__info">
+            <p className="card__paragraph card__paragraph__name">
+              {productById?.nombre}
+            </p>
+            <p className="card__paragraph card__paragraph__price">
+              {productById?.precio.toLocaleString("es-CL", {
+                style: "currency",
+                currency: "CLP",
+              })}
+            </p>
+            <p className="card__paragraph card__paragraph__stock">
+              Stock disponible{" "}
+              <span className="font-semibold">{productById?.stock}</span>
+            </p>
+            <div className="card__info__btn__container">
+              <GeneralBtn className="card__info__btn card__info__btn__buy">Comprar ahora</GeneralBtn>
+              <GeneralBtn className="card__info__btn card__info__btn__cart">
+                Agregar al carrito
+              </GeneralBtn>
+            </div>
+            <hr className="mt-8"/>
+          </div>
+          <div className="card__info__desc">{productById?.descripcion}</div>
+        </ProductCard>
+      </div>
     </section>
   );
 }
