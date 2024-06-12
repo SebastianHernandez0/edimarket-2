@@ -1,13 +1,15 @@
 import "../productDetail/productDetail.css";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { IoHeartSharp } from "react-icons/io5";
 import { GoHeart } from "react-icons/go";
+import { CartContext } from "../../context/CarritoContext";
 
 export function ProductDetail() {
   const { productById } = useContext(ProductContext);
+  const { openModalCart } = useContext(CartContext);
 
   return (
     <section className="productdetail__container">
@@ -26,7 +28,7 @@ export function ProductDetail() {
                     currency: "CLP",
                   })}
                 </p>
-                {productById.like ? (
+                {productById?.like ? (
                   <IoHeartSharp className="card__info__like__icon" />
                 ) : (
                   <GoHeart className="card__info__like__icon" />
@@ -43,7 +45,7 @@ export function ProductDetail() {
                 Comprar ahora
               </GeneralBtn>
               <GeneralBtn className="card__info__btn card__info__btn__cart">
-                Agregar al carrito
+                <div onClick={openModalCart}>Agregar al carrito</div>
               </GeneralBtn>
             </div>
             <hr className="mt-8" />

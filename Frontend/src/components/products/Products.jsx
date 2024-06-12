@@ -28,26 +28,26 @@ export function Products() {
         Productos recomendados
       </h1>
       <div className="products__cards__container">
-        {products.map((product) => (
+        {products?.map((product) => (
           <ProductCard
-            key={product.id}
+            key={product?.id}
             className="products__card shadow-md bg-white"
           >
             <div
               className="products__card__img__container"
-              onClick={() => handleProductDetail(product.id)}
+              onClick={() => handleProductDetail(product?.id)}
             >
               <img
                 className="products__card__img"
-                src={product.href}
-                alt={product.nombre}
+                src={product?.href}
+                alt={product?.nombre}
               />
               <div className="products__card__desc__container px-4">
                 <p className="products__card__paragraph text-slate-700 font-semibold text-lg">
-                  {product.nombre}
+                  {product?.nombre}
                 </p>
                 <p className="products__card__paragraph font-semibold text-2xl">
-                  {product.precio.toLocaleString("es-CL", {
+                  {product?.precio.toLocaleString("es-CL", {
                     style: "currency",
                     currency: "CLP",
                   })}

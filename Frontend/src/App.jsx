@@ -7,6 +7,7 @@ import { Navbar } from "./components/navbar/Navbar.jsx";
 import { Footer } from "./components/footer/Footer.jsx";
 import { Header } from "./components/header/Header.jsx";
 import { ProductDetail } from "./pages/productDetail/ProductDetail.jsx";
+import { CarritoModal } from "./components/carritoModal/CarritoModal.jsx";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/sing-in" element={<SingIn />} />
         <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
+      <CarritoModal />
       <Footer />
     </section>
   );
