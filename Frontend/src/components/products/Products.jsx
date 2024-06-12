@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
 import "../products/products.css";
@@ -14,9 +14,14 @@ export function Products() {
     const product = products.find((product) => product.id === id);
     if (product) {
       setProductById(product);
-      console.log(product);
     }
   };
+
+  useEffect(() => {
+    if (productById) {
+      navigate(`/product/${productById.id}`);
+    }
+  }, [productById]);
 
   return (
     <div className="products__container">
