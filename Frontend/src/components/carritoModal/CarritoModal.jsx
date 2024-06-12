@@ -1,5 +1,5 @@
-import { useContext } from "react";
 import "../carritoModal/carritoModal.css";
+import { useContext } from "react";
 import { CartContext } from "../../context/CarritoContext";
 import { IoCloseOutline } from "react-icons/io5";
 import { ProductCard } from "../productCard/ProductCard";
@@ -13,7 +13,6 @@ export function CarritoModal() {
       setCartModal(false);
     }
   };
-
   return (
     <section className="cartmodal__container shadow-md">
       {cartModal ? (

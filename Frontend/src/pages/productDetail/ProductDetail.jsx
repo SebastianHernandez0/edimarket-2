@@ -6,15 +6,30 @@ import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { IoHeartSharp } from "react-icons/io5";
 import { GoHeart } from "react-icons/go";
 import { CartContext } from "../../context/CarritoContext";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
+import { useNavigate } from "react-router-dom";
 
 export function ProductDetail() {
   const { productById } = useContext(ProductContext);
-  const { openModalCart, addToCart, cart } = useContext(CartContext);
+  const {
+    openModalCart,
+    addToCart,
+    cart,
+    productAlreadyInCart,
+    setProductAlreadyInCart,
+  } = useContext(CartContext);
 
   const handleAddToCart = () => {
     if (!cart.some((product) => product.id === productById.id)) {
       addToCart(productById);
       openModalCart();
+    }
+    const productAdded = cart.find((product) => product.id === productById.id);
+    if (productAdded) {
+      setProductAlreadyInCart("Ya añadiste este producto.");
+      setTimeout(() => {
+        setProductAlreadyInCart("");
+      }, 2400);
     }
   };
 
@@ -64,6 +79,17 @@ export function ProductDetail() {
             </div>
           </div>
         </ProductCard>
+        {productAlreadyInCart ? (
+          <CartAlert>
+            <div>
+              <p className="card__cart__alert shadow-md rounded-md">
+                {productAlreadyInCart}
+              </p>
+            </div>
+          </CartAlert>
+        ) : (
+          ""
+        )}
       </div>
     </section>
   );
