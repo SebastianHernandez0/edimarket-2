@@ -14,11 +14,10 @@ export function ProductDetail() {
   const handleAddToCart = () => {
     if (!cart.some((product) => product.id === productById.id)) {
       addToCart(productById);
-      openModalCart(); // Opcional: abrir modal del carrito después de agregar
+      openModalCart();
     }
   };
 
-  console.log(cart);
   return (
     <section className="productdetail__container">
       <div className="card__container">

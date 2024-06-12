@@ -6,10 +6,11 @@
   width: 100%;
 }
 .cartmodal__body {
+  overflow: hidden;
   height: 80vh;
   width: 100%;
   background: var(--navbarColor);
-  padding: 10px;
+  padding: 10px 25px;
   animation: openModal 0.5s ease-out forwards alternate;
 }
 .cartmodal__icon {
@@ -18,7 +19,36 @@
   right: 10px;
   top: 5px;
 }
+.cart__card__body {
+  width: 100%;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--dark_2);
+}
 
+.cart__card__img {
+  object-fit: cover;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 5px solid var(--verdeAgua);
+}
+
+.cart__card__paragraph {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart__cards__container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
 @keyframes openModal {
   from {
     transform: translateY(100%);

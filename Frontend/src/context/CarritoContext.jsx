@@ -21,15 +21,10 @@ export function CartProvider({ children }) {
   }, [navigate]);
 
   const addToCart = (product) => {
-    // Verificar si el producto ya está en el carrito
     const productCartIndex = cart.findIndex((item) => item.id === product.id);
-
     if (productCartIndex !== -1) {
-      // Si el producto ya está en el carrito, no hacemos nada
       return;
     }
-
-    // Si el producto no está en el carrito, lo agregamos
     setCart((prevState) => {
       return [
         ...prevState,
