@@ -60,6 +60,7 @@
 }
 .footer__social__icon{
   font-size: 2rem;
+  cursor: pointer;
 }
 .footer__content {
   text-align: center;
