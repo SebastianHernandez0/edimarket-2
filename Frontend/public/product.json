@@ -11,7 +11,8 @@
         "id": 1,
         "nombre": "Consolas"
       }
-    ]
+    ],
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
   },
   {
     "id": 2,
@@ -25,7 +26,8 @@
         "id": 1,
         "nombre": "Consolas"
       }
-    ]
+    ],
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
   },
   {
     "id": 3,
@@ -39,7 +41,8 @@
         "id": 1,
         "nombre": "Consolas"
       }
-    ]
+    ],
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
   },
   {
     "id": 4,
@@ -53,7 +56,8 @@
         "id": 1,
         "nombre": "Consolas"
       }
-    ]
+    ],
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
   },
   {
     "id": 5,
@@ -67,7 +71,8 @@
         "id": 1,
         "nombre": "Consolas"
       }
-    ]
+    ],
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
   },
   {
     "id": 6,
@@ -81,7 +86,8 @@
         "id": 1,
         "nombre": "Consolas"
       }
-    ]
+    ],
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
   },
   {
     "id": 7,
@@ -95,7 +101,8 @@
         "id": 1,
         "nombre": "Consolas"
       }
-    ]
+    ],
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
   },
   {
     "id": 8,
@@ -109,12 +116,13 @@
         "id": 2,
         "nombre": "Accesorios"
       }
-    ]
+    ],
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
   },
   {
     "id": 9,
     "nombre": "Razer DeathAdder Elite Gaming Mouse Standard color negro 2024",
-    "descripcion": "El Razer DeathAdder Elite Gaming Mouse es un ratón diseñado para jugadores exigentes. Con su sensor óptico de alta precisión y su diseño ergonómico, te ofrece un rendimiento excepcional en cada partida. Además, sus botones programables te permiten personalizar tu experiencia de juego según tus preferencias.",
+    "descripcion": "El Razer DeathAdder Elite Gaming Mouse es un ratón diseñado para jugadores.",
     "precio": 79990,
     "stock": 20,
     "cantidad": 1,
@@ -123,7 +131,8 @@
         "id": 2,
         "nombre": "Accesorios"
       }
-    ]
+    ],
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
   },
   {
     "id": 10,
@@ -137,6 +146,7 @@
         "id": 2,
         "nombre": "Accesorios"
       }
-    ]
+    ],
+    "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg"
   }
 ]

@@ -1,3 +1,4 @@
 .header__container {
   grid-area: header;
+  margin-top: 100px;
 }

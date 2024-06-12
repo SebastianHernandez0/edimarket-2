@@ -1,3 +1,4 @@
 .home__container {
   grid-area: home;
+  padding: 20px;
 }
