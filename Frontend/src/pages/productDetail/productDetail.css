@@ -23,6 +23,11 @@
   font-size: 2rem;
   font-weight: 500;
 }
+.card__info__price__details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .card__paragraph__stock {
   font-weight: 300;
   margin: 8px 0;
@@ -49,6 +54,9 @@
   background: var(--navbarColor);
   color: var(--dark_1);
   font-weight: 500;
+}
+.card__info__like__icon {
+  font-size: 1.7rem;
 }
 
 /*VERSION DESKTOP*/
