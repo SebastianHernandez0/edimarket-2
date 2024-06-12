@@ -1,5 +1,5 @@
 import "../productDetail/productDetail.css";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
@@ -9,8 +9,16 @@ import { CartContext } from "../../context/CarritoContext";
 
 export function ProductDetail() {
   const { productById } = useContext(ProductContext);
-  const { openModalCart } = useContext(CartContext);
+  const { openModalCart, addToCart, cart } = useContext(CartContext);
 
+  const handleAddToCart = () => {
+    if (!cart.some((product) => product.id === productById.id)) {
+      addToCart(productById);
+      openModalCart(); // Opcional: abrir modal del carrito después de agregar
+    }
+  };
+
+  console.log(cart);
   return (
     <section className="productdetail__container">
       <div className="card__container">
@@ -45,7 +53,7 @@ export function ProductDetail() {
                 Comprar ahora
               </GeneralBtn>
               <GeneralBtn className="card__info__btn card__info__btn__cart">
-                <div onClick={openModalCart}>Agregar al carrito</div>
+                <div onClick={handleAddToCart}> Agregar al carrito</div>
               </GeneralBtn>
             </div>
             <hr className="mt-8" />

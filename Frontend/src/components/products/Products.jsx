@@ -5,22 +5,24 @@ import "../products/products.css";
 import { useNavigate } from "react-router-dom";
 
 export function Products() {
-  const { products, setProductById } = useContext(ProductContext);
+  const { products, setProductById, productById } = useContext(ProductContext);
   const navigate = useNavigate();
 
   const handleProductDetail = (id) => {
     const product = products.find((product) => product.id === id);
     if (product) {
-      setProductById(product);
+      // Verificar si el producto ya está presente
+      const isProductAlreadyAdded = productById.id === id;
+
+      // Si el producto no está presente, lo añadimos
+      if (!isProductAlreadyAdded) {
+        setProductById(product);
+      }
       navigate(`/product/${id}`);
     } else {
-      console.log("producto no encontrado");
+      console.log("Producto no encontrado");
     }
   };
-
-  useEffect(() => {
-    setProductById(null);
-  }, []);
 
   return (
     <div className="products__container">
