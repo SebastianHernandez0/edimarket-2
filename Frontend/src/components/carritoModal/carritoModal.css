@@ -1,6 +1,29 @@
-.carritomodal__container {
+.cartmodal__container {
   grid-area: home;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
+  width: 100%;
+}
+.cartmodal__body {
+  height: 80vh;
+  width: 100%;
+  background: var(--navbarColor);
+  padding: 10px;
+  animation: openModal 0.5s ease-out forwards alternate;
+}
+.cartmodal__icon {
+  position: absolute;
+  font-size: 2rem;
+  right: 10px;
+  top: 5px;
+}
+
+@keyframes openModal {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
