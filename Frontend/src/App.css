@@ -6,6 +6,7 @@
     "home"
     "footer";
   width: 100%;
+  grid-template-rows: 1fr 10fr;
   min-width: 375px;
   background-color: var(--backgroundHomeColor);
   font-family: "Poppins", sans-serif;

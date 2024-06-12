@@ -4,7 +4,7 @@ import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
 
 export function SingIn() {
   return (
-    <section className="login__container">
+    <section className="login__container shadow-md rounded-md">
       <div className="login__form__container">
         <form className="login__form">
           <div className="login__form__title__container">

@@ -15,7 +15,7 @@ export function CarritoModal() {
   };
 
   return (
-    <section className="cartmodal__container">
+    <section className="cartmodal__container shadow-md">
       {cartModal ? (
         <div className="cartmodal__body rounded-md shadow">
           <IoCloseOutline
@@ -27,8 +27,8 @@ export function CarritoModal() {
           </h1>
           <div className="cart__cards__container">
             {cart.map((element) => (
-              <ProductCard>
-                <div key={element.id} className="cart__card__body">
+              <ProductCard key={element.id}>
+                <div className="cart__card__body">
                   <img
                     className="cart__card__img shadow-md"
                     src={element.href}

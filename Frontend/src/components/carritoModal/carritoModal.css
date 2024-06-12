@@ -1,9 +1,8 @@
 .cartmodal__container {
-  overflow-y: scroll;
   grid-area: home;
   position: fixed;
   bottom: 0;
-  left: 0;
+  right: 0;
   width: 100%;
 }
 .cartmodal__body {
@@ -20,6 +19,7 @@
   font-size: 2rem;
   right: 10px;
   top: 5px;
+  cursor: pointer;
 }
 .cart__card__body {
   width: 100%;
@@ -47,7 +47,7 @@
 
 .cart__cards__container {
   margin-top: 20px;
-  overflow: scroll;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 25px;
@@ -75,5 +75,26 @@
   }
   to {
     transform: translateY(0);
+  }
+}
+
+/*VERSIÓN DESKTOP*/
+
+@media (min-width: 576px) {
+  .cartmodal__container {
+    grid-area: home;
+    right: 0;
+    width: 400px;
+  }
+  .cartmodal__body {
+    animation: openModalDesktop 0.5s ease-out forwards alternate;
+  }
+  @keyframes openModalDesktop {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
   }
 }

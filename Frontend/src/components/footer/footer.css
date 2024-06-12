@@ -1,5 +1,6 @@
 .footer__container {
   grid-area: footer;
+  margin-top: 80px;
 }
 .footer__subcontainer {
   display: flex;
@@ -58,7 +59,7 @@
   display: flex;
   gap: 40px;
 }
-.footer__social__icon{
+.footer__social__icon {
   font-size: 2rem;
   cursor: pointer;
 }
