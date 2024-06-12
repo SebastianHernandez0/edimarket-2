@@ -1,27 +1,29 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
 import "../products/products.css";
 import { useNavigate } from "react-router-dom";
 
 export function Products() {
-  const { products } = useContext(ProductContext);
-  const [productById, setProductById] = useState(null);
-
+  const { products, productById, setProductById } = useContext(ProductContext);
   const navigate = useNavigate();
 
   const handleProductDetail = (id) => {
     const product = products.find((product) => product.id === id);
     if (product) {
       setProductById(product);
+    } else {
+      console.log("producto no encontrado");
     }
   };
 
-  useEffect(() => {
-    if (productById) {
-      navigate(`/product/${productById.id}`);
-    }
-  }, [productById]);
+  if (navigate) {
+    setProductById("");
+  }
+
+  if (productById) {
+    navigate(`/product/${productById.id}`);
+  }
 
   return (
     <div className="products__container">
@@ -34,7 +36,10 @@ export function Products() {
             key={product.id}
             className="products__card shadow-md bg-white"
           >
-            <div onClick={() => handleProductDetail(product.id)}>
+            <div
+              className="products__card__img__container"
+              onClick={() => handleProductDetail(product.id)}
+            >
               <img
                 className="products__card__img"
                 src={product.href}

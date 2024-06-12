@@ -6,6 +6,7 @@ const productsURL = "/public/product.json";
 
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
+  const [productById, setProductById] = useState("");
 
   const getProductLists = async () => {
     try {
@@ -22,7 +23,14 @@ export function ProductProvider({ children }) {
   }, []);
 
   return (
-    <ProductContext.Provider value={{ products, setProducts }}>
+    <ProductContext.Provider
+      value={{
+        products,
+        setProducts,
+        productById,
+        setProductById,
+      }}
+    >
       {children}
     </ProductContext.Provider>
   );
