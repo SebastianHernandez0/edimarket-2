@@ -1,5 +1,5 @@
 import "../productDetail/productDetail.css";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
@@ -10,7 +10,8 @@ import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { useRef } from "react";
 
 export function ProductDetail() {
-  const { productById } = useContext(ProductContext);
+  const { productById, addToFav, addedToFav, setAddedToFav } =
+    useContext(ProductContext);
   const {
     openModalCart,
     addToCart,
@@ -45,6 +46,14 @@ export function ProductDetail() {
     }
   };
 
+  const handleAddToFav = () => {
+    if (!addedToFav.some((product) => product.id === productById.id)) {
+      addToFav(productById);
+    } else {
+      addedToFav.find((product) => product.id === productById.id);
+    }
+  };
+
   return (
     <section className="productdetail__container">
       <div className="card__container">
@@ -65,7 +74,10 @@ export function ProductDetail() {
                 {productById?.like ? (
                   <IoHeartSharp className="card__info__like__icon" />
                 ) : (
-                  <GoHeart className="card__info__like__icon" />
+                  <GoHeart
+                    onClick={handleAddToFav}
+                    className="card__info__like__icon"
+                  />
                 )}
               </div>
 
