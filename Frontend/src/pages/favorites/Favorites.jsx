@@ -4,7 +4,7 @@ import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 
 export function Favorites() {
-  const { products } = useContext(ProductContext);
+  const { products, handleProductDetail } = useContext(ProductContext);
 
   return (
     <section className="favorites__container bg-white shadow-sm">
@@ -12,7 +12,10 @@ export function Favorites() {
       <div className="favorites__cards__container">
         {products.map((product) => {
           return (
-            <ProductCard key={product.id}>
+            <ProductCard
+              onClick={() => handleProductDetail(product?.id)}
+              key={product.id}
+            >
               <div className="favorites__card__body">
                 <img
                   className="favorites__card__img shadow-md"
