@@ -6,6 +6,10 @@ import { ProductCard } from "../../components/productCard/ProductCard";
 export function Favorites() {
   const { products, handleProductDetail } = useContext(ProductContext);
 
+  const hanldeDeleteFav = (event) => {
+    event.stopPropagation();
+  };
+
   return (
     <section className="favorites__container bg-white shadow-sm">
       <h1 className="favorites__title text-2xl font-semibold">Mis favoritos</h1>
@@ -32,7 +36,10 @@ export function Favorites() {
                       currency: "CLP",
                     })}
                   </p>
-                  <button className="favorites__card__info__btn font-bold text-blue-400">
+                  <button
+                    onClick={(e) => hanldeDeleteFav(e)}
+                    className="favorites__card__info__btn font-bold text-blue-400"
+                  >
                     Eliminar
                   </button>
                 </div>
