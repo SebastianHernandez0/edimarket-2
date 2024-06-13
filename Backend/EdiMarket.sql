@@ -77,9 +77,11 @@ CREATE TABLE metodos_pago(
 	FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 	);
 	
-ALTER TABLE categorias RENAME COLUMN nombre TO nombre_categoria
 
+select * from usuarios
 select * from productos
 select * from categorias
+select * from producto_categoria
 
 SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id
+

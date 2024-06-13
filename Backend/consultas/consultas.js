@@ -2,7 +2,7 @@ const {Pool} = require('pg');
 const format = require('pg-format');
 const z = require('zod');
 const bcrypt = require('bcryptjs');
-const {v4: uuidv4} = require('uuid');
+const jwt = require('jsonwebtoken');
 
 
 const pool = new Pool({
@@ -16,6 +16,10 @@ const pool = new Pool({
 
 const validarUsuario = z.object({
     nombre: z.string().min(3),
+    email: z.string().email(),
+    contraseña: z.string().min(8),
+});
+const validarUser = z.object({
     email: z.string().email(),
     contraseña: z.string().min(8),
 });
@@ -51,6 +55,16 @@ const registrarUsuario = async (usuario) => {
     return user;
 }
 
+const verificarUsuario= async (email,contraseña) => {
+    const values= [email]
+    validarUser.parse({email,contraseña});
+    const consulta= "SELECT * FROM usuarios WHERE email=$1"
+    const {rows}= await pool.query(consulta,values);
+    const user= rows[0];
+    const passwordVerified= bcrypt.compareSync(contraseña,user.contraseña);
+    if (!passwordVerified) throw {code:401, message: "El usuario o contraseña no coinciden"};
+    return user;
+}
 const consultarProductos= async () => {
     const consulta= "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id"
     const {rows:products}= await pool.query(consulta);
@@ -71,8 +85,8 @@ const idCategoria= async (categoria) => {
 }
 
 
-const registrarProducto = async (producto) => {
-    let {nombre,descripcion,precio,stock,imagen,vendedor_id,categoria}= producto;
+const registrarProducto = async (producto, vendedor_id) => {
+    let {nombre,descripcion,precio,stock,imagen,categoria}= producto;
     validarProducto.parse(producto);
     const categoriaId= await idCategoria(categoria);
     const id= Math.floor(Math.random() * 9999999);
@@ -90,6 +104,7 @@ module.exports = {
     registrarUsuario,
     consultarCategorias,
     consultarProductos,
-    registrarProducto
+    registrarProducto,
+    verificarUsuario
     
 }
