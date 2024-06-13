@@ -1,3 +1,7 @@
-export function ProductCard({ children, className }) {
-  return <div className={className}>{children}</div>;
+export function ProductCard({ children, className, onClick }) {
+  return (
+    <div onClick={onClick} className={className}>
+      {children}
+    </div>
+  );
 }

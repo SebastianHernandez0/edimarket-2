@@ -32,13 +32,11 @@ export function Products() {
       <div className="products__cards__container">
         {products?.map((product) => (
           <ProductCard
+            onClick={() => handleProductDetail(product?.id)}
             key={product?.id}
             className="products__card shadow-md bg-white"
           >
-            <div
-              className="products__card__img__container"
-              onClick={() => handleProductDetail(product?.id)}
-            >
+            <div className="products__card__img__container">
               <img
                 className="products__card__img"
                 src={product?.href}
