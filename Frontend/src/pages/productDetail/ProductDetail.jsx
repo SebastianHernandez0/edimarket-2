@@ -7,7 +7,7 @@ import { IoHeartSharp } from "react-icons/io5";
 import { GoHeart } from "react-icons/go";
 import { CartContext } from "../../context/CarritoContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
-import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
 export function ProductDetail() {
   const { productById } = useContext(ProductContext);
@@ -18,18 +18,30 @@ export function ProductDetail() {
     productAlreadyInCart,
     setProductAlreadyInCart,
   } = useContext(CartContext);
+  const timeoutRef = useRef(null);
 
   const handleAddToCart = () => {
     if (!cart.some((product) => product.id === productById.id)) {
       addToCart(productById);
       openModalCart();
-    }
-    const productAdded = cart.find((product) => product.id === productById.id);
-    if (productAdded) {
-      setProductAlreadyInCart("Ya añadiste este producto.");
-      setTimeout(() => {
-        setProductAlreadyInCart("");
-      }, 2400);
+    } else {
+      const productAdded = cart.find(
+        (product) => product.id === productById.id
+      );
+      if (productAdded) {
+        setProductAlreadyInCart("Ya añadiste este producto.");
+
+        // Cancelamos el temporizador anterior si existe
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+
+        // Establecemos un nuevo temporizador
+        timeoutRef.current = setTimeout(() => {
+          setProductAlreadyInCart("");
+          timeoutRef.current = null; // Limpiamos la referencia al temporizador
+        }, 2400);
+      }
     }
   };
 
