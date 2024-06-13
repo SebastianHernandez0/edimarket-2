@@ -1,4 +1,4 @@
-import "../productList/productList.css";
+import "../../components/products/products.css"
 import { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
@@ -32,7 +32,7 @@ export function ProductList() {
   return (
     <div className="products__container">
       <h1 className="products__title text-2xl font-semibold">
-        Productos recomendados
+        Estás en la siguiente categoría {categoria}
       </h1>
       <div className="products__cards__container">
         {filteredProducts?.map((product) => (
