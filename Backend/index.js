@@ -67,6 +67,8 @@ app.get("/perfil/:id", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+
 app.get("/categorias", async (req, res) => {
   try {
     const categorias = await consultarCategorias();
@@ -117,6 +119,10 @@ app.post("/productos", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
+app.get("*", (req, res) => {
+  res.status(404).send("No encontrado");
+})
 
 
 

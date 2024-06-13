@@ -101,6 +101,8 @@ const idCategoria= async (categoria) => {
 }
 
 
+
+
 const registrarProducto = async (producto, vendedor_id) => {
     let {nombre,descripcion,precio,stock,imagen,categoria}= producto;
     validarProducto.parse(producto);
