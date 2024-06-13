@@ -1,5 +1,5 @@
 import "../../pages/productList/productList.css";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
@@ -44,7 +44,13 @@ export function ProductList() {
   } else if (orderBy === "mayorPrecio") {
     sortedProducts.sort((a, b) => b.precio - a.precio);
   }
-console.log(sortedProducts)
+
+  useEffect(() => {
+    if (navigate) {
+      setOrderBy("");
+    }
+  }, [navigate]);
+
   return (
     <div className="products__container">
       <h1 className="products__title text-2xl font-normal">
@@ -60,10 +66,7 @@ console.log(sortedProducts)
         id="orderBy"
         value={orderBy}
       >
-        <option
-          className="text-start cursor-pointer"
-          value="" /* selected disabled hidden */
-        >
+        <option className="text-start cursor-pointer" value="">
           Ordenar por
         </option>
         <option className="text-start cursor-pointer" value="menorPrecio">
