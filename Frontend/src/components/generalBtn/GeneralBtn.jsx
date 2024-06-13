@@ -1,3 +1,7 @@
-export function GeneralBtn({ className, children }) {
-  return <button className={className}>{children}</button>;
+export function GeneralBtn({ className, children, onClick }) {
+  return (
+    <button className={className} onClick={onClick}>
+      {children}
+    </button>
+  );
 }

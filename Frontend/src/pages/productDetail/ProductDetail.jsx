@@ -78,8 +78,11 @@ export function ProductDetail() {
               <GeneralBtn className="card__info__btn card__info__btn__buy">
                 Comprar ahora
               </GeneralBtn>
-              <GeneralBtn className="card__info__btn card__info__btn__cart">
-                <div onClick={handleAddToCart}> Agregar al carrito</div>
+              <GeneralBtn
+                onClick={handleAddToCart}
+                className="card__info__btn card__info__btn__cart"
+              >
+                Agregar al carrito
               </GeneralBtn>
             </div>
             <hr className="mt-8" />
