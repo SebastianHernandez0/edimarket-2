@@ -1,0 +1,8 @@
+.categories__container {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  background: green;
+  display: flex;
+  flex-direction: column;
+}

@@ -6,12 +6,7 @@
     "precio": 599990,
     "stock": 3,
     "cantidad": 1,
-    "categorias": [
-      {
-        "id": 1,
-        "nombre": "Consolas"
-      }
-    ],
+    "categorias": "Consolas",
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -22,12 +17,7 @@
     "precio": 599990,
     "stock": 5,
     "cantidad": 1,
-    "categorias": [
-      {
-        "id": 1,
-        "nombre": "Consolas"
-      }
-    ],
+    "categorias": "Consolas",
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -38,12 +28,7 @@
     "precio": 549990,
     "stock": 8,
     "cantidad": 1,
-    "categorias": [
-      {
-        "id": 1,
-        "nombre": "Consolas"
-      }
-    ],
+    "categorias": "Consolas",
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -54,12 +39,7 @@
     "precio": 399990,
     "stock": 10,
     "cantidad": 1,
-    "categorias": [
-      {
-        "id": 1,
-        "nombre": "Consolas"
-      }
-    ],
+    "categorias": "Consolas",
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -70,12 +50,7 @@
     "precio": 449990,
     "stock": 6,
     "cantidad": 1,
-    "categorias": [
-      {
-        "id": 1,
-        "nombre": "Consolas"
-      }
-    ],
+    "categorias": "Consolas",
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -86,12 +61,7 @@
     "precio": 299990,
     "stock": 12,
     "cantidad": 1,
-    "categorias": [
-      {
-        "id": 1,
-        "nombre": "Consolas"
-      }
-    ],
+    "categorias": "Consolas",
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -102,12 +72,7 @@
     "precio": 399990,
     "stock": 4,
     "cantidad": 1,
-    "categorias": [
-      {
-        "id": 1,
-        "nombre": "Consolas"
-      }
-    ],
+    "categorias": "Consolas",
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -118,12 +83,7 @@
     "precio": 149990,
     "stock": 15,
     "cantidad": 1,
-    "categorias": [
-      {
-        "id": 2,
-        "nombre": "Accesorios"
-      }
-    ],
+    "categorias": "Accesorios",
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -134,12 +94,7 @@
     "precio": 79990,
     "stock": 20,
     "cantidad": 1,
-    "categorias": [
-      {
-        "id": 2,
-        "nombre": "Accesorios"
-      }
-    ],
+    "categorias": "Accesorios",
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -150,12 +105,7 @@
     "precio": 199990,
     "stock": 10,
     "cantidad": 1,
-    "categorias": [
-      {
-        "id": 2,
-        "nombre": "Accesorios"
-      }
-    ],
+    "categorias": "Accesorios",
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   }
