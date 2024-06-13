@@ -2,27 +2,9 @@ import { useContext } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
 import "../products/products.css";
-import { useNavigate } from "react-router-dom";
 
 export function Products() {
-  const { products, setProductById, productById } = useContext(ProductContext);
-  const navigate = useNavigate();
-
-  const handleProductDetail = (id) => {
-    const product = products.find((product) => product.id === id);
-    if (product) {
-      // Verificar si el producto ya está presente
-      const isProductAlreadyAdded = productById.id === id;
-
-      // Si el producto no está presente, lo añadimos
-      if (!isProductAlreadyAdded) {
-        setProductById(product);
-      }
-      navigate(`/product/${id}`);
-    } else {
-      console.log("Producto no encontrado");
-    }
-  };
+  const { products, handleProductDetail } = useContext(ProductContext);
 
   return (
     <div className="products__container">
@@ -32,13 +14,11 @@ export function Products() {
       <div className="products__cards__container">
         {products?.map((product) => (
           <ProductCard
+            onClick={() => handleProductDetail(product?.id)}
             key={product?.id}
             className="products__card shadow-md bg-white"
           >
-            <div
-              className="products__card__img__container"
-              onClick={() => handleProductDetail(product?.id)}
-            >
+            <div className="products__card__img__container">
               <img
                 className="products__card__img"
                 src={product?.href}

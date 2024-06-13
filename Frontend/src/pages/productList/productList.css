@@ -1,0 +1,6 @@
+.products__filter:hover {
+  border: 1px solid var(--verdeAgua);
+}
+.products__filter {
+  cursor: pointer;
+}

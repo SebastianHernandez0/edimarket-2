@@ -1,0 +1,22 @@
+.categories__list {
+  position: fixed;
+  top: 150px;
+  right: 40%;
+  display: flex;
+  flex-direction: column;
+  z-index: 120;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.categories__list__link {
+  padding: 8px 15px;
+}
+.categories__list__link:hover {
+  background: var(--verdeAgua);
+}
+@media (min-width: 576px) {
+  .categories__list {
+    top: 60px;
+    right: 36%;
+  }
+}

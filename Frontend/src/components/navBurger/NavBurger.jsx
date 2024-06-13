@@ -1,5 +1,7 @@
+import { useNavigate } from "react-router-dom";
+import { ProductContext } from "../../context/ProductContext";
 import "../navBurger/navBurger.css";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 
 export function NavBurger({
   clicked,
@@ -9,6 +11,10 @@ export function NavBurger({
   isMobile,
   setIsMobile,
 }) {
+  const { setOpenCategories } = useContext(ProductContext);
+
+  const navigate = useNavigate();
+
   const toggleIcon = () => {
     if (isMobile) {
       setClicked(!clicked);
@@ -16,6 +22,9 @@ export function NavBurger({
     if (!clicked) {
       setOpenPerfilMenu(false);
       setOpenSearchBar(false);
+    }
+    if (clicked) {
+      setOpenCategories(false);
     }
   };
   useEffect(() => {
@@ -25,6 +34,8 @@ export function NavBurger({
     if (!isMobile) {
       setOpenPerfilMenu(false);
       setOpenSearchBar(true);
+      setClicked(false);
+      setOpenCategories(false);
     } else {
       setOpenSearchBar(false);
     }
@@ -34,6 +45,14 @@ export function NavBurger({
       window.removeEventListener("resize", handleResize);
     };
   }, [isMobile]);
+
+  useEffect(() => {
+    if (navigate) {
+      setClicked(false);
+      setOpenCategories(false);
+    }
+  }, [navigate]);
+
   return (
     <div
       className={`nav-icon3 navActiveMenu ${clicked ? "open" : ""}`}

@@ -1,0 +1,41 @@
+.favorites__container {
+  grid-area: home;
+  padding: 25px;
+  margin: 0 auto;
+}
+
+.favorites__cards__container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.favorites__card__img {
+  width: 100%;
+  max-width: 120px;
+  object-fit: cover;
+}
+.favorites__card__body {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  border-bottom: 1px solid var(--dark_2);
+  padding: 6px 0;
+}
+.favorites__card__paragraph {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+.favorites__card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  width: 300px;
+}
+.favorites__card__info__btn {
+  align-self: flex-end;
+  cursor: pointer;
+}

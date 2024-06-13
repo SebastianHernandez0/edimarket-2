@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { Home } from "./pages/home/Home.jsx";
 import { SingUp } from "./pages/singUp/singUp.jsx";
 import { SingIn } from "./pages/singIn/SingIn.jsx";
@@ -8,19 +8,38 @@ import { Footer } from "./components/footer/Footer.jsx";
 import { Header } from "./components/header/Header.jsx";
 import { ProductDetail } from "./pages/productDetail/ProductDetail.jsx";
 import { CarritoModal } from "./components/carritoModal/CarritoModal.jsx";
+import { Categories } from "./components/categories/Categories.jsx";
+import { ProductList } from "./pages/productList/ProductList.jsx";
+import { Favorites } from "./pages/favorites/Favorites.jsx";
+import { useContext } from "react";
+import { UserContext } from "./context/UserContext.jsx";
 
 function App() {
+  const { userToken } = useContext(UserContext);
+
   return (
     <section className="app__container">
       <Navbar />
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={userToken ? <Home /> : <Navigate to="/sing-in" />}
+        />
         <Route path="/sing-up" element={<SingUp />} />
-        <Route path="/sing-in" element={<SingIn />} />
+        <Route
+          path="/sing-in"
+          element={userToken ? <Navigate to="/" /> : <SingIn />}
+        />
         <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/category/:categoria" element={<ProductList />} />
+        <Route
+          path="/favorites"
+          element={userToken ? <Favorites /> : <Navigate to="/sing-in" />}
+        />
       </Routes>
       <CarritoModal />
+      <Categories />
       <Footer />
     </section>
   );

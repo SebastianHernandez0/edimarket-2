@@ -1,12 +1,14 @@
 import "../navbar/navbar.css";
 import { FiSearch } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
-import { useEffect, useState, useRef, forwardRef } from "react";
+import { useEffect, useState, useRef, forwardRef, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 import { NavBurger } from "../navBurger/NavBurger";
 import { Perfil } from "../perfil/Perfil.jsx";
 import { SearchBar } from "../searchBar/SearchBar.jsx";
+import { ProductContext } from "../../context/ProductContext.jsx";
+import { UserContext } from "../../context/UserContext.jsx";
 
 // Crear un componente envolvente para manejar la referencia
 const UserIcon = forwardRef((props, ref) => (
@@ -24,6 +26,9 @@ export function Navbar() {
   const perfilButtonRef = useRef(null);
   const perfilMenuRef = useRef(null);
   const menuRef = useRef(null);
+  const { setOpenCategories } = useContext(ProductContext);
+  const categoriesBtnRef = useRef(null);
+  const { userToken } = useContext(UserContext);
 
   useEffect(() => {
     if (navigate) {
@@ -53,6 +58,27 @@ export function Navbar() {
 
   const handleBackToHome = () => {
     navigate("/");
+  };
+
+  const handleClickOutside = (event) => {
+    if (
+      categoriesBtnRef.current &&
+      !categoriesBtnRef.current.contains(event.target)
+    ) {
+      setOpenCategories(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const handleButtonClick = (event) => {
+    event.stopPropagation(); // Detener la propagación del evento
+    setOpenCategories((prev) => !prev);
   };
 
   return (
@@ -99,7 +125,13 @@ export function Navbar() {
                   clicked ? "navActiveMenu" : ""
                 }`}
               >
-                <NavLink className="navbar__menu__link"> Categorías</NavLink>
+                <NavLink
+                  ref={categoriesBtnRef}
+                  onClick={handleButtonClick}
+                  className="navbar__menu__link"
+                >
+                  Categorías
+                </NavLink>
                 <NavLink className="navbar__menu__link">
                   Carrito
                   <IoCartOutline className="navbar__menu__link__icon" />
@@ -108,21 +140,45 @@ export function Navbar() {
             </div>
           </div>
           <div className="navbar__user__menu__container" ref={perfilMenuRef}>
-            <Perfil
-              openPerfilMenu={openPerfilMenu}
-              setOpenPerfilMenu={setOpenPerfilMenu}
-              perfilMenuRef={perfilMenuRef}
-              perfilButtonRef={perfilButtonRef}
-            >
-              <div className="navbar__user__menu bg-gray-50 shadow-md">
-                <NavLink to="/sing-in" className="navbar__user__menu__link">
-                  Iniciar sesión
-                </NavLink>
-                <NavLink to="/sing-up" className="navbar__user__menu__link">
-                  Registrarse
-                </NavLink>
-              </div>
-            </Perfil>
+            {userToken ? (
+              <Perfil
+                openPerfilMenu={openPerfilMenu}
+                setOpenPerfilMenu={setOpenPerfilMenu}
+                perfilMenuRef={perfilMenuRef}
+                perfilButtonRef={perfilButtonRef}
+              >
+                <div className="navbar__user__menu bg-gray-50 shadow-md">
+                  <NavLink to="" className="navbar__user__menu__link">
+                    Mi perfil
+                  </NavLink>
+                  <NavLink to="" className="navbar__user__menu__link">
+                    Publicar
+                  </NavLink>
+                  <NavLink to="/favorites" className="navbar__user__menu__link">
+                    Favoritos
+                  </NavLink>
+                  <NavLink to="" className="navbar__user__menu__link">
+                    Cerrar sesión
+                  </NavLink>
+                </div>
+              </Perfil>
+            ) : (
+              <Perfil
+                openPerfilMenu={openPerfilMenu}
+                setOpenPerfilMenu={setOpenPerfilMenu}
+                perfilMenuRef={perfilMenuRef}
+                perfilButtonRef={perfilButtonRef}
+              >
+                <div className="navbar__user__menu bg-gray-50 shadow-md">
+                  <NavLink to="/sing-in" className="navbar__user__menu__link">
+                    Iniciar sesión
+                  </NavLink>
+                  <NavLink to="/sing-up" className="navbar__user__menu__link">
+                    Registrarse
+                  </NavLink>
+                </div>
+              </Perfil>
+            )}
           </div>
         </div>
       </div>
