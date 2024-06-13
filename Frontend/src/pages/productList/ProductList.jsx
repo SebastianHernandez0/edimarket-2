@@ -1,5 +1,5 @@
-import "../../pages/productList/productList.css"
-import { useContext } from "react";
+import "../../pages/productList/productList.css";
+import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
@@ -7,6 +7,7 @@ import { ProductCard } from "../../components/productCard/ProductCard";
 export function ProductList() {
   const { categoria } = useParams();
   const { products, productById, setProductById } = useContext(ProductContext);
+  const [orderBy, setOrderBy] = useState("");
   const navigate = useNavigate();
 
   const filteredProducts = products.filter((product) => {
@@ -32,6 +33,18 @@ export function ProductList() {
     }
   };
 
+  const handleSortChange = (event) => {
+    setOrderBy(event.target.value);
+  };
+
+  let sortedProducts = [...filteredProducts]; // Haciendo una copia para no modificar el original
+
+  if (orderBy === "menorPrecio") {
+    sortedProducts.sort((a, b) => a.precio - b.precio);
+  } else if (orderBy === "mayorPrecio") {
+    sortedProducts.sort((a, b) => b.precio - a.precio);
+  }
+console.log(sortedProducts)
   return (
     <div className="products__container">
       <h1 className="products__title text-2xl font-normal">
@@ -41,22 +54,27 @@ export function ProductList() {
         </span>
       </h1>
       <select
+        onChange={handleSortChange}
         className="products__filter shadow-sm rounded-md py-1 px-2 w-60 text-center mt-10 border border-gray-300"
-        name="categories"
-        id="categories"
+        name="orderBy"
+        id="orderBy"
+        value={orderBy}
       >
-        <option className="text-start cursor-pointer" value="" /* selected disabled hidden */>
-          Filtrar por
+        <option
+          className="text-start cursor-pointer"
+          value="" /* selected disabled hidden */
+        >
+          Ordenar por
         </option>
-        <option className="text-start cursor-pointer" value="min">
+        <option className="text-start cursor-pointer" value="menorPrecio">
           Menor precio
         </option>
-        <option className="text-start cursor-pointer" value="max">
+        <option className="text-start cursor-pointer" value="mayorPrecio">
           Mayor precio
         </option>
       </select>
       <div className="products__cards__container">
-        {filteredProducts?.map((product) => (
+        {sortedProducts?.map((product) => (
           <ProductCard
             onClick={() => handleProductDetail(product?.id)}
             key={product?.id}
