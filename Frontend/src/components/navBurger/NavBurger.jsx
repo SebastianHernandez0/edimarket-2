@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import "../navBurger/navBurger.css";
 import { useContext, useEffect } from "react";
@@ -11,6 +12,8 @@ export function NavBurger({
   setIsMobile,
 }) {
   const { setOpenCategories } = useContext(ProductContext);
+
+  const navigate = useNavigate();
 
   const toggleIcon = () => {
     if (isMobile) {
@@ -31,6 +34,8 @@ export function NavBurger({
     if (!isMobile) {
       setOpenPerfilMenu(false);
       setOpenSearchBar(true);
+      setClicked(false);
+      setOpenCategories(false);
     } else {
       setOpenSearchBar(false);
     }
