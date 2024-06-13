@@ -71,8 +71,9 @@
   transform: translate(-50%, -50%);
   background-color: var(--dark_1);
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
   padding: 10px 20px;
+  text-align: center;
   z-index: 120;
 }
 

@@ -49,7 +49,23 @@ export function ProductDetail() {
     if (!addedToFav.some((product) => product.id === productById.id)) {
       addToFav(productById);
     } else {
-      addedToFav.find((product) => product.id === productById.id);
+      const favAdded = addedToFav.find(
+        (product) => product.id === productById.id
+      );
+      if (favAdded) {
+        setProductAlreadyInCart("Ya agregaste el producto a favoritos.");
+
+        // Cancelamos el temporizador anterior si existe
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+
+        // Establecemos un nuevo temporizador
+        timeoutRef.current = setTimeout(() => {
+          setProductAlreadyInCart("");
+          timeoutRef.current = null; // Limpiamos la referencia al temporizador
+        }, 2400);
+      }
     }
   };
 
