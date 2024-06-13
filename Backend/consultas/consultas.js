@@ -36,8 +36,18 @@ const validarProducto = z.object({
 const consultarUsuario= async () => {
     const consulta= "SELECT * FROM usuarios"
     const {rows:users}= await pool.query(consulta);
-    return users;
-
+    return users
+}
+const consultarUsuarioById= async (id) => {
+    const consulta= "SELECT * FROM usuarios WHERE id=$1"
+    const {rows:users}= await pool.query(consulta,[id]);
+    return users.map((user)=>{
+        return {
+            id:user.id,
+            nombre:user.nombre,
+            email:user.email
+        }
+    })
 }
 
 const registrarUsuario = async (usuario) => {
@@ -71,6 +81,12 @@ const consultarProductos= async () => {
     return products;
 }
 
+const consultarProductoById= async (id) => {
+    const consulta= "SELECT * from productos WHERE id=$1"
+    const {rows:products}= await pool.query(consulta,[id]);
+    return products[0];
+}
+
 const consultarCategorias= async () => {
     const consulta= "SELECT * FROM categorias"
     const {rows:categorias}= await pool.query(consulta);
@@ -101,10 +117,12 @@ const registrarProducto = async (producto, vendedor_id) => {
 
 module.exports = {
     consultarUsuario,
+    consultarUsuarioById,
     registrarUsuario,
     consultarCategorias,
     consultarProductos,
     registrarProducto,
-    verificarUsuario
+    verificarUsuario,
+    consultarProductoById
     
 }

@@ -11,12 +11,16 @@ app.use(express.json());
 
 const {
   consultarUsuario,
+  consultarUsuarioById,
   registrarUsuario,
   verificarUsuario,
   consultarProductos,
+  consultarProductoById,
   consultarCategorias,
   registrarProducto,
 } = require("./consultas/consultas");
+
+const prepHateoas= require("./consultas/hateoas/hateoas");
 
 app.get("/usuarios", async (req, res) => {
   try {
@@ -53,6 +57,16 @@ app.post("/usuarios/login", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
+app.get("/perfil/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const usuario = await consultarUsuarioById(id);
+    res.send(usuario);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 app.get("/categorias", async (req, res) => {
   try {
     const categorias = await consultarCategorias();
@@ -65,7 +79,18 @@ app.get("/categorias", async (req, res) => {
 app.get("/productos", async (req, res) => {
   try {
     const productos = await consultarProductos();
-    res.send(productos);
+    const hateoas=await prepHateoas(productos);
+    res.send(hateoas);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/productos/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const producto = await consultarProductoById(id);
+    res.send(producto);
   } catch (error) {
     res.status(500).send(error);
   }
@@ -92,6 +117,8 @@ app.post("/productos", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
+
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
