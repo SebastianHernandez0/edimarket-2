@@ -45,6 +45,14 @@ export function NavBurger({
       window.removeEventListener("resize", handleResize);
     };
   }, [isMobile]);
+
+  useEffect(() => {
+    if (navigate) {
+      setClicked(false);
+      setOpenCategories(false);
+    }
+  }, [navigate]);
+
   return (
     <div
       className={`nav-icon3 navActiveMenu ${clicked ? "open" : ""}`}
