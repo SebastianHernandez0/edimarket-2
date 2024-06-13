@@ -8,7 +8,7 @@ export function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
   const [productById, setProductById] = useState([]);
   const [addedProducts, setAddedProducts] = useState([]);
-
+  const [openCategories, setOpenCategories] = useState(false);
   const getProductLists = async () => {
     try {
       const response = await fetch(productsURL);
@@ -32,6 +32,8 @@ export function ProductProvider({ children }) {
         setProductById,
         addedProducts,
         setAddedProducts,
+        openCategories,
+        setOpenCategories,
       }}
     >
       {children}

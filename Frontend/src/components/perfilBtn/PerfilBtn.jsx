@@ -1,3 +1,7 @@
-export function PerfilBtn({ className, children }) {
-  return <button className={className}>{children}</button>;
+export function PerfilBtn({ className, children, onClick }) {
+  return (
+    <button onClick={onClick} className={className}>
+      {children}
+    </button>
+  );
 }
