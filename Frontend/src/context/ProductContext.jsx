@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const ProductContext = createContext();
 
@@ -9,6 +10,8 @@ export function ProductProvider({ children }) {
   const [productById, setProductById] = useState([]);
   const [addedProducts, setAddedProducts] = useState([]);
   const [openCategories, setOpenCategories] = useState(false);
+  const navigate = useNavigate();
+
   const getProductLists = async () => {
     try {
       const response = await fetch(productsURL);
@@ -23,6 +26,22 @@ export function ProductProvider({ children }) {
     getProductLists();
   }, []);
 
+  const handleProductDetail = (id) => {
+    const product = products.find((product) => product.id === id);
+    if (product) {
+      // Verificar si el producto ya está presente
+      const isProductAlreadyAdded = productById.id === id;
+
+      // Si el producto no está presente, lo añadimos
+      if (!isProductAlreadyAdded) {
+        setProductById(product);
+      }
+      navigate(`/product/${id}`);
+    } else {
+      console.log("Producto no encontrado");
+    }
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -34,6 +53,7 @@ export function ProductProvider({ children }) {
         setAddedProducts,
         openCategories,
         setOpenCategories,
+        handleProductDetail,
       }}
     >
       {children}

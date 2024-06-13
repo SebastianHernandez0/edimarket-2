@@ -6,7 +6,7 @@ import { ProductCard } from "../../components/productCard/ProductCard";
 
 export function ProductList() {
   const { categoria } = useParams();
-  const { products, productById, setProductById } = useContext(ProductContext);
+  const { products, handleProductDetail } = useContext(ProductContext);
   const [orderBy, setOrderBy] = useState("");
   const navigate = useNavigate();
 
@@ -16,22 +16,6 @@ export function ProductList() {
         categoriaObj.nombre.toLowerCase() === categoria.toLowerCase()
     );
   });
-
-  const handleProductDetail = (id) => {
-    const product = products.find((product) => product.id === id);
-    if (product) {
-      // Verificar si el producto ya está presente
-      const isProductAlreadyAdded = productById.id === id;
-
-      // Si el producto no está presente, lo añadimos
-      if (!isProductAlreadyAdded) {
-        setProductById(product);
-      }
-      navigate(`/product/${id}`);
-    } else {
-      console.log("Producto no encontrado");
-    }
-  };
 
   const handleSortChange = (event) => {
     setOrderBy(event.target.value);
