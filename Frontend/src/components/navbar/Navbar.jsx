@@ -25,7 +25,8 @@ export function Navbar() {
   const perfilButtonRef = useRef(null);
   const perfilMenuRef = useRef(null);
   const menuRef = useRef(null);
-  const { setOpenCategories, openCategories } = useContext(ProductContext);
+  const { setOpenCategories } = useContext(ProductContext);
+  const categoriesBtnRef = useRef(null);
 
   useEffect(() => {
     if (navigate) {
@@ -57,8 +58,25 @@ export function Navbar() {
     navigate("/");
   };
 
-  const handleOpenCategories = () => {
-    setOpenCategories(!openCategories);
+  const handleClickOutside = (event) => {
+    if (
+      categoriesBtnRef.current &&
+      !categoriesBtnRef.current.contains(event.target)
+    ) {
+      setOpenCategories(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const handleButtonClick = (event) => {
+    event.stopPropagation(); // Detener la propagación del evento
+    setOpenCategories((prev) => !prev);
   };
 
   return (
@@ -106,10 +124,10 @@ export function Navbar() {
                 }`}
               >
                 <NavLink
-                  onClick={handleOpenCategories}
+                  ref={categoriesBtnRef}
+                  onClick={handleButtonClick}
                   className="navbar__menu__link"
                 >
-                  {" "}
                   Categorías
                 </NavLink>
                 <NavLink className="navbar__menu__link">

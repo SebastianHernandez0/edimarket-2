@@ -1,4 +1,4 @@
-import "../../components/products/products.css"
+import "../../components/products/products.css";
 import { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
@@ -9,9 +9,12 @@ export function ProductList() {
   const { products, productById, setProductById } = useContext(ProductContext);
   const navigate = useNavigate();
 
-  const filteredProducts = products.filter(
-    (product) => product.categorias.toLowerCase() === categoria.toLowerCase()
-  );
+  const filteredProducts = products.filter((product) => {
+    return product.categorias.some(
+      (categoriaObj) =>
+        categoriaObj.nombre.toLowerCase() === categoria.toLowerCase()
+    );
+  });
 
   const handleProductDetail = (id) => {
     const product = products.find((product) => product.id === id);

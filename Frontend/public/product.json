@@ -6,7 +6,12 @@
     "precio": 599990,
     "stock": 3,
     "cantidad": 1,
-    "categorias": "Consolas",
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ],
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -17,7 +22,12 @@
     "precio": 599990,
     "stock": 5,
     "cantidad": 1,
-    "categorias": "Consolas",
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ],
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -28,7 +38,12 @@
     "precio": 549990,
     "stock": 8,
     "cantidad": 1,
-    "categorias": "Consolas",
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ],
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -39,7 +54,12 @@
     "precio": 399990,
     "stock": 10,
     "cantidad": 1,
-    "categorias": "Consolas",
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ],
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -50,18 +70,26 @@
     "precio": 449990,
     "stock": 6,
     "cantidad": 1,
-    "categorias": "Consolas",
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ],
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
   {
     "id": 6,
-    "nombre": "Nintendo Switch Lite Standard color turquesa 2024",
-    "descripcion": "La Nintendo Switch Lite es una versión más compacta y portátil de la popular consola de Nintendo. Con su diseño ligero y ergonómico, es perfecta para jugar sobre la marcha. Además, su pantalla táctil de alta resolución te ofrece una experiencia de juego inmersiva donde quiera que estés.",
     "precio": 299990,
     "stock": 12,
     "cantidad": 1,
-    "categorias": "Consolas",
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ],
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -72,7 +100,12 @@
     "precio": 399990,
     "stock": 4,
     "cantidad": 1,
-    "categorias": "Consolas",
+    "categorias": [
+      {
+        "id": 1,
+        "nombre": "Consolas"
+      }
+    ],
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -83,7 +116,12 @@
     "precio": 149990,
     "stock": 15,
     "cantidad": 1,
-    "categorias": "Accesorios",
+    "categorias": [
+      {
+        "id": 2,
+        "nombre": "Accesorios"
+      }
+    ],
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -94,7 +132,12 @@
     "precio": 79990,
     "stock": 20,
     "cantidad": 1,
-    "categorias": "Accesorios",
+    "categorias": [
+      {
+        "id": 2,
+        "nombre": "Accesorios"
+      }
+    ],
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   },
@@ -105,7 +148,12 @@
     "precio": 199990,
     "stock": 10,
     "cantidad": 1,
-    "categorias": "Accesorios",
+    "categorias": [
+      {
+        "id": 2,
+        "nombre": "Accesorios"
+      }
+    ],
     "href": "https://i.blogs.es/168816/videojuegos/450_1000.jpg",
     "like": false
   }
