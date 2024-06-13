@@ -20,22 +20,14 @@ export function Categories() {
               <h3>Accesorios</h3>
             </div>
           </Link>
-          <Link
-            className="categories__list__link"
-            to="/category/electrodomesticos"
-          >
+          <Link className="categories__list__link" to="/category/monitores">
             <div>
-              <h3>Electrodomésticos</h3>
+              <h3>Monitores</h3>
             </div>
           </Link>
-          <Link className="categories__list__link" to="/category/computadores">
+          <Link className="categories__list__link" to="/category/componentes">
             <div>
-              <h3>computadores</h3>
-            </div>
-          </Link>
-          <Link className="categories__list__link" to="/category/ropa">
-            <div>
-              <h3>Ropa</h3>
+              <h3>Componentes</h3>
             </div>
           </Link>
           <Link className="categories__list__link" to="/category/telefonia">
@@ -46,6 +38,14 @@ export function Categories() {
           <Link className="categories__list__link" to="/category/publicaciones">
             <div>
               <h3>Publicaciones</h3>
+            </div>
+          </Link>
+          <Link
+            className="categories__list__link"
+            to="/category/electrodomesticos"
+          >
+            <div>
+              <h3>Electrodomésticos</h3>
             </div>
           </Link>
         </div>

@@ -34,8 +34,11 @@ export function ProductList() {
 
   return (
     <div className="products__container">
-      <h1 className="products__title text-2xl font-semibold">
-        Estás en la siguiente categoría {categoria}
+      <h1 className="products__title text-2xl font-normal">
+        Estás en la siguiente categoría :{" "}
+        <span className="font-semibold">
+          {categoria.charAt(0).toUpperCase() + categoria.slice(1)}
+        </span>
       </h1>
       <div className="products__cards__container">
         {filteredProducts?.map((product) => (
