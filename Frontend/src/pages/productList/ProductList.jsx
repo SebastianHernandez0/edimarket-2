@@ -1,4 +1,4 @@
-import "../../components/products/products.css";
+import "../../pages/productList/productList.css"
 import { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
@@ -40,6 +40,21 @@ export function ProductList() {
           {categoria.charAt(0).toUpperCase() + categoria.slice(1)}
         </span>
       </h1>
+      <select
+        className="products__filter shadow-sm rounded-md py-1 px-2 w-60 text-center mt-10 border border-gray-300"
+        name="categories"
+        id="categories"
+      >
+        <option className="text-start cursor-pointer" value="" /* selected disabled hidden */>
+          Filtrar por
+        </option>
+        <option className="text-start cursor-pointer" value="min">
+          Menor precio
+        </option>
+        <option className="text-start cursor-pointer" value="max">
+          Mayor precio
+        </option>
+      </select>
       <div className="products__cards__container">
         {filteredProducts?.map((product) => (
           <ProductCard
