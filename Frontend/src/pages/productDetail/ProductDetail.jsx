@@ -10,8 +10,7 @@ import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { useRef } from "react";
 
 export function ProductDetail() {
-  const { productById, addToFav, addedToFav, setAddedToFav } =
-    useContext(ProductContext);
+  const { productById, addToFav, addedToFav } = useContext(ProductContext);
   const {
     openModalCart,
     addToCart,
@@ -71,7 +70,7 @@ export function ProductDetail() {
                     currency: "CLP",
                   })}
                 </p>
-                {productById?.like ? (
+                {addedToFav?.like ? (
                   <IoHeartSharp className="card__info__like__icon" />
                 ) : (
                   <GoHeart

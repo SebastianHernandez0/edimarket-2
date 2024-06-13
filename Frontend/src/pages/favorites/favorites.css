@@ -2,6 +2,8 @@
   grid-area: home;
   padding: 25px;
   margin: 0 auto;
+  width: 100%;
+  max-width: 1400px;
 }
 
 .favorites__cards__container {
@@ -38,6 +40,20 @@
 .favorites__card__info__btn {
   align-self: flex-end;
   cursor: pointer;
+}
+
+.nofavorites__container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+}
+.nofavorites__icon {
+  align-content: center;
+  width: 100%;
+  max-width: 100px;
 }
 
 @media (min-width: 576px) {

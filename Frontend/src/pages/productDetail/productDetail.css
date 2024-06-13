@@ -61,7 +61,7 @@
 }
 .card__info__like__icon {
   cursor: pointer;
-  font-size: 1.7rem;
+  font-size: 2rem;
 }
 .card__cart__alert {
   color: var(--navbarColor);
