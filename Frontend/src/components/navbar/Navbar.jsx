@@ -1,12 +1,13 @@
 import "../navbar/navbar.css";
 import { FiSearch } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
-import { useEffect, useState, useRef, forwardRef } from "react";
+import { useEffect, useState, useRef, forwardRef, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 import { NavBurger } from "../navBurger/NavBurger";
 import { Perfil } from "../perfil/Perfil.jsx";
 import { SearchBar } from "../searchBar/SearchBar.jsx";
+import { ProductContext } from "../../context/ProductContext.jsx";
 
 // Crear un componente envolvente para manejar la referencia
 const UserIcon = forwardRef((props, ref) => (
@@ -24,6 +25,7 @@ export function Navbar() {
   const perfilButtonRef = useRef(null);
   const perfilMenuRef = useRef(null);
   const menuRef = useRef(null);
+  const { setOpenCategories, openCategories } = useContext(ProductContext);
 
   useEffect(() => {
     if (navigate) {
@@ -53,6 +55,10 @@ export function Navbar() {
 
   const handleBackToHome = () => {
     navigate("/");
+  };
+
+  const handleOpenCategories = () => {
+    setOpenCategories(!openCategories);
   };
 
   return (
@@ -99,7 +105,13 @@ export function Navbar() {
                   clicked ? "navActiveMenu" : ""
                 }`}
               >
-                <NavLink className="navbar__menu__link"> Categorías</NavLink>
+                <NavLink
+                  onClick={handleOpenCategories}
+                  className="navbar__menu__link"
+                >
+                  {" "}
+                  Categorías
+                </NavLink>
                 <NavLink className="navbar__menu__link">
                   Carrito
                   <IoCartOutline className="navbar__menu__link__icon" />

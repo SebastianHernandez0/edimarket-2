@@ -1,5 +1,6 @@
+import { ProductContext } from "../../context/ProductContext";
 import "../navBurger/navBurger.css";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 
 export function NavBurger({
   clicked,
@@ -9,6 +10,8 @@ export function NavBurger({
   isMobile,
   setIsMobile,
 }) {
+  const { setOpenCategories } = useContext(ProductContext);
+
   const toggleIcon = () => {
     if (isMobile) {
       setClicked(!clicked);
@@ -16,6 +19,9 @@ export function NavBurger({
     if (!clicked) {
       setOpenPerfilMenu(false);
       setOpenSearchBar(false);
+    }
+    if (clicked) {
+      setOpenCategories(false);
     }
   };
   useEffect(() => {
