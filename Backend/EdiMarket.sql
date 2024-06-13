@@ -10,7 +10,7 @@ CREATE TABLE productos(
 	id SERIAL PRIMARY KEY,
 	nombre VARCHAR(255) NOT NULL,
 	descripcion text,
-	precio NUMERIC(15,2) CHECK (precio >=0 ) NOT NULL,
+	precio NUMERIC(12,3) CHECK (precio >=0 ) NOT NULL,
 	stock INT NOT NULL,
 	imagen VARCHAR(255),
 	vendedor_id INT NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE productos(
 
 CREATE TABLE categorias(
 	id SERIAL PRIMARY KEY,
-	nombre VARCHAR(255) NOT NULL
+	nombre_categoria VARCHAR(255) NOT NULL
 	);
 
 CREATE TABLE producto_categoria(
@@ -60,7 +60,7 @@ CREATE TABLE ventas(
 	comprador_id INT NOT NULL,
 	producto_id INT NOT NULL,
 	cantidad INT NOT NULL,
-	precio NUMERIC(15,2) CHECK (precio >=0 ) NOT NULL,
+	precio NUMERIC(12,3) CHECK (precio >=0 ) NOT NULL,
 	fecha_venta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (comprador_id) REFERENCES usuarios(id),
 	FOREIGN KEY (producto_id) REFERENCES productos(id)
@@ -76,3 +76,10 @@ CREATE TABLE metodos_pago(
 	codigo_seguridad VARCHAR(4) NOT NULL,
 	FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 	);
+	
+ALTER TABLE categorias RENAME COLUMN nombre TO nombre_categoria
+
+select * from productos
+select * from categorias
+
+SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id
