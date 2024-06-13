@@ -10,6 +10,7 @@ import { ProductDetail } from "./pages/productDetail/ProductDetail.jsx";
 import { CarritoModal } from "./components/carritoModal/CarritoModal.jsx";
 import { Categories } from "./components/categories/Categories.jsx";
 import { ProductList } from "./pages/productList/ProductList.jsx";
+import { Favorites } from "./pages/favorites/Favorites.jsx";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/sing-in" element={<SingIn />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/category/:categoria" element={<ProductList />} />
+        <Route path="/favorites" element={<Favorites />} />
       </Routes>
       <CarritoModal />
       <Categories />

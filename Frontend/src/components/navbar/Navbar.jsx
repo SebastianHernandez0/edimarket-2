@@ -8,6 +8,7 @@ import { NavBurger } from "../navBurger/NavBurger";
 import { Perfil } from "../perfil/Perfil.jsx";
 import { SearchBar } from "../searchBar/SearchBar.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
+import { UserContext } from "../../context/UserContext.jsx";
 
 // Crear un componente envolvente para manejar la referencia
 const UserIcon = forwardRef((props, ref) => (
@@ -27,6 +28,7 @@ export function Navbar() {
   const menuRef = useRef(null);
   const { setOpenCategories } = useContext(ProductContext);
   const categoriesBtnRef = useRef(null);
+  const { userToken } = useContext(UserContext);
 
   useEffect(() => {
     if (navigate) {
@@ -78,8 +80,6 @@ export function Navbar() {
     event.stopPropagation(); // Detener la propagación del evento
     setOpenCategories((prev) => !prev);
   };
-
-  const token = "Hola soy el token";
 
   return (
     <nav className="navbar__container shadow-sm">
@@ -140,7 +140,7 @@ export function Navbar() {
             </div>
           </div>
           <div className="navbar__user__menu__container" ref={perfilMenuRef}>
-            {token ? (
+            {userToken ? (
               <Perfil
                 openPerfilMenu={openPerfilMenu}
                 setOpenPerfilMenu={setOpenPerfilMenu}
@@ -154,7 +154,7 @@ export function Navbar() {
                   <NavLink to="" className="navbar__user__menu__link">
                     Publicar
                   </NavLink>
-                  <NavLink to="" className="navbar__user__menu__link">
+                  <NavLink to="/favorites" className="navbar__user__menu__link">
                     Favoritos
                   </NavLink>
                   <NavLink to="" className="navbar__user__menu__link">
