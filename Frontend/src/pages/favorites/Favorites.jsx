@@ -4,10 +4,15 @@ import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 
 export function Favorites() {
-  const { handleProductDetail, addedToFav } = useContext(ProductContext);
+  const { handleProductDetail, addedToFav, setAddedToFav } =
+    useContext(ProductContext);
 
-  const hanldeDeleteFav = (event) => {
+  const handleDeleteFav = (product, event) => {
     event.stopPropagation();
+
+    setAddedToFav((prevFavs) => {
+      return prevFavs.filter((element) => element.id !== product.id);
+    });
   };
 
   return (
@@ -38,7 +43,7 @@ export function Favorites() {
                       })}
                     </p>
                     <button
-                      onClick={(e) => hanldeDeleteFav(e)}
+                      onClick={(event) => handleDeleteFav(product, event)}
                       className="favorites__card__info__btn font-bold text-blue-400"
                     >
                       Eliminar
@@ -56,7 +61,11 @@ export function Favorites() {
             <p className="nofavorites__paragraph text-center">
               Cuando añadas productos a favoritos aparererán acá.
             </p>
-            <img className="nofavorites__icon" src="/imgs/aplication/fav_heart.png" alt="" />
+            <img
+              className="nofavorites__icon"
+              src="/imgs/aplication/fav_heart.png"
+              alt=""
+            />
           </div>
         )}
       </div>
