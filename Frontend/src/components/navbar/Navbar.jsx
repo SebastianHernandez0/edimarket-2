@@ -79,6 +79,8 @@ export function Navbar() {
     setOpenCategories((prev) => !prev);
   };
 
+  const token = "Hola soy el token";
+
   return (
     <nav className="navbar__container shadow-sm">
       <div className="navbar__logo__container">
@@ -138,21 +140,45 @@ export function Navbar() {
             </div>
           </div>
           <div className="navbar__user__menu__container" ref={perfilMenuRef}>
-            <Perfil
-              openPerfilMenu={openPerfilMenu}
-              setOpenPerfilMenu={setOpenPerfilMenu}
-              perfilMenuRef={perfilMenuRef}
-              perfilButtonRef={perfilButtonRef}
-            >
-              <div className="navbar__user__menu bg-gray-50 shadow-md">
-                <NavLink to="/sing-in" className="navbar__user__menu__link">
-                  Iniciar sesión
-                </NavLink>
-                <NavLink to="/sing-up" className="navbar__user__menu__link">
-                  Registrarse
-                </NavLink>
-              </div>
-            </Perfil>
+            {token ? (
+              <Perfil
+                openPerfilMenu={openPerfilMenu}
+                setOpenPerfilMenu={setOpenPerfilMenu}
+                perfilMenuRef={perfilMenuRef}
+                perfilButtonRef={perfilButtonRef}
+              >
+                <div className="navbar__user__menu bg-gray-50 shadow-md">
+                  <NavLink to="" className="navbar__user__menu__link">
+                    Mi perfil
+                  </NavLink>
+                  <NavLink to="" className="navbar__user__menu__link">
+                    Publicar
+                  </NavLink>
+                  <NavLink to="" className="navbar__user__menu__link">
+                    Favoritos
+                  </NavLink>
+                  <NavLink to="" className="navbar__user__menu__link">
+                    Cerrar sesión
+                  </NavLink>
+                </div>
+              </Perfil>
+            ) : (
+              <Perfil
+                openPerfilMenu={openPerfilMenu}
+                setOpenPerfilMenu={setOpenPerfilMenu}
+                perfilMenuRef={perfilMenuRef}
+                perfilButtonRef={perfilButtonRef}
+              >
+                <div className="navbar__user__menu bg-gray-50 shadow-md">
+                  <NavLink to="/sing-in" className="navbar__user__menu__link">
+                    Iniciar sesión
+                  </NavLink>
+                  <NavLink to="/sing-up" className="navbar__user__menu__link">
+                    Registrarse
+                  </NavLink>
+                </div>
+              </Perfil>
+            )}
           </div>
         </div>
       </div>

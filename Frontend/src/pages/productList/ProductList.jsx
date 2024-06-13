@@ -37,7 +37,7 @@ export function ProductList() {
     setOrderBy(event.target.value);
   };
 
-  let sortedProducts = [...filteredProducts]; // Haciendo una copia para no modificar el original
+  let sortedProducts = [...filteredProducts];
 
   if (orderBy === "menorPrecio") {
     sortedProducts.sort((a, b) => a.precio - b.precio);
