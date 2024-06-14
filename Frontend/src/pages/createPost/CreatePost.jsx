@@ -2,6 +2,7 @@ import "../createPost/createPost.css";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { IoMdImages } from "react-icons/io";
+import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 
 export function CreatePost() {
   const onDrop = useCallback((acceptedFiles) => {
@@ -16,8 +17,11 @@ export function CreatePost() {
       </h1>
       <div className="createpost__card__container bg-white shadow-sm">
         <form className="createpost__card__form" name="post">
-          <div className="createpost__card__file__container">
-            <div className="createpost__card__fileimg cursor-pointer" {...getRootProps()}>
+          <div className="createpost__card__file__container mb-5" >
+            <div
+              className="createpost__card__fileimg cursor-pointer"
+              {...getRootProps()}
+            >
               <input {...getInputProps()} />
               {isDragActive ? (
                 <p className="createpost__card__fileparagraph">
@@ -66,6 +70,9 @@ export function CreatePost() {
               rows="5"
               placeholder="Descripción"
             ></textarea>
+            <GeneralBtn className="createpost__form__btn mt-2">
+              Crear publicación
+            </GeneralBtn>
           </div>
         </form>
       </div>
