@@ -63,7 +63,7 @@
   text-decoration: underline;
 }
 .register__form__input:focus ~ .register__form__input__paragraph,
-.register__form__input:valid + .register__form__input__paragraph {
+.register__form__input:valid ~ .register__form__input__paragraph {
   transform: translate(-15px, -24px) scale(0.88);
 }
 .register__form__btn {

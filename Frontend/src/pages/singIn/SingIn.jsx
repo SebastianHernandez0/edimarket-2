@@ -1,12 +1,60 @@
 import "./singIn.css";
 import { NavLink } from "react-router-dom";
 import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
+import { useState } from "react";
 
 export function SingIn() {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  const [singInSuccess, setSingInSuccess] = useState("");
+  const [singInError, setSingInError] = useState({
+    errorEmail: "",
+    errorContraseña: "",
+  });
+
+  const [userData, setUserData] = useState({
+    email: "",
+    contraseña: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      [name]: value,
+    });
+  };
+
+  const handleSingInSubmit = (e) => {
+    e.preventDefault();
+
+    if (userData.email.trim() === "") {
+      setSingInError((prevErrors) => ({
+        ...prevErrors,
+        errorEmail: "Ingresa tu correo electrónico.",
+      }));
+    } else if (!emailRegex.test(userData.email.trim())) {
+      setSingInError((prevErrors) => ({
+        ...prevErrors,
+        errorEmail: "Ingresa un correo electrónico válido.",
+      }));
+    } else if (userData.contraseña.trim() === "") {
+      setSingInError((prevErrors) => ({
+        ...prevErrors,
+        errorContraseña: "Ingresa tu contraseña.",
+      }));
+    } else {
+      setSingInSuccess("!Has iniciado sesión con éxito!.");
+      setSingInError({
+        errorEmail: "",
+        errorContraseña: "",
+      });
+    }
+  };
+
   return (
     <section className="login__container shadow-md rounded-md">
       <div className="login__form__container">
-        <form className="login__form">
+        <form onSubmit={handleSingInSubmit} className="login__form">
           <div className="login__form__title__container">
             <h1 className="login__form__title text-center text-2xl font-medium">
               Bienvenid@s a EdiMarket
@@ -17,11 +65,38 @@ export function SingIn() {
           </div>
           <div className="login__form__input__container">
             <div className="login__input__container">
-              <input className="login__form__input" type="text" required />
+              <input
+                name="email"
+                onChange={handleChange}
+                value={userData.email}
+                className="login__form__input"
+                type="text"
+              />
+              {userData.email.trim() === "" ||
+              !emailRegex.test(userData.email.trim()) ? (
+                <p className="text-red-600 font-semibold text-sm ml-7">
+                  {singInError.errorEmail}
+                </p>
+              ) : (
+                ""
+              )}
               <p className="login__form__input__paragraph text-sm">Email</p>
             </div>
             <div className="login__input__container">
-              <input className="login__form__input" type="password" required />
+              <input
+                name="contraseña"
+                onChange={handleChange}
+                value={userData.contraseña}
+                className="login__form__input"
+                type="password"
+              />
+              {userData.contraseña.trim() === "" ? (
+                <p className="text-red-600 font-semibold text-sm ml-7">
+                  {singInError.errorContraseña}
+                </p>
+              ) : (
+                ""
+              )}
               <p className="login__form__input__paragraph text-sm">
                 Contraseña
               </p>

@@ -4,7 +4,7 @@ import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
 import { useEffect, useRef, useState } from "react";
 
 export function SingUp() {
-  const [singUpSuccess, setSinUpSuccess] = useState("");
+  const [singUpSuccess, setSingUpSuccess] = useState("");
   const [singUpError, setSingUpError] = useState({
     errorNombre: "",
     errorRut: "",
@@ -87,7 +87,7 @@ export function SingUp() {
         errorConfirmContraseña: "Las contraseñas no coinciden.",
       }));
     } else {
-      setSinUpSuccess("!Te has registrado con éxito!.");
+      setSingUpSuccess("!Te has registrado con éxito!.");
       setSingUpError({
         errorNombre: "",
         errorRut: "",
