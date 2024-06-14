@@ -1,7 +1,7 @@
 import "./singIn.css";
 import { NavLink } from "react-router-dom";
 import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function SingIn() {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
@@ -51,6 +51,15 @@ export function SingIn() {
     }
   };
 
+  useEffect(() => {
+    if (userData.email !== "" || userData.contraseña !== "") {
+      setSingInError({
+        errorEmail: "",
+        errorContraseña: "",
+      });
+    }
+  }, [userData]);
+
   return (
     <section className="login__container shadow-md rounded-md">
       <div className="login__form__container">
@@ -69,7 +78,11 @@ export function SingIn() {
                 name="email"
                 onChange={handleChange}
                 value={userData.email}
-                className="login__form__input"
+                className={`login__form__input ${
+                  singInError.errorEmail
+                    ? "outline-2 outline outline-red-600"
+                    : ""
+                }`}
                 type="text"
               />
               {userData.email.trim() === "" ||
@@ -87,7 +100,11 @@ export function SingIn() {
                 name="contraseña"
                 onChange={handleChange}
                 value={userData.contraseña}
-                className="login__form__input"
+                className={`login__form__input ${
+                  singInError.errorContraseña
+                    ? "outline-2 outline outline-red-600"
+                    : ""
+                }`}
                 type="password"
               />
               {userData.contraseña.trim() === "" ? (

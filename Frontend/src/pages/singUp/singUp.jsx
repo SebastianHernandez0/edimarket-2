@@ -29,6 +29,17 @@ export function SingUp() {
   const handleSingupSubmit = (e) => {
     e.preventDefault();
 
+    // Resetear todos los errores
+    setSingUpError({
+      errorNombre: "",
+      errorRut: "",
+      errorTelefono: "",
+      errorEmail: "",
+      errorContraseña: "",
+      errorConfirmContraseña: "",
+    });
+
+    // Validar cada campo uno por uno
     if (userData.nombre.trim() === "") {
       setSingUpError((prevErrors) => ({
         ...prevErrors,
@@ -87,7 +98,19 @@ export function SingUp() {
         errorConfirmContraseña: "Las contraseñas no coinciden.",
       }));
     } else {
-      setSingUpSuccess("!Te has registrado con éxito!.");
+      setSingUpSuccess("¡Te has registrado con éxito!");
+    }
+  };
+
+  useEffect(() => {
+    if (
+      userData.nombre !== "" ||
+      userData.rut !== "" ||
+      userData.telefono !== "" ||
+      userData.email !== "" ||
+      userData.contraseña !== "" ||
+      userData.confirmContraseña !== ""
+    ) {
       setSingUpError({
         errorNombre: "",
         errorRut: "",
@@ -97,7 +120,7 @@ export function SingUp() {
         errorConfirmContraseña: "",
       });
     }
-  };
+  }, [userData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -126,7 +149,11 @@ export function SingUp() {
                 name="nombre"
                 onChange={handleChange}
                 value={userData.nombre}
-                className="register__form__input"
+                className={`register__form__input ${
+                  singUpError.errorNombre
+                    ? "outline-2 outline outline-red-600"
+                    : ""
+                }`}
                 type="text"
               />
               {userData.nombre.trim() === "" ||
@@ -147,7 +174,11 @@ export function SingUp() {
                 name="rut"
                 onChange={handleChange}
                 value={userData.rut}
-                className="register__form__input"
+                className={`register__form__input ${
+                  singUpError.errorRut
+                    ? "outline-2 outline outline-red-600"
+                    : ""
+                }`}
                 type="text"
               />
               {userData.rut.trim() === "" ||
@@ -165,7 +196,11 @@ export function SingUp() {
                 name="telefono"
                 onChange={handleChange}
                 value={userData.telefono}
-                className="register__form__input"
+                className={`register__form__input ${
+                  singUpError.errorTelefono
+                    ? "outline-2 outline outline-red-600"
+                    : ""
+                }`}
                 type="text"
               />
               {userData.telefono.trim() === "" ||
@@ -185,7 +220,11 @@ export function SingUp() {
                 name="email"
                 onChange={handleChange}
                 value={userData.email}
-                className="register__form__input"
+                className={`register__form__input ${
+                  singUpError.errorEmail
+                    ? "outline-2 outline outline-red-600"
+                    : ""
+                }`}
                 type="text"
               />
               {userData.email.trim() === "" ||
@@ -203,7 +242,11 @@ export function SingUp() {
                 name="contraseña"
                 onChange={handleChange}
                 value={userData.contraseña}
-                className="register__form__input"
+                className={`register__form__input ${
+                  singUpError.errorContraseña
+                    ? "outline-2 outline outline-red-600"
+                    : ""
+                }`}
                 type="password"
               />
               {userData.contraseña.trim() === "" ? (
@@ -222,7 +265,11 @@ export function SingUp() {
                 name="confirmContraseña"
                 onChange={handleChange}
                 value={userData.confirmContraseña}
-                className="register__form__input"
+                className={`register__form__input ${
+                  singUpError.errorConfirmContraseña
+                    ? "outline-2 outline outline-red-600"
+                    : ""
+                }`}
                 type="password"
               />
               {userData.confirmContraseña.trim() === "" ||
