@@ -90,8 +90,8 @@ export function ProductDetail() {
                   onClick={handleAddToFav}
                   className={`card__info__like__icon ${
                     addedToFav.some((product) => product.id === productById.id)
-                      ? "text-red-600"
-                      : "text-gray-500"
+                      ? "text-red-600 transition duration-300"
+                      : "text-gray-400"
                   }`}
                 />
               </div>

@@ -1,11 +1,14 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import "../favorites/favorites.css";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
 
 export function Favorites() {
   const { handleProductDetail, addedToFav, setAddedToFav } =
     useContext(ProductContext);
+
+  const [elementDeleted, setElementDeleted] = useState("");
 
   const handleDeleteFav = (product, event) => {
     event.stopPropagation();
@@ -13,6 +16,12 @@ export function Favorites() {
     setAddedToFav((prevFavs) => {
       return prevFavs.filter((element) => element.id !== product.id);
     });
+
+    setElementDeleted("Has eliminado el producto de favoritos.");
+
+    setTimeout(() => {
+      setElementDeleted("");
+    }, 3000);
   };
 
   return (
@@ -69,6 +78,17 @@ export function Favorites() {
           </div>
         )}
       </div>
+      {elementDeleted ? (
+        <CartAlert>
+          <div>
+            <p className="card__cart__alert shadow-md rounded-md">
+              {elementDeleted}
+            </p>
+          </div>
+        </CartAlert>
+      ) : (
+        ""
+      )}
     </section>
   );
 }
