@@ -25,7 +25,8 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={userToken ? <Home /> : <Navigate to="/sing-in" />}
+        /*   element={userToken ? <Home /> : <Navigate to="/sing-in" />} */
+        element={<Home />}
         />
         <Route path="/sing-up" element={<SingUp />} />
         <Route

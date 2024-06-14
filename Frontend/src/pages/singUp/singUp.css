@@ -37,12 +37,16 @@
   display: flex;
   margin: 0 auto;
   padding: 0 13px;
-  margin-bottom: 20px;
+  margin-top: 20px;
   width: 90%;
   border: 1px solid var(--navOpacity);
   border-radius: 5px;
   height: 50px;
 }
+.inputError {
+  outline: 2px solid red;
+}
+
 .register__form__input:focus {
   border: 2px solid var(--verdeAgua);
   outline: none;
