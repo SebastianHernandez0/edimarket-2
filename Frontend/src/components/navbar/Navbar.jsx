@@ -34,6 +34,7 @@ export function Navbar() {
   useEffect(() => {
     if (navigate) {
       setOpenPerfilMenu(false);
+      setOpenSearchBar(false);
     }
   }, [navigate]);
 
@@ -158,7 +159,7 @@ export function Navbar() {
                 perfilButtonRef={perfilButtonRef}
               >
                 <div className="navbar__user__menu bg-gray-50 shadow-md">
-                  <NavLink to="" className="navbar__user__menu__link">
+                  <NavLink to="miperfil" className="navbar__user__menu__link">
                     Mi perfil
                   </NavLink>
                   <NavLink to="" className="navbar__user__menu__link">
