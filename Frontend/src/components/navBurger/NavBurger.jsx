@@ -10,6 +10,7 @@ export function NavBurger({
   setOpenSearchBar,
   isMobile,
   setIsMobile,
+  menuRef,
 }) {
   const { setOpenCategories } = useContext(ProductContext);
 
@@ -55,6 +56,7 @@ export function NavBurger({
 
   return (
     <div
+      ref={menuRef}
       className={`nav-icon3 navActiveMenu ${clicked ? "open" : ""}`}
       onClick={toggleIcon}
     >

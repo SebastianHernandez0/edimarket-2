@@ -26,6 +26,7 @@ export function Navbar() {
   const perfilButtonRef = useRef(null);
   const perfilMenuRef = useRef(null);
   const menuRef = useRef(null);
+  const menuContainerRef = useRef(null);
   const { setOpenCategories } = useContext(ProductContext);
   const categoriesBtnRef = useRef(null);
   const { userToken } = useContext(UserContext);
@@ -66,6 +67,15 @@ export function Navbar() {
       !categoriesBtnRef.current.contains(event.target)
     ) {
       setOpenCategories(false);
+    }
+
+    if (
+      menuRef.current &&
+      menuContainerRef.current &&
+      !menuRef.current.contains(event.target) &&
+      !menuContainerRef.current.contains(event.target)
+    ) {
+      setClicked(false);
     }
   };
 
@@ -120,7 +130,7 @@ export function Navbar() {
                 menuRef={menuRef}
               />
               <div
-                ref={menuRef}
+                ref={menuContainerRef}
                 className={`navbar__menu__links bg-gray-50 shadow-md ${
                   clicked ? "navActiveMenu" : ""
                 }`}
