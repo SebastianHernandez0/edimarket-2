@@ -86,14 +86,14 @@ export function ProductDetail() {
                     currency: "CLP",
                   })}
                 </p>
-                {addedToFav?.like ? (
-                  <IoHeartSharp className="card__info__like__icon" />
-                ) : (
-                  <GoHeart
-                    onClick={handleAddToFav}
-                    className="card__info__like__icon"
-                  />
-                )}
+                <IoHeartSharp
+                  onClick={handleAddToFav}
+                  className={`card__info__like__icon ${
+                    addedToFav.some((product) => product.id === productById.id)
+                      ? "text-red-600"
+                      : "text-gray-500"
+                  }`}
+                />
               </div>
 
               <p className="card__paragraph card__paragraph__stock">
