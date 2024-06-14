@@ -8,7 +8,8 @@ export function CreatePost() {
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
+    useDropzone({ onDrop });
 
   return (
     <section className="createpost__container bg-white shadow-sm">
@@ -17,7 +18,7 @@ export function CreatePost() {
       </h1>
       <div className="createpost__card__container bg-white shadow-sm">
         <form className="createpost__card__form" name="post">
-          <div className="createpost__card__file__container mb-5" >
+          <div className="createpost__card__file__container mb-5">
             <div
               className="createpost__card__fileimg cursor-pointer"
               {...getRootProps()}
@@ -30,13 +31,25 @@ export function CreatePost() {
               ) : (
                 <div className="flex justify-center items-center gap-3">
                   <p className="createpost__card__fileparagraph font-medium">
-                    Añadir fotos
+                    Añadir imágen
                   </p>
                   <IoMdImages className="text-3xl" />
                 </div>
               )}
             </div>
+            <div className="createpost__card__imgpreview">
+              {acceptedFiles[0] ? (
+                <img
+                  className="createpost__card__imgpreview__img"
+                  src={URL.createObjectURL(acceptedFiles[0])}
+                  alt=""
+                />
+              ) : (
+                <p>Vista previa...</p>
+              )}
+            </div>
           </div>
+
           <div className="createpost__card__data">
             <input
               className="createpost__card__input"

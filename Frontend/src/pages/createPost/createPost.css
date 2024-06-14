@@ -52,3 +52,24 @@
 .createpost__form__btn:hover {
   filter: brightness(80%);
 }
+.createpost__card__imgpreview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--navOpacity);
+  border-radius: 5px;
+  width: 90%;
+  overflow: hidden;
+}
+.createpost__card__imgpreview__img {
+  object-fit: cover;
+  width: 100%;
+  margin: 0 auto;
+}
+.createpost__card__file__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
