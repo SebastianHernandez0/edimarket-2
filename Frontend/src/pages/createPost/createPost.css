@@ -5,3 +5,12 @@
   width: 100%;
   max-width: 1400px;
 }
+.createpost__card__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.createpost__card__data {
+  display: flex;
+  flex-direction: column;
+}
