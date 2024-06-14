@@ -1,7 +1,7 @@
 import "./singIn.css";
 import { NavLink } from "react-router-dom";
 import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function SingIn() {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
@@ -10,6 +10,10 @@ export function SingIn() {
     errorEmail: "",
     errorContraseña: "",
   });
+  const inputRefs = {
+    email: useRef(null),
+    contraseña: useRef(null),
+  };
 
   const [userData, setUserData] = useState({
     email: "",
@@ -60,6 +64,21 @@ export function SingIn() {
     }
   }, [userData]);
 
+  useEffect(() => {
+    // Función para determinar si se debe enfocar algún input
+    const shouldFocusInput = () => {
+      return singInError.errorEmail || singInError.errorContraseña;
+    };
+
+    // Enfocar el input correspondiente si hay algún error
+    if (shouldFocusInput()) {
+      if (singInError.errorEmail) {
+        inputRefs.email.current.focus();
+      } else if (singInError.errorContraseña) {
+      }
+    }
+  }, [singInError]);
+
   return (
     <section className="login__container shadow-md rounded-md">
       <div className="login__form__container">
@@ -75,13 +94,14 @@ export function SingIn() {
           <div className="login__form__input__container">
             <div className="login__input__container">
               <input
+                ref={inputRefs.email}
                 name="email"
                 onChange={handleChange}
                 value={userData.email}
-                className={`login__form__input ${
+                className={`login__form__input  ${
                   singInError.errorEmail
-                    ? "outline-2 outline outline-red-600"
-                    : ""
+                    ? "focus: outline-2 outline outline-red-600"
+                    : "focus: outline-2 outline-green-300"
                 }`}
                 type="text"
               />
@@ -97,13 +117,14 @@ export function SingIn() {
             </div>
             <div className="login__input__container">
               <input
+                ref={inputRefs.contraseña}
                 name="contraseña"
                 onChange={handleChange}
                 value={userData.contraseña}
-                className={`login__form__input ${
+                className={`login__form__input  ${
                   singInError.errorContraseña
-                    ? "outline-2 outline outline-red-600"
-                    : ""
+                    ? "focus: outline-2 outline outline-red-600"
+                    : "focus: outline-2 outline-green-300"
                 }`}
                 type="password"
               />

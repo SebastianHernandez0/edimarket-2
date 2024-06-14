@@ -47,10 +47,6 @@
   outline: 2px solid red;
 }
 
-.register__form__input:focus {
-  border: 2px solid var(--verdeAgua);
-  outline: none;
-}
 .register__form__input__paragraph {
   background: white;
   transition: 0.2s ease;

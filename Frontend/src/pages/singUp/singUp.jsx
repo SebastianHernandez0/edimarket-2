@@ -24,7 +24,14 @@ export function SingUp() {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   const rutFormatRegex = /^[0-9]+-[0-9]$/;
   const onlyNumbersRegex = /^[0-9]+$/;
-  const inputRef = useRef(null);
+  const inputRefs = {
+    nombre: useRef(null),
+    rut: useRef(null),
+    telefono: useRef(null),
+    email: useRef(null),
+    contraseña: useRef(null),
+    confirmContraseña: useRef(null),
+  };
 
   const handleSingupSubmit = (e) => {
     e.preventDefault();
@@ -130,6 +137,37 @@ export function SingUp() {
     });
   };
 
+  useEffect(() => {
+    // Función para determinar si se debe enfocar algún input
+    const shouldFocusInput = () => {
+      return (
+        singUpError.errorNombre ||
+        singUpError.errorRut ||
+        singUpError.errorTelefono ||
+        singUpError.errorEmail ||
+        singUpError.errorContraseña ||
+        singUpError.errorConfirmContraseña
+      );
+    };
+
+    // Enfocar el input correspondiente si hay algún error
+    if (shouldFocusInput()) {
+      if (singUpError.errorNombre) {
+        inputRefs.nombre.current.focus();
+      } else if (singUpError.errorRut) {
+        inputRefs.rut.current.focus();
+      } else if (singUpError.errorTelefono) {
+        inputRefs.telefono.current.focus();
+      } else if (singUpError.errorEmail) {
+        inputRefs.email.current.focus();
+      } else if (singUpError.errorContraseña) {
+        inputRefs.contraseña.current.focus();
+      } else if (singUpError.errorConfirmContraseña) {
+        inputRefs.confirmContraseña.current.focus();
+      }
+    }
+  }, [singUpError]);
+
   return (
     <section className="register__container shadow-md rounded-md">
       <div className="register__form__container">
@@ -145,14 +183,14 @@ export function SingUp() {
           <div className="register__form__input__container">
             <div className="register__input__container">
               <input
-                ref={inputRef}
+                ref={inputRefs.nombre}
                 name="nombre"
                 onChange={handleChange}
                 value={userData.nombre}
                 className={`register__form__input ${
                   singUpError.errorNombre
-                    ? "outline-2 outline outline-red-600"
-                    : ""
+                    ? "focus: outline-2 outline outline-red-600"
+                    : "focus: outline-2 outline-green-300"
                 }`}
                 type="text"
               />
@@ -170,14 +208,14 @@ export function SingUp() {
             </div>
             <div className="register__input__container">
               <input
-                ref={inputRef}
+                ref={inputRefs.rut}
                 name="rut"
                 onChange={handleChange}
                 value={userData.rut}
                 className={`register__form__input ${
                   singUpError.errorRut
-                    ? "outline-2 outline outline-red-600"
-                    : ""
+                    ? "focus: outline-2 outline outline-red-600"
+                    : "focus: outline-2 outline-green-300"
                 }`}
                 type="text"
               />
@@ -193,13 +231,14 @@ export function SingUp() {
             </div>
             <div className="register__input__container">
               <input
+                ref={inputRefs.telefono}
                 name="telefono"
                 onChange={handleChange}
                 value={userData.telefono}
                 className={`register__form__input ${
                   singUpError.errorTelefono
-                    ? "outline-2 outline outline-red-600"
-                    : ""
+                    ? "focus: outline-2 outline outline-red-600"
+                    : "focus: outline-2 outline-green-300"
                 }`}
                 type="text"
               />
@@ -217,13 +256,14 @@ export function SingUp() {
             </div>
             <div className="register__input__container">
               <input
+                ref={inputRefs.email}
                 name="email"
                 onChange={handleChange}
                 value={userData.email}
                 className={`register__form__input ${
                   singUpError.errorEmail
-                    ? "outline-2 outline outline-red-600"
-                    : ""
+                    ? "focus: outline-2 outline outline-red-600"
+                    : "focus: outline-2 outline-green-300"
                 }`}
                 type="text"
               />
@@ -239,13 +279,14 @@ export function SingUp() {
             </div>
             <div className="register__input__container">
               <input
+                ref={inputRefs.contraseña}
                 name="contraseña"
                 onChange={handleChange}
                 value={userData.contraseña}
                 className={`register__form__input ${
                   singUpError.errorContraseña
-                    ? "outline-2 outline outline-red-600"
-                    : ""
+                    ? "focus: outline-2 outline outline-red-600"
+                    : "focus: outline-2 outline-green-300"
                 }`}
                 type="password"
               />
@@ -262,13 +303,14 @@ export function SingUp() {
             </div>
             <div className="register__input__container">
               <input
+                ref={inputRefs.confirmContraseña}
                 name="confirmContraseña"
                 onChange={handleChange}
                 value={userData.confirmContraseña}
                 className={`register__form__input ${
                   singUpError.errorConfirmContraseña
-                    ? "outline-2 outline outline-red-600"
-                    : ""
+                    ? "focus: outline-2 outline outline-red-600"
+                    : "focus: outline-2 outline-green-300"
                 }`}
                 type="password"
               />
