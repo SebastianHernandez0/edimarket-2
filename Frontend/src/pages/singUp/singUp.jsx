@@ -60,12 +60,12 @@ export function SingUp() {
     } else if (userData.rut.trim() === "") {
       setSingUpError((prevErrors) => ({
         ...prevErrors,
-        errorRut: "Ingresa tu RUT.",
+        errorRut: "Ingresa tu RUT. sin puntos con guión",
       }));
     } else if (!rutFormatRegex.test(userData.rut.trim())) {
       setSingUpError((prevErrors) => ({
         ...prevErrors,
-        errorRut: "Ingresa un RUT válido.",
+        errorRut: "Ingresa un RUT válido. sin puntos con guión",
       }));
     } else if (userData.telefono.trim() === "") {
       setSingUpError((prevErrors) => ({

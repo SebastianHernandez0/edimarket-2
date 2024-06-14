@@ -2,6 +2,7 @@ import "../miPerfil/miPerfil.css";
 import { PiUserListLight } from "react-icons/pi";
 import { MdSell } from "react-icons/md";
 import { IoAddCircle } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 export function MiPerfil() {
   return (
@@ -22,15 +23,21 @@ export function MiPerfil() {
       <div className="miperfil__userinfo__edit bg-white shadow-sm rounded-md">
         <div className="miperfil__userinfo__data">
           <PiUserListLight className="miperfil__userinfo__icon text" />
-          <p>Información personal</p>
+          <Link className="miperfil__userinfo__postlink">
+            Información personal
+          </Link>
         </div>
         <div className="miperfil__userinfo__data">
           <IoAddCircle className="miperfil__userinfo__icon" />
-          <p>Crear una publicación</p>
+          <Link to="/createpost" className="miperfil__userinfo__postlink">
+            Crear una publicación
+          </Link>
         </div>
         <div className="miperfil__userinfo__data">
           <MdSell className="miperfil__userinfo__icon" />
-          <p>Mis publicaciones</p>
+          <Link className="miperfil__userinfo__postlink">
+            Mis publicaciones
+          </Link>
         </div>
       </div>
     </section>

@@ -14,6 +14,7 @@ import { Favorites } from "./pages/favorites/Favorites.jsx";
 import { useContext } from "react";
 import { UserContext } from "./context/UserContext.jsx";
 import { MiPerfil } from "./pages/miPerfil/MiPerfil.jsx";
+import { CreatePost } from "./pages/createPost/CreatePost.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -25,8 +26,8 @@ function App() {
       <Routes>
         <Route
           path="/"
-        /*   element={userToken ? <Home /> : <Navigate to="/sing-in" />} */
-        element={<Home />}
+          element={userToken ? <Home /> : <Navigate to="/sing-in" />}
+          /*   element={<Home />} */
         />
         <Route path="/sing-up" element={<SingUp />} />
         <Route
@@ -42,6 +43,10 @@ function App() {
         <Route
           path="/miperfil"
           element={userToken ? <MiPerfil /> : <Navigate to="/sing-in" />}
+        />
+        <Route
+          path="/createpost"
+          element={userToken ? <CreatePost /> : <Navigate to="/sing-in" />}
         />
       </Routes>
       <CarritoModal />
