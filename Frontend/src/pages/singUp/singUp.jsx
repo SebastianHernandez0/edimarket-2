@@ -106,7 +106,7 @@ export function SingUp() {
       [name]: value,
     });
   };
-  console.log(singUpError.errorNombre);
+
   return (
     <section className="register__container shadow-md rounded-md">
       <div className="register__form__container">
