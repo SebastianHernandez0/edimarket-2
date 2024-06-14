@@ -1,18 +1,16 @@
 .register__container {
   grid-area: home;
   margin: 20px;
-}
-.register__container {
   background: #ffffff;
   max-width: 550px;
   display: flex;
 }
 .register__form__container {
   display: flex;
-  height: 500px;
   width: 100%;
   border-radius: 10px;
   padding: 14px;
+  min-height: 750px;
 }
 .register__form {
   width: 100%;
