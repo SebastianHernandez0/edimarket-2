@@ -94,7 +94,6 @@ export function CreatePost() {
     }
   };
 
-  console.log(createPostError.errorPrecio);
   useEffect(() => {
     // Función para determinar si se debe enfocar algún input
     const shouldFocusInput = () => {
@@ -119,9 +118,16 @@ export function CreatePost() {
       } else if (createPostError.errorDescripcion) {
         inputRefs.descripcion.current.focus();
       }
-      return;
+
+      setCreatePostError({
+        errorTitulo: "",
+        errorPrecio: "",
+        errorCategorias: "",
+        errorEstado: "",
+        errorDescripcion: "",
+      });
     }
-  }, [createPostError]);
+  }, [userData]);
 
   return (
     <section className="createpost__container bg-white shadow-sm">
