@@ -5,7 +5,7 @@ const prepHateoas= (data) => {
         vendedor:item.vendedor_id,
         precio:item.precio,
         stock:item.stock,
-        categoria:item.categoria_id,
+        categoria:item.nombre_categoria,
         imagen:item.imagen,
         href:`/productos/${item.producto_id}`
       }
