@@ -1,4 +1,5 @@
 import "../perfil/perfil.css";
+import "../../components/searchBar/searchBar.css";
 import { FiSearch } from "react-icons/fi";
 import { useEffect } from "react";
 

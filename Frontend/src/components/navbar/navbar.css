@@ -11,8 +11,8 @@
   transition: 0.3s ease-in-out;
 }
 .navbarScroll {
-  background: #00000038;
-  backdrop-filter: blur(10px);
+  background: #ffffff5e;
+  backdrop-filter: blur(8px);
 }
 .navbar__logo__container {
   position: relative;
