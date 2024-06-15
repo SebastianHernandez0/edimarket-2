@@ -52,13 +52,7 @@ export function ProductDetail() {
         ...prevState,
         success: "¡Producto añadido a favoritos!.",
       }));
-      timeoutRef.current = setTimeout(() => {
-        setProductAlert((prevState) => ({
-          ...prevState,
-          error: "",
-        }));
-        timeoutRef.current = null; // Limpiamos la referencia al temporizador
-      }, 2400);
+
       timeoutRef.current = setTimeout(() => {
         setProductAlert((prevState) => ({
           ...prevState,
@@ -74,6 +68,7 @@ export function ProductDetail() {
         setProductAlert((prevState) => ({
           ...prevState,
           error: "Ya añadiste este producro a favoritos.",
+          success: "",
         }));
 
         // Cancelamos el temporizador anterior si existe

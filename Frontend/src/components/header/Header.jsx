@@ -5,8 +5,8 @@ import "react-image-gallery/styles/css/image-gallery.css";
 export function Header() {
   const images = [
     {
-      original: "/imgs/aplication/slider_1.webp",
-      thumbnail: "/imgs/aplication/slider_1.webp",
+      original: "/imgs/aplication/slider_1.png",
+      thumbnail: "/imgs/aplication/slider_1.png",
       originalHeight: 300, // Alto en píxeles
       originalWidth: 400,  // Ancho en píxeles
     },

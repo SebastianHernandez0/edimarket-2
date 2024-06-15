@@ -3,6 +3,9 @@ import { PiUserListLight } from "react-icons/pi";
 import { MdSell } from "react-icons/md";
 import { IoAddCircle } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { HiMiniShoppingBag } from "react-icons/hi2";
+import { FaCreditCard } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
 
 export function MiPerfil() {
   return (
@@ -35,6 +38,18 @@ export function MiPerfil() {
         <Link className="miperfil__userinfo__data miperfil__userinfo__postlink">
           <MdSell className="miperfil__userinfo__icon" />
           Mis publicaciones
+        </Link>
+        <Link className="miperfil__userinfo__data miperfil__userinfo__postlink">
+          <HiMiniShoppingBag className="miperfil__userinfo__icon" />
+          Mis compras
+        </Link>
+        <Link className="miperfil__userinfo__data miperfil__userinfo__postlink">
+          <FaCreditCard className="miperfil__userinfo__icon" />
+          Mis tarjetas
+        </Link>
+        <Link className="miperfil__userinfo__data miperfil__userinfo__postlink">
+          <FaLocationDot className="miperfil__userinfo__icon" />
+          Mis direcciones
         </Link>
       </div>
     </section>
