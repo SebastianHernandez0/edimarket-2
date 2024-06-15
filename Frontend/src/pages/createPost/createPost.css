@@ -87,7 +87,7 @@
     display: none;
   }
   .createpost__card__form {
-    width: 400px;
+    min-width: 300px;
   }
   .createpost__card__container {
     display: grid;
