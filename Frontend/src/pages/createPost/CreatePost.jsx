@@ -1,10 +1,16 @@
 import "../createPost/createPost.css";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { IoMdImages } from "react-icons/io";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 
 export function CreatePost() {
+  const [userData, setUserData] = useState({
+    titulo: "",
+    precio: "",
+    descripcion: "",
+  });
+
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
   }, []);
@@ -55,11 +61,15 @@ export function CreatePost() {
 
           <div className="createpost__card__data">
             <input
+              name="titulo"
+              value={userData.titulo}
               className="createpost__card__input"
               type="text"
               placeholder="Título"
             />
             <input
+              name="precio"
+              value={userData.precio}
               className="createpost__card__input"
               type="text"
               placeholder="Precio"
@@ -81,7 +91,8 @@ export function CreatePost() {
             </select>
             <textarea
               className="createpost__card__input resize-none"
-              name=""
+              value={userData.descripcion}
+              name="descripcio"
               id=""
               rows="5"
               placeholder="Descripción"
@@ -118,6 +129,7 @@ export function CreatePost() {
               Aquí aparecerán los detalles de tu publicación.
             </p>
             <hr />
+            <p className="mt-5">Información del vendedor</p>
           </div>
         </div>
       </div>
