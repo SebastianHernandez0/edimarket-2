@@ -31,6 +31,11 @@ export function SingIn() {
   const handleSingInSubmit = (e) => {
     e.preventDefault();
 
+    setSingInError({
+      errorEmail: "",
+      errorContraseña: "",
+    });
+
     if (userData.email.trim() === "") {
       setSingInError((prevErrors) => ({
         ...prevErrors,
