@@ -70,6 +70,7 @@ export function CreatePost() {
           </div>
           <div className="createpost__card__data">
             <input
+              onChange={handleChangeInput}
               name="titulo"
               value={userData.titulo}
               className="createpost__card__input"
@@ -77,31 +78,38 @@ export function CreatePost() {
               placeholder="Título"
             />
             <input
+              onChange={handleChangeInput}
               name="precio"
               value={userData.precio}
               className="createpost__card__input"
               type="text"
               placeholder="Precio"
             />
-            <select className="createpost__card__input" name="" id="">
-              <option value="">Categorías</option>
-              <option value="">Consolas</option>
-              <option value="">Accesorios</option>
-              <option value="">Monitores</option>
-              <option value="">Componentes</option>
-              <option value="">Telefonía</option>
-              <option value="">Electrodomésticos</option>
+            <select
+              onChange={handleChangeInput}
+              className="createpost__card__input"
+              name=""
+              id=""
+            >
+              <option value="categorias">Categorías</option>
+              <option value="consolas">Consolas</option>
+              <option value="accesorios">Accesorios</option>
+              <option value="monitores">Monitores</option>
+              <option value="componentes">Componentes</option>
+              <option value="telefonos">Telefonía</option>
+              <option value="electrodomesticos">Electrodomésticos</option>
             </select>
             <select className="createpost__card__input" name="" id="">
               <option value="">Estado del producto</option>
-              <option value="">Nuevo</option>
-              <option value="">Usado-Como nuevo</option>
-              <option value="">Usado-Aceptable</option>
+              <option value="nuevo">Nuevo</option>
+              <option value="usado-como-nuevo">Usado-Como nuevo</option>
+              <option value="usado-aceptable">Usado-Aceptable</option>
             </select>
             <textarea
+              onChange={handleChangeInput}
               className="createpost__card__input resize-none"
               value={userData.descripcion}
-              name="descripcio"
+              name="descripcion"
               id=""
               rows="5"
               placeholder="Descripción"
@@ -130,13 +138,26 @@ export function CreatePost() {
           </div>
           <div className="createpost__preview__data">
             <h1 className="createpost__preview__data__title text-3xl font-semibold mb-2">
-              Título
+              {userData.titulo ? <p>{userData.titulo}</p> : <p>Título</p>}
             </h1>
-            <p className="font-medium mb-4">Precio</p>
+            {userData.precio ? (
+              <p>
+                {parseInt(userData.precio).toLocaleString("es-CL", {
+                  style: "currency",
+                  currency: "CLP",
+                })}
+              </p>
+            ) : (
+              <p>Precio</p>
+            )}
             <p className="font-medium text-lg mb-5">Detalles</p>
-            <p className="mb-8">
-              Aquí aparecerán los detalles de tu publicación.
-            </p>
+            {userData.descripcion ? (
+              <p className="">{userData.descripcion}</p>
+            ) : (
+              <p className="mb-8">
+                Aquí aparecerán los detalles de tu publicación.
+              </p>
+            )}
             <hr />
             <p className="mt-5">Información del vendedor</p>
           </div>
