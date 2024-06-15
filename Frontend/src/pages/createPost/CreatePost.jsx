@@ -9,6 +9,8 @@ export function CreatePost() {
     titulo: "",
     precio: "",
     descripcion: "",
+    categorias: "",
+    estado: "",
   });
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -16,6 +18,14 @@ export function CreatePost() {
   }, []);
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
     useDropzone({ onDrop });
+
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      [name]: value,
+    });
+  };
 
   return (
     <section className="createpost__container bg-white shadow-sm">
@@ -58,7 +68,6 @@ export function CreatePost() {
               )}
             </div>
           </div>
-
           <div className="createpost__card__data">
             <input
               name="titulo"
