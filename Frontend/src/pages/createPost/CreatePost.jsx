@@ -88,10 +88,11 @@ export function CreatePost() {
             <select
               onChange={handleChangeInput}
               className="createpost__card__input"
-              name=""
-              id=""
+              name="categorias"
+              value={userData.categorias}
+              id="categorias"
             >
-              <option value="categorias">Categorías</option>
+              <option value="">Categorías</option>
               <option value="consolas">Consolas</option>
               <option value="accesorios">Accesorios</option>
               <option value="monitores">Monitores</option>
@@ -99,7 +100,13 @@ export function CreatePost() {
               <option value="telefonos">Telefonía</option>
               <option value="electrodomesticos">Electrodomésticos</option>
             </select>
-            <select className="createpost__card__input" name="" id="">
+            <select
+              onChange={handleChangeInput}
+              className="createpost__card__input"
+              value={userData.estado}
+              name="estado"
+              id="estado"
+            >
               <option value="">Estado del producto</option>
               <option value="nuevo">Nuevo</option>
               <option value="usado-como-nuevo">Usado-Como nuevo</option>
