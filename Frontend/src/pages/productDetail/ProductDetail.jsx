@@ -1,5 +1,5 @@
 import "../productDetail/productDetail.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
@@ -26,6 +26,7 @@ export function ProductDetail() {
         setProductAlert((prevState) => ({
           ...prevState,
           error: "Ya añadiste este producto al carrito.",
+          success: "",
         }));
 
         // Cancelamos el temporizador anterior si existe
@@ -51,6 +52,7 @@ export function ProductDetail() {
       setProductAlert((prevState) => ({
         ...prevState,
         success: "¡Producto añadido a favoritos!.",
+        error: "",
       }));
 
       timeoutRef.current = setTimeout(() => {

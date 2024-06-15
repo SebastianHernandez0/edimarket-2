@@ -8,15 +8,23 @@ export function SearchBar({ className, openSearchBar }) {
       ".navbar__search__input__container"
     );
 
-    if (!openSearchBar) {
-      searchBar.classList.add("searchInputActive");
-    } else {
-      searchBar.classList.remove("searchInputActive");
-    }
+    const handleResize = () => {
+      if (window.innerWidth <= 576 && !openSearchBar) {
+        searchBar.classList.add("searchInputActive");
+      } else {
+        searchBar.classList.remove("searchInputActive");
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [openSearchBar]);
 
   return (
-    <div className={className}>
+    <div className={`${className} navbar__search__input__container`}>
       <input
         placeholder="Buscar producto"
         className="navbar__search__input"
