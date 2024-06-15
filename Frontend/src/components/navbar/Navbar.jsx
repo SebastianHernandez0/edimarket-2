@@ -26,6 +26,7 @@ export function Navbar() {
   const perfilButtonRef = useRef(null);
   const perfilMenuRef = useRef(null);
   const menuRef = useRef(null);
+  const navbarRef = useRef(null);
   const menuContainerRef = useRef(null);
   const { setOpenCategories } = useContext(ProductContext);
   const categoriesBtnRef = useRef(null);
@@ -92,8 +93,29 @@ export function Navbar() {
     setOpenCategories((prev) => !prev);
   };
 
+  useEffect(() => {
+    const navbar = navbarRef.current;
+
+    if (navbar) {
+      const handleScroll = () => {
+        if (window.scrollY > 0) {
+          navbar.classList.add("navbarScroll");
+        } else {
+          navbar.classList.remove("navbarScroll");
+        }
+      };
+
+      window.addEventListener("scroll", handleScroll);
+
+      // Cleanup function to remove the event listener
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, []);
+
   return (
-    <nav className="navbar__container shadow-sm">
+    <nav ref={navbarRef} className="navbar__container shadow-sm">
       <div className="navbar__logo__container">
         <div className="navbar__logo__section">
           <img

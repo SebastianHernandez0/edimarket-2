@@ -8,6 +8,11 @@
   padding: 15px 13px;
   background-color: var(--navbarColor);
   z-index: 100;
+  transition: 0.3s ease-in-out;
+}
+.navbarScroll {
+  background: #00000038;
+  backdrop-filter: blur(10px);
 }
 .navbar__logo__container {
   position: relative;
@@ -173,6 +178,7 @@
   .navbar__search__icon {
     display: none;
   }
+
   .navbar__logo__section {
     justify-content: flex-start;
     gap: 50px;
