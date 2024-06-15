@@ -26,6 +26,7 @@ export function Navbar() {
   const perfilButtonRef = useRef(null);
   const perfilMenuRef = useRef(null);
   const menuRef = useRef(null);
+  const menuContainerRef = useRef(null);
   const { setOpenCategories } = useContext(ProductContext);
   const categoriesBtnRef = useRef(null);
   const { userToken } = useContext(UserContext);
@@ -33,6 +34,7 @@ export function Navbar() {
   useEffect(() => {
     if (navigate) {
       setOpenPerfilMenu(false);
+      setOpenSearchBar(false);
     }
   }, [navigate]);
 
@@ -66,6 +68,15 @@ export function Navbar() {
       !categoriesBtnRef.current.contains(event.target)
     ) {
       setOpenCategories(false);
+    }
+
+    if (
+      menuRef.current &&
+      menuContainerRef.current &&
+      !menuRef.current.contains(event.target) &&
+      !menuContainerRef.current.contains(event.target)
+    ) {
+      setClicked(false);
     }
   };
 
@@ -120,7 +131,7 @@ export function Navbar() {
                 menuRef={menuRef}
               />
               <div
-                ref={menuRef}
+                ref={menuContainerRef}
                 className={`navbar__menu__links bg-gray-50 shadow-md ${
                   clicked ? "navActiveMenu" : ""
                 }`}
@@ -148,7 +159,7 @@ export function Navbar() {
                 perfilButtonRef={perfilButtonRef}
               >
                 <div className="navbar__user__menu bg-gray-50 shadow-md">
-                  <NavLink to="" className="navbar__user__menu__link">
+                  <NavLink to="miperfil" className="navbar__user__menu__link">
                     Mi perfil
                   </NavLink>
                   <NavLink to="" className="navbar__user__menu__link">

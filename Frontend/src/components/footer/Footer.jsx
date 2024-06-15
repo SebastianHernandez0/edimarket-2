@@ -53,9 +53,9 @@ export function Footer() {
         <div className="footer__social">
           <h4 className="footer__social__title">Social</h4>
           <div className="footer__social__icons">
-            <FaFacebookSquare className="footer__social__icon" />
-            <FaInstagram className="footer__social__icon" />
-            <FaYoutube className="footer__social__icon" />
+            <FaFacebookSquare className="footer__social__icon hover:text-blue-600" />
+            <FaInstagram className="footer__social__icon hover:text-pink-600" />
+            <FaYoutube className="footer__social__icon hover:text-red-600" />
           </div>
           <div className="footer__content">
             <span>EDIMARKET | Todos los derechos reservados | 2024</span>

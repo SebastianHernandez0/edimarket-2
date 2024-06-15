@@ -1,5 +1,5 @@
 import "../productDetail/productDetail.css";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
@@ -10,7 +10,7 @@ import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { useRef } from "react";
 
 export function ProductDetail() {
-  const { productById } = useContext(ProductContext);
+  const { productById, addToFav, addedToFav } = useContext(ProductContext);
   const {
     openModalCart,
     addToCart,
@@ -45,6 +45,30 @@ export function ProductDetail() {
     }
   };
 
+  const handleAddToFav = () => {
+    if (!addedToFav.some((product) => product.id === productById.id)) {
+      addToFav(productById);
+    } else {
+      const favAdded = addedToFav.find(
+        (product) => product.id === productById.id
+      );
+      if (favAdded) {
+        setProductAlreadyInCart("Ya agregaste el producto a favoritos.");
+
+        // Cancelamos el temporizador anterior si existe
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+
+        // Establecemos un nuevo temporizador
+        timeoutRef.current = setTimeout(() => {
+          setProductAlreadyInCart("");
+          timeoutRef.current = null; // Limpiamos la referencia al temporizador
+        }, 2400);
+      }
+    }
+  };
+
   return (
     <section className="productdetail__container">
       <div className="card__container">
@@ -62,11 +86,14 @@ export function ProductDetail() {
                     currency: "CLP",
                   })}
                 </p>
-                {productById?.like ? (
-                  <IoHeartSharp className="card__info__like__icon" />
-                ) : (
-                  <GoHeart className="card__info__like__icon" />
-                )}
+                <IoHeartSharp
+                  onClick={handleAddToFav}
+                  className={`card__info__like__icon ${
+                    addedToFav.some((product) => product.id === productById.id)
+                      ? "text-red-600 transition duration-300"
+                      : "text-gray-400"
+                  }`}
+                />
               </div>
 
               <p className="card__paragraph card__paragraph__stock">

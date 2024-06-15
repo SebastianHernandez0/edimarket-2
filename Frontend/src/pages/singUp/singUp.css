@@ -1,18 +1,16 @@
 .register__container {
   grid-area: home;
   margin: 20px;
-}
-.register__container {
   background: #ffffff;
   max-width: 550px;
   display: flex;
 }
 .register__form__container {
   display: flex;
-  height: 500px;
   width: 100%;
   border-radius: 10px;
   padding: 14px;
+  min-height: 750px;
 }
 .register__form {
   width: 100%;
@@ -39,16 +37,16 @@
   display: flex;
   margin: 0 auto;
   padding: 0 13px;
-  margin-bottom: 20px;
+  margin-top: 20px;
   width: 90%;
   border: 1px solid var(--navOpacity);
   border-radius: 5px;
   height: 50px;
 }
-.register__form__input:focus {
-  border: 2px solid var(--verdeAgua);
-  outline: none;
+.inputError {
+  outline: 2px solid red;
 }
+
 .register__form__input__paragraph {
   background: white;
   transition: 0.2s ease;
@@ -60,8 +58,8 @@
 .register__form__link:hover {
   text-decoration: underline;
 }
-.register__form__input:focus + .register__form__input__paragraph,
-.register__form__input:valid + .register__form__input__paragraph {
+.register__form__input:focus ~ .register__form__input__paragraph,
+.register__form__input:valid ~ .register__form__input__paragraph {
   transform: translate(-15px, -24px) scale(0.88);
 }
 .register__form__btn {

@@ -1,0 +1,41 @@
+.miperfil__container {
+  grid-area: home;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.miperfil__userinfo__container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 25px;
+  width: 100%;
+  padding: 25px;
+}
+
+.miperfil__userinfo__edit {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  padding: 25px;
+}
+
+.miperfil__userinfo__data {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  gap: 20px;
+  width: 100%;
+}
+.miperfil__userinfo__data:hover {
+  background: #57ebad27;
+}
+.miperfil__userinfo__icon {
+  font-size: 2.5rem;
+}

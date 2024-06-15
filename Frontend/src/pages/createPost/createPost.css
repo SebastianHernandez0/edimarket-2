@@ -1,0 +1,117 @@
+.createpost__container {
+  grid-area: home;
+  padding: 25px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1400px;
+}
+.createpost__card__form {
+  display: flex;
+  flex-direction: column;
+}
+.createpost__card__data {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.createpost__card__fileimg {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0 13px;
+  margin-top: 20px;
+  width: 90%;
+  border: 1px solid var(--navOpacity);
+  border-radius: 5px;
+  height: 100px;
+}
+.createpost__card__input {
+  background-color: transparent;
+  display: flex;
+  margin: 0 auto;
+  padding: 0 13px;
+  width: 90%;
+  border: 1px solid var(--navOpacity);
+  border-radius: 5px;
+  min-height: 50px;
+}
+
+.createpost__form__btn {
+  transition: 0.2s ease-out;
+  width: 100%;
+  height: 45px;
+  max-width: 300px;
+  border-radius: 30px;
+  background: var(--verdeAgua);
+  color: var(--dark_1);
+  font-weight: 500;
+  margin: 0 auto;
+}
+.createpost__form__btn:hover {
+  filter: brightness(80%);
+}
+.createpost__card__imgpreview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--navOpacity);
+  border-radius: 5px;
+  width: 90%;
+  overflow: hidden;
+}
+.createpost__card__imgpreview__img {
+  object-fit: cover;
+  width: 100%;
+  margin: 0 auto;
+}
+.createpost__card__file__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.createpost__form__btn {
+  margin-bottom: 20px;
+}
+
+@media (min-width: 576px) {
+  .createpost__card__imgpreview {
+    display: none;
+  }
+  .createpost__card__form {
+    width: 400px;
+  }
+  .createpost__card__container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 50px;
+  }
+  .createpost__preview__img {
+    width: 100%;
+    height: 100%;
+    max-width: 700px;
+    object-fit: cover;
+  }
+  .createpost__preview__desktop {
+    display: grid;
+    overflow: hidden;
+    grid-template-columns: 1.5fr 1fr;
+  }
+  .createpost__preview__body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #cecece;
+  }
+  .createpost__preview__data {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 100%;
+  }
+}

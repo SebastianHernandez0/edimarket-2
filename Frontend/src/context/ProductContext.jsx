@@ -10,6 +10,7 @@ export function ProductProvider({ children }) {
   const [productById, setProductById] = useState([]);
   const [addedProducts, setAddedProducts] = useState([]);
   const [openCategories, setOpenCategories] = useState(false);
+  const [addedToFav, setAddedToFav] = useState([]);
   const navigate = useNavigate();
 
   const getProductLists = async () => {
@@ -42,6 +43,23 @@ export function ProductProvider({ children }) {
     }
   };
 
+  const addToFav = (product) => {
+    const productFavIndex = addedToFav.findIndex(
+      (item) => item.id === product.id
+    );
+    if (productFavIndex !== -1) {
+      return;
+    }
+
+    setAddedToFav((prevState) => [
+      ...prevState,
+      {
+        ...product,
+        like: true,
+      },
+    ]);
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -54,6 +72,9 @@ export function ProductProvider({ children }) {
         openCategories,
         setOpenCategories,
         handleProductDetail,
+        addToFav,
+        addedToFav,
+        setAddedToFav,
       }}
     >
       {children}
