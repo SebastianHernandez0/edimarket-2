@@ -4,20 +4,14 @@ import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { IoHeartSharp } from "react-icons/io5";
-import { GoHeart } from "react-icons/go";
 import { CartContext } from "../../context/CarritoContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { useRef } from "react";
 
 export function ProductDetail() {
   const { productById, addToFav, addedToFav } = useContext(ProductContext);
-  const {
-    openModalCart,
-    addToCart,
-    cart,
-    productAlreadyInCart,
-    setProductAlreadyInCart,
-  } = useContext(CartContext);
+  const { openModalCart, addToCart, cart, productAlert, setProductAlert } =
+    useContext(CartContext);
   const timeoutRef = useRef(null);
 
   const handleAddToCart = () => {
@@ -29,7 +23,10 @@ export function ProductDetail() {
         (product) => product.id === productById.id
       );
       if (productAdded) {
-        setProductAlreadyInCart("Ya añadiste este producto.");
+        setProductAlert((prevState) => ({
+          ...prevState,
+          error: "Ya añadiste este producto al carrito.",
+        }));
 
         // Cancelamos el temporizador anterior si existe
         if (timeoutRef.current) {
@@ -38,7 +35,10 @@ export function ProductDetail() {
 
         // Establecemos un nuevo temporizador
         timeoutRef.current = setTimeout(() => {
-          setProductAlreadyInCart("");
+          setProductAlert((prevState) => ({
+            ...prevState,
+            error: "",
+          }));
           timeoutRef.current = null; // Limpiamos la referencia al temporizador
         }, 2400);
       }
@@ -48,12 +48,33 @@ export function ProductDetail() {
   const handleAddToFav = () => {
     if (!addedToFav.some((product) => product.id === productById.id)) {
       addToFav(productById);
+      setProductAlert((prevState) => ({
+        ...prevState,
+        success: "¡Producto añadido a favoritos!.",
+      }));
+      timeoutRef.current = setTimeout(() => {
+        setProductAlert((prevState) => ({
+          ...prevState,
+          error: "",
+        }));
+        timeoutRef.current = null; // Limpiamos la referencia al temporizador
+      }, 2400);
+      timeoutRef.current = setTimeout(() => {
+        setProductAlert((prevState) => ({
+          ...prevState,
+          success: "",
+        }));
+        timeoutRef.current = null; // Limpiamos la referencia al temporizador
+      }, 2400);
     } else {
       const favAdded = addedToFav.find(
         (product) => product.id === productById.id
       );
       if (favAdded) {
-        setProductAlreadyInCart("Ya agregaste el producto a favoritos.");
+        setProductAlert((prevState) => ({
+          ...prevState,
+          error: "Ya añadiste este producro a favoritos.",
+        }));
 
         // Cancelamos el temporizador anterior si existe
         if (timeoutRef.current) {
@@ -62,7 +83,10 @@ export function ProductDetail() {
 
         // Establecemos un nuevo temporizador
         timeoutRef.current = setTimeout(() => {
-          setProductAlreadyInCart("");
+          setProductAlert((prevState) => ({
+            ...prevState,
+            error: "",
+          }));
           timeoutRef.current = null; // Limpiamos la referencia al temporizador
         }, 2400);
       }
@@ -121,11 +145,22 @@ export function ProductDetail() {
             </div>
           </div>
         </ProductCard>
-        {productAlreadyInCart ? (
+        {productAlert.error ? (
           <CartAlert>
             <div>
-              <p className="card__cart__alert shadow-md rounded-md">
-                {productAlreadyInCart}
+              <p className="card__cart__alert shadow-md rounded-md bg-slate-700">
+                {productAlert.error}
+              </p>
+            </div>
+          </CartAlert>
+        ) : (
+          ""
+        )}
+        {productAlert.success ? (
+          <CartAlert>
+            <div>
+              <p className="card__cart__alert shadow-md rounded-md bg-green-600">
+                {productAlert.success}
               </p>
             </div>
           </CartAlert>

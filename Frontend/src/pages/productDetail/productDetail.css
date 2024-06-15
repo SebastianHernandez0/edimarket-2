@@ -69,7 +69,6 @@
   top: 90%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--dark_1);
   width: 100%;
   max-width: 400px;
   padding: 10px 20px;
