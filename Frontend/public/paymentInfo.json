@@ -1,0 +1,15 @@
+
+[
+    {
+        "metodo_id": 1,
+        "tipo": "Visa",
+        "numero_tarjeta": "3333 4444 55555 6666",
+        "fecha_expiracion": "20-3-2025"
+    },
+    {
+        "metodo_id": 2,
+        "tipo": "Mastercard",
+        "numero_tarjeta": "7777 8888 9999 11111",
+        "fecha_expiracion": "20-3-2027"
+    }
+]
