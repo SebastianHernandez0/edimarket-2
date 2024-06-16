@@ -21,24 +21,21 @@ export function MiPerfil() {
         </div>
       </div>
       <div className="miperfil__userinfo__edit bg-white shadow-sm rounded-md">
-        <div className="miperfil__userinfo__data">
+        <Link className="miperfil__userinfo__data miperfil__userinfo__postlink">
           <PiUserListLight className="miperfil__userinfo__icon text" />
-          <Link className="miperfil__userinfo__postlink">
-            Información personal
-          </Link>
-        </div>
-        <div className="miperfil__userinfo__data">
+          Información personal
+        </Link>
+        <Link
+          to="/createpost"
+          className="miperfil__userinfo__data miperfil__userinfo__postlink"
+        >
           <IoAddCircle className="miperfil__userinfo__icon" />
-          <Link to="/createpost" className="miperfil__userinfo__postlink">
-            Crear una publicación
-          </Link>
-        </div>
-        <div className="miperfil__userinfo__data">
+          Crear una publicación
+        </Link>
+        <Link className="miperfil__userinfo__data miperfil__userinfo__postlink">
           <MdSell className="miperfil__userinfo__icon" />
-          <Link className="miperfil__userinfo__postlink">
-            Mis publicaciones
-          </Link>
-        </div>
+          Mis publicaciones
+        </Link>
       </div>
     </section>
   );

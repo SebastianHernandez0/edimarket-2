@@ -1,23 +1,42 @@
 import "../createPost/createPost.css";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { IoMdImages } from "react-icons/io";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 
 export function CreatePost() {
+  const [userData, setUserData] = useState({
+    titulo: "",
+    precio: "",
+    descripcion: "",
+    categorias: "",
+    estado: "",
+  });
+
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
   }, []);
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
     useDropzone({ onDrop });
 
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      [name]: value,
+    });
+  };
+
   return (
     <section className="createpost__container bg-white shadow-sm">
       <h1 className="createpost__title text-2xl font-semibold">
         Nueva publicación
       </h1>
-      <div className="createpost__card__container bg-white shadow-sm">
-        <form className="createpost__card__form" name="post">
+      <div className="createpost__card__container ">
+        <form
+          className="createpost__card__form bg-white shadow-sm mt-4 border rounded-md"
+          name="post"
+        >
           <div className="createpost__card__file__container mb-5">
             <div
               className="createpost__card__fileimg cursor-pointer"
@@ -45,18 +64,21 @@ export function CreatePost() {
                   alt=""
                 />
               ) : (
-                <p>Vista previa...</p>
+                <p className="text-center">Vista previa...</p>
               )}
             </div>
           </div>
-
           <div className="createpost__card__data">
             <input
+              name="titulo"
+              value={userData.titulo}
               className="createpost__card__input"
               type="text"
               placeholder="Título"
             />
             <input
+              name="precio"
+              value={userData.precio}
               className="createpost__card__input"
               type="text"
               placeholder="Precio"
@@ -78,16 +100,47 @@ export function CreatePost() {
             </select>
             <textarea
               className="createpost__card__input resize-none"
-              name=""
+              value={userData.descripcion}
+              name="descripcio"
               id=""
               rows="5"
               placeholder="Descripción"
             ></textarea>
-            <GeneralBtn className="createpost__form__btn mt-2">
+            <GeneralBtn className="createpost__form__btn">
               Crear publicación
             </GeneralBtn>
           </div>
         </form>
+        <div className="createpost__preview__desktop bg-white shadow-sm border rounded-md">
+          <div className="createpost__preview__body bg-gray-200">
+            {acceptedFiles[0] ? (
+              <img
+                className="createpost__preview__img"
+                src={URL.createObjectURL(acceptedFiles[0])}
+                alt=""
+              />
+            ) : (
+              <div>
+                <p className="text-xl text-center mb-2 font-semibold">
+                  Vista previa...
+                </p>
+                <p className="">Acá aparecerá tu imágen cuando la subas.</p>
+              </div>
+            )}
+          </div>
+          <div className="createpost__preview__data">
+            <h1 className="createpost__preview__data__title text-3xl font-semibold mb-2">
+              Título
+            </h1>
+            <p className="font-medium mb-4">Precio</p>
+            <p className="font-medium text-lg mb-5">Detalles</p>
+            <p className="mb-8">
+              Aquí aparecerán los detalles de tu publicación.
+            </p>
+            <hr />
+            <p className="mt-5">Información del vendedor</p>
+          </div>
+        </div>
       </div>
     </section>
   );
