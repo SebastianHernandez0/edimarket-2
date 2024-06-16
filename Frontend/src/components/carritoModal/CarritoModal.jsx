@@ -13,6 +13,7 @@ export function CarritoModal() {
       setCartModal(false);
     }
   };
+
   return (
     <section className="cartmodal__container rounded-md">
       {cartModal ? (

@@ -156,10 +156,18 @@
   background-color: var(--verdeAgua);
 }
 .navbar__menu__link__icon {
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   color: var(--dark_1);
 }
-
+.navbar__menu__link__cart {
+  position: relative;
+}
+.cart__products__indicater {
+  background: transparent;
+  position: absolute;
+  top: -5px;
+  right: 7px;
+}
 /*DESKTOP MODE*/
 
 @media (min-width: 576px) {

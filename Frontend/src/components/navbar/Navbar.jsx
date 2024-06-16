@@ -3,12 +3,13 @@ import { FiSearch } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { useEffect, useState, useRef, forwardRef, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { IoCartOutline } from "react-icons/io5";
+import { PiShoppingCartSimple } from "react-icons/pi";
 import { NavBurger } from "../navBurger/NavBurger";
 import { Perfil } from "../perfil/Perfil.jsx";
 import { SearchBar } from "../searchBar/SearchBar.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
 import { UserContext } from "../../context/UserContext.jsx";
+import { CartContext } from "../../context/CarritoContext.jsx";
 
 // Crear un componente envolvente para manejar la referencia
 const UserIcon = forwardRef((props, ref) => (
@@ -31,6 +32,7 @@ export function Navbar() {
   const { setOpenCategories } = useContext(ProductContext);
   const categoriesBtnRef = useRef(null);
   const { userToken } = useContext(UserContext);
+  const { cart } = useContext(CartContext);
 
   useEffect(() => {
     if (navigate) {
@@ -164,9 +166,14 @@ export function Navbar() {
                 >
                   Categorías
                 </NavLink>
-                <NavLink className="navbar__menu__link">
+                <NavLink className="navbar__menu__link navbar__menu__link__cart">
                   Carrito
-                  <IoCartOutline className="navbar__menu__link__icon" />
+                  <PiShoppingCartSimple className="navbar__menu__link__icon" />
+                  {cart.length > 0 ? (
+                    <p className="cart__products__indicater">{cart.length}</p>
+                  ) : (
+                    ""
+                  )}
                 </NavLink>
               </div>
             </div>
