@@ -15,6 +15,10 @@ import { useContext } from "react";
 import { UserContext } from "./context/UserContext.jsx";
 import { MiPerfil } from "./pages/miPerfil/MiPerfil.jsx";
 import { CreatePost } from "./pages/createPost/CreatePost.jsx";
+import { Cart } from "./pages/cart/Cart.jsx"
+import { Billing } from "./pages/billing/Billing";
+import { PublishedProduct } from "./pages/publishedProduct/PublishedProduct.jsx";
+import { Shipping } from './pages/shipping/Shipping.jsx';
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -22,12 +26,20 @@ function App() {
   return (
     <section className="app__container">
       <Navbar />
-      <Header />
+      {/* <Header /> */}
       <Routes>
+        {/* <Route path="/carro" 
+      element={userToken ? <Cart /> : <Navigate to="/sing-in" />}
+      /> */}
+        <Route path="/carro" element={<Cart />} />
+        <Route path="/billing" element={<Billing />} />
+        <Route path="/myProduct" element={<PublishedProduct />}/>
+        {/*esta ruta debe tener el nombre del producto*/}
+        <Route path="shipping" element={<Shipping />}/>
         <Route
           path="/"
           element={userToken ? <Home /> : <Navigate to="/sing-in" />}
-          /*   element={<Home />} */
+        /*   element={<Home />} */
         />
         <Route path="/sing-up" element={<SingUp />} />
         <Route

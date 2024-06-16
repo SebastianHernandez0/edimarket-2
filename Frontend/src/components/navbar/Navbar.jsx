@@ -143,8 +143,8 @@ export function Navbar() {
                 >
                   Categorías
                 </NavLink>
-                <NavLink className="navbar__menu__link">
-                  Carrito
+                <NavLink to="/carro" className="navbar__menu__link">
+                  Carro
                   <IoCartOutline className="navbar__menu__link__icon" />
                 </NavLink>
               </div>
