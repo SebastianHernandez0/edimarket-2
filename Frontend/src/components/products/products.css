@@ -5,6 +5,8 @@
 }
 .products__card__img {
   width: 100%;
+  height: 250px;
+  object-fit: cover;
 }
 .products__card__desc__container {
   text-align: center;
@@ -12,7 +14,7 @@
   flex-direction: column;
   align-items: center;
   height: 100%;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 20px;
 }
 .products__cards__container {
@@ -26,7 +28,7 @@
 .products__card__img__container {
   display: flex;
   flex-direction: column;
-  height: 400px;
+  height: 100%;
 }
 .products__card {
   transition: 0.2s ease-out;
@@ -35,7 +37,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 400px;
+  min-height: 400px;
   width: 100%;
   max-width: 300px;
 }

@@ -5,7 +5,6 @@ import { SingUp } from "./pages/singUp/singUp.jsx";
 import { SingIn } from "./pages/singIn/SingIn.jsx";
 import { Navbar } from "./components/navbar/Navbar.jsx";
 import { Footer } from "./components/footer/Footer.jsx";
-import { Header } from "./components/header/Header.jsx";
 import { ProductDetail } from "./pages/productDetail/ProductDetail.jsx";
 import { CarritoModal } from "./components/carritoModal/CarritoModal.jsx";
 import { Categories } from "./components/categories/Categories.jsx";
@@ -22,7 +21,6 @@ function App() {
   return (
     <section className="app__container">
       <Navbar />
-      <Header />
       <Routes>
         <Route
           path="/"

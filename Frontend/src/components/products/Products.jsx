@@ -8,7 +8,7 @@ export function Products() {
 
   return (
     <div className="products__container">
-      <h1 className="products__title text-2xl font-semibold">
+      <h1 className="products__title text-2xl font-semibold mt-7">
         Productos recomendados
       </h1>
       <div className="products__cards__container">

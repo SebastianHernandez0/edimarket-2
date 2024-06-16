@@ -13,6 +13,7 @@
   background: var(--navbarColor);
   padding: 10px 25px;
   animation: openModal 0.5s ease-out forwards alternate;
+  outline: 1px solid #e9e8e8;
 }
 .cartmodal__icon {
   position: absolute;
@@ -20,6 +21,10 @@
   right: 10px;
   top: 5px;
   cursor: pointer;
+}
+.cartmodal__icon:hover {
+  background: #00000038;
+  border-radius: 50%;
 }
 .cart__card__body {
   width: 100%;
@@ -69,6 +74,14 @@
   font-weight: 500;
 }
 
+.card__button:hover {
+  filter: brightness(80%);
+}
+.card__button:active {
+  outline: 2px solid var(--dark_2);
+  border: none;
+}
+
 @keyframes openModal {
   from {
     transform: translateY(100%);
@@ -96,5 +109,8 @@
     to {
       transform: translateX(0);
     }
+  }
+  .cart__card__body {
+    justify-content: flex-start;
   }
 }
