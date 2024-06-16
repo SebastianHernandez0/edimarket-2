@@ -1,21 +1,18 @@
 .navbar__container {
   grid-area: navbar;
-  position: fixed;
+  position: sticky;
+  top: 0;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 13px;
-  background-color: var(--navbarColor);
-  z-index: 100;
+  background-color: var(--backgroundHomeColor);
 }
 .navbar__logo__container {
   position: relative;
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
 }
 .navbar__logo__section {
   width: 100%;
@@ -224,7 +221,7 @@
   }
   .navbar__user__icons__container {
     flex-direction: row-reverse;
-    justify-content: space-evenly;
+    justify-content: space-between;
   }
   .navbar__user__menu {
     top: 40px;

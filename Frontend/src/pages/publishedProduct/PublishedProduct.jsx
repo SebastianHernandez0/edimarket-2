@@ -7,11 +7,7 @@ import { ProductCard } from "../../components/productCard/ProductCard";
 import { CartContext } from "../../context/CarritoContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { useRef } from 'react';
-
-{/* <nav></nav>
-pdp
-editar
-<footer></footer> */}
+import { GeneralBtn } from '../../components/generalBtn/GeneralBtn';
 
 export function PublishedProduct() {
   const { productById, addToFav, addedToFav } = useContext(ProductContext);
@@ -58,17 +54,10 @@ export function PublishedProduct() {
               </div>
             </div>
           </ProductCard>
-          {productAlreadyInCart ? (
-            <CartAlert>
-              <div>
-                <p className="card__cart__alert shadow-md rounded-md">
-                  {productAlreadyInCart}
-                </p>
-              </div>
-            </CartAlert>
-          ) : (
-            ""
-          )}
+          <GeneralBtn type="primary">
+            {/* acá se deben poder editar los campos del producto, se abrirá un form? */}
+            Editar
+          </GeneralBtn>
         </div>
       </section>
       {/* acá similar a la pdp */}

@@ -1,20 +1,25 @@
+import { Adresses } from "../../components/adresses/Adresses";
+import { PaymentMethods } from "../../components/paymentMethods/PaymentMethods";
+import shipping from "./shipping.module.css";
+import { CheckoutContext } from "../../context/CheckoutContext"
+import { Summary } from "../../components/summary/Summary";
+import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
+
 export function Shipping() {
   return (
-    <>
-      <h1 className='mt-[100px]'>Elige un método de envío:</h1>
-      <div className='pickup'>
-        <h2>Pickup</h2>
-        <input type="checkbox" id="cbox2" value="second_checkbox" />
-        <label>Recoger n el centro de retiro más cercano</label>
-      </div>
-      <div className='delivery'>
-        <h2>selecciona una de tus direcciones</h2>
-        {/* acá un mapeo , este debe ser un componente*/}
-        <div className='deliveryAdress'>
-          <input type="checkbox" id="cbox2" value="second_checkbox" />
-          <label>Av simon bolivar 2420</label>
+    <div className="">
+      <h1 className='mb-[50px]'>Elige dónde quieres recibir tu compra:</h1>
+      <div className="shipping_container columns-2">
+        <div className='delivery'>
+          <Adresses />
+          {/* <button className="button-primary" onClick={handleContinueToPayment()}>Continuar con el pago</button> */}
+          {/* error si no selecciona */}
+        </div>
+        <div className="summary_container">
+          <Summary />
+          <GeneralBtn type="primary">Continuar compra</GeneralBtn>
         </div>
       </div>
-    </>
+    </div>
   )
 }

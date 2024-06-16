@@ -93,7 +93,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="navbar__container shadow-sm">
+    <nav className="navbar__container shadow-sm px-36 py-6">
       <div className="navbar__logo__container">
         <div className="navbar__logo__section">
           <img
