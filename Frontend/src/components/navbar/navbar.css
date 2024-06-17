@@ -156,8 +156,7 @@
   background-color: var(--verdeAgua);
 }
 .navbar__menu__link__icon {
-  font-size: 1.7rem;
-  color: var(--dark_1);
+  width: 25px;
 }
 .navbar__menu__link__cart {
   position: relative;
@@ -165,8 +164,8 @@
 .cart__products__indicater {
   background: transparent;
   position: absolute;
-  top: -5px;
-  right: 7px;
+  top: -7px;
+  right: 6px;
 }
 /*DESKTOP MODE*/
 
@@ -247,5 +246,11 @@
     background: var(--navOpacity);
     outline: 10px solid var(--navOpacity);
     border-radius: 50%;
+  }
+  .cart__products__indicater {
+    background: transparent;
+    position: absolute;
+    top: -7px;
+    right: -19px;
   }
 }
