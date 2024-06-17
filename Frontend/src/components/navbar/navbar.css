@@ -1,14 +1,14 @@
 .navbar__container {
   grid-area: navbar;
-  position: sticky;
-  top: 0;
+  position: fixed;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 15px 13px;
   background-color: var(--backgroundHomeColor);
+  z-index: 100;
   transition: 0.3s ease-in-out;
-  z-index: 5;
 }
 .navbarScroll {
   background: #ffffff5e;
@@ -19,6 +19,8 @@
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 }
 .navbar__logo__section {
   width: 100%;
@@ -44,8 +46,8 @@
   top: 180%;
   left: 0;
   width: 100%;
-  background: var(--navbarColor);
-  outline: 20px solid var(--navbarColor);
+  background: var(--backgroundHomeColor);
+  outline: 20px solid var(--backgroundHomeColor);
 }
 .navbar__search__input {
   position: relative;
@@ -55,20 +57,20 @@
   height: 40px;
   border-radius: 25px;
   background: transparent;
-  border: 1px solid var(--purpleDarkGray);
+  border: 1px solid var(--dark_2);
   font-weight: 500;
 }
 .navbar__search__icon__insideinput {
   right: 12px;
   top: 7px;
   position: absolute;
-  color: var(--purpleDarkGray);
+  color: #000000b2;
   cursor: pointer;
   font-size: 1.5rem;
 }
 .navbar__search__input::placeholder {
-  color: var(--purpleDarkGray);
-  font-weight: 500;
+  color: #0000009a;
+  font-weight: 700;
   font-size: 0.95rem;
 }
 .searchInputActive {
@@ -168,17 +170,17 @@
 }
 /*DESKTOP MODE*/
 
-@media (min-width: 640px) {
+@media (min-width: 576px) {
   .navbar__search__input__container {
     position: relative;
     background: none;
     outline: none;
   }
   .navbar__search__input {
-    border: 1px solid var(--purpleGray);
+    border: 1px solid var(--dark_2);
   }
   .navbar__search__input:focus {
-    border: 2px solid var(--purpleGray);
+    border: 1px solid var(--dark_2);
     outline: none;
   }
   .navbar__search__icon {
@@ -195,11 +197,12 @@
   }
   .navbar__search__container {
     width: 100%;
+    max-width: 300px;
   }
-  /* .navbar__search__icon__insideinput {
+  .navbar__search__icon__insideinput {
     top: 8px;
     right: 7px;
-  } */
+  }
   .navbar__search__icon__insideinput:hover {
     background: var(--navOpacity);
     border-radius: 50%;
@@ -235,7 +238,7 @@
   }
   .navbar__user__icons__container {
     flex-direction: row-reverse;
-    justify-content: space-between;
+    justify-content: space-evenly;
   }
   .navbar__user__menu {
     top: 40px;

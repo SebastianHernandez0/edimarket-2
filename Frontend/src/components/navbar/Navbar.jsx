@@ -116,7 +116,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <nav ref={navbarRef} className="navbar__container shadow-sm sm:px-36 sm:py-6">
+    <nav ref={navbarRef} className="navbar__container shadow-sm">
       <div className="navbar__logo__container">
         <div className="navbar__logo__section">
           <img
@@ -166,8 +166,8 @@ export function Navbar() {
                 >
                   Categorías
                 </NavLink>
-                <NavLink to="/carro" className="navbar__menu__link navbar__menu__link__cart">
-                  Carro
+                <NavLink className="navbar__menu__link navbar__menu__link__cart">
+                  Carrito
                   <PiShoppingCartSimple className="navbar__menu__link__icon" />
                   {cart.length > 0 ? (
                     <p className="cart__products__indicater">{cart.length}</p>
