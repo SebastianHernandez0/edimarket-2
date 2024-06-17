@@ -72,7 +72,7 @@ const consultarProductos= async () => {
 }
 
 const consultarProductoById= async (id) => {
-    const consulta= "SELECT * from productos WHERE id=$1"
+    const consulta= "select * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on categorias.id=producto_categoria.categoria_id where productos.id=$1"
     const {rows:products}= await db.query(consulta,[id]);
     return products[0];
 }
