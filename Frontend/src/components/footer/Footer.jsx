@@ -18,36 +18,38 @@ export function Footer() {
             Todo lo que necesitas en un mismo lugar
           </p>
         </div>
-        <div className="footer__section">
-          <h4 className="footer__section__title">Ayuda</h4>
-          <div className="footer__section__list">
-            <Link className="footer__section__link">Centro de ayuda</Link>
-            <Link className="footer__section__link">
-              Formulario de contacto
-            </Link>
-            <Link className="footer__section__link">Reclamos</Link>
+        <div className="footer__sections flex flex-col md:flex-row content-center md:content-start justify-center md:justify-normal">
+          <div className="footer__section md:basis-1/3">
+            <h4 className="footer__section__title">Ayuda</h4>
+            <div className="footer__section__list content-center md:content-start">
+              <Link className="footer__section__link">Centro de ayuda</Link>
+              <Link className="footer__section__link">
+                Formulario de contacto
+              </Link>
+              <Link className="footer__section__link">Reclamos</Link>
+            </div>
           </div>
-        </div>
-        <div className="footer__section">
-          <h4 className="footer__section__title">Nosotros</h4>
-          <div className="footer__section__list">
-            <Link className="footer__section__link">Quiénes somos</Link>
-            <Link className="footer__section__link">Contacto</Link>
-            <Link className="footer__section__link">Encuéntranos</Link>
-            <Link className="footer__section__link">Tiendas</Link>
-            <Link className="footer__section__link">Blogs</Link>
+          <div className="footer__section md:basis-1/3">
+            <h4 className="footer__section__title">Nosotros</h4>
+            <div className="footer__section__list content-center md:content-start">
+              <Link className="footer__section__link">Quiénes somos</Link>
+              <Link className="footer__section__link">Contacto</Link>
+              <Link className="footer__section__link">Encuéntranos</Link>
+              <Link className="footer__section__link">Tiendas</Link>
+              <Link className="footer__section__link">Blogs</Link>
+            </div>
           </div>
-        </div>
-        <div className="footer__section">
-          <h4 className="footer__section__title">Servicio al cliente</h4>
-          <div className="footer__section__list">
-            <Link className="footer__section__link">
-              Términos y condiciones
-            </Link>
-            <Link className="footer__section__link">Promociones</Link>
-            <Link className="footer__section__link">Devoluciones</Link>
-            <Link className="footer__section__link">Servicios técnicos</Link>
-            <Link className="footer__section__link">Asistencia de compra</Link>
+          <div className="footer__section md:basis-1/3">
+            <h4 className="footer__section__title">Servicio al cliente</h4>
+            <div className="footer__section__list content-center md:content-start">
+              <Link className="footer__section__link">
+                Términos y condiciones
+              </Link>
+              <Link className="footer__section__link">Promociones</Link>
+              <Link className="footer__section__link">Devoluciones</Link>
+              <Link className="footer__section__link">Servicios técnicos</Link>
+              <Link className="footer__section__link">Asistencia de compra</Link>
+            </div>
           </div>
         </div>
         <div className="footer__social">

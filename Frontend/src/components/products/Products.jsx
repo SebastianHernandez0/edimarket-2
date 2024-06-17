@@ -25,15 +25,15 @@ export function Products() {
                 alt={product?.nombre}
               />
               <div className="products__card__desc__container px-4">
-                <p className="products__card__paragraph text-slate-700 font-semibold text-lg">
+                <p className="products__card__paragraph pt-8 text-left">
                   {product?.nombre}
                 </p>
-                <p className="products__card__paragraph font-semibold text-2xl">
+                <h6 className="products__card__paragraph pb-8 text-left">
                   {product?.precio.toLocaleString("es-CL", {
                     style: "currency",
                     currency: "CLP",
                   })}
-                </p>
+                </h6>
               </div>
             </div>
           </ProductCard>

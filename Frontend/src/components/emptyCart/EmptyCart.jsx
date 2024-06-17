@@ -1,24 +1,19 @@
 import React from 'react'
 import emptyCart from '/public/imgs/aplication/emptycart.png';
+import { GeneralBtn } from '../generalBtn/GeneralBtn';
+import { NavLink } from 'react-router-dom';
 
 export function EmptyCart() {
-    return (
-        <>
-            <h1 className=''>¡Tu carro está vacío!</h1>
-            <img src={emptyCart} alt="empty cart" />
-            <button className='button-primary'>Volver a productos</button>
-            {/* <ProductCard key={element.id}>
-        <div className="cart__card__body">
-          <img
-            className="cart__card__img shadow-md"
-            src={element.href}
-            alt=""
-          />
-          <p className="card__card__paragraph text-md font-light">
-            {element.nombre}
-          </p>
-        </div>
-      </ProductCard> */}
-        </>
-    )
+  return (
+    <div className="flex justify-center items-center flex-col">
+      <img src={emptyCart} alt="empty cart" className="my-[20px] h-96" />
+      <h1 className="text-center">Tu carro está vacío</h1>
+      <p className="pb-[50px]">Suma productos y consigue envío gratis :D</p>
+      <GeneralBtn type="primary">
+        <NavLink to="/">
+          Volver a productos
+        </NavLink>
+      </GeneralBtn>
+    </div>
+  )
 }

@@ -11,7 +11,7 @@ export function Cart() {
 
   return (
     <>
-      {cart.lenght ? <FullCart /> : <EmptyCart />}
+      {cart.length ? <FullCart /> : <EmptyCart />}
     </>
   )
 }

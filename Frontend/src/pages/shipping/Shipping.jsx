@@ -4,6 +4,7 @@ import shipping from "./shipping.module.css";
 import { CheckoutContext } from "../../context/CheckoutContext"
 import { Summary } from "../../components/summary/Summary";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
+import { NavLink } from "react-router-dom";
 
 export function Shipping() {
   return (
@@ -17,7 +18,9 @@ export function Shipping() {
         </div>
         <div className="summary_container">
           <Summary />
-          <GeneralBtn type="primary">Continuar compra</GeneralBtn>
+          <GeneralBtn type="primary">
+            <NavLink to="/billing">Continuar compra</NavLink>
+          </GeneralBtn>
         </div>
       </div>
     </div>
