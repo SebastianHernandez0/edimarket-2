@@ -40,12 +40,10 @@
 .createpost__form__btn {
   transition: 0.2s ease-out;
   width: 100%;
-  height: 45px;
   max-width: 300px;
   border-radius: 30px;
   font-weight: 500;
-  margin: 0 auto;
-  margin-top: 20px;
+  margin: 20px auto;
 }
 .createpost__form__btn:hover {
   filter: brightness(80%);
@@ -70,10 +68,6 @@
   flex-direction: column;
   gap: 10px;
   align-items: center;
-}
-
-.createpost__form__btn {
-  margin-bottom: 20px;
 }
 .createpost__preview__desktop {
   display: none;
