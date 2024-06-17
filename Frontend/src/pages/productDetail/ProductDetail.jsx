@@ -7,6 +7,7 @@ import { IoHeartSharp } from "react-icons/io5";
 import { CartContext } from "../../context/CarritoContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { useRef } from "react";
+import { NavLink } from "react-router-dom";
 
 export function ProductDetail() {
   const { productById, addToFav, addedToFav } = useContext(ProductContext);
@@ -109,11 +110,10 @@ export function ProductDetail() {
                 </p>
                 <IoHeartSharp
                   onClick={handleAddToFav}
-                  className={`card__info__like__icon ${
-                    addedToFav.some((product) => product.id === productById.id)
+                  className={`card__info__like__icon ${addedToFav.some((product) => product.id === productById.id)
                       ? "text-red-600 transition duration-300"
                       : "text-gray-400"
-                  }`}
+                    }`}
                 />
               </div>
 
@@ -123,12 +123,17 @@ export function ProductDetail() {
               </p>
             </div>
             <div className="card__info__btn__container">
-              <GeneralBtn className="card__info__btn card__info__btn__buy">
-                Comprar ahora
+              <GeneralBtn
+                className="card__info__btn card__info__btn__buy"
+                type="secondary">
+                <NavLink to="/shipping">
+                  Comprar ahora
+                </NavLink>
               </GeneralBtn>
               <GeneralBtn
                 onClick={handleAddToCart}
                 className="card__info__btn card__info__btn__cart"
+                type="primary"
               >
                 Agregar al carrito
               </GeneralBtn>

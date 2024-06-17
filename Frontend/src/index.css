@@ -26,11 +26,14 @@
 :root[app-theme="light"] {
   --celeste: #61b0f5;
   --fucsia: #b905fa;
+  --fucsiaDark: #8218a9;
   --rosado: #dba6ff;
   --navbarColor: #e6ecdc;
   --purpleGray: #DAC6DF;
+  --purpleDarkGray: #a98ab1;
   --backgroundHomeColor: #f7f7f7;
   --verdeAgua: #42bea6;
+  --verdeAguaDark: #2c7e6e;
   --dark_1: #2c2a2a;
   --dark_2: #8d8989;
   --navOpacity: #00000018;

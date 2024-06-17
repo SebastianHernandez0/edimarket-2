@@ -25,12 +25,8 @@ function App() {
   return (
     <>
       <Navbar />
-      <section className="app__container py-[100px] px-36">
-        {/* <Header /> */}
+      <section className="app__container">
         <Routes>
-          {/* <Route path="/carro" 
-      element={userToken ? <Cart /> : <Navigate to="/sing-in" />}
-      /> */}
           <Route path="/carro" element={<Cart />} />
           <Route path="/billing" element={<Billing />} />
           <Route path="/myProduct" element={<PublishedProduct />} />
