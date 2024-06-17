@@ -4,9 +4,9 @@ import { Header } from "../../components/header/Header.jsx";
 
 export function Home() {
   return (
-    <div>
+    <div className="home__container">
       <Header />
-      <section className="home__container">
+      <section className="">
         <Products />
       </section>
     </div>

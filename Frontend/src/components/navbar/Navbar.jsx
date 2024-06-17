@@ -166,7 +166,7 @@ export function Navbar() {
                 >
                   Categorías
                 </NavLink>
-                <NavLink className="navbar__menu__link navbar__menu__link__cart">
+                <NavLink to="/carro" className="navbar__menu__link navbar__menu__link__cart">
                   Carrito
                   <PiShoppingCartSimple className="navbar__menu__link__icon" />
                   {cart.length > 0 ? (

@@ -14,10 +14,10 @@ import { useContext } from "react";
 import { UserContext } from "./context/UserContext.jsx";
 import { MiPerfil } from "./pages/miPerfil/MiPerfil.jsx";
 import { CreatePost } from "./pages/createPost/CreatePost.jsx";
-import { Cart } from "./pages/cart/Cart.jsx"
+import { Cart } from "./pages/cart/Cart.jsx";
 import { Billing } from "./pages/billing/Billing";
 import { PublishedProduct } from "./pages/publishedProduct/PublishedProduct.jsx";
-import { Shipping } from './pages/shipping/Shipping.jsx';
+import { Shipping } from "./pages/shipping/Shipping.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -35,7 +35,7 @@ function App() {
           <Route
             path="/"
             element={userToken ? <Home /> : <Navigate to="/sing-in" />}
-          /*   element={<Home />} */
+            /*   element={<Home />} */
           />
           <Route path="/sing-up" element={<SingUp />} />
           <Route
@@ -57,10 +57,10 @@ function App() {
             element={userToken ? <CreatePost /> : <Navigate to="/sing-in" />}
           />
         </Routes>
+        <Footer />
         <CarritoModal />
         <Categories />
       </section>
-      <Footer />
     </>
   );
 }

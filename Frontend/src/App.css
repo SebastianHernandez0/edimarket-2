@@ -5,7 +5,7 @@ body {
 }
 
 .app__container {
-  /* display: grid; */
+  display: grid;
   grid-template-areas:
     "navbar"
     "header"
@@ -73,8 +73,8 @@ p {
  background-color: var(--verdeAguaDark);
 }
 
-.btn-tertiary {
+/* .btn-tertiary {
 }
 
 .btn-tertiary:hover {
-}
+} */
