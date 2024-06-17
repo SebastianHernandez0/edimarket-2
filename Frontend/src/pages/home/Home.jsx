@@ -4,11 +4,9 @@ import { Header } from "../../components/header/Header.jsx";
 
 export function Home() {
   return (
-    <div className="home__container">
+    <section className="home__container">
       <Header />
-      <section className="">
-        <Products />
-      </section>
-    </div>
+      <Products />
+    </section>
   );
 }
