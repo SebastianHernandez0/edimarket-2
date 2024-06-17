@@ -13,8 +13,9 @@ export function CarritoModal() {
       setCartModal(false);
     }
   };
+
   return (
-    <section className="cartmodal__container shadow-md">
+    <section className="cartmodal__container rounded-md">
       {cartModal ? (
         <div className="cartmodal__body rounded-md shadow">
           <IoCloseOutline
@@ -22,7 +23,10 @@ export function CarritoModal() {
             className="cartmodal__icon"
           />
           <h1 className="cartmodal__title text-center font-medium mt-3">
-            Agregaste al carrito
+            Agregaste al carrito{" "}
+            <span className="font-normal text-sm">
+              ({cart.length} Productos)
+            </span>
           </h1>
           <div className="cart__cards__container">
             {cart.map((element) => (

@@ -1,0 +1,15 @@
+.shipping_box {
+    padding: 10px;
+    background-color:var(--navbarColor);
+    border-radius: 8px;
+}
+
+.delivery_type_container {
+    padding: 20px 10px;
+    border-bottom: 1px solid #DAC6DF;
+}
+
+.delivery_type_container:last-child {
+    padding: 20px 10px;
+    border-bottom: none;
+}

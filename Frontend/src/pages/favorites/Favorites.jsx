@@ -81,7 +81,7 @@ export function Favorites() {
       {elementDeleted ? (
         <CartAlert>
           <div>
-            <p className="card__cart__alert shadow-md rounded-md">
+            <p className="card__cart__alert shadow-md rounded-md bg-slate-700">
               {elementDeleted}
             </p>
           </div>

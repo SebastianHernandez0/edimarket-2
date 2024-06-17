@@ -1,5 +1,4 @@
 .home__container {
   grid-area: home;
-  display: flex;
-  justify-content: center;
+  margin: 0 auto;
 }
