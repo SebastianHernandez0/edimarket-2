@@ -68,14 +68,15 @@
   .productdetail__container {
     display: flex;
     margin: 0 auto;
-    max-width: 1400px;
+    max-width: 1200px;
   }
   .card__body {
     display: grid;
     grid-template-areas:
       "imagen info"
       "desc desc";
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 400px;
+    place-items: center;
   }
   .card__info {
     margin: 20px;
@@ -90,5 +91,11 @@
   }
   .card__paragraph__name {
     font-size: 1.8rem;
+  }
+  .card__img {
+    max-width: 500px;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
   }
 }
