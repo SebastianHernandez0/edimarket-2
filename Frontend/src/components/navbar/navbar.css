@@ -209,9 +209,11 @@
     outline: 4px solid var(--navOpacity);
   }
   .navbar__logo__container {
-    display: flex;
     margin: 0 auto;
-    max-width: 1300px;
+    max-width: 1600px;
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    justify-content: space-between;
   }
   .navbar__menu__links {
     position: relative;
@@ -233,10 +235,8 @@
   .navbar__user__container {
     width: 100%;
     display: flex;
-    flex-direction: column-reverse;
   }
   .navbar__user__icons__container {
-    flex-direction: row-reverse;
     justify-content: space-evenly;
   }
   .navbar__user__menu {
