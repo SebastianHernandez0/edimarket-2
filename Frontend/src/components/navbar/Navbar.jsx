@@ -165,7 +165,9 @@ export function Navbar() {
               >
                 {userToken ? (
                   <div className="navbar__perfil__desktop w-full">
-                    <h1 className="mb-3 font-medium">¡Bienvenido!</h1>
+                    <h1 className="mb-3 font-medium text-center">
+                      ¡Bienvenido!
+                    </h1>
                     <NavLink
                       to="miperfil"
                       className="navbar__menu__link navbar__menu__link__mobile"
@@ -182,7 +184,7 @@ export function Navbar() {
                     </NavLink>
                     <NavLink
                       to=""
-                      className="navbar__menu__link navbar__menu__link__mobile"
+                      className="navbar__menu__link navbar__menu__link__mobile text-blue-600 font-medium mt-5 text-md"
                     >
                       Cerrar sesión
                     </NavLink>

@@ -4,7 +4,7 @@ import { createContext, useState } from "react";
 export const UserContext = createContext();
 
 export function UserProvider({ children }) {
-  const [userToken, setUserToken] = useState("");
+  const [userToken, setUserToken] = useState("Hola soy el token");
 
   return (
     <UserContext.Provider value={{ userToken }}>
