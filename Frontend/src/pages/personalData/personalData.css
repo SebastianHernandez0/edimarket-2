@@ -1,0 +1,4 @@
+.personaldata__container {
+  grid-area: home;
+  margin: 0 auto;
+}

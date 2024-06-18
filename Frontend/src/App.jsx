@@ -18,6 +18,7 @@ import { Billing } from "./pages/billing/Billing";
 import { PublishedProduct } from "./pages/publishedProduct/PublishedProduct.jsx";
 import { Shipping } from "./pages/shipping/Shipping.jsx";
 import { ScrollTop } from "./components/scrollTop/ScrollTop.jsx";
+import { PersonalData } from "./pages/personalData/PersonalData.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -57,7 +58,12 @@ function App() {
             path="/createpost"
             element={userToken ? <CreatePost /> : <Navigate to="/sing-in" />}
           />
+          <Route
+            path="/personal-data"
+            element={userToken ? <PersonalData /> : <Navigate to="/sing-in" />}
+          />
         </Routes>
+
         <Footer />
         <CarritoModal />
       </section>
