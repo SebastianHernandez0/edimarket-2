@@ -17,6 +17,7 @@ import { Cart } from "./pages/cart/Cart.jsx";
 import { Billing } from "./pages/billing/Billing";
 import { PublishedProduct } from "./pages/publishedProduct/PublishedProduct.jsx";
 import { Shipping } from "./pages/shipping/Shipping.jsx";
+import { ScrollTop } from "./components/scrollTop/ScrollTop.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -24,6 +25,7 @@ function App() {
   return (
     <>
       <Navbar />
+      <ScrollTop />
       <section className="app__container">
         <Routes>
           <Route path="/carro" element={<Cart />} />
