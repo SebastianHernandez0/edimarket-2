@@ -308,19 +308,23 @@ export function CreatePost() {
           </div>
           <div className="createpost__preview__data">
             <h1 className="createpost__preview__data__title text-3xl font-semibold mb-2">
-              {userData.titulo ? <p>{userData.titulo}</p> : <p>Título</p>}
+              {userData.titulo ? (
+                <p className="text-2xl font-semibold">{userData.titulo}</p>
+              ) : (
+                <p className="text-2xl font-semibold">Título</p>
+              )}
             </h1>
             {userData.precio ? (
-              <p>
+              <p className="font-medium">
                 {parseInt(userData.precio).toLocaleString("es-CL", {
                   style: "currency",
                   currency: "CLP",
                 })}
               </p>
             ) : (
-              <p>Precio</p>
+              <p className="font-medium">Precio</p>
             )}
-            <p className="font-medium text-lg mb-5">Detalles</p>
+            <p className="font-medium text-lg my-5">Detalles</p>
             {userData.descripcion ? (
               <p className="">{userData.descripcion}</p>
             ) : (
