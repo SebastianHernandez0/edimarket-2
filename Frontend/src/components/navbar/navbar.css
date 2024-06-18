@@ -131,15 +131,16 @@
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 140%;
-  right: -15px;
-  height: 200px;
-  width: 50%;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  max-width: 91%;
   transition: all 0.2s ease;
-  transform: translateX(100%);
+  transform: translateX(0);
+  height: 100vh;
 }
 .navActiveMenu {
-  transform: translateX(0);
+  transform: translateX(100%);
 }
 .navbar__menu__link {
   display: flex;
@@ -200,7 +201,7 @@
   }
   .navbar__search__container {
     width: 100%;
-    max-width: 300px;
+    max-width: 450px;
   }
   .navbar__search__icon__insideinput {
     top: 8px;
@@ -223,10 +224,10 @@
     position: relative;
     flex-direction: row;
     display: flex;
-    gap: 50px;
+    gap: 30px;
     align-items: center;
     justify-content: center;
-
+    left: 18%;
     height: 0;
     transition: none;
   }
