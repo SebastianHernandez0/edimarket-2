@@ -4,6 +4,17 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #000000c5;
+  background-color: rgba(0, 0, 0, 0.75);
   z-index: 120;
+  transition: opacity 0.3s linear;
+}
+
+.overlayNone {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlayVisible {
+  opacity: 1;
+  pointer-events: auto;
 }

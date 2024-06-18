@@ -101,7 +101,7 @@ export function ProductDetail() {
   return (
     <section className="productdetail__container">
       <div className="card__container">
-        {cartModal ? <OverlayScreen /> : ""}
+        <OverlayScreen />
         <ProductCard className="card__body shadow-md rounded-md">
           <img className="card__img" src={productById?.href} alt="" />
           <div className="card__info border-2 rounded-md">
