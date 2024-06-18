@@ -11,6 +11,8 @@ import { UserContext } from "../../context/UserContext.jsx";
 import { CartContext } from "../../context/CarritoContext.jsx";
 import { Categories } from "../categories/Categories.jsx";
 import { BurgerCategories } from "../burgerCategories/BurgerCategories.jsx";
+import { CiUser } from "react-icons/ci";
+import { CiHeart } from "react-icons/ci";
 
 // Crear un componente envolvente para manejar la referencia
 const UserIcon = forwardRef((props, ref) => (
@@ -161,23 +163,42 @@ export function Navbar() {
                 }`}
               >
                 {userToken ? (
-                  <div className="navbar__perfil__desktop">
-                    <NavLink to="miperfil" className="navbar__menu__link">
+                  <div className="navbar__perfil__desktop w-full">
+                    <h1 className="mb-3 font-medium">¡Bienvenido!</h1>
+                    <NavLink
+                      to="miperfil"
+                      className="navbar__menu__link navbar__menu__link__mobile"
+                    >
+                      <CiUser className="miperfil__icon" />
                       Mi perfil
                     </NavLink>
-                    <NavLink to="/favorites" className="navbar__menu__link">
+                    <NavLink
+                      to="/favorites"
+                      className="navbar__menu__link navbar__menu__link__mobile"
+                    >
+                      <CiHeart className="miperfil__icon" />
                       Favoritos
                     </NavLink>
-                    <NavLink to="" className="navbar__menu__link">
+                    <NavLink
+                      to=""
+                      className="navbar__menu__link navbar__menu__link__mobile"
+                    >
                       Cerrar sesión
                     </NavLink>
+                    <hr className="mt-2" />
                   </div>
                 ) : (
                   <div className="navbar__perfil__desktop">
-                    <NavLink to="/sing-in" className="navbar__menu__link">
+                    <NavLink
+                      to="/sing-in"
+                      className="navbar__menu__link navbar__menu__link__mobile"
+                    >
                       Iniciar sesión
                     </NavLink>
-                    <NavLink to="/sing-up" className="navbar__menu__link">
+                    <NavLink
+                      to="/sing-up"
+                      className="navbar__menu__link navbar__menu__link__mobile"
+                    >
                       Registrarse
                     </NavLink>
                   </div>
@@ -192,7 +213,7 @@ export function Navbar() {
                   </NavLink>
                   <Categories className="categories__display" />
                 </div>
-                <p className="categories__title">Categorías</p>
+                <p className="categories__title font-medium text-lg">Categorías</p>
                 <BurgerCategories className="burger-categories" />
                 <NavLink
                   to="/carro"
