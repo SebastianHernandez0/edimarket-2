@@ -96,6 +96,21 @@
   }
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+  border-left-width: 1px;
+  border-right-width: 0;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-style: solid;
+  border-color: var(--purpleGray);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--verdeAgua);
+  border-radius: 60px;
+}
+
 /*VERSIÓN DESKTOP*/
 
 @media (min-width: 576px) {

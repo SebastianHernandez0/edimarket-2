@@ -175,6 +175,7 @@
   position: absolute;
   top: -7px;
   right: 6px;
+  font-weight: 500;
 }
 
 .navbar__categories__container {
@@ -189,6 +190,15 @@
 .miperfil__icon {
   font-size: 1.5rem;
 }
+
+.nine {
+  font-size: 0.8rem;
+  position: absolute;
+  font-weight: 500;
+  top: 0;
+  right: -4px;
+}
+
 /*DESKTOP MODE*/
 
 @media (min-width: 576px) {

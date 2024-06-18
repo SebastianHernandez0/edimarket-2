@@ -254,7 +254,13 @@ export function Navbar() {
                     alt=""
                   />
                   {cart.length > 0 ? (
-                    <p className="cart__products__indicater">{cart.length}</p>
+                    <p className="cart__products__indicater">
+                      {cart.length > 9 ? (
+                        <span className="nine">9+</span>
+                      ) : (
+                        cart.length
+                      )}
+                    </p>
                   ) : (
                     ""
                   )}
