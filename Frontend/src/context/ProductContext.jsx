@@ -61,6 +61,10 @@ export function ProductProvider({ children }) {
     ]);
   };
 
+  const handleProductQuantity = (e) => {
+    setProductQuantity(Number(e.target.value));
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -78,6 +82,7 @@ export function ProductProvider({ children }) {
         setAddedToFav,
         productQuantity,
         setProductQuantity,
+        handleProductQuantity,
       }}
     >
       {children}

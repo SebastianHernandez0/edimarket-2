@@ -17,7 +17,7 @@ export function ProductDetail() {
     addedToFav,
     setAddedToFav,
     productQuantity,
-    setProductQuantity,
+    handleProductQuantity,
   } = useContext(ProductContext);
   const { openModalCart, addToCart, cart, productAlert, setProductAlert } =
     useContext(CartContext);
@@ -97,10 +97,6 @@ export function ProductDetail() {
         timeoutRef.current = null;
       }, 2400);
     }
-  };
-
-  const handleProductQuantity = (e) => {
-    setProductQuantity(Number(e.target.value));
   };
 
   return (
