@@ -74,7 +74,7 @@ export function ProductDetail() {
 
       setProductAlert((prevState) => ({
         ...prevState,
-        error: "¡Producto eliminado de favoritos!",
+        error: "¡Producto eliminado de favoritos!.",
         success: "",
       }));
 

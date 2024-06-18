@@ -74,7 +74,7 @@
     display: grid;
     grid-template-areas:
       "imagen info"
-      "desc desc";
+      "desc info";
     grid-template-columns: 1fr 400px;
     place-items: center;
   }
@@ -83,6 +83,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    grid-area: info;
+    height: 90%;
+  }
+  .card__info__desc__container {
+    grid-area: desc;
   }
   .card__info__details {
     display: flex;
@@ -97,5 +102,6 @@
     display: flex;
     margin: 0 auto;
     align-items: center;
+    grid-area: imagen;
   }
 }
