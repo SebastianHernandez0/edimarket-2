@@ -11,15 +11,26 @@ import { NavLink } from "react-router-dom";
 import { OverlayScreen } from "../../components/overlayScreen/OverlayScreen";
 
 export function ProductDetail() {
-  const { productById, addToFav, addedToFav, setAddedToFav } =
-    useContext(ProductContext);
+  const {
+    productById,
+    addToFav,
+    addedToFav,
+    setAddedToFav,
+    productQuantity,
+    setProductQuantity,
+  } = useContext(ProductContext);
   const { openModalCart, addToCart, cart, productAlert, setProductAlert } =
     useContext(CartContext);
   const timeoutRef = useRef(null);
 
   const handleAddToCart = () => {
+    const productWithQuantity = {
+      ...productById,
+      cantidad: productQuantity,
+    };
+
     if (!cart.some((product) => product.id === productById.id)) {
-      addToCart(productById);
+      addToCart(productWithQuantity);
       openModalCart();
     } else {
       const productAdded = cart.find(
@@ -88,6 +99,10 @@ export function ProductDetail() {
     }
   };
 
+  const handleProductQuantity = (e) => {
+    setProductQuantity(Number(e.target.value));
+  };
+
   return (
     <section className="productdetail__container">
       <div className="card__container">
@@ -111,7 +126,7 @@ export function ProductDetail() {
                   className={`card__info__like__icon ${
                     addedToFav.some((product) => product.id === productById.id)
                       ? "text-red-600 transition duration-300"
-                      : "text-gray-400"
+                      : "text-gray-400 transition duration-300"
                   }`}
                 />
               </div>
@@ -120,6 +135,19 @@ export function ProductDetail() {
                 Stock disponible{" "}
                 <span className="font-semibold">{productById?.stock}</span>
               </p>
+              <select
+                onChange={handleProductQuantity}
+                value={productQuantity}
+                className="w-1/2 font-medium mb-5 px-2"
+                name="quantity"
+                id=""
+              >
+                <option value="1">1 unidad</option>
+                <option value="2">2 unidades</option>
+                <option value="3">3 unidades</option>
+                <option value="4">4 unidades</option>
+                <option value="5">5 unidades</option>
+              </select>
             </div>
             <div className="card__info__btn__container">
               <GeneralBtn

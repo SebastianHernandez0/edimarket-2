@@ -27,15 +27,17 @@ export function CartProvider({ children }) {
   const addToCart = (product) => {
     const productCartIndex = cart.findIndex((item) => item.id === product.id);
     if (productCartIndex !== -1) {
-      return;
+      // Actualiza la cantidad del producto si ya existe en el carrito
+      const updatedCart = cart.map((item, index) =>
+        index === productCartIndex
+          ? { ...item, cantidad: item.cantidad + product.cantidad }
+          : item
+      );
+      setCart(updatedCart);
+    } else {
+      // Agrega el nuevo producto al carrito
+      setCart((prevState) => [...prevState, { ...product }]);
     }
-
-    setCart((prevState) => [
-      ...prevState,
-      {
-        ...product,
-      },
-    ]);
   };
 
   return (

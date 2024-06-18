@@ -11,6 +11,7 @@ export function ProductProvider({ children }) {
   const [addedProducts, setAddedProducts] = useState([]);
   const [openCategories, setOpenCategories] = useState(false);
   const [addedToFav, setAddedToFav] = useState([]);
+  const [productQuantity, setProductQuantity] = useState(1);
   const navigate = useNavigate();
 
   const getProductLists = async () => {
@@ -75,6 +76,8 @@ export function ProductProvider({ children }) {
         addToFav,
         addedToFav,
         setAddedToFav,
+        productQuantity,
+        setProductQuantity,
       }}
     >
       {children}
