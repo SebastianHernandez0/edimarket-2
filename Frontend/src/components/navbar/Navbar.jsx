@@ -14,6 +14,7 @@ import { BurgerCategories } from "../burgerCategories/BurgerCategories.jsx";
 import { CiUser } from "react-icons/ci";
 import { CiHeart } from "react-icons/ci";
 import { GeneralBtn } from "../generalBtn/GeneralBtn.jsx";
+import { OverlayScreen } from "../overlayScreen/OverlayScreen.jsx";
 
 // Crear un componente envolvente para manejar la referencia
 const UserIcon = forwardRef((props, ref) => (
@@ -121,6 +122,7 @@ export function Navbar() {
 
   return (
     <nav ref={navbarRef} className="navbar__container shadow-sm">
+      <OverlayScreen clicked={clicked} />
       <div className="navbar__logo__container">
         <div className="navbar__logo__section">
           <img
