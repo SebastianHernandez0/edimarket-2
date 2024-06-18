@@ -193,7 +193,7 @@ export function Navbar() {
                   <Categories className="categories__display" />
                 </div>
                 <p className="categories__title">Categorías</p>
-                <BurgerCategories></BurgerCategories>
+                <BurgerCategories className="burger-categories" />
                 <NavLink
                   to="/carro"
                   className="navbar__menu__link navbar__menu__link__cart"

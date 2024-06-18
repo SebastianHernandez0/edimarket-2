@@ -252,7 +252,7 @@
   }
   .navbar__user__menu {
     top: 0;
-    right: 90%;
+    right: 38%;
   }
   .navbar__user__icon {
     display: flex;
@@ -279,5 +279,8 @@
   }
   .navbar__menu__link__display {
     display: flex;
+  }
+  .burger-categories {
+    display: none;
   }
 }

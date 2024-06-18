@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-export function BurgerCategories() {
+export function BurgerCategories({ className }) {
   return (
-    <section className="burger-categories">
+    <section className={className}>
       <Link className="categories__list__link" to="/category/consolas">
         <div>
           <h3>Consolas</h3>
