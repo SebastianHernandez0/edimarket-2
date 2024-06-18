@@ -8,7 +8,6 @@
   z-index: 120;
   transition: opacity 0.3s linear;
 }
-
 .overlayNone {
   opacity: 0;
   pointer-events: none;
@@ -17,5 +16,4 @@
 .overlayVisible {
   opacity: 1;
   pointer-events: auto;
-  overflow: hidden;
 }

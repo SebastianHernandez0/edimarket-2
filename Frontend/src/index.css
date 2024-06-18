@@ -29,7 +29,7 @@
   --fucsiaDark: #8218a9;
   --rosado: #dba6ff;
   --navbarColor: #e6ecdc;
-  --purpleGray: #DAC6DF;
+  --purpleGray: #dac6df;
   --purpleDarkGray: #a98ab1;
   --backgroundHomeColor: #f7f7f7;
   --verdeAgua: #42bea6;
@@ -44,3 +44,17 @@
   box-sizing: border-box;
 }
 
+body::-webkit-scrollbar {
+  width: 8px;
+  background: var(--backgroundHomeColor);
+  border-left-width: 1px;
+  border-right-width: 0;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-style: solid;
+  border-color: var(--purpleGray);
+}
+body::-webkit-scrollbar-thumb {
+  background: var(--verdeAgua);
+  border-radius: 60px;
+}
