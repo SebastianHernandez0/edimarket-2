@@ -8,11 +8,18 @@ import { CartContext } from "../../context/CarritoContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { useRef } from "react";
 import { NavLink } from "react-router-dom";
+import { OverlayScreen } from "../../components/overlayScreen/OverlayScreen";
 
 export function ProductDetail() {
   const { productById, addToFav, addedToFav } = useContext(ProductContext);
-  const { openModalCart, addToCart, cart, productAlert, setProductAlert } =
-    useContext(CartContext);
+  const {
+    openModalCart,
+    addToCart,
+    cart,
+    productAlert,
+    setProductAlert,
+    cartModal,
+  } = useContext(CartContext);
   const timeoutRef = useRef(null);
 
   const handleAddToCart = () => {
@@ -94,6 +101,7 @@ export function ProductDetail() {
   return (
     <section className="productdetail__container">
       <div className="card__container">
+        {cartModal ? <OverlayScreen /> : ""}
         <ProductCard className="card__body shadow-md rounded-md">
           <img className="card__img" src={productById?.href} alt="" />
           <div className="card__info border-2 rounded-md">
@@ -110,10 +118,11 @@ export function ProductDetail() {
                 </p>
                 <IoHeartSharp
                   onClick={handleAddToFav}
-                  className={`card__info__like__icon ${addedToFav.some((product) => product.id === productById.id)
+                  className={`card__info__like__icon ${
+                    addedToFav.some((product) => product.id === productById.id)
                       ? "text-red-600 transition duration-300"
                       : "text-gray-400"
-                    }`}
+                  }`}
                 />
               </div>
 
@@ -125,10 +134,9 @@ export function ProductDetail() {
             <div className="card__info__btn__container">
               <GeneralBtn
                 className="card__info__btn card__info__btn__buy"
-                type="secondary">
-                <NavLink to="/shipping">
-                  Comprar ahora
-                </NavLink>
+                type="secondary"
+              >
+                <NavLink to="/shipping">Comprar ahora</NavLink>
               </GeneralBtn>
               <GeneralBtn
                 onClick={handleAddToCart}
