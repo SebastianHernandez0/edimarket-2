@@ -1,14 +1,13 @@
 .navbar__container {
   grid-area: navbar;
-  position: sticky;
-  top: 0;
+  position: fixed;
   width: 100%;
-  display: flex;
+  display: grid;
   align-items: center;
-  justify-content: space-between;
+  padding: 15px 13px;
   background-color: var(--backgroundHomeColor);
+  z-index: 100;
   transition: 0.3s ease-in-out;
-  z-index: 5;
 }
 .navbarScroll {
   background: #ffffff5e;
@@ -19,6 +18,8 @@
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 }
 .navbar__logo__section {
   width: 100%;
@@ -44,8 +45,8 @@
   top: 180%;
   left: 0;
   width: 100%;
-  background: var(--navbarColor);
-  outline: 20px solid var(--navbarColor);
+  background: var(--backgroundHomeColor);
+  outline: 20px solid var(--backgroundHomeColor);
 }
 .navbar__search__input {
   position: relative;
@@ -55,20 +56,20 @@
   height: 40px;
   border-radius: 25px;
   background: transparent;
-  border: 1px solid var(--purpleDarkGray);
+  border: 1px solid var(--dark_2);
   font-weight: 500;
 }
 .navbar__search__icon__insideinput {
   right: 12px;
   top: 7px;
   position: absolute;
-  color: var(--purpleDarkGray);
+  color: #000000b2;
   cursor: pointer;
   font-size: 1.5rem;
 }
 .navbar__search__input::placeholder {
-  color: var(--purpleDarkGray);
-  font-weight: 500;
+  color: #0000009a;
+  font-weight: 700;
   font-size: 0.95rem;
 }
 .searchInputActive {
@@ -79,7 +80,6 @@
   flex-direction: row;
   display: flex;
   align-items: center;
-  gap: 20px;
 }
 .navbar__icons__menu__container {
   display: grid;
@@ -118,9 +118,10 @@
   flex-direction: column;
   position: absolute;
   top: 10px;
-  right: 80px;
+  right: 100%;
   padding: 8px;
   min-height: 150px;
+  min-width: 180px;
   transform: scale(100%);
 }
 .navbar__menu__links {
@@ -130,15 +131,16 @@
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 140%;
-  right: -15px;
-  height: 200px;
-  width: 50%;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  max-width: 91%;
   transition: all 0.2s ease;
-  transform: translateX(100%);
+  transform: translateX(0);
+  height: 100vh;
 }
 .navActiveMenu {
-  transform: translateX(0);
+  transform: translateX(100%);
 }
 .navbar__menu__link {
   display: flex;
@@ -154,8 +156,7 @@
   background-color: var(--verdeAgua);
 }
 .navbar__menu__link__icon {
-  font-size: 1.7rem;
-  color: var(--dark_1);
+  width: 25px;
 }
 .navbar__menu__link__cart {
   position: relative;
@@ -163,22 +164,27 @@
 .cart__products__indicater {
   background: transparent;
   position: absolute;
-  top: -5px;
-  right: 7px;
+  top: -7px;
+  right: 6px;
 }
+
+.navbar__categories__container {
+  position: relative;
+}
+
 /*DESKTOP MODE*/
 
-@media (min-width: 640px) {
+@media (min-width: 576px) {
   .navbar__search__input__container {
     position: relative;
     background: none;
     outline: none;
   }
   .navbar__search__input {
-    border: 1px solid var(--purpleGray);
+    border: 1px solid var(--dark_2);
   }
   .navbar__search__input:focus {
-    border: 2px solid var(--purpleGray);
+    border: 1px solid var(--dark_2);
     outline: none;
   }
   .navbar__search__icon {
@@ -195,11 +201,12 @@
   }
   .navbar__search__container {
     width: 100%;
+    max-width: 450px;
   }
-  /* .navbar__search__icon__insideinput {
+  .navbar__search__icon__insideinput {
     top: 8px;
     right: 7px;
-  } */
+  }
   .navbar__search__icon__insideinput:hover {
     background: var(--navOpacity);
     border-radius: 50%;
@@ -207,19 +214,20 @@
     outline: 4px solid var(--navOpacity);
   }
   .navbar__logo__container {
-    display: flex;
     margin: 0 auto;
-    max-width: 1300px;
+    max-width: 1600px;
+    display: grid;
+    grid-template-columns: 1fr 335px;
+    justify-content: space-between;
   }
   .navbar__menu__links {
     position: relative;
     flex-direction: row;
     display: flex;
-    gap: 50px;
+    gap: 30px;
     align-items: center;
     justify-content: center;
-    top: 0;
-    right: 0;
+    left: 18%;
     height: 0;
     transition: none;
   }
@@ -228,21 +236,19 @@
     outline: 7px solid var(--navOpacity);
     border-radius: 5px;
   }
-  .navbar__user__container {
-    width: 100%;
-    display: flex;
-    flex-direction: column-reverse;
-  }
-  .navbar__user__icons__container {
-    flex-direction: row-reverse;
-    justify-content: space-between;
-  }
+
   .navbar__user__menu {
-    top: 40px;
+    top: 15px;
   }
   .navbar__user__icon:hover {
     background: var(--navOpacity);
     outline: 10px solid var(--navOpacity);
     border-radius: 50%;
+  }
+  .cart__products__indicater {
+    background: transparent;
+    position: absolute;
+    top: -7px;
+    right: -19px;
   }
 }

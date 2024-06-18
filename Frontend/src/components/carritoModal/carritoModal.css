@@ -50,6 +50,10 @@
   white-space: nowrap;
 }
 
+.cartmodal__title {
+  display: flex;
+  flex-direction: column;
+}
 .cart__cards__container {
   margin-top: 20px;
   overflow-y: auto;

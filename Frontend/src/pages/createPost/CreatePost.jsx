@@ -284,7 +284,7 @@ export function CreatePost() {
             ) : (
               ""
             )}
-            <GeneralBtn className="createpost__form__btn bg-teal-400">
+            <GeneralBtn type="secondary" className="createpost__form__btn my-4">
               Crear publicación
             </GeneralBtn>
           </div>

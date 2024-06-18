@@ -3,13 +3,13 @@ import { FiSearch } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { useEffect, useState, useRef, forwardRef, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { PiShoppingCartSimple } from "react-icons/pi";
 import { NavBurger } from "../navBurger/NavBurger";
 import { Perfil } from "../perfil/Perfil.jsx";
 import { SearchBar } from "../searchBar/SearchBar.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
 import { UserContext } from "../../context/UserContext.jsx";
 import { CartContext } from "../../context/CarritoContext.jsx";
+import { Categories } from "../categories/Categories.jsx";
 
 // Crear un componente envolvente para manejar la referencia
 const UserIcon = forwardRef((props, ref) => (
@@ -116,7 +116,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <nav ref={navbarRef} className="navbar__container shadow-sm sm:px-36 sm:py-6">
+    <nav ref={navbarRef} className="navbar__container shadow-sm">
       <div className="navbar__logo__container">
         <div className="navbar__logo__section">
           <img
@@ -159,16 +159,31 @@ export function Navbar() {
                   clicked ? "navActiveMenu" : ""
                 }`}
               >
+                <div className="navbar__categories__container">
+                  <NavLink
+                    ref={categoriesBtnRef}
+                    onClick={handleButtonClick}
+                    className="navbar__menu__link"
+                  >
+                    Categorías
+                  </NavLink>
+                  <Categories />
+                </div>
+
                 <NavLink
-                  ref={categoriesBtnRef}
-                  onClick={handleButtonClick}
-                  className="navbar__menu__link"
+                  to="/carro"
+                  className="navbar__menu__link navbar__menu__link__cart"
                 >
-                  Categorías
-                </NavLink>
-                <NavLink to="/carro" className="navbar__menu__link navbar__menu__link__cart">
-                  Carro
-                  <PiShoppingCartSimple className="navbar__menu__link__icon" />
+                  Carrito
+                  <img
+                    className="navbar__menu__link__icon"
+                    src={
+                      cart.length > 0
+                        ? "/imgs/aplication/cart_full.png"
+                        : "/imgs/aplication/cart_empty.png"
+                    }
+                    alt=""
+                  />
                   {cart.length > 0 ? (
                     <p className="cart__products__indicater">{cart.length}</p>
                   ) : (
