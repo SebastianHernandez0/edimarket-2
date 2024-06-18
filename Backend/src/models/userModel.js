@@ -105,6 +105,36 @@ const registrarProducto = async (producto, vendedor_id) => {
     return console.log("Registrado");
 }
 
+const agregarDirreccion= async (domicilio, idUsuario) => {
+    let {direccion, ciudad, region, codigo_postal}= domicilio ;
+    const values= [idUsuario, direccion, ciudad, region, codigo_postal];
+    const consulta= "INSERT INTO domicilio(id,usuario_id,direccion,ciudad,region,codigo_postal) VALUES (DEFAULT,$1,$2,$3,$4,$5)";
+    await db.query(consulta,values);
+    return console.log("Direccion agregada");
+}
+
+const agregarFavorito= async (idProducto, idUsuario) => {
+    const values= [idUsuario, idProducto];
+    const consulta= "INSERT INTO favoritos(id,usuario_id,producto_id) VALUES (DEFAULT,$1,$2)";
+    await db.query(consulta,values);
+    return console.log("Favorito agregado");
+}
+
+const consultarFavoritos= async (idUsuario) => {
+    const values= [idUsuario];
+    const consulta= "select * from usuarios inner join favoritos on usuarios.id=favoritos.usuario_id inner join productos on productos.id=favoritos.producto_id where usuarios.id=$1";
+    const {rows:favoritos}= await db.query(consulta,values);
+    return favoritos;
+}
+
+const consultarDirreccion= async (idUsuario) => {
+    const values = [idUsuario];
+    const consulta = "select * from usuarios inner join domicilio on usuarios.id=domicilio.usuario_id where usuarios.id=$1"
+    const {rows:domicilio}= await db.query(consulta,values);
+    return domicilio
+}
+
+
 module.exports = {
     consultarUsuario,
     consultarUsuarioById,
@@ -113,6 +143,10 @@ module.exports = {
     consultarProductos,
     registrarProducto,
     verificarUsuario,
-    consultarProductoById
+    consultarProductoById,
+    agregarDirreccion,
+    consultarDirreccion,
+    agregarFavorito,
+    consultarFavoritos
     
 }
