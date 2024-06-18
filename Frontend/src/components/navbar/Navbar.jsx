@@ -141,7 +141,7 @@ export function Navbar() {
             <UserIcon
               ref={perfilButtonRef}
               onClick={handleOpenPerfilMenu}
-              className="navbar__user__icon"
+              className="navbar__user__icon "
             />
             <div className="navbar__icons__menu__container">
               <NavBurger
@@ -155,7 +155,7 @@ export function Navbar() {
               />
               <div
                 ref={menuContainerRef}
-                className={`navbar__menu__links bg-gray-50 shadow-md ${
+                className={`navbar__menu__links bg-gray-50 shadow-md md:bg-none md:shadow-none ${
                   clicked ? "navActiveMenu" : ""
                 }`}
               >
@@ -190,12 +190,27 @@ export function Navbar() {
                     ""
                   )}
                 </NavLink>
+                <div className="navbar__perfil__desktop">
+                  <NavLink to="miperfil" className="navbar__menu__link">
+                    Mi perfil
+                  </NavLink>
+                  <NavLink to="" className="navbar__menu__link">
+                    Publicar
+                  </NavLink>
+                  <NavLink to="/favorites" className="navbar__menu__link">
+                    Favoritos
+                  </NavLink>
+                  <NavLink to="" className="navbar__menu__link">
+                    Cerrar sesión
+                  </NavLink>
+                </div>
               </div>
             </div>
           </div>
           <div className="navbar__user__menu__container" ref={perfilMenuRef}>
             {userToken ? (
               <Perfil
+                className="navbar__perfil__container"
                 openPerfilMenu={openPerfilMenu}
                 setOpenPerfilMenu={setOpenPerfilMenu}
                 perfilMenuRef={perfilMenuRef}
@@ -218,6 +233,7 @@ export function Navbar() {
               </Perfil>
             ) : (
               <Perfil
+                className="navbar__perfil__container"
                 openPerfilMenu={openPerfilMenu}
                 setOpenPerfilMenu={setOpenPerfilMenu}
                 perfilMenuRef={perfilMenuRef}
