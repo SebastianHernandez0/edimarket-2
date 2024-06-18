@@ -12,14 +12,8 @@ import { OverlayScreen } from "../../components/overlayScreen/OverlayScreen";
 
 export function ProductDetail() {
   const { productById, addToFav, addedToFav } = useContext(ProductContext);
-  const {
-    openModalCart,
-    addToCart,
-    cart,
-    productAlert,
-    setProductAlert,
-    cartModal,
-  } = useContext(CartContext);
+  const { openModalCart, addToCart, cart, productAlert, setProductAlert } =
+    useContext(CartContext);
   const timeoutRef = useRef(null);
 
   const handleAddToCart = () => {
