@@ -176,6 +176,12 @@
 .navbar__categories__container {
   position: relative;
 }
+.navbar__menu__link__display {
+  display: none;
+}
+.categories__title {
+  display: flex;
+}
 
 /*DESKTOP MODE*/
 
@@ -222,7 +228,7 @@
     margin: 0 auto;
     max-width: 1600px;
     display: grid;
-    grid-template-columns: 1fr 335px;
+    grid-template-columns: 1fr 1fr;
     justify-content: space-between;
   }
   .navbar__menu__links {
@@ -267,5 +273,11 @@
   }
   .navbar__perfil__desktop {
     display: none;
+  }
+  .categories__title {
+    display: none;
+  }
+  .navbar__menu__link__display {
+    display: flex;
   }
 }

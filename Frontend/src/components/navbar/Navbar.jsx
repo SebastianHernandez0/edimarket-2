@@ -2,7 +2,7 @@ import "../navbar/navbar.css";
 import { FiSearch } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { useEffect, useState, useRef, forwardRef, useContext } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import { NavBurger } from "../navBurger/NavBurger";
 import { Perfil } from "../perfil/Perfil.jsx";
 import { SearchBar } from "../searchBar/SearchBar.jsx";
@@ -10,6 +10,7 @@ import { ProductContext } from "../../context/ProductContext.jsx";
 import { UserContext } from "../../context/UserContext.jsx";
 import { CartContext } from "../../context/CarritoContext.jsx";
 import { Categories } from "../categories/Categories.jsx";
+import { BurgerCategories } from "../burgerCategories/BurgerCategories.jsx";
 
 // Crear un componente envolvente para manejar la referencia
 const UserIcon = forwardRef((props, ref) => (
@@ -159,17 +160,40 @@ export function Navbar() {
                   clicked ? "navActiveMenu" : ""
                 }`}
               >
+                {userToken ? (
+                  <div className="navbar__perfil__desktop">
+                    <NavLink to="miperfil" className="navbar__menu__link">
+                      Mi perfil
+                    </NavLink>
+                    <NavLink to="/favorites" className="navbar__menu__link">
+                      Favoritos
+                    </NavLink>
+                    <NavLink to="" className="navbar__menu__link">
+                      Cerrar sesión
+                    </NavLink>
+                  </div>
+                ) : (
+                  <div className="navbar__perfil__desktop">
+                    <NavLink to="/sing-in" className="navbar__menu__link">
+                      Iniciar sesión
+                    </NavLink>
+                    <NavLink to="/sing-up" className="navbar__menu__link">
+                      Registrarse
+                    </NavLink>
+                  </div>
+                )}
                 <div className="navbar__categories__container">
                   <NavLink
                     ref={categoriesBtnRef}
                     onClick={handleButtonClick}
-                    className="navbar__menu__link"
+                    className="navbar__menu__link navbar__menu__link__display"
                   >
                     Categorías
                   </NavLink>
-                  <Categories />
+                  <Categories className="categories__display" />
                 </div>
-
+                <p className="categories__title">Categorías</p>
+                <BurgerCategories></BurgerCategories>
                 <NavLink
                   to="/carro"
                   className="navbar__menu__link navbar__menu__link__cart"
@@ -190,20 +214,6 @@ export function Navbar() {
                     ""
                   )}
                 </NavLink>
-                <div className="navbar__perfil__desktop">
-                  <NavLink to="miperfil" className="navbar__menu__link">
-                    Mi perfil
-                  </NavLink>
-                  <NavLink to="" className="navbar__menu__link">
-                    Publicar
-                  </NavLink>
-                  <NavLink to="/favorites" className="navbar__menu__link">
-                    Favoritos
-                  </NavLink>
-                  <NavLink to="" className="navbar__menu__link">
-                    Cerrar sesión
-                  </NavLink>
-                </div>
               </div>
             </div>
           </div>
