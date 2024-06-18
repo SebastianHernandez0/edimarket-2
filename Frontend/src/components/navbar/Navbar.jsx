@@ -184,14 +184,14 @@ export function Navbar() {
                     </NavLink>
                     <NavLink
                       to=""
-                      className="navbar__menu__link navbar__menu__link__mobile text-blue-600 font-medium mt-5 text-md"
+                      className="navbar__menu__link navbar__menu__link__mobile text-teal-600 font-medium mt-5 text-md"
                     >
                       Cerrar sesión
                     </NavLink>
                     <hr className="mt-2" />
                   </div>
                 ) : (
-                  <div className="navbar__perfil__deskto w-full">
+                  <div className="navbar__perfil__desktop w-full">
                     <h1 className="mb-3 font-medium text-center">
                       ¡Bienvenido!
                     </h1>
@@ -214,7 +214,7 @@ export function Navbar() {
                       <p className="text-sm">¿No tienes cuenta?</p>
                       <NavLink
                         to="/sing-up"
-                        className="navbar__menu__link text-sm :active text-blue-500"
+                        className="navbar__menu__link text-sm :active text-teal-600"
                       >
                         Registrarse
                       </NavLink>
