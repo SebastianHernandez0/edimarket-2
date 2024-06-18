@@ -38,6 +38,7 @@ export function BurgerCategories({ className }) {
           <h3>Electrodomésticos</h3>
         </div>
       </Link>
+      <hr className="mt-2" />
     </section>
   );
 }

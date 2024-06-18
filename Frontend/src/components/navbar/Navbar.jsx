@@ -13,6 +13,7 @@ import { Categories } from "../categories/Categories.jsx";
 import { BurgerCategories } from "../burgerCategories/BurgerCategories.jsx";
 import { CiUser } from "react-icons/ci";
 import { CiHeart } from "react-icons/ci";
+import { GeneralBtn } from "../generalBtn/GeneralBtn.jsx";
 
 // Crear un componente envolvente para manejar la referencia
 const UserIcon = forwardRef((props, ref) => (
@@ -188,19 +189,36 @@ export function Navbar() {
                     <hr className="mt-2" />
                   </div>
                 ) : (
-                  <div className="navbar__perfil__desktop">
-                    <NavLink
-                      to="/sing-in"
-                      className="navbar__menu__link navbar__menu__link__mobile"
+                  <div className="navbar__perfil__deskto w-full">
+                    <h1 className="mb-3 font-medium text-center">
+                      ¡Bienvenido!
+                    </h1>
+                    <GeneralBtn
+                      onClick={() => {
+                        navigate("/sing-in");
+                      }}
+                      className=""
+                      style={{
+                        padding: "8px 50px",
+                        marginBottom: "15px",
+                        width: "100%",
+                        textAlign: "center",
+                      }}
+                      type="secondary"
                     >
                       Iniciar sesión
-                    </NavLink>
-                    <NavLink
-                      to="/sing-up"
-                      className="navbar__menu__link navbar__menu__link__mobile"
-                    >
-                      Registrarse
-                    </NavLink>
+                    </GeneralBtn>
+                    <div className="flex items-center gap-1">
+                      <p className="text-sm">¿No tienes cuenta?</p>
+                      <NavLink
+                        to="/sing-up"
+                        className="navbar__menu__link text-sm :active text-blue-500"
+                      >
+                        Registrarse
+                      </NavLink>
+                    </div>
+
+                    <hr className="mt-2" />
                   </div>
                 )}
                 <div className="navbar__categories__container">
@@ -213,7 +231,9 @@ export function Navbar() {
                   </NavLink>
                   <Categories className="categories__display" />
                 </div>
-                <p className="categories__title font-medium text-lg">Categorías</p>
+                <p className="categories__title font-medium text-lg">
+                  Categorías
+                </p>
                 <BurgerCategories className="burger-categories" />
                 <NavLink
                   to="/carro"

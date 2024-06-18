@@ -4,7 +4,7 @@
   width: 100%;
   display: grid;
   align-items: center;
-  padding: 5px 13px;
+  padding: 8px 13px;
   background-color: var(--backgroundHomeColor);
   z-index: 100;
   transition: 0.3s ease-in-out;
