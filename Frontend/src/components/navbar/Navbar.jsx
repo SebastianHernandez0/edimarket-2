@@ -155,7 +155,7 @@ export function Navbar() {
               />
               <div
                 ref={menuContainerRef}
-                className={`navbar__menu__links bg-gray-50 shadow-md md:bg-none md:shadow-none ${
+                className={`navbar__menu__links  ${
                   clicked ? "navActiveMenu" : ""
                 }`}
               >
