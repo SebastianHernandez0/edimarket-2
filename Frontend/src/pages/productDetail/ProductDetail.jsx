@@ -11,7 +11,8 @@ import { NavLink } from "react-router-dom";
 import { OverlayScreen } from "../../components/overlayScreen/OverlayScreen";
 
 export function ProductDetail() {
-  const { productById, addToFav, addedToFav } = useContext(ProductContext);
+  const { productById, addToFav, addedToFav, setAddedToFav } =
+    useContext(ProductContext);
   const { openModalCart, addToCart, cart, productAlert, setProductAlert } =
     useContext(CartContext);
   const timeoutRef = useRef(null);
@@ -65,30 +66,25 @@ export function ProductDetail() {
         timeoutRef.current = null; // Limpiamos la referencia al temporizador
       }, 2400);
     } else {
-      const favAdded = addedToFav.find(
-        (product) => product.id === productById.id
+      // Eliminar producto de favoritos
+      const updatedFav = addedToFav.filter(
+        (product) => product.id !== productById.id
       );
-      if (favAdded) {
+      setAddedToFav(updatedFav);
+
+      setProductAlert((prevState) => ({
+        ...prevState,
+        error: "¡Producto eliminado de favoritos!",
+        success: "",
+      }));
+
+      timeoutRef.current = setTimeout(() => {
         setProductAlert((prevState) => ({
           ...prevState,
-          error: "Ya añadiste este producro a favoritos.",
-          success: "",
+          error: "",
         }));
-
-        // Cancelamos el temporizador anterior si existe
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-        }
-
-        // Establecemos un nuevo temporizador
-        timeoutRef.current = setTimeout(() => {
-          setProductAlert((prevState) => ({
-            ...prevState,
-            error: "",
-          }));
-          timeoutRef.current = null; // Limpiamos la referencia al temporizador
-        }, 2400);
-      }
+        timeoutRef.current = null;
+      }, 2400);
     }
   };
 
