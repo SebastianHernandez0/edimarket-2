@@ -7,7 +7,6 @@ import { Navbar } from "./components/navbar/Navbar.jsx";
 import { Footer } from "./components/footer/Footer.jsx";
 import { ProductDetail } from "./pages/productDetail/ProductDetail.jsx";
 import { CarritoModal } from "./components/carritoModal/CarritoModal.jsx";
-import { Categories } from "./components/categories/Categories.jsx";
 import { ProductList } from "./pages/productList/ProductList.jsx";
 import { Favorites } from "./pages/favorites/Favorites.jsx";
 import { useContext } from "react";
@@ -59,7 +58,6 @@ function App() {
         </Routes>
         <Footer />
         <CarritoModal />
-        <Categories />
       </section>
     </>
   );

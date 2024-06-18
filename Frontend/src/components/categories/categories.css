@@ -1,5 +1,5 @@
 .categories__list {
-  position: fixed;
+  position: absolute;
   top: 150px;
   right: 40%;
   display: flex;
@@ -16,7 +16,7 @@
 }
 @media (min-width: 576px) {
   .categories__list {
-    top: 60px;
-    right: 36%;
+    top: 40px;
+    right: 100%;
   }
 }

@@ -166,6 +166,11 @@
   top: -7px;
   right: 6px;
 }
+
+.navbar__categories__container {
+  position: relative;
+}
+
 /*DESKTOP MODE*/
 
 @media (min-width: 576px) {
