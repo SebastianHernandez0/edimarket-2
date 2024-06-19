@@ -134,7 +134,7 @@ export function ProductDetail() {
               <select
                 onChange={handleProductQuantity}
                 value={productQuantity}
-                className="w-1/2 font-medium mb-5 px-2"
+                className="w-1/2 font-medium mb-5 px-2 border rounded-md active: outline-none cursor-pointer"
                 name="quantity"
                 id=""
               >
