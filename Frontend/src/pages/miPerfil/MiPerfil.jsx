@@ -28,7 +28,7 @@ export function MiPerfil() {
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center w-full">
             <Link
-              to="/personal-data"
+              to="/user-data"
               className="miperfil__userinfo__data miperfil__userinfo__postlink w-full"
             >
               <PiUserListLight className="miperfil__userinfo__icon text" />
@@ -102,7 +102,7 @@ export function MiPerfil() {
               className="miperfil__userinfo__data miperfil__userinfo__postlink w-full"
             >
               <FaLocationDot className="miperfil__userinfo__icon text" />
-              Mis tarjetas
+              Mis direcciones
             </Link>
           </div>
           <div className="">

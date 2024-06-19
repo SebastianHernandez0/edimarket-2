@@ -18,7 +18,8 @@ import { Billing } from "./pages/billing/Billing";
 import { PublishedProduct } from "./pages/publishedProduct/PublishedProduct.jsx";
 import { Shipping } from "./pages/shipping/Shipping.jsx";
 import { ScrollTop } from "./components/scrollTop/ScrollTop.jsx";
-import { PersonalData } from "./pages/personalData/PersonalData.jsx";
+import { UserData } from "./pages/userData/UserData.jsx";
+import { EditUserData } from "./pages/editUserData/EditUserData.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -59,8 +60,12 @@ function App() {
             element={userToken ? <CreatePost /> : <Navigate to="/sing-in" />}
           />
           <Route
-            path="/personal-data"
-            element={userToken ? <PersonalData /> : <Navigate to="/sing-in" />}
+            path="/user-data"
+            element={userToken ? <UserData /> : <Navigate to="/sing-in" />}
+          />
+          <Route
+            path="/edit-user-data"
+            element={userToken ? <EditUserData /> : <Navigate to="/sing-in" />}
           />
         </Routes>
 

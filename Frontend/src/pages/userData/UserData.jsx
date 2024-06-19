@@ -1,8 +1,15 @@
-import "../personalData/personalData.css";
+import { useNavigate } from "react-router-dom";
+import "../userData/userData.css";
 
 // los datos son ficticios, los reales se traeran desde la bs
 
-export function PersonalData() {
+export function UserData() {
+  const navigate = useNavigate();
+
+  const handleNavigateToEdit = () => {
+    navigate("/edit-user-data");
+  };
+
   return (
     <section className="personaldata__container bg-white shadow-sm rounded-sm">
       <h1 className="text-2xl font-semibold mb-5">Datos personales</h1>
@@ -36,17 +43,12 @@ export function PersonalData() {
             </div>
           </div>
         </div>
-        <div className="personaldata__address flex items-center justify-between my-5">
-          <div className="flex items-center gap-10 flex-wrap w-full">
-            <div className="flex flex-col">
-              <p className="font-semibold mb-1 text-lg">Dirección</p>
-              <p className="text-sm">Pasaje uno poniente 7913, lo espejo</p>
-            </div>
-          </div>
-        </div>
         <hr />
         <div className="flex items-center justify-end w-full mt-5">
-          <button className="edit__btn font-semibold  text-teal-500">
+          <button
+            onClick={handleNavigateToEdit}
+            className="edit__btn font-semibold  text-teal-500"
+          >
             Modificar
           </button>
         </div>
