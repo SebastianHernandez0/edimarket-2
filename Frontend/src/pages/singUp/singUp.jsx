@@ -1,9 +1,12 @@
 import "./singUp.css";
 import { NavLink } from "react-router-dom";
 import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { UserContext } from "../../context/UserContext";
 
 export function SingUp() {
+  const { emailRegex, rutFormatRegex, onlyNumbersRegex } =
+    useContext(UserContext);
   const [singUpSuccess, setSingUpSuccess] = useState("");
   const [singUpError, setSingUpError] = useState({
     errorNombre: "",
@@ -21,9 +24,7 @@ export function SingUp() {
     contraseña: "",
     confirmContraseña: "",
   });
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-  const rutFormatRegex = /^[0-9]+-[0-9]$/;
-  const onlyNumbersRegex = /^[0-9]+$/;
+
   const inputRefs = {
     nombre: useRef(null),
     rut: useRef(null),
