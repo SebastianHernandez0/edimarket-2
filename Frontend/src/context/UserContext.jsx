@@ -17,6 +17,11 @@ export function UserProvider({ children }) {
     email: "",
     contraseña: "",
     confirmContraseña: "",
+    titulo: "",
+    precio: "",
+    categorias: "",
+    estado: "",
+    descripcion: "",
   });
 
   const inputRefs = {
@@ -26,6 +31,11 @@ export function UserProvider({ children }) {
     email: useRef(null),
     contraseña: useRef(null),
     confirmContraseña: useRef(null),
+    titulo: useRef(null),
+    precio: useRef(null),
+    categorias: useRef(null),
+    estado: useRef(null),
+    descripcion: useRef(null),
   };
 
   useEffect(() => {
@@ -37,6 +47,11 @@ export function UserProvider({ children }) {
         email: "",
         contraseña: "",
         confirmContraseña: "",
+        titulo: "",
+        precio: "",
+        categorias: "",
+        estado: "",
+        descripcion: "",
       });
       setInputFormError({
         errorNombre: "",
@@ -45,9 +60,14 @@ export function UserProvider({ children }) {
         errorEmail: "",
         errorContraseña: "",
         errorConfirmContraseña: "",
+        errorTitulo: "",
+        errorPrecio: "",
+        errorCategorias: "",
+        errorEstado: "",
+        errorDescripcion: "",
       });
     }
-  }, [navigate, setUserData]);
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,7 +92,12 @@ export function UserProvider({ children }) {
       userData.telefono !== "" ||
       userData.email !== "" ||
       userData.contraseña !== "" ||
-      userData.confirmContraseña !== ""
+      userData.confirmContraseña !== "" ||
+      userData.titulo !== "" ||
+      userData.precio !== "" ||
+      userData.categorias !== "" ||
+      userData.estado !== "" ||
+      userData.descripcion !== ""
     ) {
       setInputFormError({
         errorNombre: "",
@@ -81,6 +106,11 @@ export function UserProvider({ children }) {
         errorEmail: "",
         errorContraseña: "",
         errorConfirmContraseña: "",
+        errorTitulo: "",
+        errorPrecio: "",
+        errorCategorias: "",
+        errorEstado: "",
+        errorDescripcion: "",
       });
     }
   }, [userData]);
