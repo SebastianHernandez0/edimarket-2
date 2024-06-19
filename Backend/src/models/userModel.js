@@ -23,6 +23,14 @@ const validarProducto = z.object({
     categoria: z.string().min(3),
 });
 
+const validarDomicilio = z.object({
+    direccion: z.string().min(3),
+    ciudad: z.string().min(3),
+    region: z.string().min(3),
+    codigo_postal: z.string().min(3),
+});
+
+
 const consultarUsuario= async () => {
     const consulta= "SELECT * FROM usuarios"
     const {rows:users}= await db.query(consulta);
@@ -107,6 +115,7 @@ const registrarProducto = async (producto, vendedor_id) => {
 
 const agregarDirreccion= async (domicilio, idUsuario) => {
     let {direccion, ciudad, region, codigo_postal}= domicilio ;
+    validarDomicilio.parse(domicilio);
     const values= [idUsuario, direccion, ciudad, region, codigo_postal];
     const consulta= "INSERT INTO domicilio(id,usuario_id,direccion,ciudad,region,codigo_postal) VALUES (DEFAULT,$1,$2,$3,$4,$5)";
     await db.query(consulta,values);
@@ -115,15 +124,29 @@ const agregarDirreccion= async (domicilio, idUsuario) => {
 
 const agregarFavorito= async (idProducto, idUsuario) => {
     const values= [idUsuario, idProducto];
+    const favoritos= await consultarFavoritos(idUsuario);
+    if (favoritos.find(favorito => favorito.producto_id === idProducto)) {
+        throw new Error("El producto ya está en favoritos");
+    }
     const consulta= "INSERT INTO favoritos(id,usuario_id,producto_id) VALUES (DEFAULT,$1,$2)";
     await db.query(consulta,values);
     return console.log("Favorito agregado");
+}
+
+const borrarFavorito= async (idFavorito, idUsuario) => {
+    const values= [idFavorito, idUsuario];
+    const favoritos= await consultarFavoritos(idUsuario);
+    const consulta= "DELETE FROM favoritos WHERE id=$1 AND usuario_id=$2";
+    await db.query(consulta,values);
+    return console.log("Favorito eliminado");
+
 }
 
 const consultarFavoritos= async (idUsuario) => {
     const values= [idUsuario];
     const consulta= "select * from usuarios inner join favoritos on usuarios.id=favoritos.usuario_id inner join productos on productos.id=favoritos.producto_id where usuarios.id=$1";
     const {rows:favoritos}= await db.query(consulta,values);
+    console.log(favoritos.length);
     return favoritos;
 }
 
@@ -133,6 +156,7 @@ const consultarDirreccion= async (idUsuario) => {
     const {rows:domicilio}= await db.query(consulta,values);
     return domicilio
 }
+
 
 
 module.exports = {
@@ -147,6 +171,7 @@ module.exports = {
     agregarDirreccion,
     consultarDirreccion,
     agregarFavorito,
-    consultarFavoritos
+    consultarFavoritos,
+    borrarFavorito
     
 }

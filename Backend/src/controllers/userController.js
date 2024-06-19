@@ -8,10 +8,9 @@ const {
     consultarDirreccion,
     agregarFavorito,
     consultarProductoById,
-    consultarFavoritos
+    consultarFavoritos,
+    borrarFavorito
 }= require("../models/userModel");
-const prepHateoas= require("../models/hateoasModel");
-
 const jwt = require("jsonwebtoken");
 
 const getAllUsers= async (req, res) => {
@@ -159,6 +158,28 @@ const consultarFavorito= async (req, res) => {
                     categoria: favorito.categoria,
                 }
             })
+        });
+    }
+    catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
+const deleteFav= async (req, res) => {
+    try {
+        const Authorization = req.header("Authorization");
+        const token = Authorization.split("Bearer ")[1];
+        jwt.verify(token, process.env.JWT_SECRET);
+        const { email,id } = jwt.decode(token);
+        const favorito = await borrarFavorito(id);
+        console.log(`El usuario ${email} con el id ${id} ha eliminado un favorito`);
+        res.status(200).json({
+            favorito: favorito.nombre,
+            descripcion: favorito.descripcion,
+            precio: favorito.precio,
+            stock: favorito.stock,
+            imagen: favorito.imagen,
+            categoria: favorito.categoria,
         });
     }
     catch (error) {
