@@ -1,5 +1,5 @@
 import "../createPost/createPost.css";
-import { useCallback, useState, useRef, useEffect, useContext } from "react";
+import { useCallback, useState, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { IoMdImages } from "react-icons/io";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";

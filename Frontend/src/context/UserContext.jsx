@@ -124,7 +124,12 @@ export function UserProvider({ children }) {
         inputFormError.errorTelefono ||
         inputFormError.errorEmail ||
         inputFormError.errorContraseña ||
-        inputFormError.errorConfirmContraseña
+        inputFormError.errorConfirmContraseña ||
+        inputFormError.errorTitulo ||
+        inputFormError.errorPrecio ||
+        inputFormError.errorCategorias ||
+        inputFormError.errorEstado ||
+        inputFormError.errorDescripcion
       );
     };
 
@@ -142,6 +147,18 @@ export function UserProvider({ children }) {
         inputRefs.contraseña.current.focus();
       } else if (inputFormError.errorConfirmContraseña) {
         inputRefs.confirmContraseña.current.focus();
+      } else if (inputFormError.errorConfirmContraseña) {
+        inputRefs.confirmContraseña.current.focus();
+      } else if (inputFormError.errorTitulo) {
+        inputRefs.titulo.current.focus();
+      } else if (inputFormError.errorPrecio) {
+        inputRefs.precio.current.focus();
+      } else if (inputFormError.errorCategorias) {
+        inputRefs.categorias.current.focus();
+      } else if (inputFormError.errorEstado) {
+        inputRefs.estado.current.focus();
+      } else if (inputFormError.errorDescripcion) {
+        inputRefs.descripcion.current.focus();
       }
     }
   }, [inputFormError]);
