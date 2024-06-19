@@ -1,10 +1,12 @@
 import "../createPost/createPost.css";
-import { useCallback, useState, useRef, useEffect } from "react";
+import { useCallback, useState, useRef, useEffect, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { IoMdImages } from "react-icons/io";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
+import { UserContext } from "../../context/UserContext";
 
 export function CreatePost() {
+  const { onlyNumbersRegex } = useContext(UserContext);
   const inputRefs = {
     titulo: useRef(null),
     precio: useRef(null),
@@ -66,6 +68,11 @@ export function CreatePost() {
       setCreatePostError((prevErrors) => ({
         ...prevErrors,
         errorPrecio: "Pon un precio a tu producto.",
+      }));
+    } else if (!onlyNumbersRegex.test(userData.precio.trim())) {
+      setCreatePostError((prevErrors) => ({
+        ...prevErrors,
+        errorPrecio: "Ingresa solo números.",
       }));
     } else if (userData.categorias === "") {
       setCreatePostError((prevErrors) => ({
@@ -205,7 +212,8 @@ export function CreatePost() {
               type="text"
               placeholder="Precio"
             />
-            {userData.precio.trim() === "" ? (
+            {userData.precio.trim() === "" ||
+            !onlyNumbersRegex.test(userData.precio.trim()) ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {createPostError.errorPrecio}
               </p>
@@ -314,7 +322,7 @@ export function CreatePost() {
                 <p className="text-2xl font-semibold">Título</p>
               )}
             </h1>
-            {userData.precio ? (
+            {userData.precio && !isNaN(userData.precio) ? (
               <p className="font-medium">
                 {parseInt(userData.precio).toLocaleString("es-CL", {
                   style: "currency",
