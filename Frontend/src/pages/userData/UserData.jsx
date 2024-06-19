@@ -13,7 +13,7 @@ export function UserData() {
   return (
     <section className="personaldata__container bg-white shadow-sm rounded-sm">
       <h1 className="text-2xl font-semibold mb-5">Datos personales</h1>
-      <div className="personaldata__body">
+      <div className="personaldata__body flex flex-col gap-2">
         <hr />
         <div className="personaldata__name flex items-center justify-between my-5">
           <div className="flex items-center gap-10 flex-wrap w-full">

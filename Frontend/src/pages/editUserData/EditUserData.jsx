@@ -6,8 +6,6 @@ import { UserContext } from "../../context/UserContext";
 export function EditUserData() {
   const {
     emailRegex,
-    rutFormatRegex,
-    onlyNumbersRegex,
     userData,
     handleChange,
     inputRefs,

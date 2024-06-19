@@ -98,7 +98,7 @@ export function MiPerfil() {
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center w-full">
             <Link
-              to=""
+              to="/user-address"
               className="miperfil__userinfo__data miperfil__userinfo__postlink w-full"
             >
               <FaLocationDot className="miperfil__userinfo__icon text" />
