@@ -27,19 +27,19 @@ export function UserData() {
             </div>
           </div>
         </div>
-        <div className="personaldata__email flex items-center justify-between my-5">
-          <div className="flex items-center gap-10 flex-wrap w-full">
-            <div className="flex flex-col">
-              <p className="font-semibold mb-1 text-lg">Email</p>
-              <p className="text-sm">Aalevenegass@gmail.com</p>
-            </div>
-          </div>
-        </div>
         <div className="personaldata__number flex items-center justify-between my-5">
           <div className="flex items-center gap-10 flex-wrap w-full">
             <div className="flex flex-col">
               <p className="font-semibold mb-1 text-lg">Número telefónico</p>
               <p className="text-sm">951105537</p>
+            </div>
+          </div>
+        </div>
+        <div className="personaldata__email flex items-center justify-between my-5">
+          <div className="flex items-center gap-10 flex-wrap w-full">
+            <div className="flex flex-col">
+              <p className="font-semibold mb-1 text-lg">Email</p>
+              <p className="text-sm">Aalevenegass@gmail.com</p>
             </div>
           </div>
         </div>

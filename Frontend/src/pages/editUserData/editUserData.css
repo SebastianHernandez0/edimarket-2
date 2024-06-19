@@ -14,7 +14,7 @@
 .data__input {
   background-color: transparent;
   display: flex;
-  margin: 20px auto;
+  margin: 0 auto;
   padding: 0 13px;
   width: 90%;
   border: 1px solid var(--navOpacity);

@@ -121,7 +121,7 @@ export function EditUserData() {
       <div className="edituserdata__body">
         <form
           onSubmit={handleEditData}
-          className="edituserdata__form border rounded-md py-5 px-3 flex flex-col"
+          className="edituserdata__form border rounded-md py-5 px-3 flex flex-col gap-5"
         >
           <div>
             <label className="font-semibold" htmlFor="">
