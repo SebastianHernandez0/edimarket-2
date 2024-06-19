@@ -78,10 +78,7 @@ const agregarDomicilio= async (req, res) => {
         await agregarDirreccion(domicilio, id);
         console.log(`El usuario ${email} con el id ${id} ha agregado un domicilio`);
         res.status(201).json({
-            direccion: domicilio.direccion,
-            ciudad: domicilio.ciudad,
-            region: domicilio.region,
-            codigo_postal: domicilio.codigo_postal,
+            message: "Domcilio agregado",
         });
     }
     catch (error) {
@@ -99,10 +96,12 @@ const consultarDomicilio= async (req, res) => {
         const domicilio = await consultarDirreccion(id);
         console.log(`El usuario ${email} con el id ${id} ha consultado su domicilio`);
         res.json({
-            Domicilios: domicilio.map((domicilio)=>{
+            Domicilio: domicilio.map((domicilio)=>{
                 return {
                     direccion: domicilio.direccion,
+                    numero_casa: domicilio.numero_casa,
                     ciudad: domicilio.ciudad,
+                    comuna: domicilio.comuna,
                     region: domicilio.region,
                     codigo_postal: domicilio.codigo_postal,
                 }
@@ -125,13 +124,7 @@ const addFavorito= async (req, res) => {
         const producto = await consultarProductoById(producto_id);
         console.log(`El usuario ${email} con el id ${id} ha agregado un producto a favoritos`);
         res.json({
-            nombre: producto.nombre,
-            descripcion: producto.descripcion,
-            precio: producto.precio,
-            stock: producto.stock,
-            imagen: producto.imagen,
-            categoria: producto.categoria,
-
+            message: "Producto agregado",
         });
     }
     catch (error) {
@@ -150,6 +143,7 @@ const consultarFavorito= async (req, res) => {
         res.json({
             favoritos: favoritos.map((favorito)=>{
                 return {
+                    id: favorito.favorito_id,
                     nombre: favorito.nombre,
                     descripcion: favorito.descripcion,
                     precio: favorito.precio,
@@ -167,19 +161,15 @@ const consultarFavorito= async (req, res) => {
 
 const deleteFav= async (req, res) => {
     try {
+        const { idFavorito } = req.params;
         const Authorization = req.header("Authorization");
         const token = Authorization.split("Bearer ")[1];
         jwt.verify(token, process.env.JWT_SECRET);
         const { email,id } = jwt.decode(token);
-        const favorito = await borrarFavorito(id);
+        const favorito = await borrarFavorito(idFavorito,id);
         console.log(`El usuario ${email} con el id ${id} ha eliminado un favorito`);
         res.status(200).json({
-            favorito: favorito.nombre,
-            descripcion: favorito.descripcion,
-            precio: favorito.precio,
-            stock: favorito.stock,
-            imagen: favorito.imagen,
-            categoria: favorito.categoria,
+            message: "Favorito eliminado",
         });
     }
     catch (error) {
@@ -188,5 +178,5 @@ const deleteFav= async (req, res) => {
 }
 
 module.exports = {
-    getAllUsers, getUserById,registrarUser,loginUser,consultarCategoria,agregarDomicilio,consultarDomicilio,addFavorito,consultarFavorito
+    getAllUsers, getUserById,registrarUser,loginUser,consultarCategoria,agregarDomicilio,consultarDomicilio,addFavorito,consultarFavorito,deleteFav
 }

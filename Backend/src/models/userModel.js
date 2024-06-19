@@ -28,6 +28,8 @@ const validarDomicilio = z.object({
     ciudad: z.string().min(3),
     region: z.string().min(3),
     codigo_postal: z.string().min(3),
+    numero_casa: z.string().min(0),
+    comuna: z.string().min(3),
 });
 
 
@@ -100,13 +102,13 @@ const idCategoria= async (categoria) => {
 
 
 const registrarProducto = async (producto, vendedor_id) => {
-    let {nombre,descripcion,precio,stock,imagen,categoria}= producto;
+    let {nombre,descripcion,estado,precio,stock,imagen,categoria}= producto;
     validarProducto.parse(producto);
     const categoriaId= await idCategoria(categoria);
     const id= Math.floor(Math.random() * 9999999);
     const valuesCategoria= [id,categoriaId];
-    const valuesProducto= [id,nombre,descripcion,precio,stock,imagen,vendedor_id];
-    const consultaProducto= ("INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id) VALUES ($1,$2,$3,$4,$5,$6,$7)");
+    const valuesProducto= [id,nombre,descripcion,estado,precio,stock,imagen,vendedor_id];
+    const consultaProducto= ("INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado) VALUES ($1,$2,$3,$5,$6,$7,$8,$4)");
     const consultaCategoria= ("INSERT INTO producto_categoria (id,producto_id,categoria_id) VALUES (DEFAULT,$1,$2)");
     await db.query(consultaProducto,valuesProducto);
     await db.query(consultaCategoria,valuesCategoria);
@@ -114,21 +116,27 @@ const registrarProducto = async (producto, vendedor_id) => {
 }
 
 const agregarDirreccion= async (domicilio, idUsuario) => {
-    let {direccion, ciudad, region, codigo_postal}= domicilio ;
+    const domicilios= await consultarDirreccion(idUsuario);
+    if (domicilios.length > 0) {
+        throw new Error("ya existe una direccion asociada a este usuario");
+    }else{
+    let {direccion,numero_casa, ciudad,comuna, region, codigo_postal}= domicilio ;
     validarDomicilio.parse(domicilio);
-    const values= [idUsuario, direccion, ciudad, region, codigo_postal];
-    const consulta= "INSERT INTO domicilio(id,usuario_id,direccion,ciudad,region,codigo_postal) VALUES (DEFAULT,$1,$2,$3,$4,$5)";
+    const values= [idUsuario, direccion,numero_casa,ciudad,comuna, region, codigo_postal];
+    const consulta= "INSERT INTO domicilio(id,usuario_id,direccion,ciudad,region,codigo_postal,comuna,numero_casa) VALUES (DEFAULT,$1,$2,$4,$6,$7,$5,$3)";
     await db.query(consulta,values);
     return console.log("Direccion agregada");
+    }
+
 }
 
 const agregarFavorito= async (idProducto, idUsuario) => {
     const values= [idUsuario, idProducto];
     const favoritos= await consultarFavoritos(idUsuario);
-    if (favoritos.find(favorito => favorito.producto_id === idProducto)) {
+    if (favoritos.find(favorito => favorito.producto_id == idProducto)) {
         throw new Error("El producto ya está en favoritos");
     }
-    const consulta= "INSERT INTO favoritos(id,usuario_id,producto_id) VALUES (DEFAULT,$1,$2)";
+    const consulta= "INSERT INTO favoritos(favorito_id,usuario_id,producto_id) VALUES (DEFAULT,$1,$2)";
     await db.query(consulta,values);
     return console.log("Favorito agregado");
 }
@@ -136,9 +144,13 @@ const agregarFavorito= async (idProducto, idUsuario) => {
 const borrarFavorito= async (idFavorito, idUsuario) => {
     const values= [idFavorito, idUsuario];
     const favoritos= await consultarFavoritos(idUsuario);
-    const consulta= "DELETE FROM favoritos WHERE id=$1 AND usuario_id=$2";
-    await db.query(consulta,values);
-    return console.log("Favorito eliminado");
+    if (favoritos.find(favorito => favorito.favorito_id == idFavorito)) {
+        const consulta= "DELETE FROM favoritos WHERE favorito_id=$1 AND usuario_id=$2";
+        await db.query(consulta,values);
+        return console.log("Favorito eliminado");
+    }else{
+        throw new Error("El favorito no existe");
+    }
 
 }
 
@@ -146,7 +158,6 @@ const consultarFavoritos= async (idUsuario) => {
     const values= [idUsuario];
     const consulta= "select * from usuarios inner join favoritos on usuarios.id=favoritos.usuario_id inner join productos on productos.id=favoritos.producto_id where usuarios.id=$1";
     const {rows:favoritos}= await db.query(consulta,values);
-    console.log(favoritos.length);
     return favoritos;
 }
 
