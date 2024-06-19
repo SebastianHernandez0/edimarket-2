@@ -21,6 +21,8 @@ import { ScrollTop } from "./components/scrollTop/ScrollTop.jsx";
 import { UserData } from "./pages/userData/UserData.jsx";
 import { EditUserData } from "./pages/editUserData/EditUserData.jsx";
 import { UserAddress } from "./pages/userAddress/UserAddress.jsx";
+import { AddUserAdress } from "./pages/addUserAddress/AddUserAddress.jsx";
+
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -71,6 +73,10 @@ function App() {
           <Route
             path="/user-address"
             element={userToken ? <UserAddress /> : <Navigate to="/sing-in" />}
+          />
+          <Route
+            path="/add-address"
+            element={userToken ? <AddUserAdress/> : <Navigate to="/sing-in" />}
           />
         </Routes>
 

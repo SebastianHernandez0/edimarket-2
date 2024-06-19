@@ -4,7 +4,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import { useRef, useState, forwardRef, useEffect, useContext } from "react";
 import { UserAddressModal } from "../../components/userAddressModal/UserAddressModal";
 import { UserContext } from "../../context/UserContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 
 const EditIcon = forwardRef((props, ref) => (
@@ -16,6 +16,7 @@ const EditIcon = forwardRef((props, ref) => (
 export function UserAddress() {
   const [openEditModal, setOpenEditModal] = useState(false);
   const { users } = useContext(UserContext);
+  const navigate = useNavigate();
   const addressRef = {
     iconRef: useRef(null),
     modalRef: useRef(null),
@@ -61,13 +62,21 @@ export function UserAddress() {
     userId.domicilio.direccion !== undefined &&
     userId.domicilio.direccion !== ""; */
 
+  const handleNavigateToAdd = () => {
+    navigate("/add-address");
+  };
+
   return (
     <section className="useraddress__container bg-white shadow-sm rounded-sm">
       <h1 className="text-2xl font-semibold mb-5">Direcciones</h1>
       {!hasAddress ? (
         <div className="flex flex-col gap-3 items-center sm: my-5">
           <p className="font-semibold">Agrega una dirección de entrega</p>
-          <GeneralBtn type="secondary" className="">
+          <GeneralBtn
+            onClick={handleNavigateToAdd}
+            type="secondary"
+            className=""
+          >
             Añadir
           </GeneralBtn>
         </div>
