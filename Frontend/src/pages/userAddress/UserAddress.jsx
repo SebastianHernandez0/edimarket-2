@@ -1,20 +1,52 @@
 import "../userAddress/userAddress.css";
 import { HiHome } from "react-icons/hi2";
 import { HiDotsVertical } from "react-icons/hi";
-import { useState } from "react";
+import { useRef, useState, forwardRef, useEffect } from "react";
 import { UserAddressModal } from "../../components/userAddressModal/UserAddressModal";
+
+const EditIcon = forwardRef((props, ref) => (
+  <div ref={ref}>
+    <HiDotsVertical {...props} />
+  </div>
+));
 
 export function UserAddress() {
   const [openEditModal, setOpenEditModal] = useState(false);
+  const addressRef = {
+    iconRef: useRef(null),
+    modalRef: useRef(null),
+  };
 
   const handleOpenEditModal = () => {
     setOpenEditModal(!openEditModal);
   };
 
+  const handleClickOutside = (event) => {
+    if (
+      addressRef.iconRef.current &&
+      !addressRef.iconRef.current.contains(event.target) &&
+      addressRef.modalRef.current &&
+      !addressRef.modalRef.current.contains(event.target)
+    ) {
+      setOpenEditModal(false);
+    }
+  };
+
+  useEffect(() => {
+    if (openEditModal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openEditModal]);
+
   return (
     <section className="useraddress__container bg-white shadow-sm rounded-sm">
       <h1 className="text-2xl font-semibold mb-5">Direcciones</h1>
-      {/*Acá se mapea ya que podrán haber más de una dirección*/}
       <div className="useradress__body flex justify-between">
         <div className="w-full">
           <hr className="w-full" />
@@ -34,19 +66,17 @@ export function UserAddress() {
           </div>
         </div>
         <div className="edit__icon">
-          <HiDotsVertical
+          <EditIcon
+            ref={addressRef.iconRef}
             onClick={handleOpenEditModal}
             className="text-xl mt-3 cursor-pointer"
           />
-          {openEditModal ? <UserAddressModal /> : null}
+          {openEditModal ? (
+            <UserAddressModal ref={addressRef.modalRef} />
+          ) : null}
         </div>
       </div>
-
-      {/*No incluir el hr en el mapeo*/}
       <hr />
-      <button className="add__btn text-normal justify-self-end self-end mt-3 font-semibold text-teal-500">
-        Agregar dirección
-      </button>
     </section>
   );
 }
