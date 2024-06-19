@@ -1,8 +1,11 @@
 import "../userAddress/userAddress.css";
 import { HiHome } from "react-icons/hi2";
 import { HiDotsVertical } from "react-icons/hi";
-import { useRef, useState, forwardRef, useEffect } from "react";
+import { useRef, useState, forwardRef, useEffect, useContext } from "react";
 import { UserAddressModal } from "../../components/userAddressModal/UserAddressModal";
+import { UserContext } from "../../context/UserContext";
+import { Link } from "react-router-dom";
+import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 
 const EditIcon = forwardRef((props, ref) => (
   <div ref={ref}>
@@ -12,6 +15,7 @@ const EditIcon = forwardRef((props, ref) => (
 
 export function UserAddress() {
   const [openEditModal, setOpenEditModal] = useState(false);
+  const { users } = useContext(UserContext);
   const addressRef = {
     iconRef: useRef(null),
     modalRef: useRef(null),
@@ -44,38 +48,60 @@ export function UserAddress() {
     };
   }, [openEditModal]);
 
+  // Buscar usuario por ID
+  const userId = users.find((user) => user.id === 4);
+
+  // Verificar si userId existe y si tiene una dirección definida
+  const hasAddress =
+    userId && userId.domicilio && Object.keys(userId.domicilio).length > 0;
+
+  /*     const hasAddress =
+    userId &&
+    userId.domicilio &&
+    userId.domicilio.direccion !== undefined &&
+    userId.domicilio.direccion !== ""; */
+
   return (
     <section className="useraddress__container bg-white shadow-sm rounded-sm">
       <h1 className="text-2xl font-semibold mb-5">Direcciones</h1>
-      <div className="useradress__body flex justify-between">
-        <div className="w-full">
-          <hr className="w-full" />
-          <div className="direccion flex flex-col gap-2 my-3">
-            <div className="flex gap-2 items-center font-medium">
-              <HiHome className="text-2xl" />
-              <span>
-                Titan <span>4380</span> departamento 403, piso 4 torre 3
-              </span>
+      {!hasAddress ? (
+        <div className="flex flex-col gap-3 items-center sm: my-5">
+          <p className="font-semibold">Agrega una dirección de entrega</p>
+          <GeneralBtn type="secondary" className="">
+            Añadir
+          </GeneralBtn>
+        </div>
+      ) : (
+        <div className="useradress__body flex justify-between">
+          <div className="w-full">
+            <hr className="w-full" />
+            <div className="direccion flex flex-col gap-2 my-3">
+              <div className="flex gap-2 items-center font-medium">
+                <HiHome className="text-2xl" />
+                <span>
+                  {userId.domicilio.direccion}{" "}
+                  <span>{userId.domicilio.numero}</span>
+                </span>
+              </div>
+              <div className="region-comuna pl-8 text-sm">
+                <span className="">Región</span>{" "}
+                <span>{userId.domicilio.region}</span>
+              </div>
+              <span className="usuario pl-8 text-sm">{userId.nombre}</span>
             </div>
-            <div className="region-comuna pl-8 text-sm">
-              <span className="">Región</span> <span>Metropolitana</span>
-            </div>
-            <span className="usuario pl-8 text-sm">
-              Edison Venegas Espinoza
-            </span>
+          </div>
+          <div className="edit__icon">
+            <EditIcon
+              ref={addressRef.iconRef}
+              onClick={handleOpenEditModal}
+              className="text-xl mt-3 cursor-pointer"
+            />
+            {openEditModal ? (
+              <UserAddressModal ref={addressRef.modalRef} />
+            ) : null}
           </div>
         </div>
-        <div className="edit__icon">
-          <EditIcon
-            ref={addressRef.iconRef}
-            onClick={handleOpenEditModal}
-            className="text-xl mt-3 cursor-pointer"
-          />
-          {openEditModal ? (
-            <UserAddressModal ref={addressRef.modalRef} />
-          ) : null}
-        </div>
-      </div>
+      )}
       <hr />
     </section>
   );
