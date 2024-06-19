@@ -20,8 +20,6 @@ export function EditUserData() {
 
     setInputFormError({
       errorNombre: "",
-      errorRut: "",
-      errorTelefono: "",
       errorEmail: "",
     });
 
@@ -35,26 +33,6 @@ export function EditUserData() {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorNombre: "Ingresa tu nombre completo.",
-      }));
-    } else if (userData.rut.trim() === "") {
-      setInputFormError((prevErrors) => ({
-        ...prevErrors,
-        errorRut: "Ingresa tu RUT. sin puntos con guión",
-      }));
-    } else if (!rutFormatRegex.test(userData.rut.trim())) {
-      setInputFormError((prevErrors) => ({
-        ...prevErrors,
-        errorRut: "Ingresa un RUT válido. sin puntos con guión",
-      }));
-    } else if (userData.telefono.trim() === "") {
-      setInputFormError((prevErrors) => ({
-        ...prevErrors,
-        errorTelefono: "Ingresa tu teléfono.",
-      }));
-    } else if (!onlyNumbersRegex.test(userData.telefono.trim())) {
-      setInputFormError((prevErrors) => ({
-        ...prevErrors,
-        errorTelefono: "Ingresa solo números.",
       }));
     } else if (userData.email.trim() === "") {
       setInputFormError((prevErrors) => ({
@@ -99,56 +77,6 @@ export function EditUserData() {
             userData.nombre.trim().length < 10 ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorNombre}
-              </p>
-            ) : (
-              ""
-            )}
-          </div>
-          <div>
-            <label className="font-semibold" htmlFor="">
-              RUT
-            </label>
-            <input
-              ref={inputRefs.rut}
-              value={userData.rut}
-              onChange={handleChange}
-              className={`data__input ${
-                inputFormError.errorRut
-                  ? "focus: outline-2 outline outline-red-600"
-                  : "focus: outline-2 outline-green-300"
-              }`}
-              name="rut"
-              type="text"
-            />
-            {userData.rut.trim() === "" ||
-            !rutFormatRegex.test(userData.rut.trim()) ? (
-              <p className="text-red-600 font-semibold text-sm ml-7">
-                {inputFormError.errorRut}
-              </p>
-            ) : (
-              ""
-            )}
-          </div>
-          <div>
-            <label className="font-semibold" htmlFor="">
-              Telefono
-            </label>
-            <input
-              ref={inputRefs.telefono}
-              value={userData.telefono}
-              onChange={handleChange}
-              className={`data__input ${
-                inputFormError.errorTelefono
-                  ? "focus: outline-2 outline outline-red-600"
-                  : "focus: outline-2 outline-green-300"
-              }`}
-              name="telefono"
-              type="text"
-            />
-            {userData.telefono.trim() === "" ||
-            !onlyNumbersRegex.test(userData.telefono.trim()) ? (
-              <p className="text-red-600 font-semibold text-sm ml-7">
-                {inputFormError.errorTelefono}
               </p>
             ) : (
               ""

@@ -6,8 +6,6 @@ export const UserContext = createContext();
 
 const initialUserData = {
   nombre: "",
-  rut: "",
-  telefono: "",
   email: "",
   contraseña: "",
   confirmContraseña: "",
@@ -20,8 +18,6 @@ const initialUserData = {
 
 const initialFormError = {
   errorNombre: "",
-  errorRut: "",
-  errorTelefono: "",
   errorEmail: "",
   errorContraseña: "",
   errorConfirmContraseña: "",
@@ -43,8 +39,6 @@ export function UserProvider({ children }) {
 
   const inputRefs = {
     nombre: useRef(null),
-    rut: useRef(null),
-    telefono: useRef(null),
     email: useRef(null),
     contraseña: useRef(null),
     confirmContraseña: useRef(null),

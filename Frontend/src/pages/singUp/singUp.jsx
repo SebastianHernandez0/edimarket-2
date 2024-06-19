@@ -7,8 +7,6 @@ import { UserContext } from "../../context/UserContext";
 export function SingUp() {
   const {
     emailRegex,
-    rutFormatRegex,
-    onlyNumbersRegex,
     userData,
     handleChange,
     inputRefs,
@@ -23,8 +21,6 @@ export function SingUp() {
     // Resetear todos los errores
     setInputFormError({
       errorNombre: "",
-      errorRut: "",
-      errorTelefono: "",
       errorEmail: "",
       errorContraseña: "",
       errorConfirmContraseña: "",
@@ -40,26 +36,6 @@ export function SingUp() {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorNombre: "Ingresa tu nombre completo.",
-      }));
-    } else if (userData.rut.trim() === "") {
-      setInputFormError((prevErrors) => ({
-        ...prevErrors,
-        errorRut: "Ingresa tu RUT. sin puntos con guión",
-      }));
-    } else if (!rutFormatRegex.test(userData.rut.trim())) {
-      setInputFormError((prevErrors) => ({
-        ...prevErrors,
-        errorRut: "Ingresa un RUT válido. sin puntos con guión",
-      }));
-    } else if (userData.telefono.trim() === "") {
-      setInputFormError((prevErrors) => ({
-        ...prevErrors,
-        errorTelefono: "Ingresa tu teléfono.",
-      }));
-    } else if (!onlyNumbersRegex.test(userData.telefono.trim())) {
-      setInputFormError((prevErrors) => ({
-        ...prevErrors,
-        errorTelefono: "Ingresa solo números.",
       }));
     } else if (userData.email.trim() === "") {
       setInputFormError((prevErrors) => ({
@@ -129,54 +105,6 @@ export function SingUp() {
               )}
               <p className="register__form__input__paragraph text-sm">
                 Nombre completo
-              </p>
-            </div>
-            <div className="register__input__container">
-              <input
-                ref={inputRefs.rut}
-                name="rut"
-                onChange={handleChange}
-                value={userData.rut}
-                className={`register__form__input ${
-                  inputFormError.errorRut
-                    ? "focus: outline-2 outline outline-red-600"
-                    : "focus: outline-2 outline-green-300"
-                }`}
-                type="text"
-              />
-              {userData.rut.trim() === "" ||
-              !rutFormatRegex.test(userData.rut.trim()) ? (
-                <p className="text-red-600 font-semibold text-sm ml-7">
-                  {inputFormError.errorRut}
-                </p>
-              ) : (
-                ""
-              )}
-              <p className="register__form__input__paragraph text-sm">Rut</p>
-            </div>
-            <div className="register__input__container">
-              <input
-                ref={inputRefs.telefono}
-                name="telefono"
-                onChange={handleChange}
-                value={userData.telefono}
-                className={`register__form__input ${
-                  inputFormError.errorTelefono
-                    ? "focus: outline-2 outline outline-red-600"
-                    : "focus: outline-2 outline-green-300"
-                }`}
-                type="text"
-              />
-              {userData.telefono.trim() === "" ||
-              !onlyNumbersRegex.test(userData.telefono.trim()) ? (
-                <p className="text-red-600 font-semibold text-sm ml-7">
-                  {inputFormError.errorTelefono}
-                </p>
-              ) : (
-                ""
-              )}
-              <p className="register__form__input__paragraph text-sm">
-                Teléfono
               </p>
             </div>
             <div className="register__input__container">

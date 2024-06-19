@@ -21,18 +21,6 @@ export function UserData() {
               <p className="font-semibold mb-1 text-lg">Nombre y apellido</p>
               <p className="text-sm">Edison Alejandro Venegas Espinoza</p>
             </div>
-            <div>
-              <p className="font-semibold mb-1 text-lg">Rut</p>
-              <span className="text-sm">18.056.328-8</span>
-            </div>
-          </div>
-        </div>
-        <div className="personaldata__number flex items-center justify-between my-5">
-          <div className="flex items-center gap-10 flex-wrap w-full">
-            <div className="flex flex-col">
-              <p className="font-semibold mb-1 text-lg">Número telefónico</p>
-              <p className="text-sm">951105537</p>
-            </div>
           </div>
         </div>
         <div className="personaldata__email flex items-center justify-between my-5">
