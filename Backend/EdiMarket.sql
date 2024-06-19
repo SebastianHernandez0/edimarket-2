@@ -71,7 +71,7 @@ CREATE TABLE ventas(
 	);
 	
 CREATE TABLE metodos_pago(
-	INT SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	usuario_id INT NOT NULL,
 	tipo_tarjeta VARCHAR(50) NOT NULL,
 	numero_tarjeta VARCHAR(255) NOT NULL,
