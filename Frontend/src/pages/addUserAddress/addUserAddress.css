@@ -27,3 +27,11 @@
   max-width: 500px;
   padding: 20px;
 }
+
+.adress__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 35px;
+}

@@ -43,7 +43,7 @@ export function AddUserAdress() {
               <input className="address__input" type="text" />
             </div>
           </div>
-          <GeneralBtn type="secondary" className="self-center">
+          <GeneralBtn type="secondary" className="adress__btn self-end justify-self-end">
             Guardar
           </GeneralBtn>
         </form>
