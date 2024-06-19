@@ -11,19 +11,14 @@ export function EditUserData() {
     userData,
     handleChange,
     inputRefs,
+    inputFormError,
+    setInputFormError,
   } = useContext(UserContext);
-
-  const [userDataError, setUserDataError] = useState({
-    errorNombre: "",
-    errorRut: "",
-    errorTelefono: "",
-    errorEmail: "",
-  });
 
   const handleEditData = (e) => {
     e.preventDefault();
 
-    setUserDataError({
+    setInputFormError({
       errorNombre: "",
       errorRut: "",
       errorTelefono: "",
@@ -32,42 +27,42 @@ export function EditUserData() {
 
     // Validar cada campo uno por uno
     if (userData.nombre.trim() === "") {
-      setUserDataError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorNombre: "Ingresa tu nombre.",
       }));
     } else if (userData.nombre.trim().length < 10) {
-      setUserDataError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorNombre: "Ingresa tu nombre completo.",
       }));
     } else if (userData.rut.trim() === "") {
-      setUserDataError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorRut: "Ingresa tu RUT. sin puntos con guión",
       }));
     } else if (!rutFormatRegex.test(userData.rut.trim())) {
-      setUserDataError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorRut: "Ingresa un RUT válido. sin puntos con guión",
       }));
     } else if (userData.telefono.trim() === "") {
-      setUserDataError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorTelefono: "Ingresa tu teléfono.",
       }));
     } else if (!onlyNumbersRegex.test(userData.telefono.trim())) {
-      setUserDataError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorTelefono: "Ingresa solo números.",
       }));
     } else if (userData.email.trim() === "") {
-      setUserDataError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorEmail: "Ingresa tu correo electrónico.",
       }));
     } else if (!emailRegex.test(userData.email.trim())) {
-      setUserDataError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorEmail: "Ingresa un correo electrónico válido.",
       }));
@@ -75,47 +70,6 @@ export function EditUserData() {
       setSingUpSuccess("Datos actualizados con éxito");
     }
   };
-
-  useEffect(() => {
-    // Función para determinar si se debe enfocar algún input
-    const shouldFocusInput = () => {
-      return (
-        userDataError.errorNombre ||
-        userDataError.errorRut ||
-        userDataError.errorTelefono ||
-        userDataError.errorEmail
-      );
-    };
-
-    // Enfocar el input correspondiente si hay algún error
-    if (shouldFocusInput()) {
-      if (userDataError.errorNombre) {
-        inputRefs.nombre.current.focus();
-      } else if (userDataError.errorRut) {
-        inputRefs.rut.current.focus();
-      } else if (userDataError.errorTelefono) {
-        inputRefs.telefono.current.focus();
-      } else if (userDataError.errorEmail) {
-        inputRefs.email.current.focus();
-      }
-    }
-  }, [userDataError]);
-
-  useEffect(() => {
-    if (
-      userData.nombre !== "" ||
-      userData.rut !== "" ||
-      userData.telefono !== "" ||
-      userData.email !== ""
-    ) {
-      setUserDataError({
-        errorNombre: "",
-        errorRut: "",
-        errorTelefono: "",
-        errorEmail: "",
-      });
-    }
-  }, [userData]);
 
   return (
     <section className="edituserdata__container bg-white shadow-sm rounded-sm">
@@ -134,7 +88,7 @@ export function EditUserData() {
               value={userData.nombre}
               onChange={handleChange}
               className={`data__input ${
-                userDataError.errorNombre
+                inputFormError.errorNombre
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
@@ -144,7 +98,7 @@ export function EditUserData() {
             {userData.nombre.trim() === "" ||
             userData.nombre.trim().length < 10 ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
-                {userDataError.errorNombre}
+                {inputFormError.errorNombre}
               </p>
             ) : (
               ""
@@ -159,7 +113,7 @@ export function EditUserData() {
               value={userData.rut}
               onChange={handleChange}
               className={`data__input ${
-                userDataError.errorRut
+                inputFormError.errorRut
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
@@ -169,7 +123,7 @@ export function EditUserData() {
             {userData.rut.trim() === "" ||
             !rutFormatRegex.test(userData.rut.trim()) ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
-                {userDataError.errorRut}
+                {inputFormError.errorRut}
               </p>
             ) : (
               ""
@@ -184,7 +138,7 @@ export function EditUserData() {
               value={userData.telefono}
               onChange={handleChange}
               className={`data__input ${
-                userDataError.errorTelefono
+                inputFormError.errorTelefono
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
@@ -194,7 +148,7 @@ export function EditUserData() {
             {userData.telefono.trim() === "" ||
             !onlyNumbersRegex.test(userData.telefono.trim()) ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
-                {userDataError.errorTelefono}
+                {inputFormError.errorTelefono}
               </p>
             ) : (
               ""
@@ -209,7 +163,7 @@ export function EditUserData() {
               value={userData.email}
               onChange={handleChange}
               className={`data__input ${
-                userDataError.errorEmail
+                inputFormError.errorEmail
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
@@ -219,7 +173,7 @@ export function EditUserData() {
             {userData.email.trim() === "" ||
             !emailRegex.test(userData.email.trim()) ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
-                {userDataError.errorEmail}
+                {inputFormError.errorEmail}
               </p>
             ) : (
               ""

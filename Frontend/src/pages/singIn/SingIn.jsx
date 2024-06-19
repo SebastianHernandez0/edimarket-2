@@ -7,39 +7,40 @@ import { UserContext } from "../../context/UserContext";
 export function SingIn() {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   const [singInSuccess, setSingInSuccess] = useState("");
-  const { userData, setUserData, inputRefs, handleChange } =
-    useContext(UserContext);
-  const [singInError, setSingInError] = useState({
-    errorEmail: "",
-    errorContraseña: "",
-  });
+  const {
+    userData,
+    inputRefs,
+    handleChange,
+    inputFormError,
+    setInputFormError,
+  } = useContext(UserContext);
 
   const handleSingInSubmit = (e) => {
     e.preventDefault();
 
-    setSingInError({
+    setInputFormError({
       errorEmail: "",
       errorContraseña: "",
     });
 
     if (userData.email.trim() === "") {
-      setSingInError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorEmail: "Ingresa tu correo electrónico.",
       }));
     } else if (!emailRegex.test(userData.email.trim())) {
-      setSingInError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorEmail: "Ingresa un correo electrónico válido.",
       }));
     } else if (userData.contraseña.trim() === "") {
-      setSingInError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorContraseña: "Ingresa tu contraseña.",
       }));
     } else {
       setSingInSuccess("!Has iniciado sesión con éxito!.");
-      setSingInError({
+      setInputFormError({
         errorEmail: "",
         errorContraseña: "",
       });
@@ -48,27 +49,12 @@ export function SingIn() {
 
   useEffect(() => {
     if (userData.email !== "" || userData.contraseña !== "") {
-      setSingInError({
+      setInputFormError({
         errorEmail: "",
         errorContraseña: "",
       });
     }
   }, [userData]);
-
-  useEffect(() => {
-    // Función para determinar si se debe enfocar algún input
-    const shouldFocusInput = () => {
-      return singInError.errorEmail || singInError.errorContraseña;
-    };
-
-    // Enfocar el input correspondiente si hay algún error
-    if (shouldFocusInput()) {
-      if (singInError.errorEmail) {
-        inputRefs.email.current.focus();
-      } else if (singInError.errorContraseña) {
-      }
-    }
-  }, [singInError]);
 
   return (
     <section className="login__container shadow-md rounded-md">
@@ -90,7 +76,7 @@ export function SingIn() {
                 onChange={handleChange}
                 value={userData.email}
                 className={`login__form__input  ${
-                  singInError.errorEmail
+                  inputFormError.errorEmail
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
@@ -99,7 +85,7 @@ export function SingIn() {
               {userData.email.trim() === "" ||
               !emailRegex.test(userData.email.trim()) ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
-                  {singInError.errorEmail}
+                  {inputFormError.errorEmail}
                 </p>
               ) : (
                 ""
@@ -113,7 +99,7 @@ export function SingIn() {
                 onChange={handleChange}
                 value={userData.contraseña}
                 className={`login__form__input  ${
-                  singInError.errorContraseña
+                  inputFormError.errorContraseña
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
@@ -121,7 +107,7 @@ export function SingIn() {
               />
               {userData.contraseña.trim() === "" ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
-                  {singInError.errorContraseña}
+                  {inputFormError.errorContraseña}
                 </p>
               ) : (
                 ""

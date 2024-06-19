@@ -38,6 +38,14 @@ export function UserProvider({ children }) {
         contraseña: "",
         confirmContraseña: "",
       });
+      setInputFormError({
+        errorNombre: "",
+        errorRut: "",
+        errorTelefono: "",
+        errorEmail: "",
+        errorContraseña: "",
+        errorConfirmContraseña: "",
+      });
     }
   }, [navigate, setUserData]);
 
@@ -48,7 +56,65 @@ export function UserProvider({ children }) {
       [name]: value,
     });
   };
+  const [inputFormError, setInputFormError] = useState({
+    errorNombre: "",
+    errorRut: "",
+    errorTelefono: "",
+    errorEmail: "",
+    errorContraseña: "",
+    errorConfirmContraseña: "",
+  });
 
+  useEffect(() => {
+    if (
+      userData.nombre !== "" ||
+      userData.rut !== "" ||
+      userData.telefono !== "" ||
+      userData.email !== "" ||
+      userData.contraseña !== "" ||
+      userData.confirmContraseña !== ""
+    ) {
+      setInputFormError({
+        errorNombre: "",
+        errorRut: "",
+        errorTelefono: "",
+        errorEmail: "",
+        errorContraseña: "",
+        errorConfirmContraseña: "",
+      });
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    // Función para determinar si se debe enfocar algún input
+    const shouldFocusInput = () => {
+      return (
+        inputFormError.errorNombre ||
+        inputFormError.errorRut ||
+        inputFormError.errorTelefono ||
+        inputFormError.errorEmail ||
+        inputFormError.errorContraseña ||
+        inputFormError.errorConfirmContraseña
+      );
+    };
+
+    // Enfocar el input correspondiente si hay algún error
+    if (shouldFocusInput()) {
+      if (inputFormError.errorNombre) {
+        inputRefs.nombre.current.focus();
+      } else if (inputFormError.errorRut) {
+        inputRefs.rut.current.focus();
+      } else if (inputFormError.errorTelefono) {
+        inputRefs.telefono.current.focus();
+      } else if (inputFormError.errorEmail) {
+        inputRefs.email.current.focus();
+      } else if (inputFormError.errorContraseña) {
+        inputRefs.contraseña.current.focus();
+      } else if (inputFormError.errorConfirmContraseña) {
+        inputRefs.confirmContraseña.current.focus();
+      }
+    }
+  }, [inputFormError]);
   return (
     <UserContext.Provider
       value={{
@@ -60,6 +126,8 @@ export function UserProvider({ children }) {
         setUserData,
         inputRefs,
         handleChange,
+        inputFormError,
+        setInputFormError,
       }}
     >
       {children}
