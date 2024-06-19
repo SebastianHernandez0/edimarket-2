@@ -1,32 +1,18 @@
 import "./singIn.css";
 import { NavLink } from "react-router-dom";
 import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 export function SingIn() {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   const [singInSuccess, setSingInSuccess] = useState("");
+  const { userData, setUserData, inputRefs, handleChange } =
+    useContext(UserContext);
   const [singInError, setSingInError] = useState({
     errorEmail: "",
     errorContraseña: "",
   });
-  const inputRefs = {
-    email: useRef(null),
-    contraseña: useRef(null),
-  };
-
-  const [userData, setUserData] = useState({
-    email: "",
-    contraseña: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
-  };
 
   const handleSingInSubmit = (e) => {
     e.preventDefault();

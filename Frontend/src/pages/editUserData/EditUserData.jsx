@@ -4,27 +4,21 @@ import "../editUserData/editUserData.css";
 import { UserContext } from "../../context/UserContext";
 
 export function EditUserData() {
-  const { emailRegex, rutFormatRegex, onlyNumbersRegex } =
-    useContext(UserContext);
+  const {
+    emailRegex,
+    rutFormatRegex,
+    onlyNumbersRegex,
+    userData,
+    handleChange,
+    inputRefs,
+  } = useContext(UserContext);
 
-  const [userData, setUserData] = useState({
-    nombre: "",
-    rut: "",
-    telefono: "",
-    email: "",
-  });
   const [userDataError, setUserDataError] = useState({
     errorNombre: "",
     errorRut: "",
     errorTelefono: "",
     errorEmail: "",
   });
-  const inputRefs = {
-    nombre: useRef(null),
-    rut: useRef(null),
-    telefono: useRef(null),
-    email: useRef(null),
-  };
 
   const handleEditData = (e) => {
     e.preventDefault();
@@ -80,14 +74,6 @@ export function EditUserData() {
     } else {
       setSingUpSuccess("Datos actualizados con éxito");
     }
-  };
-
-  const handleUserData = (e) => {
-    const { name, value } = e.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
   };
 
   useEffect(() => {
@@ -146,7 +132,7 @@ export function EditUserData() {
             <input
               ref={inputRefs.nombre}
               value={userData.nombre}
-              onChange={handleUserData}
+              onChange={handleChange}
               className={`data__input ${
                 userDataError.errorNombre
                   ? "focus: outline-2 outline outline-red-600"
@@ -171,7 +157,7 @@ export function EditUserData() {
             <input
               ref={inputRefs.rut}
               value={userData.rut}
-              onChange={handleUserData}
+              onChange={handleChange}
               className={`data__input ${
                 userDataError.errorRut
                   ? "focus: outline-2 outline outline-red-600"
@@ -196,7 +182,7 @@ export function EditUserData() {
             <input
               ref={inputRefs.telefono}
               value={userData.telefono}
-              onChange={handleUserData}
+              onChange={handleChange}
               className={`data__input ${
                 userDataError.errorTelefono
                   ? "focus: outline-2 outline outline-red-600"
@@ -221,7 +207,7 @@ export function EditUserData() {
             <input
               ref={inputRefs.email}
               value={userData.email}
-              onChange={handleUserData}
+              onChange={handleChange}
               className={`data__input ${
                 userDataError.errorEmail
                   ? "focus: outline-2 outline outline-red-600"

@@ -1,12 +1,18 @@
 import "./singUp.css";
 import { NavLink } from "react-router-dom";
 import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 
 export function SingUp() {
-  const { emailRegex, rutFormatRegex, onlyNumbersRegex } =
-    useContext(UserContext);
+  const {
+    emailRegex,
+    rutFormatRegex,
+    onlyNumbersRegex,
+    userData,
+    handleChange,
+    inputRefs,
+  } = useContext(UserContext);
   const [singUpSuccess, setSingUpSuccess] = useState("");
   const [singUpError, setSingUpError] = useState({
     errorNombre: "",
@@ -16,23 +22,6 @@ export function SingUp() {
     errorContraseña: "",
     errorConfirmContraseña: "",
   });
-  const [userData, setUserData] = useState({
-    nombre: "",
-    rut: "",
-    telefono: "",
-    email: "",
-    contraseña: "",
-    confirmContraseña: "",
-  });
-
-  const inputRefs = {
-    nombre: useRef(null),
-    rut: useRef(null),
-    telefono: useRef(null),
-    email: useRef(null),
-    contraseña: useRef(null),
-    confirmContraseña: useRef(null),
-  };
 
   const handleSingupSubmit = (e) => {
     e.preventDefault();
@@ -108,34 +97,6 @@ export function SingUp() {
     } else {
       setSingUpSuccess("¡Te has registrado con éxito!");
     }
-  };
-
-  useEffect(() => {
-    if (
-      userData.nombre !== "" ||
-      userData.rut !== "" ||
-      userData.telefono !== "" ||
-      userData.email !== "" ||
-      userData.contraseña !== "" ||
-      userData.confirmContraseña !== ""
-    ) {
-      setSingUpError({
-        errorNombre: "",
-        errorRut: "",
-        errorTelefono: "",
-        errorEmail: "",
-        errorContraseña: "",
-        errorConfirmContraseña: "",
-      });
-    }
-  }, [userData]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
   };
 
   useEffect(() => {
