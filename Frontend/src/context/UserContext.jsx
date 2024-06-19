@@ -4,25 +4,42 @@ import { useNavigate } from "react-router-dom";
 //Creación de un token de prueba para acceder a las rutas privadas
 export const UserContext = createContext();
 
+const initialUserData = {
+  nombre: "",
+  rut: "",
+  telefono: "",
+  email: "",
+  contraseña: "",
+  confirmContraseña: "",
+  titulo: "",
+  precio: "",
+  categorias: "",
+  estado: "",
+  descripcion: "",
+};
+
+const initialFormError = {
+  errorNombre: "",
+  errorRut: "",
+  errorTelefono: "",
+  errorEmail: "",
+  errorContraseña: "",
+  errorConfirmContraseña: "",
+  errorTitulo: "",
+  errorPrecio: "",
+  errorCategorias: "",
+  errorEstado: "",
+  errorDescripcion: "",
+};
+
 export function UserProvider({ children }) {
   const [userToken, setUserToken] = useState("Hola soy el token");
   const navigate = useNavigate();
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   const rutFormatRegex = /^[0-9]+-[0-9]$/;
   const onlyNumbersRegex = /^[0-9]+$/;
-  const [userData, setUserData] = useState({
-    nombre: "",
-    rut: "",
-    telefono: "",
-    email: "",
-    contraseña: "",
-    confirmContraseña: "",
-    titulo: "",
-    precio: "",
-    categorias: "",
-    estado: "",
-    descripcion: "",
-  });
+  const [userData, setUserData] = useState(initialUserData);
+  const [inputFormError, setInputFormError] = useState(initialFormError);
 
   const inputRefs = {
     nombre: useRef(null),
@@ -38,130 +55,43 @@ export function UserProvider({ children }) {
     descripcion: useRef(null),
   };
 
+  // Resetear el estado si cambia la navegación (URL)
   useEffect(() => {
-    if (navigate) {
-      setUserData({
-        nombre: "",
-        rut: "",
-        telefono: "",
-        email: "",
-        contraseña: "",
-        confirmContraseña: "",
-        titulo: "",
-        precio: "",
-        categorias: "",
-        estado: "",
-        descripcion: "",
-      });
-      setInputFormError({
-        errorNombre: "",
-        errorRut: "",
-        errorTelefono: "",
-        errorEmail: "",
-        errorContraseña: "",
-        errorConfirmContraseña: "",
-        errorTitulo: "",
-        errorPrecio: "",
-        errorCategorias: "",
-        errorEstado: "",
-        errorDescripcion: "",
-      });
-    }
+    setUserData(initialUserData);
+    setInputFormError(initialFormError);
   }, [navigate]);
 
+  //Manejo de datos ingresados en inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData({
-      ...userData,
+    setUserData((prevUserData) => ({
+      ...prevUserData,
       [name]: value,
-    });
+    }));
   };
-  const [inputFormError, setInputFormError] = useState({
-    errorNombre: "",
-    errorRut: "",
-    errorTelefono: "",
-    errorEmail: "",
-    errorContraseña: "",
-    errorConfirmContraseña: "",
-  });
 
+  // Resetear los errores si userData cambia
   useEffect(() => {
-    if (
-      userData.nombre !== "" ||
-      userData.rut !== "" ||
-      userData.telefono !== "" ||
-      userData.email !== "" ||
-      userData.contraseña !== "" ||
-      userData.confirmContraseña !== "" ||
-      userData.titulo !== "" ||
-      userData.precio !== "" ||
-      userData.categorias !== "" ||
-      userData.estado !== "" ||
-      userData.descripcion !== ""
-    ) {
-      setInputFormError({
-        errorNombre: "",
-        errorRut: "",
-        errorTelefono: "",
-        errorEmail: "",
-        errorContraseña: "",
-        errorConfirmContraseña: "",
-        errorTitulo: "",
-        errorPrecio: "",
-        errorCategorias: "",
-        errorEstado: "",
-        errorDescripcion: "",
-      });
-    }
+    setInputFormError(initialFormError);
   }, [userData]);
 
+  // Enfocar el primer input con algún error
   useEffect(() => {
-    // Función para determinar si se debe enfocar algún input
-    const shouldFocusInput = () => {
-      return (
-        inputFormError.errorNombre ||
-        inputFormError.errorRut ||
-        inputFormError.errorTelefono ||
-        inputFormError.errorEmail ||
-        inputFormError.errorContraseña ||
-        inputFormError.errorConfirmContraseña ||
-        inputFormError.errorTitulo ||
-        inputFormError.errorPrecio ||
-        inputFormError.errorCategorias ||
-        inputFormError.errorEstado ||
-        inputFormError.errorDescripcion
-      );
-    };
+    const shouldFocusInput = Object.keys(inputFormError).some(
+      (key) => inputFormError[key]
+    );
 
-    // Enfocar el input correspondiente si hay algún error
-    if (shouldFocusInput()) {
-      if (inputFormError.errorNombre) {
-        inputRefs.nombre.current.focus();
-      } else if (inputFormError.errorRut) {
-        inputRefs.rut.current.focus();
-      } else if (inputFormError.errorTelefono) {
-        inputRefs.telefono.current.focus();
-      } else if (inputFormError.errorEmail) {
-        inputRefs.email.current.focus();
-      } else if (inputFormError.errorContraseña) {
-        inputRefs.contraseña.current.focus();
-      } else if (inputFormError.errorConfirmContraseña) {
-        inputRefs.confirmContraseña.current.focus();
-      } else if (inputFormError.errorConfirmContraseña) {
-        inputRefs.confirmContraseña.current.focus();
-      } else if (inputFormError.errorTitulo) {
-        inputRefs.titulo.current.focus();
-      } else if (inputFormError.errorPrecio) {
-        inputRefs.precio.current.focus();
-      } else if (inputFormError.errorCategorias) {
-        inputRefs.categorias.current.focus();
-      } else if (inputFormError.errorEstado) {
-        inputRefs.estado.current.focus();
-      } else if (inputFormError.errorDescripcion) {
-        inputRefs.descripcion.current.focus();
-      }
+    if (shouldFocusInput) {
+      Object.keys(inputRefs).forEach((key) => {
+        if (
+          inputFormError[`error${key.charAt(0).toUpperCase() + key.slice(1)}`]
+        ) {
+          inputRefs[key].current.focus();
+        }
+      });
     }
   }, [inputFormError]);
+
   return (
     <UserContext.Provider
       value={{
