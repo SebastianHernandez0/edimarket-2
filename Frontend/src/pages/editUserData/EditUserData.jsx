@@ -1,4 +1,4 @@
-import { useContext, useRef, useState, useEffect } from "react";
+import { useContext } from "react";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import "../editUserData/editUserData.css";
 import { UserContext } from "../../context/UserContext";

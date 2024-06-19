@@ -1,7 +1,7 @@
 import "./singUp.css";
 import { NavLink } from "react-router-dom";
 import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 
 export function SingUp() {
