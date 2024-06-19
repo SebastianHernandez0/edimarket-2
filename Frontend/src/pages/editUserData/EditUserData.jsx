@@ -115,6 +115,22 @@ export function EditUserData() {
     }
   }, [userDataError]);
 
+  useEffect(() => {
+    if (
+      userData.nombre !== "" ||
+      userData.rut !== "" ||
+      userData.telefono !== "" ||
+      userData.email !== ""
+    ) {
+      setUserDataError({
+        errorNombre: "",
+        errorRut: "",
+        errorTelefono: "",
+        errorEmail: "",
+      });
+    }
+  }, [userData]);
+
   return (
     <section className="edituserdata__container bg-white shadow-sm rounded-sm">
       <h1 className="mb-5">Edita y guarda tus datos</h1>
