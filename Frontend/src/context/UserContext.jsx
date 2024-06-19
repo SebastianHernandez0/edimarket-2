@@ -27,6 +27,7 @@ const initialFormError = {
   errorEstado: "",
   errorDescripcion: "",
 };
+const usersURL = "/user.json";
 
 export function UserProvider({ children }) {
   const [userToken, setUserToken] = useState("Hola soy el token");
@@ -35,6 +36,7 @@ export function UserProvider({ children }) {
   const rutFormatRegex = /^[0-9]+-[0-9]$/;
   const onlyNumbersRegex = /^[0-9]+$/;
   const [userData, setUserData] = useState(initialUserData);
+  const [users, setUsers] = useState([]);
   const [inputFormError, setInputFormError] = useState(initialFormError);
 
   const inputRefs = {
@@ -48,6 +50,21 @@ export function UserProvider({ children }) {
     estado: useRef(null),
     descripcion: useRef(null),
   };
+
+  // Fetching a la ruta get de usuarios
+  const getUsers = async () => {
+    try {
+      const response = await fetch(usersURL);
+      const data = await response.json();
+      setUsers(data);
+    } catch (error) {
+      console.log("no se pudieron traer los usuarios");
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   // Resetear el estado si cambia la navegación (URL)
   useEffect(() => {
@@ -99,6 +116,8 @@ export function UserProvider({ children }) {
         handleChange,
         inputFormError,
         setInputFormError,
+        users,
+        setUsers,
       }}
     >
       {children}

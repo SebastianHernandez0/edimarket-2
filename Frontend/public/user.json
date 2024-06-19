@@ -1,27 +1,27 @@
 [
-    {
+  {
+    "id": 1,
+    "nombre": "Laura Perez",
+    "email": "laura@ejemplo.com",
+    "domicilio": {
+      "direccion": "Av Alemania 5030 depto 3",
+      "ciudad": "Santiago",
+      "region": "Region Metropolitana",
+      "codigo_postal": "7770317"
+    },
+    "favoritos": [
+      {
         "id": 1,
-        "nombre": "Laura Perez",
-        "email": "laura@ejemplo.com",
-        "domicilio": {
-            "direccion": "Av Alemania 5030 depto 3",
-            "ciudad": "Santiago",
-            "region": "Region Metropolitana",
-            "codigo_postal": "7770317"
-        },
-        "favoritos": [
-            {
-                "id": 1 ,
-                "nombre": "Iphone 14"
-            }
-        ],
-        "carrito": [
-            {
-                "producto_id": 1,
-                "nombre": "Iphone 13 Pro Max" ,
-                "cantidad": 3,
-                "comprado": false
-            }
-        ]
-    }
+        "nombre": "Iphone 14"
+      }
+    ],
+    "carrito": [
+      {
+        "producto_id": 1,
+        "nombre": "Iphone 13 Pro Max",
+        "cantidad": 3,
+        "comprado": false
+      }
+    ]
+  }
 ]
