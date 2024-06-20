@@ -22,6 +22,7 @@ import { UserData } from "./pages/userData/UserData.jsx";
 import { EditUserData } from "./pages/editUserData/EditUserData.jsx";
 import { UserAddress } from "./pages/userAddress/UserAddress.jsx";
 import { AddUserAdress } from "./pages/addUserAddress/AddUserAddress.jsx";
+import { NotFound } from "./pages/notFound/NotFound.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -77,6 +78,7 @@ function App() {
             path="/add-address"
             element={userToken ? <AddUserAdress /> : <Navigate to="/login" />}
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
         <Footer />
