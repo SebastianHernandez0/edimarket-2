@@ -1,24 +1,16 @@
-import { useState } from 'react';
-import paymentInfo from "/public/paymentInfo.json";
+import { useState, useContext } from 'react';
 import { CheckoutContext } from "../../context/CheckoutContext";
+import shipping from "/src/pages/shipping/shipping.module.css";
+import classNames from 'classnames';
 
 export function PaymentMethods() {
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
-  const paymentInfoJson = paymentInfo;
-
-  const handleCheckboxChange = (metodo_id) => {
-    setSelectedPaymentMethod(metodo_id);
-  };
-
-  const handleEfectivoChange = () => {
-    setSelectedPaymentMethod('efectivo');
-  };
+  const { selectedPaymentMethod, paymentInfoJson, handleCheckboxChange, handleEfectivoChange } = useContext(CheckoutContext);
 
   return (
     <>
-      <div className='container'>
+      <div className={classNames('p-4', shipping.billing_box)}>
         {paymentInfoJson.map((paymentMethod) => (
-          <div key={paymentMethod.metodo_id} className={paymentMethod.tipo.toLowerCase()}>
+          <div key={paymentMethod.metodo_id} className={classNames("credit_card", shipping.delivery_type_container, shipping.delivery, paymentMethod.tipo.toLowerCase())}>
             <input
               type="checkbox"
               id={`checkbox-${paymentMethod.metodo_id}`}
@@ -31,7 +23,7 @@ export function PaymentMethods() {
             <p>Fecha de expiración: {paymentMethod.fecha_expiracion}</p>
           </div>
         ))}
-        <div className='efectivo'>
+        <div className={classNames("efectivo", shipping.delivery_type_container, shipping.delivery)}>
           <input
             type="checkbox"
             id="checkbox-efectivo"

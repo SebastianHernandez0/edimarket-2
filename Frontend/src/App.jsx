@@ -17,6 +17,7 @@ import { Cart } from "./pages/cart/Cart.jsx";
 import { Billing } from "./pages/billing/Billing";
 import { PublishedProduct } from "./pages/publishedProduct/PublishedProduct.jsx";
 import { Shipping } from "./pages/shipping/Shipping.jsx";
+import { PaymentSuccess } from "./pages/paymentSuccess/PaymentSuccess.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -28,6 +29,7 @@ function App() {
         <Routes>
           <Route path="/carro" element={<Cart />} />
           <Route path="/billing" element={<Billing />} />
+          <Route path="/compra-exitosa" element={<PaymentSuccess />} />
           <Route path="/myProduct" element={<PublishedProduct />} />
           {/*esta ruta debe tener el nombre del producto*/}
           <Route path="shipping" element={<Shipping />} />

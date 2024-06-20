@@ -1,24 +1,14 @@
-import { useState } from 'react';
-import user from "/public/user.json";
-import shipping from "/src/pages/shipping/shipping.module.css";
+import { useContext } from 'react';
 import classNames from 'classnames';
+import shipping from "/src/pages/shipping/shipping.module.css";
 import { CheckoutContext } from "../../context/CheckoutContext";
 
 export function Adresses() {
-  const [selectedAddress, setSelectedAddress] = useState('pickup');
-  const userData = user;
-
-  const handleAddressChange = (id) => {
-    setSelectedAddress(id);
-  };
-
-  const handlePickupChange = () => {
-    setSelectedAddress('pickup');
-  };
+  const { selectedAddress, setSelectedAddress, userData, handleAddressChange, handlePickupChange } = useContext(CheckoutContext);
 
   return (
-    <div className="mb-[50px]">
-      <div className={classNames('container', shipping.shipping_box)}>
+    <div className="">
+      <div className={classNames('p-4', shipping.shipping_box)}>
         <div className={classNames(shipping.delivery_type_container, shipping.delivery)}>
           <input
             type="checkbox"

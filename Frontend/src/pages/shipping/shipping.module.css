@@ -1,15 +1,27 @@
-.shipping_box {
-    padding: 10px;
+.shipping_box, .billing_box {
     background-color:var(--navbarColor);
     border-radius: 8px;
 }
 
 .delivery_type_container {
-    padding: 20px 10px;
     border-bottom: 1px solid #DAC6DF;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 .delivery_type_container:last-child {
-    padding: 20px 10px;
     border-bottom: none;
+    padding-bottom: 0;
 }
+
+.delivery_type_container:first-child {
+    padding-top: 0;
+}
+
+.shipping__container {
+    grid-area: none;
+}
+
+/* .summary__container {
+    padding:8px;
+} */
