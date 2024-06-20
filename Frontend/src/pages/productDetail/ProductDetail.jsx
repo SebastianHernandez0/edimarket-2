@@ -7,7 +7,7 @@ import { IoHeartSharp } from "react-icons/io5";
 import { CartContext } from "../../context/CarritoContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { useRef } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { OverlayScreen } from "../../components/overlayScreen/OverlayScreen";
 import { UserContext } from "../../context/UserContext";
 
@@ -79,7 +79,7 @@ export function ProductDetail() {
           ...prevState,
           success: "",
         }));
-        timeoutRef.current = null; // Limpiamos la referencia al temporizador
+        timeoutRef.current = null;
       }, 2400);
     } else {
       // Eliminar producto de favoritos
@@ -105,8 +105,29 @@ export function ProductDetail() {
   };
 
   const handleNavigateToLogin = () => {
-    navigate("/login");
+    if (!userToken) {
+      setProductAlert((prevState) => ({
+        ...prevState,
+        error: "Para añadir a favoritos inicia sesión o registrate.",
+      }));
+    }
+    timeoutRef.current = setTimeout(() => {
+      setProductAlert((prevState) => ({
+        ...prevState,
+        error: "",
+      }));
+      timeoutRef.current = null;
+    }, 8000);
   };
+
+  useEffect(() => {
+    if (navigate) {
+      setProductAlert({
+        success: "",
+        error: "",
+      });
+    }
+  }, [navigate]);
 
   return (
     <section className="productdetail__container">
@@ -194,6 +215,31 @@ export function ProductDetail() {
             <div>
               <p className="card__cart__alert shadow-md rounded-md bg-green-600">
                 {productAlert.success}
+              </p>
+            </div>
+          </CartAlert>
+        ) : (
+          ""
+        )}
+        {productAlert.error ? (
+          <CartAlert>
+            <div className="">
+              <p className="card__cart__alert shadow-md rounded-md bg-slate-700 text-sm sm:text-lg">
+                {productAlert.error}{" "}
+                <div className="flex gap-14 items-center justify-center mt-5">
+                  <Link
+                    className="font-semibold sm:text-sm hover:text-teal-400"
+                    to="/login"
+                  >
+                    INICIAR SESIÓN
+                  </Link>
+                  <Link
+                    className="font-semibold sm:text-sm hover:text-teal-400"
+                    to="/registro"
+                  >
+                    REGISTRARSE
+                  </Link>
+                </div>
               </p>
             </div>
           </CartAlert>
