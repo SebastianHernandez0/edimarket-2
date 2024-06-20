@@ -21,7 +21,6 @@ export function SingIn() {
     setUserToken,
     setUserData,
     initialUserData,
-    user,
   } = useContext(UserContext);
 
   const navigate = useNavigate();

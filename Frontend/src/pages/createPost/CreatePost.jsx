@@ -19,7 +19,7 @@ export function CreatePost() {
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
   }, []);
-  console.log(inputRefs);
+
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
     useDropzone({ onDrop });
 

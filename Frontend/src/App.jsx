@@ -78,10 +78,7 @@ function App() {
             path="/add-address"
             element={userToken ? <AddUserAdress /> : <Navigate to="/login" />}
           />
-          <Route
-            path="*"
-            element={userToken ? <NotFound /> : <Navigate to="/login" />}
-          />
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
         <Footer />
