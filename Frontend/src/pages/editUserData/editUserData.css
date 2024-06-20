@@ -1,0 +1,33 @@
+.edituserdata__container {
+  grid-area: header;
+  padding: 25px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1400px;
+}
+.edituserdata__body {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.data__input {
+  background-color: transparent;
+  display: flex;
+  margin: 0 auto;
+  padding: 0 13px;
+  width: 90%;
+  border: 1px solid var(--navOpacity);
+  border-radius: 5px;
+  height: 50px;
+}
+
+.edituserdata__form {
+  width: 300px;
+}
+
+@media (min-width: 576px) {
+  .edituserdata__form {
+    width: 450px;
+  }
+}

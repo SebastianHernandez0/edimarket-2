@@ -1,55 +1,32 @@
 import "../createPost/createPost.css";
-import { useCallback, useState, useRef, useEffect } from "react";
+import { useCallback, useState, useContext } from "react";
 import { useDropzone } from "react-dropzone";
 import { IoMdImages } from "react-icons/io";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
+import { UserContext } from "../../context/UserContext";
 
 export function CreatePost() {
-  const inputRefs = {
-    titulo: useRef(null),
-    precio: useRef(null),
-    categorias: useRef(null),
-    estado: useRef(null),
-    descripcion: useRef(null),
-  };
-
+  const {
+    onlyNumbersRegex,
+    userData,
+    inputFormError,
+    setInputFormError,
+    handleChange,
+    inputRefs,
+  } = useContext(UserContext);
   const [createPostSuccess, setCreatePostSuccess] = useState("");
-
-  const [userData, setUserData] = useState({
-    titulo: "",
-    precio: "",
-    categorias: "",
-    estado: "",
-    descripcion: "",
-  });
-
-  const [createPostError, setCreatePostError] = useState({
-    errorTitulo: "",
-    errorPrecio: "",
-    errorCategorias: "",
-    errorEstado: "",
-    errorDescripcion: "",
-  });
 
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
   }, []);
-
+  console.log(inputRefs);
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
     useDropzone({ onDrop });
-
-  const handleChangeInput = (e) => {
-    const { name, value } = e.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
-  };
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
 
-    setCreatePostError({
+    setInputFormError({
       errorTitulo: "",
       errorPrecio: "",
       errorCategorias: "",
@@ -58,33 +35,38 @@ export function CreatePost() {
     });
 
     if (userData.titulo.trim() === "") {
-      setCreatePostError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorTitulo: "Pon un título a tu producto.",
       }));
     } else if (userData.precio.trim() === "") {
-      setCreatePostError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorPrecio: "Pon un precio a tu producto.",
       }));
+    } else if (!onlyNumbersRegex.test(userData.precio.trim())) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorPrecio: "Ingresa solo números.",
+      }));
     } else if (userData.categorias === "") {
-      setCreatePostError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorCategorias: "Selecciona una categoria.",
       }));
     } else if (userData.estado.trim() === "") {
-      setCreatePostError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorEstado: "Selecciona el estado del producto.",
       }));
     } else if (userData.descripcion.trim() === "") {
-      setCreatePostError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorDescripcion: "Describe tu producto.",
       }));
     } else {
       setCreatePostSuccess("Post creado con éxito");
-      setCreatePostError({
+      setInputFormError({
         errorTitulo: "",
         errorPrecio: "",
         errorCategorias: "",
@@ -93,41 +75,6 @@ export function CreatePost() {
       });
     }
   };
-
-  useEffect(() => {
-    // Función para determinar si se debe enfocar algún input
-    const shouldFocusInput = () => {
-      return (
-        createPostError.errorTitulo ||
-        createPostError.errorPrecio ||
-        createPostError.errorCategorias ||
-        createPostError.errorEstado ||
-        createPostError.errorDescripcion
-      );
-    };
-
-    if (shouldFocusInput()) {
-      if (createPostError.errorTitulo) {
-        inputRefs.titulo.current.focus();
-      } else if (createPostError.errorPrecio) {
-        inputRefs.precio.current.focus();
-      } else if (createPostError.errorCategorias) {
-        inputRefs.categorias.current.focus();
-      } else if (createPostError.errorEstado) {
-        inputRefs.estado.current.focus();
-      } else if (createPostError.errorDescripcion) {
-        inputRefs.descripcion.current.focus();
-      }
-
-      setCreatePostError({
-        errorTitulo: "",
-        errorPrecio: "",
-        errorCategorias: "",
-        errorEstado: "",
-        errorDescripcion: "",
-      });
-    }
-  }, [userData]);
 
   return (
     <section className="createpost__container bg-white shadow-sm">
@@ -174,11 +121,11 @@ export function CreatePost() {
           <div className="createpost__card__data">
             <input
               ref={inputRefs.titulo}
-              onChange={handleChangeInput}
+              onChange={handleChange}
               name="titulo"
               value={userData.titulo}
               className={`createpost__card__input ${
-                createPostError.errorTitulo
+                inputFormError.errorTitulo
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
@@ -187,36 +134,37 @@ export function CreatePost() {
             />
             {userData.titulo.trim() === "" ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
-                {createPostError.errorTitulo}
+                {inputFormError.errorTitulo}
               </p>
             ) : (
               ""
             )}
             <input
               ref={inputRefs.precio}
-              onChange={handleChangeInput}
+              onChange={handleChange}
               name="precio"
               value={userData.precio}
               className={`createpost__card__input ${
-                createPostError.errorPrecio
+                inputFormError.errorPrecio
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
               type="text"
               placeholder="Precio"
             />
-            {userData.precio.trim() === "" ? (
+            {userData.precio.trim() === "" ||
+            !onlyNumbersRegex.test(userData.precio.trim()) ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
-                {createPostError.errorPrecio}
+                {inputFormError.errorPrecio}
               </p>
             ) : (
               ""
             )}
             <select
               ref={inputRefs.categorias}
-              onChange={handleChangeInput}
+              onChange={handleChange}
               className={`createpost__card__input ${
-                createPostError.errorCategorias
+                inputFormError.errorCategorias
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
@@ -234,16 +182,16 @@ export function CreatePost() {
             </select>
             {userData.categorias === "" ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
-                {createPostError.errorCategorias}
+                {inputFormError.errorCategorias}
               </p>
             ) : (
               ""
             )}
             <select
               ref={inputRefs.estado}
-              onChange={handleChangeInput}
+              onChange={handleChange}
               className={`createpost__card__input ${
-                createPostError.errorEstado
+                inputFormError.errorEstado
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
@@ -258,16 +206,16 @@ export function CreatePost() {
             </select>
             {userData.estado === "" ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
-                {createPostError.errorEstado}
+                {inputFormError.errorEstado}
               </p>
             ) : (
               ""
             )}
             <textarea
               ref={inputRefs.descripcion}
-              onChange={handleChangeInput}
+              onChange={handleChange}
               className={`createpost__card__input resize-none ${
-                createPostError.errorDescripcion
+                inputFormError.errorDescripcion
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
@@ -279,7 +227,7 @@ export function CreatePost() {
             ></textarea>
             {userData.descripcion === "" ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
-                {createPostError.errorDescripcion}
+                {inputFormError.errorDescripcion}
               </p>
             ) : (
               ""
@@ -308,19 +256,23 @@ export function CreatePost() {
           </div>
           <div className="createpost__preview__data">
             <h1 className="createpost__preview__data__title text-3xl font-semibold mb-2">
-              {userData.titulo ? <p>{userData.titulo}</p> : <p>Título</p>}
+              {userData.titulo ? (
+                <p className="text-2xl font-semibold">{userData.titulo}</p>
+              ) : (
+                <p className="text-2xl font-semibold">Título</p>
+              )}
             </h1>
-            {userData.precio ? (
-              <p>
+            {userData.precio && !isNaN(userData.precio) ? (
+              <p className="font-medium">
                 {parseInt(userData.precio).toLocaleString("es-CL", {
                   style: "currency",
                   currency: "CLP",
                 })}
               </p>
             ) : (
-              <p>Precio</p>
+              <p className="font-medium">Precio</p>
             )}
-            <p className="font-medium text-lg mb-5">Detalles</p>
+            <p className="font-medium text-lg my-5">Detalles</p>
             {userData.descripcion ? (
               <p className="">{userData.descripcion}</p>
             ) : (

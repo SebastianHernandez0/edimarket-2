@@ -18,6 +18,12 @@ import { Billing } from "./pages/billing/Billing";
 import { PublishedProduct } from "./pages/publishedProduct/PublishedProduct.jsx";
 import { Shipping } from "./pages/shipping/Shipping.jsx";
 import { PaymentSuccess } from "./pages/paymentSuccess/PaymentSuccess.jsx";
+import { ScrollTop } from "./components/scrollTop/ScrollTop.jsx";
+import { UserData } from "./pages/userData/UserData.jsx";
+import { EditUserData } from "./pages/editUserData/EditUserData.jsx";
+import { UserAddress } from "./pages/userAddress/UserAddress.jsx";
+import { AddUserAdress } from "./pages/addUserAddress/AddUserAddress.jsx";
+
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -25,6 +31,7 @@ function App() {
   return (
     <>
       <Navbar />
+      <ScrollTop />
       <section className="app__container">
         <Routes>
           <Route path="/carro" element={<Cart />} />
@@ -57,7 +64,24 @@ function App() {
             path="/createpost"
             element={userToken ? <CreatePost /> : <Navigate to="/sing-in" />}
           />
+          <Route
+            path="/user-data"
+            element={userToken ? <UserData /> : <Navigate to="/sing-in" />}
+          />
+          <Route
+            path="/edit-user-data"
+            element={userToken ? <EditUserData /> : <Navigate to="/sing-in" />}
+          />
+          <Route
+            path="/user-address"
+            element={userToken ? <UserAddress /> : <Navigate to="/sing-in" />}
+          />
+          <Route
+            path="/add-address"
+            element={userToken ? <AddUserAdress/> : <Navigate to="/sing-in" />}
+          />
         </Routes>
+
         <Footer />
         <CarritoModal />
       </section>

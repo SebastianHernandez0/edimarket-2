@@ -1,46 +1,26 @@
 import "./singUp.css";
 import { NavLink } from "react-router-dom";
 import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../../context/UserContext";
 
 export function SingUp() {
+  const {
+    emailRegex,
+    userData,
+    handleChange,
+    inputRefs,
+    inputFormError,
+    setInputFormError,
+  } = useContext(UserContext);
   const [singUpSuccess, setSingUpSuccess] = useState("");
-  const [singUpError, setSingUpError] = useState({
-    errorNombre: "",
-    errorRut: "",
-    errorTelefono: "",
-    errorEmail: "",
-    errorContraseña: "",
-    errorConfirmContraseña: "",
-  });
-  const [userData, setUserData] = useState({
-    nombre: "",
-    rut: "",
-    telefono: "",
-    email: "",
-    contraseña: "",
-    confirmContraseña: "",
-  });
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-  const rutFormatRegex = /^[0-9]+-[0-9]$/;
-  const onlyNumbersRegex = /^[0-9]+$/;
-  const inputRefs = {
-    nombre: useRef(null),
-    rut: useRef(null),
-    telefono: useRef(null),
-    email: useRef(null),
-    contraseña: useRef(null),
-    confirmContraseña: useRef(null),
-  };
 
   const handleSingupSubmit = (e) => {
     e.preventDefault();
 
     // Resetear todos los errores
-    setSingUpError({
+    setInputFormError({
       errorNombre: "",
-      errorRut: "",
-      errorTelefono: "",
       errorEmail: "",
       errorContraseña: "",
       errorConfirmContraseña: "",
@@ -48,59 +28,39 @@ export function SingUp() {
 
     // Validar cada campo uno por uno
     if (userData.nombre.trim() === "") {
-      setSingUpError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorNombre: "Ingresa tu nombre.",
       }));
     } else if (userData.nombre.trim().length < 10) {
-      setSingUpError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorNombre: "Ingresa tu nombre completo.",
       }));
-    } else if (userData.rut.trim() === "") {
-      setSingUpError((prevErrors) => ({
-        ...prevErrors,
-        errorRut: "Ingresa tu RUT. sin puntos con guión",
-      }));
-    } else if (!rutFormatRegex.test(userData.rut.trim())) {
-      setSingUpError((prevErrors) => ({
-        ...prevErrors,
-        errorRut: "Ingresa un RUT válido. sin puntos con guión",
-      }));
-    } else if (userData.telefono.trim() === "") {
-      setSingUpError((prevErrors) => ({
-        ...prevErrors,
-        errorTelefono: "Ingresa tu teléfono.",
-      }));
-    } else if (!onlyNumbersRegex.test(userData.telefono.trim())) {
-      setSingUpError((prevErrors) => ({
-        ...prevErrors,
-        errorTelefono: "Ingresa solo números.",
-      }));
     } else if (userData.email.trim() === "") {
-      setSingUpError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorEmail: "Ingresa tu correo electrónico.",
       }));
     } else if (!emailRegex.test(userData.email.trim())) {
-      setSingUpError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorEmail: "Ingresa un correo electrónico válido.",
       }));
     } else if (userData.contraseña.trim() === "") {
-      setSingUpError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorContraseña: "Ingresa tu contraseña.",
       }));
     } else if (userData.confirmContraseña.trim() === "") {
-      setSingUpError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorConfirmContraseña: "Confirma tu contraseña.",
       }));
     } else if (
       userData.contraseña.trim() !== userData.confirmContraseña.trim()
     ) {
-      setSingUpError((prevErrors) => ({
+      setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorConfirmContraseña: "Las contraseñas no coinciden.",
       }));
@@ -108,65 +68,6 @@ export function SingUp() {
       setSingUpSuccess("¡Te has registrado con éxito!");
     }
   };
-
-  useEffect(() => {
-    if (
-      userData.nombre !== "" ||
-      userData.rut !== "" ||
-      userData.telefono !== "" ||
-      userData.email !== "" ||
-      userData.contraseña !== "" ||
-      userData.confirmContraseña !== ""
-    ) {
-      setSingUpError({
-        errorNombre: "",
-        errorRut: "",
-        errorTelefono: "",
-        errorEmail: "",
-        errorContraseña: "",
-        errorConfirmContraseña: "",
-      });
-    }
-  }, [userData]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
-  };
-
-  useEffect(() => {
-    // Función para determinar si se debe enfocar algún input
-    const shouldFocusInput = () => {
-      return (
-        singUpError.errorNombre ||
-        singUpError.errorRut ||
-        singUpError.errorTelefono ||
-        singUpError.errorEmail ||
-        singUpError.errorContraseña ||
-        singUpError.errorConfirmContraseña
-      );
-    };
-
-    // Enfocar el input correspondiente si hay algún error
-    if (shouldFocusInput()) {
-      if (singUpError.errorNombre) {
-        inputRefs.nombre.current.focus();
-      } else if (singUpError.errorRut) {
-        inputRefs.rut.current.focus();
-      } else if (singUpError.errorTelefono) {
-        inputRefs.telefono.current.focus();
-      } else if (singUpError.errorEmail) {
-        inputRefs.email.current.focus();
-      } else if (singUpError.errorContraseña) {
-        inputRefs.contraseña.current.focus();
-      } else if (singUpError.errorConfirmContraseña) {
-        inputRefs.confirmContraseña.current.focus();
-      }
-    }
-  }, [singUpError]);
 
   return (
     <section className="register__container shadow-md rounded-md">
@@ -188,7 +89,7 @@ export function SingUp() {
                 onChange={handleChange}
                 value={userData.nombre}
                 className={`register__form__input ${
-                  singUpError.errorNombre
+                  inputFormError.errorNombre
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
@@ -197,7 +98,7 @@ export function SingUp() {
               {userData.nombre.trim() === "" ||
               userData.nombre.trim().length < 10 ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
-                  {singUpError.errorNombre}
+                  {inputFormError.errorNombre}
                 </p>
               ) : (
                 ""
@@ -208,60 +109,12 @@ export function SingUp() {
             </div>
             <div className="register__input__container">
               <input
-                ref={inputRefs.rut}
-                name="rut"
-                onChange={handleChange}
-                value={userData.rut}
-                className={`register__form__input ${
-                  singUpError.errorRut
-                    ? "focus: outline-2 outline outline-red-600"
-                    : "focus: outline-2 outline-green-300"
-                }`}
-                type="text"
-              />
-              {userData.rut.trim() === "" ||
-              !rutFormatRegex.test(userData.rut.trim()) ? (
-                <p className="text-red-600 font-semibold text-sm ml-7">
-                  {singUpError.errorRut}
-                </p>
-              ) : (
-                ""
-              )}
-              <p className="register__form__input__paragraph text-sm">Rut</p>
-            </div>
-            <div className="register__input__container">
-              <input
-                ref={inputRefs.telefono}
-                name="telefono"
-                onChange={handleChange}
-                value={userData.telefono}
-                className={`register__form__input ${
-                  singUpError.errorTelefono
-                    ? "focus: outline-2 outline outline-red-600"
-                    : "focus: outline-2 outline-green-300"
-                }`}
-                type="text"
-              />
-              {userData.telefono.trim() === "" ||
-              !onlyNumbersRegex.test(userData.telefono.trim()) ? (
-                <p className="text-red-600 font-semibold text-sm ml-7">
-                  {singUpError.errorTelefono}
-                </p>
-              ) : (
-                ""
-              )}
-              <p className="register__form__input__paragraph text-sm">
-                Teléfono
-              </p>
-            </div>
-            <div className="register__input__container">
-              <input
                 ref={inputRefs.email}
                 name="email"
                 onChange={handleChange}
                 value={userData.email}
                 className={`register__form__input ${
-                  singUpError.errorEmail
+                  inputFormError.errorEmail
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
@@ -270,7 +123,7 @@ export function SingUp() {
               {userData.email.trim() === "" ||
               !emailRegex.test(userData.email.trim()) ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
-                  {singUpError.errorEmail}
+                  {inputFormError.errorEmail}
                 </p>
               ) : (
                 ""
@@ -284,7 +137,7 @@ export function SingUp() {
                 onChange={handleChange}
                 value={userData.contraseña}
                 className={`register__form__input ${
-                  singUpError.errorContraseña
+                  inputFormError.errorContraseña
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
@@ -292,7 +145,7 @@ export function SingUp() {
               />
               {userData.contraseña.trim() === "" ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
-                  {singUpError.errorContraseña}
+                  {inputFormError.errorContraseña}
                 </p>
               ) : (
                 ""
@@ -308,7 +161,7 @@ export function SingUp() {
                 onChange={handleChange}
                 value={userData.confirmContraseña}
                 className={`register__form__input ${
-                  singUpError.errorConfirmContraseña
+                  inputFormError.errorConfirmContraseña
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
@@ -318,7 +171,7 @@ export function SingUp() {
               userData.contraseña.trim() !==
                 userData.confirmContraseña.trim() ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
-                  {singUpError.errorConfirmContraseña}
+                  {inputFormError.errorConfirmContraseña}
                 </p>
               ) : (
                 ""

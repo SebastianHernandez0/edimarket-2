@@ -1,0 +1,25 @@
+.useraddress__container {
+  grid-area: header;
+  padding: 25px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1400px;
+  display: grid;
+}
+.add__btn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: 0.2s ease-out;
+}
+
+.add__btn:hover {
+  background: #a7a5a534;
+}
+.edit__icon {
+  position: relative;
+  border-radius: 50%;
+  height: 45px;
+}
+.edit__icon:hover {
+  background: #88878734;
+}

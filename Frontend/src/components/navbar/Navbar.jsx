@@ -2,7 +2,7 @@ import "../navbar/navbar.css";
 import { FiSearch } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { useEffect, useState, useRef, forwardRef, useContext } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import { NavBurger } from "../navBurger/NavBurger";
 import { Perfil } from "../perfil/Perfil.jsx";
 import { SearchBar } from "../searchBar/SearchBar.jsx";
@@ -10,6 +10,11 @@ import { ProductContext } from "../../context/ProductContext.jsx";
 import { UserContext } from "../../context/UserContext.jsx";
 import { CartContext } from "../../context/CarritoContext.jsx";
 import { Categories } from "../categories/Categories.jsx";
+import { BurgerCategories } from "../burgerCategories/BurgerCategories.jsx";
+import { CiUser } from "react-icons/ci";
+import { CiHeart } from "react-icons/ci";
+import { GeneralBtn } from "../generalBtn/GeneralBtn.jsx";
+import { OverlayScreen } from "../overlayScreen/OverlayScreen.jsx";
 
 // Crear un componente envolvente para manejar la referencia
 const UserIcon = forwardRef((props, ref) => (
@@ -117,6 +122,7 @@ export function Navbar() {
 
   return (
     <nav ref={navbarRef} className="navbar__container shadow-sm">
+      <OverlayScreen clicked={clicked} />
       <div className="navbar__logo__container">
         <div className="navbar__logo__section">
           <img
@@ -141,7 +147,7 @@ export function Navbar() {
             <UserIcon
               ref={perfilButtonRef}
               onClick={handleOpenPerfilMenu}
-              className="navbar__user__icon"
+              className="navbar__user__icon "
             />
             <div className="navbar__icons__menu__container">
               <NavBurger
@@ -155,21 +161,84 @@ export function Navbar() {
               />
               <div
                 ref={menuContainerRef}
-                className={`navbar__menu__links bg-gray-50 shadow-md ${
+                className={`navbar__menu__links  ${
                   clicked ? "navActiveMenu" : ""
                 }`}
               >
+                {userToken ? (
+                  <div className="navbar__perfil__desktop w-full">
+                    <h1 className="mb-3 font-medium text-center">
+                      ¡Bienvenido!
+                    </h1>
+                    <NavLink
+                      to="miperfil"
+                      className="navbar__menu__link navbar__menu__link__mobile"
+                    >
+                      <CiUser className="miperfil__icon" />
+                      Mi perfil
+                    </NavLink>
+                    <NavLink
+                      to="/favorites"
+                      className="navbar__menu__link navbar__menu__link__mobile"
+                    >
+                      <CiHeart className="miperfil__icon" />
+                      Favoritos
+                    </NavLink>
+                    <NavLink
+                      to=""
+                      className="navbar__menu__link navbar__menu__link__mobile text-teal-600 font-medium mt-5 text-md"
+                    >
+                      Cerrar sesión
+                    </NavLink>
+                    <hr className="mt-2" />
+                  </div>
+                ) : (
+                  <div className="navbar__perfil__desktop w-full">
+                    <h1 className="mb-3 font-medium text-center">
+                      ¡Bienvenido!
+                    </h1>
+                    <GeneralBtn
+                      onClick={() => {
+                        navigate("/sing-in");
+                      }}
+                      className=""
+                      style={{
+                        padding: "8px 50px",
+                        marginBottom: "15px",
+                        width: "100%",
+                        textAlign: "center",
+                      }}
+                      type="secondary"
+                    >
+                      Iniciar sesión
+                    </GeneralBtn>
+                    <div className="flex items-center gap-1">
+                      <p className="text-sm">¿No tienes cuenta?</p>
+                      <NavLink
+                        to="/sing-up"
+                        className="navbar__menu__link text-sm :active text-teal-600"
+                      >
+                        Registrarse
+                      </NavLink>
+                    </div>
+
+                    <hr className="mt-2" />
+                  </div>
+                )}
                 <div className="navbar__categories__container">
                   <NavLink
                     ref={categoriesBtnRef}
                     onClick={handleButtonClick}
-                    className="navbar__menu__link"
+                    className="navbar__menu__link navbar__menu__link__display"
                   >
                     Categorías
                   </NavLink>
-                  <Categories />
+                  <Categories className="categories__display" />
                 </div>
-
+                <p className="categories__title font-medium text-lg">
+                  Categorías
+                </p>
+                <BurgerCategories className="burger-categories" />
                 <NavLink
                   to="/carro"
                   className="navbar__menu__link navbar__menu__link__cart"
@@ -185,7 +254,13 @@ export function Navbar() {
                     alt=""
                   />
                   {cart.length > 0 ? (
-                    <p className="cart__products__indicater">{cart.length}</p>
+                    <p className="cart__products__indicater">
+                      {cart.length > 9 ? (
+                        <span className="nine">9+</span>
+                      ) : (
+                        cart.length
+                      )}
+                    </p>
                   ) : (
                     ""
                   )}
@@ -196,6 +271,7 @@ export function Navbar() {
           <div className="navbar__user__menu__container" ref={perfilMenuRef}>
             {userToken ? (
               <Perfil
+                className="navbar__perfil__container"
                 openPerfilMenu={openPerfilMenu}
                 setOpenPerfilMenu={setOpenPerfilMenu}
                 perfilMenuRef={perfilMenuRef}
@@ -218,6 +294,7 @@ export function Navbar() {
               </Perfil>
             ) : (
               <Perfil
+                className="navbar__perfil__container"
                 openPerfilMenu={openPerfilMenu}
                 setOpenPerfilMenu={setOpenPerfilMenu}
                 perfilMenuRef={perfilMenuRef}

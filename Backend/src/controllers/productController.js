@@ -34,6 +34,7 @@ const agregarProducto = async (req, res) => {
         res.status(201).json({
           nombre: producto.nombre,
           descripcion: producto.descripcion,
+          estado: producto.estado,
           precio: producto.precio,
           stock: producto.stock,
           imagen: producto.imagen,

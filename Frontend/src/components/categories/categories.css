@@ -10,6 +10,8 @@
 }
 .categories__list__link {
   padding: 8px 15px;
+  width: 100%;
+  display: inline-block;
 }
 .categories__list__link:hover {
   background: var(--verdeAgua);

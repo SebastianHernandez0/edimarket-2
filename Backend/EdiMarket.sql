@@ -14,7 +14,8 @@ CREATE TABLE productos(
 	stock INT NOT NULL,
 	imagen VARCHAR(255),
 	vendedor_id INT NOT NULL,
-	FOREIGN KEY (vendedor_id) REFERENCES usuarios(id)
+	FOREIGN KEY (vendedor_id) REFERENCES usuarios(id),
+	estado VARCHAR(255) NOT NULL,
 );
 
 CREATE TABLE categorias(
@@ -31,7 +32,7 @@ CREATE TABLE producto_categoria(
 );
 
 CREATE TABLE favoritos(
-	ID SERIAL PRIMARY KEY,
+	favorito_id SERIAL PRIMARY KEY,
 	usuario_id INT NOT NULL,
 	producto_id INT NOT NULL,
 	FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
@@ -53,7 +54,10 @@ CREATE TABLE domicilio(
 	ciudad VARCHAR(255) NOT NULL,
     region VARCHAR(255) NOT NULL,
     codigo_postal VARCHAR(20) NOT NULL,
-	FOREIGN KEY (usuario_id) REFERENCES usuarios(id));
+	FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+	comuna VARCHAR(255) NOT NULL,
+	numero_casa VARCHAR(255) NOT NULL,
+	);
 	
 CREATE TABLE ventas(
 	id SERIAL PRIMARY KEY,
@@ -67,7 +71,7 @@ CREATE TABLE ventas(
 	);
 	
 CREATE TABLE metodos_pago(
-	INT SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	usuario_id INT NOT NULL,
 	tipo_tarjeta VARCHAR(50) NOT NULL,
 	numero_tarjeta VARCHAR(255) NOT NULL,
