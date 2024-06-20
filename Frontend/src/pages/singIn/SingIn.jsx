@@ -17,11 +17,11 @@ export function SingIn() {
     handleChange,
     inputFormError,
     setInputFormError,
-    user,
     setUser,
     setUserToken,
     setUserData,
     initialUserData,
+    user,
   } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export function SingIn() {
 
     const data = await response.json();
     setUserToken(data.token || null);
-
+    setUser(data.user);
     return data;
   };
 

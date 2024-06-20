@@ -29,6 +29,7 @@ const initialFormError = {
 };
 
 const initialStateToken = localStorage.getItem("token") || null;
+const initialStateUser = JSON.parse(localStorage.getItem("user")) || null;
 
 export function UserProvider({ children }) {
   const [userToken, setUserToken] = useState(initialStateToken);
@@ -37,7 +38,7 @@ export function UserProvider({ children }) {
   const rutFormatRegex = /^[0-9]+-[0-9]$/;
   const onlyNumbersRegex = /^[0-9]+$/;
   const [userData, setUserData] = useState(initialUserData);
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(initialStateUser);
   const [inputFormError, setInputFormError] = useState(initialFormError);
 
   const inputRefs = {
@@ -100,7 +101,13 @@ export function UserProvider({ children }) {
     } else {
       localStorage.removeItem("token");
     }
-  }, [userToken]);
+
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [userToken, user]);
 
   return (
     <UserContext.Provider
