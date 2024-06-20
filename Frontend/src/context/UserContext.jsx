@@ -27,16 +27,15 @@ const initialFormError = {
   errorEstado: "",
   errorDescripcion: "",
 };
-const usersURL = "/user.json";
 
 export function UserProvider({ children }) {
-  const [userToken, setUserToken] = useState("Hola soy el token");
+  const [userToken, setUserToken] = useState("");
   const navigate = useNavigate();
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   const rutFormatRegex = /^[0-9]+-[0-9]$/;
   const onlyNumbersRegex = /^[0-9]+$/;
   const [userData, setUserData] = useState(initialUserData);
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState([]);
   const [inputFormError, setInputFormError] = useState(initialFormError);
 
   const inputRefs = {
@@ -50,21 +49,6 @@ export function UserProvider({ children }) {
     estado: useRef(null),
     descripcion: useRef(null),
   };
-
-  // Fetching a la ruta get de usuarios
-  const getUsers = async () => {
-    try {
-      const response = await fetch(usersURL);
-      const data = await response.json();
-      setUsers(data);
-    } catch (error) {
-      console.log("no se pudieron traer los usuarios");
-    }
-  };
-
-  useEffect(() => {
-    getUsers();
-  }, []);
 
   // Resetear el estado si cambia la navegación (URL)
   useEffect(() => {
@@ -116,8 +100,10 @@ export function UserProvider({ children }) {
         handleChange,
         inputFormError,
         setInputFormError,
-        users,
-        setUsers,
+        user,
+        setUser,
+        setUserToken,
+        initialUserData,
       }}
     >
       {children}

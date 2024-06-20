@@ -23,7 +23,6 @@ import { EditUserData } from "./pages/editUserData/EditUserData.jsx";
 import { UserAddress } from "./pages/userAddress/UserAddress.jsx";
 import { AddUserAdress } from "./pages/addUserAddress/AddUserAddress.jsx";
 
-
 function App() {
   const { userToken } = useContext(UserContext);
 
@@ -38,12 +37,12 @@ function App() {
           <Route path="/myProduct" element={<PublishedProduct />} />
           {/*esta ruta debe tener el nombre del producto*/}
           <Route path="shipping" element={<Shipping />} />
+          <Route path="/" element={<Home />} />
           <Route
             path="/"
             element={userToken ? <Home /> : <Navigate to="/sing-in" />}
-            /*   element={<Home />} */
           />
-          <Route path="/sing-up" element={<SingUp />} />
+          <Route path="/registro" element={<SingUp />} />
           <Route
             path="/sing-in"
             element={userToken ? <Navigate to="/" /> : <SingIn />}
@@ -76,7 +75,7 @@ function App() {
           />
           <Route
             path="/add-address"
-            element={userToken ? <AddUserAdress/> : <Navigate to="/sing-in" />}
+            element={userToken ? <AddUserAdress /> : <Navigate to="/sing-in" />}
           />
         </Routes>
 

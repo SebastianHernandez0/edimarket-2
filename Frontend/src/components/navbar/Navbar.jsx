@@ -304,7 +304,7 @@ export function Navbar() {
                   <NavLink to="/sing-in" className="navbar__user__menu__link">
                     Iniciar sesión
                   </NavLink>
-                  <NavLink to="/sing-up" className="navbar__user__menu__link">
+                  <NavLink to="/registro" className="navbar__user__menu__link">
                     Registrarse
                   </NavLink>
                 </div>

@@ -12,10 +12,24 @@ export function SingUp() {
     inputRefs,
     inputFormError,
     setInputFormError,
+    setUserData,
+    initialUserData,
+    user,
+    setUser,
   } = useContext(UserContext);
   const [singUpSuccess, setSingUpSuccess] = useState("");
 
-  const handleSingupSubmit = (e) => {
+  const registerNewUser = async (nombre, email, contraseña) => {
+    const response = await fetch("http://localhost:3000/usuarios/registro", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre, email, contraseña }),
+    });
+    const data = await response.json();
+    return data;
+  };
+
+  const handleSingupSubmit = async (e) => {
     e.preventDefault();
 
     // Resetear todos los errores
@@ -52,6 +66,11 @@ export function SingUp() {
         ...prevErrors,
         errorContraseña: "Ingresa tu contraseña.",
       }));
+    } else if (userData.contraseña.length < 8) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorContraseña: "Ingresa mínimo 8 caracteres.",
+      }));
     } else if (userData.confirmContraseña.trim() === "") {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
@@ -65,7 +84,13 @@ export function SingUp() {
         errorConfirmContraseña: "Las contraseñas no coinciden.",
       }));
     } else {
+      await registerNewUser(
+        userData.nombre,
+        userData.email,
+        userData.contraseña
+      );
       setSingUpSuccess("¡Te has registrado con éxito!");
+      setUserData(initialUserData);
     }
   };
 
@@ -143,7 +168,8 @@ export function SingUp() {
                 }`}
                 type="password"
               />
-              {userData.contraseña.trim() === "" ? (
+              {userData.contraseña.trim() === "" ||
+              userData.contraseña.length < 8 ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
                   {inputFormError.errorContraseña}
                 </p>
