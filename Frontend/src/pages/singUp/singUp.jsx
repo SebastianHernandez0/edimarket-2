@@ -250,7 +250,7 @@ export function SingUp() {
               ¿Ya tienes cuenta?
             </p>
             <NavLink
-              to="/login"
+              to="/sign-in"
               className="register__form__link text-sm text-teal-500 font-bold"
             >
               Iniciar Sesión

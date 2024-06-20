@@ -164,7 +164,7 @@ export function SingIn() {
           <div className="login__form__singin">
             <p className="login__form__paragraph text-sm">¿No tienes cuenta?</p>
             <NavLink
-              to="/registro"
+              to="/sign-up"
               className="login__form__link text-sm text-teal-500 font-bold"
             >
               Crear una cuenta
