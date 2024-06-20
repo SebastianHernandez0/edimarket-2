@@ -9,6 +9,7 @@ import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { OverlayScreen } from "../../components/overlayScreen/OverlayScreen";
+import { UserContext } from "../../context/UserContext";
 
 export function ProductDetail() {
   const {
@@ -21,6 +22,9 @@ export function ProductDetail() {
   } = useContext(ProductContext);
   const { openModalCart, addToCart, cart, productAlert, setProductAlert } =
     useContext(CartContext);
+
+  const { userToken } = useContext(UserContext);
+
   const timeoutRef = useRef(null);
 
   const handleAddToCart = () => {
@@ -118,7 +122,7 @@ export function ProductDetail() {
                   })}
                 </p>
                 <IoHeartSharp
-                  onClick={handleAddToFav}
+                  onClick={userToken ? handleAddToFav : null}
                   className={`card__info__like__icon ${
                     addedToFav.some((product) => product.id === productById.id)
                       ? "text-red-600 transition duration-300"

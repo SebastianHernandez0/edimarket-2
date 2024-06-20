@@ -20,7 +20,6 @@ export function SingIn() {
     user,
     setUser,
     setUserToken,
-    userToken,
     setUserData,
     initialUserData,
   } = useContext(UserContext);
