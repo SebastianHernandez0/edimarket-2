@@ -41,42 +41,42 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route
             path="/"
-            element={userToken ? <Home /> : <Navigate to="/login" />}
+            element={userToken ? <Home /> : <Navigate to="/sign-in" />}
           />
-          <Route path="/registro" element={<SingUp />} />
+          <Route path="/sign-up" element={<SingUp />} />
           <Route
-            path="/login"
+            path="/sign-in"
             element={userToken ? <Navigate to="/" /> : <SingIn />}
           />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/category/:categoria" element={<ProductList />} />
           <Route
             path="/favorites"
-            element={userToken ? <Favorites /> : <Navigate to="/login" />}
+            element={userToken ? <Favorites /> : <Navigate to="/sign-in" />}
           />{" "}
           <Route
             path="/miperfil"
-            element={userToken ? <MiPerfil /> : <Navigate to="/login" />}
+            element={userToken ? <MiPerfil /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/createpost"
-            element={userToken ? <CreatePost /> : <Navigate to="/login" />}
+            element={userToken ? <CreatePost /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/user-data"
-            element={userToken ? <UserData /> : <Navigate to="/login" />}
+            element={userToken ? <UserData /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/edit-user-data"
-            element={userToken ? <EditUserData /> : <Navigate to="/login" />}
+            element={userToken ? <EditUserData /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/user-address"
-            element={userToken ? <UserAddress /> : <Navigate to="/login" />}
+            element={userToken ? <UserAddress /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/add-address"
-            element={userToken ? <AddUserAdress /> : <Navigate to="/login" />}
+            element={userToken ? <AddUserAdress /> : <Navigate to="/sign-in" />}
           />
           <Route path="*" element={<NotFound />} />
         </Routes>

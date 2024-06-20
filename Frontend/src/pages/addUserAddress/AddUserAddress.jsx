@@ -1,29 +1,61 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import "../addUserAddress/addUserAddress.css";
 import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export function AddUserAdress() {
-  /*
-     idUsuario,
-      direccion,
-      numero_casa,
-      ciudad,
-      comuna,
-      region,
-      codigo_postal,
-
-*/
-
   const {
-    setUserData,
     setInputFormError,
     userData,
     handleChange,
     inputRefs,
     onlyNumbersRegex,
     inputFormError,
+    user,
+    userToken,
   } = useContext(UserContext);
+
+  const navigate = useNavigate();
+  const [AddAddressSuccess, setAddAddressSuccess] = useState({
+    success: "",
+    error: "",
+  });
+
+  const handleAddAddress = async (
+    idUsuario,
+    direccion,
+    numero_casa,
+    ciudad,
+    comuna,
+    region,
+    codigo_postal
+  ) => {
+    const response = await fetch("http://localhost:3000/usuarios/domicilio", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      },
+      body: JSON.stringify({
+        idUsuario,
+        direccion,
+        numero_casa,
+        ciudad,
+        comuna,
+        region,
+        codigo_postal,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error al agregar domicilio");
+    }
+
+    const data = await response.json();
+    return data;
+  };
 
   const handleAddressSubmit = async (e) => {
     e.preventDefault();
@@ -41,12 +73,12 @@ export function AddUserAdress() {
         ...prevErrors,
         errorDireccion: "Ingresa tu dirección.",
       }));
-    } else if (userData.region.trim() === "") {
+    } else if (userData.region === "") {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorRegion: "Selecciona la región.",
       }));
-    } else if (userData.comuna.trim() === "") {
+    } else if (userData.comuna === "") {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorComuna: "Selecciona la comuna.",
@@ -72,6 +104,32 @@ export function AddUserAdress() {
         errorNumero: "Ingresa solo números.",
       }));
     } else {
+      try {
+        const res = await handleAddAddress(
+          user.id,
+          userData.direccion,
+          userData.numero,
+          userData.region,
+          userData.comuna,
+          userData.region,
+          userData.codigoPostal
+        );
+
+        setAddAddressSuccess((prevState) => ({
+          ...prevState,
+          success: "¡Domicilio añadido!",
+        }));
+
+        setTimeout(() => {
+          navigate("/user-address");
+        }, 1500);
+      } catch (error) {
+        console.error("Error:", error.message);
+        setAddAddressSuccess((prevState) => ({
+          ...prevState,
+          error: "No pudimos agregar tu domicilio.",
+        }));
+      }
     }
   };
 
@@ -213,6 +271,14 @@ export function AddUserAdress() {
               )}
             </div>
           </div>
+          {AddAddressSuccess.success ? (
+            <p className="font-bold text-green-600">
+              {AddAddressSuccess.success}
+            </p>
+          ) : (
+            <p className="font-bold text-red-600">{AddAddressSuccess.error}</p>
+          )}
+
           <GeneralBtn
             type="secondary"
             className="adress__btn self-end justify-self-end"

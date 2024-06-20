@@ -206,7 +206,7 @@ export function Navbar() {
                     </h1>
                     <GeneralBtn
                       onClick={() => {
-                        navigate("/login");
+                        navigate("/sign-in");
                       }}
                       className=""
                       style={{
@@ -222,7 +222,7 @@ export function Navbar() {
                     <div className="flex items-center gap-1">
                       <p className="text-sm">¿No tienes cuenta?</p>
                       <NavLink
-                        to="/registro"
+                        to="/sign-up"
                         className="navbar__menu__link text-sm :active text-teal-600"
                       >
                         Registrarse
@@ -312,10 +312,10 @@ export function Navbar() {
                 perfilButtonRef={perfilButtonRef}
               >
                 <div className="navbar__user__menu bg-gray-50 shadow-md">
-                  <NavLink to="/login" className="navbar__user__menu__link">
+                  <NavLink to="/sign-in" className="navbar__user__menu__link">
                     Iniciar sesión
                   </NavLink>
-                  <NavLink to="/registro" className="navbar__user__menu__link">
+                  <NavLink to="/sign-up" className="navbar__user__menu__link">
                     Registrarse
                   </NavLink>
                 </div>

@@ -230,13 +230,13 @@ export function ProductDetail() {
                 <div className="flex gap-14 items-center justify-center mt-5">
                   <Link
                     className="font-semibold sm:text-sm hover:text-teal-400"
-                    to="/login"
+                    to="/sign-in"
                   >
                     INICIAR SESIÓN
                   </Link>
                   <Link
                     className="font-semibold sm:text-sm hover:text-teal-400"
-                    to="/registro"
+                    to="/sign-up"
                   >
                     REGISTRARSE
                   </Link>

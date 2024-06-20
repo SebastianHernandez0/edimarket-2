@@ -48,6 +48,7 @@ export function UserProvider({ children }) {
   const onlyNumbersRegex = /^[0-9]+$/;
   const [userData, setUserData] = useState(initialUserData);
   const [user, setUser] = useState(initialStateUser);
+  const [userAddress, setUserAddress] = useState("");
   const [inputFormError, setInputFormError] = useState(initialFormError);
 
   const inputRefs = {
@@ -141,6 +142,8 @@ export function UserProvider({ children }) {
         setUserToken,
         initialUserData,
         logout,
+        userAddress,
+        setUserAddress,
       }}
     >
       {children}
