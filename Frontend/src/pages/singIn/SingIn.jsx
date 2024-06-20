@@ -26,6 +26,7 @@ export function SingIn() {
   } = useContext(UserContext);
 
   const navigate = useNavigate();
+
   const LoginWithCredentials = async (email, contraseña) => {
     const response = await fetch("http://localhost:3000/usuarios/login", {
       method: "POST",
@@ -37,19 +38,12 @@ export function SingIn() {
       const errorData = await response.json();
       throw new Error(errorData.message || "Error en el login");
     }
+
     const data = await response.json();
     setUserToken(data.token || null);
 
     return data;
   };
-
-  useEffect(() => {
-    if (userToken) {
-      localStorage.setItem("token", userToken);
-    } else {
-      localStorage.removeItem("token");
-    }
-  }, [userToken]);
 
   const handleSingInSubmit = async (e) => {
     e.preventDefault();

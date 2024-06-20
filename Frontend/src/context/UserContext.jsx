@@ -94,6 +94,14 @@ export function UserProvider({ children }) {
     navigate("/");
   };
 
+  useEffect(() => {
+    if (userToken) {
+      localStorage.setItem("token", userToken);
+    } else {
+      localStorage.removeItem("token");
+    }
+  }, [userToken]);
+
   return (
     <UserContext.Provider
       value={{
