@@ -1,7 +1,7 @@
 import "./singUp.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
 
 export function SingUp() {
@@ -14,17 +14,24 @@ export function SingUp() {
     setInputFormError,
     setUserData,
     initialUserData,
-    user,
-    setUser,
   } = useContext(UserContext);
-  const [singUpSuccess, setSingUpSuccess] = useState("");
+  const [singUpSuccess, setSingUpSuccess] = useState({
+    success: "",
+    error: "",
+  });
 
+  const navigate = useNavigate();
   const registerNewUser = async (nombre, email, contraseña) => {
     const response = await fetch("http://localhost:3000/usuarios/registro", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nombre, email, contraseña }),
     });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error en el registro");
+    }
     const data = await response.json();
     return data;
   };
@@ -38,6 +45,11 @@ export function SingUp() {
       errorEmail: "",
       errorContraseña: "",
       errorConfirmContraseña: "",
+    });
+
+    setSingUpSuccess({
+      success: "",
+      error: "",
     });
 
     // Validar cada campo uno por uno
@@ -84,13 +96,28 @@ export function SingUp() {
         errorConfirmContraseña: "Las contraseñas no coinciden.",
       }));
     } else {
-      await registerNewUser(
-        userData.nombre,
-        userData.email,
-        userData.contraseña
-      );
-      setSingUpSuccess("¡Te has registrado con éxito!");
-      setUserData(initialUserData);
+      try {
+        const res = await registerNewUser(
+          userData.nombre,
+          userData.email,
+          userData.contraseña
+        );
+        setSingUpSuccess((prevMessage) => ({
+          ...prevMessage,
+          success: "¡Te has registrado con éxito!",
+        }));
+        setUserData(initialUserData);
+        setTimeout(() => {
+          navigate("/");
+        }, 3000);
+      } catch (error) {
+        console.error("Error:", error.message);
+        setSingUpSuccess((prevMessage) => ({
+          ...prevMessage,
+          error: `El email ya está registrado. ${userData.email}`,
+        }));
+        setUserData(initialUserData);
+      }
     }
   };
 
@@ -207,6 +234,11 @@ export function SingUp() {
               </p>
             </div>
           </div>
+          {singUpSuccess.success ? (
+            <p className="font-bold text-green-600">{singUpSuccess.success}</p>
+          ) : (
+            <p className="font-bold text-red-600">{singUpSuccess.error}</p>
+          )}
           <PerfilBtn
             type="submit"
             className="register__form__btn bg-teal-300 w-6/12 h-11 rounded-3xl font-semibold text-center"
