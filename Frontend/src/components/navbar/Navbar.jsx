@@ -200,7 +200,7 @@ export function Navbar() {
                     </h1>
                     <GeneralBtn
                       onClick={() => {
-                        navigate("/sing-in");
+                        navigate("/login");
                       }}
                       className=""
                       style={{
@@ -216,7 +216,7 @@ export function Navbar() {
                     <div className="flex items-center gap-1">
                       <p className="text-sm">¿No tienes cuenta?</p>
                       <NavLink
-                        to="/sing-up"
+                        to="/registro"
                         className="navbar__menu__link text-sm :active text-teal-600"
                       >
                         Registrarse
