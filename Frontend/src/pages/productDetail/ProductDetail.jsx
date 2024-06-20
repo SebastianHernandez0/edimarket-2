@@ -1,5 +1,5 @@
 import "../productDetail/productDetail.css";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
@@ -7,7 +7,7 @@ import { IoHeartSharp } from "react-icons/io5";
 import { CartContext } from "../../context/CarritoContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { OverlayScreen } from "../../components/overlayScreen/OverlayScreen";
 import { UserContext } from "../../context/UserContext";
 
@@ -26,6 +26,7 @@ export function ProductDetail() {
   const { userToken } = useContext(UserContext);
 
   const timeoutRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleAddToCart = () => {
     const productWithQuantity = {
@@ -103,6 +104,10 @@ export function ProductDetail() {
     }
   };
 
+  const handleNavigateToLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <section className="productdetail__container">
       <div className="card__container">
@@ -122,7 +127,7 @@ export function ProductDetail() {
                   })}
                 </p>
                 <IoHeartSharp
-                  onClick={userToken ? handleAddToFav : null}
+                  onClick={userToken ? handleAddToFav : handleNavigateToLogin}
                   className={`card__info__like__icon ${
                     addedToFav.some((product) => product.id === productById.id)
                       ? "text-red-600 transition duration-300"

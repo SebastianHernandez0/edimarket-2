@@ -120,6 +120,12 @@ export function Navbar() {
     }
   }, []);
 
+  useEffect(() => {
+    if (!userToken) {
+      setOpenPerfilMenu(false);
+    }
+  }, [userToken]);
+
   return (
     <nav ref={navbarRef} className="navbar__container shadow-sm">
       <OverlayScreen clicked={clicked} />
