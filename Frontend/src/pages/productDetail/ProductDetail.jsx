@@ -108,13 +108,13 @@ export function ProductDetail() {
     if (!userToken) {
       setProductAlert((prevState) => ({
         ...prevState,
-        error: "Para añadir a favoritos inicia sesión o registrate.",
+        errorFav: "Para añadir a favoritos inicia sesión o registrate.",
       }));
     }
     timeoutRef.current = setTimeout(() => {
       setProductAlert((prevState) => ({
         ...prevState,
-        error: "",
+        errorFav: "",
       }));
       timeoutRef.current = null;
     }, 8000);
@@ -125,6 +125,7 @@ export function ProductDetail() {
       setProductAlert({
         success: "",
         error: "",
+        errorFav: "",
       });
     }
   }, [navigate]);
@@ -221,11 +222,11 @@ export function ProductDetail() {
         ) : (
           ""
         )}
-        {productAlert.error ? (
+        {productAlert.errorFav ? (
           <CartAlert>
             <div className="">
               <p className="card__cart__alert shadow-md rounded-md bg-slate-700 text-sm sm:text-lg">
-                {productAlert.error}{" "}
+                {productAlert.errorFav}{" "}
                 <div className="flex gap-14 items-center justify-center mt-5">
                   <Link
                     className="font-semibold sm:text-sm hover:text-teal-400"

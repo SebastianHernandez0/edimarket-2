@@ -10,6 +10,7 @@ export function CartProvider({ children }) {
   const [productAlert, setProductAlert] = useState({
     succes: "",
     error: "",
+    errorFav: "",
   });
 
   const openModalCart = () => {
