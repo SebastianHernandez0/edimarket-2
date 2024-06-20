@@ -28,8 +28,10 @@ const initialFormError = {
   errorDescripcion: "",
 };
 
+const initialStateToken = localStorage.getItem("token") || null;
+
 export function UserProvider({ children }) {
-  const [userToken, setUserToken] = useState("");
+  const [userToken, setUserToken] = useState(initialStateToken);
   const navigate = useNavigate();
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   const rutFormatRegex = /^[0-9]+-[0-9]$/;
@@ -87,6 +89,11 @@ export function UserProvider({ children }) {
     }
   }, [inputFormError]);
 
+  const logout = () => {
+    setUserToken(null);
+    navigate("/");
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -104,6 +111,7 @@ export function UserProvider({ children }) {
         setUser,
         setUserToken,
         initialUserData,
+        logout,
       }}
     >
       {children}

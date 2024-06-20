@@ -109,7 +109,7 @@ export function SingUp() {
         setUserData(initialUserData);
         setTimeout(() => {
           navigate("/");
-        }, 3000);
+        }, 1500);
       } catch (error) {
         console.error("Error:", error.message);
         setSingUpSuccess((prevMessage) => ({
@@ -250,7 +250,7 @@ export function SingUp() {
               ¿Ya tienes cuenta?
             </p>
             <NavLink
-              to="/sing-in"
+              to="/login"
               className="register__form__link text-sm text-teal-500 font-bold"
             >
               Iniciar Sesión
