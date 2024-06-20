@@ -53,9 +53,10 @@ export function UserAddress() {
     navigate("/add-address");
   };
 
+  const hasAddress = "";
   return (
     <section className="useraddress__container bg-white shadow-sm rounded-sm">
-    {/*   <h1 className="text-2xl font-semibold mb-5">Direcciones</h1>
+      <h1 className="text-2xl font-semibold mb-5">Direcciones</h1>
       {!hasAddress ? (
         <div className="flex flex-col gap-3 items-center sm: my-5">
           <p className="font-semibold">Agrega una dirección de entrega</p>
@@ -98,7 +99,7 @@ export function UserAddress() {
           </div>
         </div>
       )}
-      <hr /> */}
+      <hr />
     </section>
   );
 }

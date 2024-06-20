@@ -1,7 +1,6 @@
 import { createContext, useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-//Creación de un token de prueba para acceder a las rutas privadas
 export const UserContext = createContext();
 
 const initialUserData = {
@@ -14,6 +13,11 @@ const initialUserData = {
   categorias: "",
   estado: "",
   descripcion: "",
+  direccion: "",
+  region: "",
+  comuna: "",
+  codigoPostal: "",
+  numero: "",
 };
 
 const initialFormError = {
@@ -26,6 +30,11 @@ const initialFormError = {
   errorCategorias: "",
   errorEstado: "",
   errorDescripcion: "",
+  errorDireccion: "",
+  errorRegion: "",
+  errorComuna: "",
+  errorCodigoPostal: "",
+  errorNumero: "",
 };
 
 const initialStateToken = localStorage.getItem("token") || null;
@@ -51,6 +60,11 @@ export function UserProvider({ children }) {
     categorias: useRef(null),
     estado: useRef(null),
     descripcion: useRef(null),
+    direccion: useRef(null),
+    region: useRef(null),
+    comuna: useRef(null),
+    codigoPostal: useRef(null),
+    numero: useRef(null),
   };
 
   // Resetear el estado si cambia la navegación (URL)
