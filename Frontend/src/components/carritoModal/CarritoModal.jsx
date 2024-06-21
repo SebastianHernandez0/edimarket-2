@@ -4,6 +4,7 @@ import { CartContext } from "../../context/CarritoContext";
 import { IoCloseOutline } from "react-icons/io5";
 import { ProductCard } from "../productCard/ProductCard";
 import { GeneralBtn } from "../generalBtn/GeneralBtn";
+import { useNavigate } from "react-router-dom";
 
 export function CarritoModal() {
   const { cartModal, setCartModal, cart } = useContext(CartContext);
@@ -12,6 +13,12 @@ export function CarritoModal() {
     if (cartModal) {
       setCartModal(false);
     }
+  };
+
+  const navigate = useNavigate();
+
+  const handleNavigateToCart = () => {
+    navigate("/carro");
   };
 
   return (
@@ -45,7 +52,7 @@ export function CarritoModal() {
             ))}
           </div>
           <div className="card__button__container">
-            <GeneralBtn>
+            <GeneralBtn onClick={handleNavigateToCart}>
               <div className="card__button">Ir al carrito</div>
             </GeneralBtn>
           </div>

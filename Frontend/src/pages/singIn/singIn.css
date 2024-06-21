@@ -1,6 +1,6 @@
 .login__container {
   grid-area: home;
-  margin: 20px;
+  margin: 60px auto;
 }
 .login__container {
   background: #ffffff;
@@ -76,7 +76,6 @@
 
 @media (min-width: 576px) {
   .login__container {
-    margin: 0 auto;
     width: 100%;
   }
 }

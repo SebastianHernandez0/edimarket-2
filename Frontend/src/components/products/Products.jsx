@@ -8,9 +8,11 @@ export function Products() {
 
   return (
     <div className="products__container">
-      <h1 className="products__title text-2xl font-semibold mt-7">
-        Productos recomendados
-      </h1>
+      <div className="product__title__container">
+        <h1 className="products__title text-2xl font-semibold mt-7">
+          Productos recomendados
+        </h1>
+      </div>
       <div className="products__cards__container">
         {products?.map((product) => (
           <ProductCard

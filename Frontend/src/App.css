@@ -5,14 +5,14 @@ body {
 }
 
 .app__container {
-  /* display: grid; */
+  display: grid;
   grid-template-areas:
     "navbar"
     "header"
     "home"
     "footer";
   width: 100%;
-  grid-template-rows: 120px 1fr;
+  grid-template-rows: 65px 1fr;
   min-width: 375px;
   background-color: var(--backgroundHomeColor);
   /* font-family: "Poppins", sans-serif;
@@ -73,8 +73,8 @@ p {
  background-color: var(--verdeAguaDark);
 }
 
-.btn-tertiary {
+/* .btn-tertiary {
 }
 
 .btn-tertiary:hover {
-}
+} */
