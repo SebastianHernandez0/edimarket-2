@@ -1,6 +1,7 @@
 .productdetail__container {
   grid-area: home;
   padding: 20px;
+  margin: 60px auto;
 }
 .card__body {
   overflow: hidden;
@@ -67,7 +68,6 @@
 @media (min-width: 576px) {
   .productdetail__container {
     display: flex;
-    margin: 0 auto;
     max-width: 1200px;
   }
   .card__body {

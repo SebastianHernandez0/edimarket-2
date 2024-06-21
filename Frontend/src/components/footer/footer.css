@@ -1,6 +1,5 @@
 .footer__container {
   grid-area: footer;
-  margin-top: 80px;
 }
 .footer__subcontainer {
   display: flex;

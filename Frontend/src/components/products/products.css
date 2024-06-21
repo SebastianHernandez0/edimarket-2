@@ -1,7 +1,7 @@
 .products__container {
   grid-area: home;
   padding: 25px;
-  margin: 0 auto;
+  margin: 60px auto;
 }
 .products__card__img {
   width: 100%;

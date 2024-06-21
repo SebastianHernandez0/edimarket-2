@@ -1,7 +1,7 @@
 .createpost__container {
   grid-area: home;
   padding: 25px;
-  margin: 0 auto;
+  margin: 60px auto;
   width: 100%;
   max-width: 1400px;
 }

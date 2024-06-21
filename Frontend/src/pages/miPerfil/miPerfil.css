@@ -1,11 +1,12 @@
 .miperfil__container {
   grid-area: home;
-  margin: 0 auto;
+  margin: 60px auto;
   width: 100%;
   max-width: 900px;
   display: flex;
   flex-direction: column;
   gap: 30px;
+
 }
 
 .miperfil__userinfo__container {
