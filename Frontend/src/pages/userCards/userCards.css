@@ -3,5 +3,22 @@
   padding: 25px;
   margin: 60px auto;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1000px;
+}
+.usercards__body {
+  height: 100%;
+  display: grid;
+}
+.credit-card-container {
+  border-radius: 50%;
+  border: 1px solid #b6b6b6;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.credit-card__img {
+  padding: 15px;
+  object-fit: cover;
 }
