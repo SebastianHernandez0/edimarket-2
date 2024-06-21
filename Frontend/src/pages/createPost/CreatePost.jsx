@@ -132,7 +132,7 @@ export function CreatePost() {
               type="text"
               placeholder="Título"
             />
-            {userData.titulo.trim() === "" ? (
+            {inputFormError.errorTitulo ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorTitulo}
               </p>
@@ -152,8 +152,7 @@ export function CreatePost() {
               type="text"
               placeholder="Precio"
             />
-            {userData.precio.trim() === "" ||
-            !onlyNumbersRegex.test(userData.precio.trim()) ? (
+            {inputFormError.errorPrecio ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorPrecio}
               </p>
@@ -180,7 +179,7 @@ export function CreatePost() {
               <option value="telefonos">Telefonía</option>
               <option value="electrodomesticos">Electrodomésticos</option>
             </select>
-            {userData.categorias === "" ? (
+            {inputFormError.errorCategorias ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorCategorias}
               </p>
@@ -204,7 +203,7 @@ export function CreatePost() {
               <option value="usado-como-nuevo">Usado-Como nuevo</option>
               <option value="usado-aceptable">Usado-Aceptable</option>
             </select>
-            {userData.estado === "" ? (
+            {inputFormError.errorEstado ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorEstado}
               </p>
@@ -225,7 +224,7 @@ export function CreatePost() {
               rows="5"
               placeholder="Descripción"
             ></textarea>
-            {userData.descripcion === "" ? (
+            {inputFormError.errorDescripcion ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorDescripcion}
               </p>

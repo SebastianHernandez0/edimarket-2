@@ -1,0 +1,43 @@
+.addusercards__container {
+  grid-area: header;
+  padding: 25px;
+  margin: 60px auto;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.addusercards__input {
+  background-color: transparent;
+  display: flex;
+  margin: 0 auto;
+  padding: 0 13px;
+  width: 100%;
+  border: 1px solid var(--navOpacity);
+  border-radius: 5px;
+  height: 50px;
+  margin-top: 15px;
+}
+.addusercards__form {
+  margin: 50px auto;
+  max-width: 500px;
+}
+
+.creditcards {
+  width: 100%;
+  max-width: 450px;
+  object-fit: cover;
+  border-radius: 20px;
+  min-height: 220px;
+  filter: drop-shadow(10px 10px 10px #000000ab);
+}
+
+.addusercards__btn {
+  margin-top: 25px;
+}
+
+@media (min-width: 576px) {
+  .creditcards {
+    height: 290px;
+    max-width: 450px;
+  }
+}

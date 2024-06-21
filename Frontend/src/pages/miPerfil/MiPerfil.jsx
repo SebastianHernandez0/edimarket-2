@@ -15,6 +15,12 @@ export function MiPerfil() {
 
   let nombres = user.nombre.split(" ");
 
+  let nameToUpperCase = user.nombre.split(" ");
+  let newName = nameToUpperCase.map(
+    (word) => word.charAt(0).toUpperCase() + word.slice(1)
+  );
+  let updateName = (nameToUpperCase = newName.join(" "));
+
   return (
     <section className="miperfil__container ">
       <div className="miperfil__userinfo__container bg-white shadow-sm ">
@@ -26,7 +32,7 @@ export function MiPerfil() {
         </div>
         <div className="miperfil__userinfo__name">
           <p className="miperfill__userinfo__paragraph font-medium">
-            {user.nombre}
+            {updateName}
           </p>
           <p className="miperfill__userinfo__paragraph text-sm mt-3">
             {user.email}
@@ -93,7 +99,7 @@ export function MiPerfil() {
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center w-full">
             <Link
-              to=""
+              to="/my-credit-cards"
               className="miperfil__userinfo__data miperfil__userinfo__postlink w-full"
             >
               <FaCreditCard className="miperfil__userinfo__icon text" />

@@ -1,0 +1,39 @@
+.usercards__container {
+  grid-area: header;
+  padding: 25px;
+  margin: 60px auto;
+  width: 100%;
+  max-width: 1000px;
+}
+.usercards__body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.credit-card-container {
+  border-radius: 50%;
+  border: 1px solid #b6b6b6;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.credit-card__img {
+  padding: 8px;
+  object-fit: cover;
+}
+.credit-card-btn_2 {
+  margin-top: 20px;
+  align-self: end;
+}
+
+@media (min-width: 576px) {
+  .credit-card-container {
+    width: 80px;
+    height: 80px;
+  }
+  .credit-card__img {
+    padding: 15px;
+  }
+}
