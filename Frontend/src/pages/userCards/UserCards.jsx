@@ -108,6 +108,17 @@ export function UserCards() {
             </GeneralBtn>
           </div>
         )}
+        {userCreditCards.length > 0 ? (
+          <GeneralBtn
+            onClick={handleNavigateToAddCard}
+            type="secondary"
+            className="credit-card-btn_2"
+          >
+            Añadir
+          </GeneralBtn>
+        ) : (
+          ""
+        )}
       </div>
     </section>
   );

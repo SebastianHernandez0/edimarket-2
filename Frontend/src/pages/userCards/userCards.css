@@ -7,7 +7,8 @@
 }
 .usercards__body {
   height: 100%;
-  display: grid;
+  display: flex;
+  flex-direction: column;
 }
 .credit-card-container {
   border-radius: 50%;
@@ -21,6 +22,10 @@
 .credit-card__img {
   padding: 8px;
   object-fit: cover;
+}
+.credit-card-btn_2 {
+  margin-top: 20px;
+  align-self: end;
 }
 
 @media (min-width: 576px) {
