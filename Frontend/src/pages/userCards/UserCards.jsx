@@ -1,9 +1,14 @@
 import "../userCards/userCards.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 
 export function UserCards() {
   const prueba = "";
+  const navigate = useNavigate();
+
+  const handleNavigateToAddCard = () => {
+    navigate("/add-credit-cards");
+  };
 
   return (
     <section className="usercards__container bg-white shadow-sm rounded-sm">
@@ -35,7 +40,11 @@ export function UserCards() {
         ) : (
           <div className="flex flex-col gap-3 items-center sm:my-5">
             <p className="font-semibold">Agrega una tarjeta de crédito</p>
-            <GeneralBtn type="secondary" className="">
+            <GeneralBtn
+              onClick={handleNavigateToAddCard}
+              type="secondary"
+              className=""
+            >
               Añadir
             </GeneralBtn>
           </div>
