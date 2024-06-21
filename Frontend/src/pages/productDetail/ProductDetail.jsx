@@ -225,7 +225,7 @@ export function ProductDetail() {
         {productAlert.errorFav ? (
           <CartAlert>
             <div className="">
-              <p className="card__cart__alert shadow-md rounded-md bg-slate-700 text-sm sm:text-lg">
+              <div className="card__cart__alert shadow-md rounded-md bg-slate-700 text-sm sm:text-lg">
                 {productAlert.errorFav}{" "}
                 <div className="flex gap-14 items-center justify-center mt-5">
                   <Link
@@ -241,7 +241,7 @@ export function ProductDetail() {
                     REGISTRARSE
                   </Link>
                 </div>
-              </p>
+              </div>
             </div>
           </CartAlert>
         ) : (
