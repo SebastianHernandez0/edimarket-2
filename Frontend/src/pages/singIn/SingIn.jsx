@@ -124,8 +124,7 @@ export function SingIn() {
                 }`}
                 type="text"
               />
-              {userData.email.trim() === "" ||
-              !emailRegex.test(userData.email.trim()) ? (
+              {inputFormError.errorEmail ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
                   {inputFormError.errorEmail}
                 </p>
@@ -147,7 +146,7 @@ export function SingIn() {
                 }`}
                 type={signInIcon ? "text" : "password"}
               />
-              {userData.contraseña.trim() === "" ? (
+              {inputFormError.errorContraseña ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
                   {inputFormError.errorContraseña}
                 </p>

@@ -87,8 +87,7 @@ export function EditUserData() {
               name="nombre"
               type="text"
             />
-            {userData.nombre.trim() === "" ||
-            userData.nombre.trim().length < 10 ? (
+            {inputFormError.errorNombre ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorNombre}
               </p>
@@ -112,8 +111,7 @@ export function EditUserData() {
               name="email"
               type="text"
             />
-            {userData.email.trim() === "" ||
-            !emailRegex.test(userData.email.trim()) ? (
+            {inputFormError.errorEmail ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorEmail}
               </p>

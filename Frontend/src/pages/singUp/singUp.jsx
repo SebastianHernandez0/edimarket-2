@@ -156,8 +156,7 @@ export function SingUp() {
                 }`}
                 type="text"
               />
-              {userData.nombre.trim() === "" ||
-              userData.nombre.trim().length < 10 ? (
+              {inputFormError.errorNombre ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
                   {inputFormError.errorNombre}
                 </p>
@@ -181,8 +180,7 @@ export function SingUp() {
                 }`}
                 type="text"
               />
-              {userData.email.trim() === "" ||
-              !emailRegex.test(userData.email.trim()) ? (
+              {inputFormError.errorEmail ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
                   {inputFormError.errorEmail}
                 </p>
@@ -204,8 +202,7 @@ export function SingUp() {
                 }`}
                 type={signUpIcon ? "text" : "password"}
               />
-              {userData.contraseña.trim() === "" ||
-              userData.contraseña.length < 8 ? (
+              {inputFormError.errorContraseña ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
                   {inputFormError.errorContraseña}
                 </p>
@@ -240,9 +237,7 @@ export function SingUp() {
                 }`}
                 type={signUpIcon ? "text" : "password"}
               />
-              {userData.confirmContraseña.trim() === "" ||
-              userData.contraseña.trim() !==
-                userData.confirmContraseña.trim() ? (
+              {inputFormError.errorConfirmContraseña ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
                   {inputFormError.errorConfirmContraseña}
                 </p>
