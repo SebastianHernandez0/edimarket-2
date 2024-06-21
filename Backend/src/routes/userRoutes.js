@@ -9,7 +9,8 @@ const {
   agregarDomicilio,
   consultarDomicilio,
   agregarPaymentMethod,
-  consultarPaymentMethods
+  consultarPaymentMethods,
+  deleteUser
 } = require("../controllers/userController");
 
 const verificarToken= require("../middlewares/verificarToken");
@@ -22,5 +23,6 @@ router.post("/domicilio", verificarToken, agregarDomicilio);
 router.get("/usuario/domicilio", verificarToken, consultarDomicilio);
 router.post("/metodosPago",verificarToken, agregarPaymentMethod);
 router.get("/usuario/metodosPago",verificarToken, consultarPaymentMethods);
+router.delete("/usuario",verificarToken, deleteUser);
 
 module.exports = router;

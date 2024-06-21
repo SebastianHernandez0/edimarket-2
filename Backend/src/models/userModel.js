@@ -74,6 +74,13 @@ const registrarUsuario = async (usuario) => {
   return user;
 };
 
+const eliminarUsuario = async (id) => {
+  const values = [id];
+  const consulta = "DELETE FROM usuarios WHERE id=$1";
+  await db.query(consulta, values);
+  return console.log("Usuario eliminado");
+};
+
 const verificarUsuario = async (email, contraseña) => {
   const values = [email];
   validarUser.parse({ email, contraseña });
@@ -254,4 +261,5 @@ module.exports = {
   borrarFavorito,
   agregarMetodoDePago,
   consultarMetodosPago,
+  eliminarUsuario
 };

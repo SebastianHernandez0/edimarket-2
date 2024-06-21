@@ -8,7 +8,7 @@ const getProductos= async (req, res) => {
         const hateoas=await prepHateoas(productos);
         res.send(hateoas);
       } catch (error) {
-        res.status(500).send(error);
+        res.status(500).json({error: error.message});
       }
 }
 
@@ -18,7 +18,7 @@ const getProductoById= async (req, res) => {
         const producto = await consultarProductoById(id);
         res.send(producto);
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).json({error: error.message});
     }
 }
 
@@ -41,7 +41,7 @@ const agregarProducto = async (req, res) => {
           categoria: producto.categoria,
         });
       } catch (error) {
-        res.status(500).send(error.message);
+        res.status(500).json({error: error.message});
       } 
 }
 
