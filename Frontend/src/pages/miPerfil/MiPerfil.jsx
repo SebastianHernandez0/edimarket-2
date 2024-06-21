@@ -7,20 +7,29 @@ import { HiMiniShoppingBag } from "react-icons/hi2";
 import { FaCreditCard } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 export function MiPerfil() {
+  const { user } = useContext(UserContext);
+
+  let nombres = user.nombre.split(" ");
+
   return (
     <section className="miperfil__container ">
       <div className="miperfil__userinfo__container bg-white shadow-sm ">
         <div className="miperfill__userinfo__initials">
-          <h1 className="text-6xl rounded-full">EV</h1>
+          <h1 className="text-6xl rounded-full">
+            {nombres[0].charAt(0).toUpperCase() +
+              nombres[1].charAt(0).toUpperCase()}
+          </h1>
         </div>
         <div className="miperfil__userinfo__name">
           <p className="miperfill__userinfo__paragraph font-medium">
-            Edison Alejandro Venegas Espinoza
+            {user.nombre}
           </p>
           <p className="miperfill__userinfo__paragraph text-sm mt-3">
-            Aalevenegass@gmail.com
+            {user.email}
           </p>
         </div>
       </div>

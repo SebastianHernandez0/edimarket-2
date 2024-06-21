@@ -36,7 +36,7 @@ export function Navbar() {
   const menuContainerRef = useRef(null);
   const { setOpenCategories } = useContext(ProductContext);
   const categoriesBtnRef = useRef(null);
-  const { userToken } = useContext(UserContext);
+  const { userToken, logout } = useContext(UserContext);
   const { cart } = useContext(CartContext);
 
   useEffect(() => {
@@ -120,6 +120,12 @@ export function Navbar() {
     }
   }, []);
 
+  useEffect(() => {
+    if (!userToken) {
+      setOpenPerfilMenu(false);
+    }
+  }, [userToken]);
+
   return (
     <nav ref={navbarRef} className="navbar__container shadow-sm">
       <OverlayScreen clicked={clicked} />
@@ -185,6 +191,7 @@ export function Navbar() {
                       Favoritos
                     </NavLink>
                     <NavLink
+                      onClick={logout}
                       to=""
                       className="navbar__menu__link navbar__menu__link__mobile text-teal-600 font-medium mt-5 text-md"
                     >
@@ -199,7 +206,7 @@ export function Navbar() {
                     </h1>
                     <GeneralBtn
                       onClick={() => {
-                        navigate("/sing-in");
+                        navigate("/sign-in");
                       }}
                       className=""
                       style={{
@@ -215,7 +222,7 @@ export function Navbar() {
                     <div className="flex items-center gap-1">
                       <p className="text-sm">¿No tienes cuenta?</p>
                       <NavLink
-                        to="/sing-up"
+                        to="/sign-up"
                         className="navbar__menu__link text-sm :active text-teal-600"
                       >
                         Registrarse
@@ -287,7 +294,11 @@ export function Navbar() {
                   <NavLink to="/favorites" className="navbar__user__menu__link">
                     Favoritos
                   </NavLink>
-                  <NavLink to="" className="navbar__user__menu__link">
+                  <NavLink
+                    onClick={logout}
+                    to=""
+                    className="navbar__user__menu__link"
+                  >
                     Cerrar sesión
                   </NavLink>
                 </div>
@@ -301,10 +312,10 @@ export function Navbar() {
                 perfilButtonRef={perfilButtonRef}
               >
                 <div className="navbar__user__menu bg-gray-50 shadow-md">
-                  <NavLink to="/sing-in" className="navbar__user__menu__link">
+                  <NavLink to="/sign-in" className="navbar__user__menu__link">
                     Iniciar sesión
                   </NavLink>
-                  <NavLink to="/sing-up" className="navbar__user__menu__link">
+                  <NavLink to="/sign-up" className="navbar__user__menu__link">
                     Registrarse
                   </NavLink>
                 </div>

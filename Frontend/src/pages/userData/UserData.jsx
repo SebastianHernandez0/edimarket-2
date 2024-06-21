@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../userData/userData.css";
-
-// los datos son ficticios, los reales se traeran desde la bs
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
 
 export function UserData() {
   const navigate = useNavigate();
@@ -9,6 +9,8 @@ export function UserData() {
   const handleNavigateToEdit = () => {
     navigate("/edit-user-data");
   };
+
+  const { user } = useContext(UserContext);
 
   return (
     <section className="personaldata__container bg-white shadow-sm rounded-sm">
@@ -19,7 +21,7 @@ export function UserData() {
           <div className="flex items-center gap-10 flex-wrap w-full">
             <div className="flex flex-col">
               <p className="font-semibold mb-1 text-lg">Nombre y apellido</p>
-              <p className="text-sm">Edison Alejandro Venegas Espinoza</p>
+              <p className="text-sm">{user.nombre}</p>
             </div>
           </div>
         </div>
@@ -27,7 +29,7 @@ export function UserData() {
           <div className="flex items-center gap-10 flex-wrap w-full">
             <div className="flex flex-col">
               <p className="font-semibold mb-1 text-lg">Email</p>
-              <p className="text-sm">Aalevenegass@gmail.com</p>
+              <p className="text-sm">{user.email}</p>
             </div>
           </div>
         </div>

@@ -23,7 +23,7 @@ import { UserData } from "./pages/userData/UserData.jsx";
 import { EditUserData } from "./pages/editUserData/EditUserData.jsx";
 import { UserAddress } from "./pages/userAddress/UserAddress.jsx";
 import { AddUserAdress } from "./pages/addUserAddress/AddUserAddress.jsx";
-
+import { NotFound } from "./pages/notFound/NotFound.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -40,46 +40,47 @@ function App() {
           <Route path="/myProduct" element={<PublishedProduct />} />
           {/*esta ruta debe tener el nombre del producto*/}
           <Route path="shipping" element={<Shipping />} />
+          <Route path="/" element={<Home />} />
           <Route
             path="/"
-            element={userToken ? <Home /> : <Navigate to="/sing-in" />}
-            /*   element={<Home />} */
+            element={userToken ? <Home /> : <Navigate to="/sign-in" />}
           />
-          <Route path="/sing-up" element={<SingUp />} />
+          <Route path="/sign-up" element={<SingUp />} />
           <Route
-            path="/sing-in"
+            path="/sign-in"
             element={userToken ? <Navigate to="/" /> : <SingIn />}
           />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/category/:categoria" element={<ProductList />} />
           <Route
             path="/favorites"
-            element={userToken ? <Favorites /> : <Navigate to="/sing-in" />}
+            element={userToken ? <Favorites /> : <Navigate to="/sign-in" />}
           />{" "}
           <Route
             path="/miperfil"
-            element={userToken ? <MiPerfil /> : <Navigate to="/sing-in" />}
+            element={userToken ? <MiPerfil /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/createpost"
-            element={userToken ? <CreatePost /> : <Navigate to="/sing-in" />}
+            element={userToken ? <CreatePost /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/user-data"
-            element={userToken ? <UserData /> : <Navigate to="/sing-in" />}
+            element={userToken ? <UserData /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/edit-user-data"
-            element={userToken ? <EditUserData /> : <Navigate to="/sing-in" />}
+            element={userToken ? <EditUserData /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/user-address"
-            element={userToken ? <UserAddress /> : <Navigate to="/sing-in" />}
+            element={userToken ? <UserAddress /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/add-address"
-            element={userToken ? <AddUserAdress/> : <Navigate to="/sing-in" />}
+            element={userToken ? <AddUserAdress /> : <Navigate to="/sign-in" />}
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
         <Footer />

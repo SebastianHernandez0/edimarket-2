@@ -1,7 +1,6 @@
 import { createContext, useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-//Creación de un token de prueba para acceder a las rutas privadas
 export const UserContext = createContext();
 
 const initialUserData = {
@@ -14,6 +13,11 @@ const initialUserData = {
   categorias: "",
   estado: "",
   descripcion: "",
+  direccion: "",
+  region: "",
+  comuna: "",
+  codigoPostal: "",
+  numero: "",
 };
 
 const initialFormError = {
@@ -26,17 +30,25 @@ const initialFormError = {
   errorCategorias: "",
   errorEstado: "",
   errorDescripcion: "",
+  errorDireccion: "",
+  errorRegion: "",
+  errorComuna: "",
+  errorCodigoPostal: "",
+  errorNumero: "",
 };
-const usersURL = "/user.json";
+
+const initialStateToken = localStorage.getItem("token") || null;
+const initialStateUser = JSON.parse(localStorage.getItem("user")) || null;
 
 export function UserProvider({ children }) {
-  const [userToken, setUserToken] = useState("Hola soy el token");
+  const [userToken, setUserToken] = useState(initialStateToken);
   const navigate = useNavigate();
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   const rutFormatRegex = /^[0-9]+-[0-9]$/;
   const onlyNumbersRegex = /^[0-9]+$/;
   const [userData, setUserData] = useState(initialUserData);
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(initialStateUser);
+  const [userAddress, setUserAddress] = useState("");
   const [inputFormError, setInputFormError] = useState(initialFormError);
 
   const inputRefs = {
@@ -49,22 +61,12 @@ export function UserProvider({ children }) {
     categorias: useRef(null),
     estado: useRef(null),
     descripcion: useRef(null),
+    direccion: useRef(null),
+    region: useRef(null),
+    comuna: useRef(null),
+    codigoPostal: useRef(null),
+    numero: useRef(null),
   };
-
-  // Fetching a la ruta get de usuarios
-  const getUsers = async () => {
-    try {
-      const response = await fetch(usersURL);
-      const data = await response.json();
-      setUsers(data);
-    } catch (error) {
-      console.log("no se pudieron traer los usuarios");
-    }
-  };
-
-  useEffect(() => {
-    getUsers();
-  }, []);
 
   // Resetear el estado si cambia la navegación (URL)
   useEffect(() => {
@@ -103,6 +105,25 @@ export function UserProvider({ children }) {
     }
   }, [inputFormError]);
 
+  const logout = () => {
+    setUserToken(null);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    if (userToken) {
+      localStorage.setItem("token", userToken);
+    } else {
+      localStorage.removeItem("token");
+    }
+
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [userToken, user]);
+
   return (
     <UserContext.Provider
       value={{
@@ -116,8 +137,13 @@ export function UserProvider({ children }) {
         handleChange,
         inputFormError,
         setInputFormError,
-        users,
-        setUsers,
+        user,
+        setUser,
+        setUserToken,
+        initialUserData,
+        logout,
+        userAddress,
+        setUserAddress,
       }}
     >
       {children}

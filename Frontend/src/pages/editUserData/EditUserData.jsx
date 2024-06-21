@@ -11,9 +11,25 @@ export function EditUserData() {
     inputRefs,
     inputFormError,
     setInputFormError,
+    user,
   } = useContext(UserContext);
 
-  const handleEditData = (e) => {
+  /* const handleUpdateUserData = async (nombres, email) => {
+    const response = await fetch(`http://localhost:3000/usuarios/${user.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombres, email }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error al editar usuario");
+    }
+    const data = await response.json();
+    return data;
+  }; */
+
+  const handleEditData = async (e) => {
     e.preventDefault();
 
     setInputFormError({

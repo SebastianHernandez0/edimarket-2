@@ -1,21 +1,49 @@
 import "./singIn.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
 export function SingIn() {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-  const [singInSuccess, setSingInSuccess] = useState("");
+  const [singInSuccess, setSingInSuccess] = useState({
+    success: "",
+    error: "",
+  });
+
   const {
     userData,
     inputRefs,
     handleChange,
     inputFormError,
     setInputFormError,
+    setUser,
+    setUserToken,
+    setUserData,
+    initialUserData,
   } = useContext(UserContext);
 
-  const handleSingInSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const LoginWithCredentials = async (email, contraseña) => {
+    const response = await fetch("http://localhost:3000/usuarios/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, contraseña }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error en el login");
+    }
+
+    const data = await response.json();
+    setUserToken(data.token || null);
+    setUser(data.user);
+    return data;
+  };
+
+  const handleSingInSubmit = async (e) => {
     e.preventDefault();
 
     setInputFormError({
@@ -39,22 +67,29 @@ export function SingIn() {
         errorContraseña: "Ingresa tu contraseña.",
       }));
     } else {
-      setSingInSuccess("!Has iniciado sesión con éxito!.");
-      setInputFormError({
-        errorEmail: "",
-        errorContraseña: "",
-      });
+      try {
+        const res = await LoginWithCredentials(
+          userData.email,
+          userData.contraseña
+        );
+        setSingInSuccess((prevMessage) => ({
+          ...prevMessage,
+          success: "¡Bienvenido!",
+        }));
+        setUserData(initialUserData);
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
+      } catch (error) {
+        console.error("Error:", error.message);
+        setSingInSuccess((prevMessage) => ({
+          ...prevMessage,
+          error: "Correo o contraseña inválidos.",
+        }));
+        setUserData(initialUserData);
+      }
     }
   };
-
-  useEffect(() => {
-    if (userData.email !== "" || userData.contraseña !== "") {
-      setInputFormError({
-        errorEmail: "",
-        errorContraseña: "",
-      });
-    }
-  }, [userData]);
 
   return (
     <section className="login__container shadow-md rounded-md">
@@ -117,13 +152,19 @@ export function SingIn() {
               </p>
             </div>
           </div>
+          {singInSuccess.success ? (
+            <p className="font-bold text-green-600">{singInSuccess.success}</p>
+          ) : (
+            <p className="font-bold text-red-600">{singInSuccess.error}</p>
+          )}
+
           <PerfilBtn className="login__form__btn bg-teal-300 w-6/12 h-11 rounded-3xl font-semibold text-center">
             INICIAR SESIÓN
           </PerfilBtn>
           <div className="login__form__singin">
             <p className="login__form__paragraph text-sm">¿No tienes cuenta?</p>
             <NavLink
-              to="/sing-up"
+              to="/sign-up"
               className="login__form__link text-sm text-teal-500 font-bold"
             >
               Crear una cuenta
