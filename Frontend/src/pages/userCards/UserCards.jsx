@@ -32,7 +32,7 @@ export function UserCards() {
                   </span>
                 </div>
               </div>
-              <Link className="self-end font-semibold hover:text-teal-500">
+              <Link className="self-end font-semibold hover:text-teal-500 text-sm sm:text-normal">
                 Eliminar
               </Link>
             </div>
@@ -43,7 +43,7 @@ export function UserCards() {
             <GeneralBtn
               onClick={handleNavigateToAddCard}
               type="secondary"
-              className=""
+              className="credit-card-btn"
             >
               Añadir
             </GeneralBtn>

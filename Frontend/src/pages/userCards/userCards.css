@@ -12,13 +12,23 @@
 .credit-card-container {
   border-radius: 50%;
   border: 1px solid #b6b6b6;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .credit-card__img {
-  padding: 15px;
+  padding: 8px;
   object-fit: cover;
+}
+
+@media (min-width: 576px) {
+  .credit-card-container {
+    width: 80px;
+    height: 80px;
+  }
+  .credit-card__img {
+    padding: 15px;
+  }
 }
