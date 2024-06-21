@@ -1,4 +1,5 @@
 .home__container {
   grid-area: home;
   margin: 0 auto;
+  width: 100%;
 }
