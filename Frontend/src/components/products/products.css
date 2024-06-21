@@ -1,6 +1,6 @@
 .products__container {
   grid-area: home;
-  padding: 25px;
+  padding: 0 25px;
   margin: 60px auto;
 }
 .products__card__img {
