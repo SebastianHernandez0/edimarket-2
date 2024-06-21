@@ -16,6 +16,7 @@ export function SingUp() {
     setInputFormError,
     setUserData,
     initialUserData,
+    onlyNumbersRegex,
   } = useContext(UserContext);
   const [singUpSuccess, setSingUpSuccess] = useState({
     success: "",
@@ -71,6 +72,11 @@ export function SingUp() {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorNombre: "Ingresa tu nombre completo.",
+      }));
+    } else if (onlyNumbersRegex.test(userData.nombre)) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorNombre: "No puedes ingresar números.",
       }));
     } else if (userData.email.trim() === "") {
       setInputFormError((prevErrors) => ({

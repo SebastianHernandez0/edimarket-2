@@ -14,6 +14,11 @@ export function AddUserCards() {
     inputRefs,
   } = useContext(UserContext);
 
+  const [addCardSuccess, setAddCardSuccess] = useState({
+    success: "",
+    error: "",
+  });
+
   const handleAddCreditCard = (e) => {
     e.preventDefault();
 
