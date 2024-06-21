@@ -1,8 +1,10 @@
 import "./singUp.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
+import { HiEye } from "react-icons/hi";
+import { HiEyeOff } from "react-icons/hi";
 
 export function SingUp() {
   const {
@@ -21,6 +23,13 @@ export function SingUp() {
   });
 
   const navigate = useNavigate();
+
+  const [signUpIcon, setSignUpIcon] = useState(false);
+
+  const handleSignUpIcon = () => {
+    setSignUpIcon(!signUpIcon);
+  };
+
   const registerNewUser = async (nombre, email, contraseña) => {
     const response = await fetch("http://localhost:3000/usuarios/registro", {
       method: "POST",
@@ -193,7 +202,7 @@ export function SingUp() {
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
-                type="password"
+                type={signUpIcon ? "text" : "password"}
               />
               {userData.contraseña.trim() === "" ||
               userData.contraseña.length < 8 ? (
@@ -206,6 +215,17 @@ export function SingUp() {
               <p className="register__form__input__paragraph text-sm">
                 Contraseña
               </p>
+              {signUpIcon ? (
+                <HiEye
+                  onClick={handleSignUpIcon}
+                  className="input__eye__icon"
+                />
+              ) : (
+                <HiEyeOff
+                  onClick={handleSignUpIcon}
+                  className="input__eye__icon"
+                />
+              )}
             </div>
             <div className="register__input__container">
               <input
@@ -218,7 +238,7 @@ export function SingUp() {
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
-                type="password"
+                type={signUpIcon ? "text" : "password"}
               />
               {userData.confirmContraseña.trim() === "" ||
               userData.contraseña.trim() !==
@@ -232,6 +252,17 @@ export function SingUp() {
               <p className="register__form__input__paragraph text-sm">
                 Confirmar Contraseña
               </p>
+              {signUpIcon ? (
+                <HiEye
+                  onClick={handleSignUpIcon}
+                  className="input__eye__icon"
+                />
+              ) : (
+                <HiEyeOff
+                  onClick={handleSignUpIcon}
+                  className="input__eye__icon"
+                />
+              )}
             </div>
           </div>
           {singUpSuccess.success ? (

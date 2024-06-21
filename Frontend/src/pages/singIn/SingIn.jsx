@@ -1,8 +1,10 @@
 import "./singIn.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { PerfilBtn } from "../../components/perfilBtn/PerfilBtn";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { UserContext } from "../../context/UserContext";
+import { HiEye } from "react-icons/hi";
+import { HiEyeOff } from "react-icons/hi";
 
 export function SingIn() {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
@@ -24,6 +26,11 @@ export function SingIn() {
   } = useContext(UserContext);
 
   const navigate = useNavigate();
+  const [signInIcon, setSignInIcon] = useState(false);
+
+  const handleSignInIcon = () => {
+    setSignInIcon(!signInIcon);
+  };
 
   const LoginWithCredentials = async (email, contraseña) => {
     const response = await fetch("http://localhost:3000/usuarios/login", {
@@ -138,7 +145,7 @@ export function SingIn() {
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
-                type="password"
+                type={signInIcon ? "text" : "password"}
               />
               {userData.contraseña.trim() === "" ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
@@ -150,6 +157,17 @@ export function SingIn() {
               <p className="login__form__input__paragraph text-sm">
                 Contraseña
               </p>
+              {signInIcon ? (
+                <HiEye
+                  onClick={handleSignInIcon}
+                  className="input__eye__icon"
+                />
+              ) : (
+                <HiEyeOff
+                  onClick={handleSignInIcon}
+                  className="input__eye__icon"
+                />
+              )}
             </div>
           </div>
           {singInSuccess.success ? (
