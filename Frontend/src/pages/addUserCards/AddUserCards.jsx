@@ -37,6 +37,16 @@ export function AddUserCards() {
         ...prevErrors,
         errorNumeroTarjeta: "Número incompleto. (16 caractéres)",
       }));
+    } else if (userData.nombreTitular.trim() === "") {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorNombreTitular: "Ingresa el nombre del titular.",
+      }));
+    } else if (onlyNumbersRegex.test(userData.nombreTitular.trim())) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorNombreTitular: "No puedes ingresar números.",
+      }));
     } else if (userData.expiracion.trim() === "") {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
@@ -116,6 +126,7 @@ export function AddUserCards() {
           ) : (
             ""
           )}
+
           <input
             ref={inputRefs.numeroTarjeta}
             className={`addusercards__input ${
@@ -133,6 +144,26 @@ export function AddUserCards() {
           {inputFormError.errorNumeroTarjeta ? (
             <p className="text-red-600 font-semibold text-sm">
               {inputFormError.errorNumeroTarjeta}
+            </p>
+          ) : (
+            ""
+          )}
+          <input
+            ref={inputRefs.nombreTitular}
+            className={`addusercards__input ${
+              inputFormError.errorNombreTitular
+                ? "focus: outline-2 outline outline-red-600"
+                : "focus: outline-2 outline-green-300"
+            }`}
+            type="text"
+            name="nombreTitular"
+            placeholder="Nombre del titular"
+            value={userData.nombreTitular}
+            onChange={handleChange}
+          />
+          {inputFormError.errorNombreTitular ? (
+            <p className="text-red-600 font-semibold text-sm">
+              {inputFormError.errorNombreTitular}
             </p>
           ) : (
             ""

@@ -20,6 +20,7 @@ const initialUserData = {
   numero: "",
   tipo: "",
   numeroTarjeta: "",
+  nombreTitular: "",
   expiracion: "",
   cvv: "",
 };
@@ -41,6 +42,7 @@ const initialFormError = {
   errorNumero: "",
   errorTipo: "",
   errorNumeroTarjeta: "",
+  errorNombreTitular: "",
   errorExpiracion: "",
   errorCvv: "",
 };
@@ -76,6 +78,7 @@ export function UserProvider({ children }) {
     numero: useRef(null),
     tipo: useRef(null),
     numeroTarjeta: useRef(null),
+    nombreTitular: useRef(null),
     expiracion: useRef(null),
     cvv: useRef(null),
   };
