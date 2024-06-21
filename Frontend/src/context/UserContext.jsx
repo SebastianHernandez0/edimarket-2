@@ -59,6 +59,7 @@ export function UserProvider({ children }) {
   const [userData, setUserData] = useState(initialUserData);
   const [user, setUser] = useState(initialStateUser);
   const [userAddress, setUserAddress] = useState("");
+  const [userCreditCards, setUserCreditCards] = useState([]);
   const [inputFormError, setInputFormError] = useState(initialFormError);
 
   const inputRefs = {
@@ -159,6 +160,8 @@ export function UserProvider({ children }) {
         logout,
         userAddress,
         setUserAddress,
+        userCreditCards,
+        setUserCreditCards,
       }}
     >
       {children}

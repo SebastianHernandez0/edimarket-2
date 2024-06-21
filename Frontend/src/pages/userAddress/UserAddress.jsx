@@ -54,9 +54,9 @@ export function UserAddress() {
     navigate("/add-address");
   };
 
-  const handleUserAddress = async (userId) => {
+  const handleUserAddress = async () => {
     const response = await fetch(
-      `http://localhost:3000/usuarios/usuario/domicilio?userId=${userId}`,
+      `http://localhost:3000/usuarios/usuario/domicilio?userId=${user.id}`,
       {
         method: "GET",
         headers: {

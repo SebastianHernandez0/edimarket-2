@@ -3,6 +3,7 @@ import "../addUserCards/addUserCards.css";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export function AddUserCards() {
   const {
@@ -12,14 +13,49 @@ export function AddUserCards() {
     inputFormError,
     setInputFormError,
     inputRefs,
+    userToken,
+    user,
   } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const [addCardSuccess, setAddCardSuccess] = useState({
     success: "",
     error: "",
   });
 
-  const handleAddCreditCard = (e) => {
+  const addNewPaymentMehotd = async (
+    usuario_id,
+    tipo_tarjeta,
+    numero_tarjeta,
+    nombre_titular,
+    fecha_expiracion,
+    codigo_seguridad
+  ) => {
+    const response = await fetch("http://localhost:3000/usuarios/metodosPago", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      },
+      body: JSON.stringify({
+        usuario_id,
+        tipo_tarjeta,
+        numero_tarjeta,
+        nombre_titular,
+        fecha_expiracion,
+        codigo_seguridad,
+      }),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error al agregar metodo de pago");
+    }
+
+    const data = await response.json();
+    return data;
+  };
+
+  const handleAddCreditCard = async (e) => {
     e.preventDefault();
 
     if (userData.tipo === "") {
@@ -83,6 +119,30 @@ export function AddUserCards() {
         errorCvv: "CVV incompleto.",
       }));
     } else {
+      try {
+        const res = await addNewPaymentMehotd(
+          user.id,
+          userData.tipo,
+          userData.numeroTarjeta,
+          userData.nombreTitular,
+          userData.expiracion,
+          userData.cvv
+        );
+        setAddCardSuccess((prevState) => ({
+          ...prevState,
+          success: "¡Medio de pago añadido!",
+        }));
+        setTimeout(() => {
+          navigate("/my-credit-cards");
+        }, 1500);
+      } catch (error) {
+        console.error("Error:", error.message);
+        setAddCardSuccess((prevState) => ({
+          ...prevState,
+
+          error: "No pudimos agregar la tarjeta.",
+        }));
+      }
     }
   };
 
@@ -222,6 +282,12 @@ export function AddUserCards() {
               )}
             </div>
           </div>
+          {addCardSuccess.success ? (
+            <p className="font-bold text-green-600">{addCardSuccess.success}</p>
+          ) : (
+            <p className="font-bold text-red-600">{addCardSuccess.error}</p>
+          )}
+
           <GeneralBtn className="addusercards__btn" type="secondary">
             Guardar
           </GeneralBtn>
