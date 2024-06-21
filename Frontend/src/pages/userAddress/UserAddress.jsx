@@ -103,13 +103,21 @@ export function UserAddress() {
                 <div className="flex gap-2 items-center font-medium">
                   <HiHome className="text-2xl" />
                   <span>
-                    {address.direccion} <span>{address.numero_casa}</span>
+                    {address.direccion.charAt(0).toUpperCase() +
+                      address.direccion.slice(1)}
+                    <span>{address.numero_casa}</span>
                   </span>
                 </div>
                 <div className="region-comuna pl-8 text-sm">
-                  <span className="">Región</span> <span>{address.region}</span>
+                  <span className="">Región</span>{" "}
+                  <span>
+                    {address.region.charAt(0).toUpperCase() +
+                      address.region.slice(1)}
+                  </span>
                 </div>
-                <span className="usuario pl-8 text-sm">{user.nombre}</span>
+                <span className="usuario pl-8 text-sm">
+                  {user.nombre.charAt(0).toUpperCase() + user.nombre.slice(1)}
+                </span>
               </div>
             </div>
             <div className="edit__icon">
