@@ -32,10 +32,20 @@ export function AddUserCards() {
         ...prevErrors,
         errorNumeroTarjeta: "Ingresa solo números.",
       }));
+    } else if (userData.numeroTarjeta.trim().length < 16) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorNumeroTarjeta: "Número incompleto. (16 caractéres)",
+      }));
     } else if (userData.expiracion.trim() === "") {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
-        errorExpiracion: "Ingresa la fecha de expiración.",
+        errorExpiracion: "Ingresa fecha de expiración.",
+      }));
+    } else if (userData.expiracion.trim().length < 4) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorExpiracion: "Fecha incompleta.",
       }));
     } else if (!onlyNumbersRegex.test(userData.expiracion.trim())) {
       setInputFormError((prevErrors) => ({
@@ -45,12 +55,17 @@ export function AddUserCards() {
     } else if (userData.cvv.trim() === "") {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
-        errorCvv: "Ingresa el cvv.",
+        errorCvv: "Ingresa el CVV.",
       }));
     } else if (!onlyNumbersRegex.test(userData.cvv.trim())) {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorCvv: "Ingresa solo números.",
+      }));
+    } else if (userData.cvv.trim().length < 3) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorCvv: "CVV incompleto.",
       }));
     } else {
     }
@@ -75,7 +90,7 @@ export function AddUserCards() {
         </div>
         <form
           onSubmit={handleAddCreditCard}
-          className="addusercards__form flex flex-col justify-between w-full gap-5"
+          className="addusercards__form flex flex-col justify-between w-full"
         >
           <select
             ref={inputRefs.tipo}
@@ -95,7 +110,7 @@ export function AddUserCards() {
             <option value="mastercard">MasterCard</option>
           </select>
           {inputFormError.errorTipo ? (
-            <p className="text-red-600 font-semibold text-sm ml-7">
+            <p className="text-red-600 font-semibold text-sm">
               {inputFormError.errorTipo}
             </p>
           ) : (
@@ -108,7 +123,7 @@ export function AddUserCards() {
                 ? "focus: outline-2 outline outline-red-600"
                 : "focus: outline-2 outline-green-300"
             }`}
-            placeholder="Número de tarjeta (45... o 25...)"
+            placeholder="Número de tarjeta"
             type="text"
             maxLength="16"
             name="numeroTarjeta"
@@ -116,57 +131,64 @@ export function AddUserCards() {
             onChange={handleChange}
           />
           {inputFormError.errorNumeroTarjeta ? (
-            <p className="text-red-600 font-semibold text-sm ml-7">
+            <p className="text-red-600 font-semibold text-sm">
               {inputFormError.errorNumeroTarjeta}
             </p>
           ) : (
             ""
           )}
-          <div className="flex items-center gap-5">
-            <input
-              ref={inputRefs.expiracion}
-              className={`addusercards__input ${
-                inputFormError.errorExpiracion
-                  ? "focus: outline-2 outline outline-red-600"
-                  : "focus: outline-2 outline-green-300"
-              }`}
-              type="text"
-              maxLength="4"
-              name="expiracion"
-              placeholder="Fecha de expiración"
-              value={userData.expiracion}
-              onChange={handleChange}
-            />
-            {inputFormError.errorExpiracion ? (
-              <p className="text-red-600 font-semibold text-sm ml-7">
-                {inputFormError.errorExpiracion}
-              </p>
-            ) : (
-              ""
-            )}
-            <input
-              ref={inputRefs.cvv}
-              className={`addusercards__input ${
-                inputFormError.errorCvv
-                  ? "focus: outline-2 outline outline-red-600"
-                  : "focus: outline-2 outline-green-300"
-              }`}
-              type="text"
-              maxLength="3"
-              name="cvv"
-              placeholder="CVV"
-              value={userData.cvv}
-              onChange={handleChange}
-            />
-            {inputFormError.errorCvv ? (
-              <p className="text-red-600 font-semibold text-sm ml-7">
-                {inputFormError.errorCvv}
-              </p>
-            ) : (
-              ""
-            )}
+          <div className="flex items-start gap-5 ">
+            <div className="flex flex-col w-full">
+              <input
+                ref={inputRefs.expiracion}
+                className={`addusercards__input ${
+                  inputFormError.errorExpiracion
+                    ? "focus: outline-2 outline outline-red-600"
+                    : "focus: outline-2 outline-green-300"
+                }`}
+                type="text"
+                maxLength="4"
+                name="expiracion"
+                placeholder="Fecha de expiración"
+                value={userData.expiracion}
+                onChange={handleChange}
+              />
+              {inputFormError.errorExpiracion ? (
+                <p className="text-red-600 font-semibold text-sm">
+                  {inputFormError.errorExpiracion}
+                </p>
+              ) : (
+                ""
+              )}
+            </div>
+
+            <div className="flex flex-col w-full">
+              <input
+                ref={inputRefs.cvv}
+                className={`addusercards__input ${
+                  inputFormError.errorCvv
+                    ? "focus: outline-2 outline outline-red-600"
+                    : "focus: outline-2 outline-green-300"
+                }`}
+                type="text"
+                maxLength="3"
+                name="cvv"
+                placeholder="CVV"
+                value={userData.cvv}
+                onChange={handleChange}
+              />
+              {inputFormError.errorCvv ? (
+                <p className="text-red-600 font-semibold text-sm">
+                  {inputFormError.errorCvv}
+                </p>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
-          <GeneralBtn type="secondary">Guardar</GeneralBtn>
+          <GeneralBtn className="addusercards__btn" type="secondary">
+            Guardar
+          </GeneralBtn>
         </form>
       </div>
     </section>
