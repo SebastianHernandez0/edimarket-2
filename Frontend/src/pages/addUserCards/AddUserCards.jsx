@@ -7,13 +7,16 @@ import { UserContext } from "../../context/UserContext";
 export function AddUserCards() {
   const { handleChange, userData } = useContext(UserContext);
 
+  const handleAddCreditCard = (e) => {
+    e.preventDefault();
+  };
   return (
     <section className="addusercards__container bg-white shadow-sm rounded-sm">
       <h1 className="mb-5">Añade una tarjeta</h1>
       <div className="addusercards__body">
-        <div className="flex items center justify-center overflow-hidden">
+        <div className="flex items center justify-center">
           <img
-            className="creditcards"
+            className="creditcards "
             src={`/imgs/aplication/${
               userData.tipo === "visa"
                 ? "visaCard.png"
@@ -24,7 +27,10 @@ export function AddUserCards() {
             alt=""
           />
         </div>
-        <form className="addusercards__form flex flex-col justify-between w-full gap-5">
+        <form
+          onSubmit={handleAddCreditCard}
+          className="addusercards__form flex flex-col justify-between w-full gap-5"
+        >
           <select
             className="addusercards__input"
             placeholder="Tipo de tarjeta"

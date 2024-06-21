@@ -18,14 +18,22 @@
 }
 .addusercards__form {
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 40px;
   max-width: 500px;
 }
 
 .creditcards {
   width: 100%;
-  max-width: 420px;
-  height: 270px;
+  max-width: 450px;
   object-fit: cover;
   border-radius: 20px;
+  min-height: 220px;
+  filter: drop-shadow(10px 10px 10px #000000ab);
+}
+
+@media (min-width: 576px) {
+  .creditcards {
+    height: 290px;
+    max-width: 450px;
+  }
 }
