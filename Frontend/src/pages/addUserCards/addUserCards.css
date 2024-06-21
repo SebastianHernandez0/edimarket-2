@@ -5,3 +5,27 @@
   width: 100%;
   max-width: 1000px;
 }
+
+.addusercards__input {
+  background-color: transparent;
+  display: flex;
+  margin: 0 auto;
+  padding: 0 13px;
+  width: 100%;
+  border: 1px solid var(--navOpacity);
+  border-radius: 5px;
+  height: 50px;
+}
+.addusercards__form {
+  margin: 0 auto;
+  margin-top: 20px;
+  max-width: 500px;
+}
+
+.creditcards {
+  width: 100%;
+  max-width: 420px;
+  height: 270px;
+  object-fit: cover;
+  border-radius: 20px;
+}

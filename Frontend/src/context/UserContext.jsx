@@ -18,6 +18,10 @@ const initialUserData = {
   comuna: "",
   codigoPostal: "",
   numero: "",
+  tipo: "",
+  numeroTarjeta: "",
+  expiracion: "",
+  cvv: "",
 };
 
 const initialFormError = {
@@ -35,6 +39,10 @@ const initialFormError = {
   errorComuna: "",
   errorCodigoPostal: "",
   errorNumero: "",
+  errorTipo: "",
+  errorNumeroTarjeta: "",
+  errorExpiracion: "",
+  errorCvv: "",
 };
 
 const initialStateToken = localStorage.getItem("token") || null;
@@ -66,6 +74,10 @@ export function UserProvider({ children }) {
     comuna: useRef(null),
     codigoPostal: useRef(null),
     numero: useRef(null),
+    tipo: useRef(null),
+    numeroTarjeta: useRef(null),
+    expiracion: useRef(null),
+    cvv: useRef(null),
   };
 
   // Resetear el estado si cambia la navegación (URL)
