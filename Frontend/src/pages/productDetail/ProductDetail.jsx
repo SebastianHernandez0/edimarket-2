@@ -19,6 +19,8 @@ export function ProductDetail() {
     setAddedToFav,
     productQuantity,
     handleProductQuantity,
+    loading,
+    setLoading,
   } = useContext(ProductContext);
   const { openModalCart, addToCart, cart, productAlert, setProductAlert } =
     useContext(CartContext);
@@ -29,7 +31,6 @@ export function ProductDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleGetProduct = async () => {
@@ -41,8 +42,8 @@ export function ProductDetail() {
         const data = await response.json();
         setProduct(data);
       } catch (error) {
-        console.error("Error fetching product:", error);
-        navigate("/not-found"); // Navegar a una página de error si es necesario
+        console.error("Error al obtener productos:", error);
+        navigate("/not-found");
       } finally {
         setLoading(false);
       }
@@ -156,7 +157,7 @@ export function ProductDetail() {
   return (
     <section className="productdetail__container">
       {loading ? (
-        <p>Cargando...</p>
+        <p className="text-center font-semibold text-lg">Cargando...</p>
       ) : (
         <div className="card__container">
           <OverlayScreen />

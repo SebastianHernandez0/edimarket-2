@@ -11,6 +11,7 @@ export function ProductProvider({ children }) {
   const [addedToFav, setAddedToFav] = useState([]);
   const [productQuantity, setProductQuantity] = useState(1);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const handleProductDetail = (id) => {
     const product = products.find((product) => product.id === id);
@@ -67,6 +68,8 @@ export function ProductProvider({ children }) {
         productQuantity,
         setProductQuantity,
         handleProductQuantity,
+        loading,
+        setLoading,
       }}
     >
       {children}
