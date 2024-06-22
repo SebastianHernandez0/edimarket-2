@@ -1,5 +1,5 @@
 import "../productDetail/productDetail.css";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
@@ -7,7 +7,7 @@ import { IoHeartSharp } from "react-icons/io5";
 import { CartContext } from "../../context/CarritoContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { useRef } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import { OverlayScreen } from "../../components/overlayScreen/OverlayScreen";
 import { UserContext } from "../../context/UserContext";
 
@@ -27,6 +27,29 @@ export function ProductDetail() {
 
   const timeoutRef = useRef(null);
   const navigate = useNavigate();
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const handleGetProduct = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/productos/${id}`);
+        if (!response.ok) {
+          throw new Error("Producto no encontrado");
+        }
+        const data = await response.json();
+        setProduct(data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        navigate("/not-found"); // Navegar a una página de error si es necesario
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    handleGetProduct();
+  }, [id, navigate]);
 
   const handleAddToCart = () => {
     const productWithQuantity = {
@@ -132,122 +155,126 @@ export function ProductDetail() {
 
   return (
     <section className="productdetail__container">
-      <div className="card__container">
-        <OverlayScreen />
-        <ProductCard className="card__body shadow-md rounded-md">
-          <img className="card__img" src={productById?.imagen} alt="" />
-          <div className="card__info border-2 rounded-md">
-            <div className="card__info__details">
-              <p className="card__paragraph card__paragraph__name">
-                {productById?.nombre}
-              </p>
-              <div className="card__info__price__details">
-                <p className="card__paragraph card__paragraph__price">
-                  {productById?.precio.toLocaleString("es-CL", {
-                    style: "currency",
-                    currency: "CLP",
-                  })}
+      {loading ? (
+        <p>Cargando...</p>
+      ) : (
+        <div className="card__container">
+          <OverlayScreen />
+          <ProductCard className="card__body shadow-md rounded-md">
+            <img className="card__img" src={product?.imagen} alt="" />
+            <div className="card__info border-2 rounded-md">
+              <div className="card__info__details">
+                <p className="card__paragraph card__paragraph__name">
+                  {product?.nombre}
                 </p>
-                <IoHeartSharp
-                  onClick={userToken ? handleAddToFav : handleNavigateToLogin}
-                  className={`card__info__like__icon ${
-                    addedToFav.some((product) => product.id === productById.id)
-                      ? "text-red-600 transition duration-300"
-                      : "text-gray-400 transition duration-300"
-                  }`}
-                />
-              </div>
+                <div className="card__info__price__details">
+                  <p className="card__paragraph card__paragraph__price">
+                    {product?.precio.toLocaleString("es-CL", {
+                      style: "currency",
+                      currency: "CLP",
+                    })}
+                  </p>
+                  <IoHeartSharp
+                    onClick={userToken ? handleAddToFav : handleNavigateToLogin}
+                    className={`card__info__like__icon ${
+                      addedToFav.some((product) => product.id === product.id)
+                        ? "text-red-600 transition duration-300"
+                        : "text-gray-400 transition duration-300"
+                    }`}
+                  />
+                </div>
 
-              <p className="card__paragraph card__paragraph__stock">
-                Stock disponible{" "}
-                <span className="font-semibold">{productById?.stock}</span>
-              </p>
-              <select
-                onChange={handleProductQuantity}
-                value={productQuantity}
-                className="w-1/2 font-medium mb-5 px-2 border rounded-md active: outline-none cursor-pointer"
-                name="quantity"
-                id=""
-              >
-                <option value="1">1 unidad</option>
-                <option value="2">2 unidades</option>
-                <option value="3">3 unidades</option>
-                <option value="4">4 unidades</option>
-                <option value="5">5 unidades</option>
-              </select>
+                <p className="card__paragraph card__paragraph__stock">
+                  Stock disponible{" "}
+                  <span className="font-semibold">{product?.stock}</span>
+                </p>
+                <select
+                  onChange={handleProductQuantity}
+                  value={productQuantity}
+                  className="w-1/2 font-medium mb-5 px-2 border rounded-md active: outline-none cursor-pointer"
+                  name="quantity"
+                  id=""
+                >
+                  <option value="1">1 unidad</option>
+                  <option value="2">2 unidades</option>
+                  <option value="3">3 unidades</option>
+                  <option value="4">4 unidades</option>
+                  <option value="5">5 unidades</option>
+                </select>
+              </div>
+              <div className="card__info__btn__container">
+                <GeneralBtn
+                  className="card__info__btn card__info__btn__buy"
+                  type="secondary"
+                >
+                  <NavLink to="/shipping">Comprar ahora</NavLink>
+                </GeneralBtn>
+                <GeneralBtn
+                  onClick={handleAddToCart}
+                  className="card__info__btn card__info__btn__cart"
+                  type="primary"
+                >
+                  Agregar al carrito
+                </GeneralBtn>
+              </div>
+              <hr className="mt-8" />
             </div>
-            <div className="card__info__btn__container">
-              <GeneralBtn
-                className="card__info__btn card__info__btn__buy"
-                type="secondary"
-              >
-                <NavLink to="/shipping">Comprar ahora</NavLink>
-              </GeneralBtn>
-              <GeneralBtn
-                onClick={handleAddToCart}
-                className="card__info__btn card__info__btn__cart"
-                type="primary"
-              >
-                Agregar al carrito
-              </GeneralBtn>
+            <div className="card__info__desc__container mt-8 p-4">
+              <h1 className="card__info__desc__title text-2xl">Descripción</h1>
+              <div className="card__info__desc mt-10">
+                {product?.descripcion}
+              </div>
             </div>
-            <hr className="mt-8" />
-          </div>
-          <div className="card__info__desc__container mt-8 p-4">
-            <h1 className="card__info__desc__title text-2xl">Descripción</h1>
-            <div className="card__info__desc mt-10">
-              {productById?.descripcion}
-            </div>
-          </div>
-        </ProductCard>
-        {productAlert.error ? (
-          <CartAlert>
-            <div>
-              <p className="card__cart__alert shadow-md rounded-md bg-slate-700">
-                {productAlert.error}
-              </p>
-            </div>
-          </CartAlert>
-        ) : (
-          ""
-        )}
-        {productAlert.success ? (
-          <CartAlert>
-            <div>
-              <p className="card__cart__alert shadow-md rounded-md bg-green-600">
-                {productAlert.success}
-              </p>
-            </div>
-          </CartAlert>
-        ) : (
-          ""
-        )}
-        {productAlert.errorFav ? (
-          <CartAlert>
-            <div className="">
-              <div className="card__cart__alert shadow-md rounded-md bg-slate-700 text-sm sm:text-lg">
-                {productAlert.errorFav}{" "}
-                <div className="flex gap-14 items-center justify-center mt-5">
-                  <Link
-                    className="font-semibold sm:text-sm hover:text-teal-400"
-                    to="/sign-in"
-                  >
-                    INICIAR SESIÓN
-                  </Link>
-                  <Link
-                    className="font-semibold sm:text-sm hover:text-teal-400"
-                    to="/sign-up"
-                  >
-                    REGISTRARSE
-                  </Link>
+          </ProductCard>
+          {productAlert.error ? (
+            <CartAlert>
+              <div>
+                <p className="card__cart__alert shadow-md rounded-md bg-slate-700">
+                  {productAlert.error}
+                </p>
+              </div>
+            </CartAlert>
+          ) : (
+            ""
+          )}
+          {productAlert.success ? (
+            <CartAlert>
+              <div>
+                <p className="card__cart__alert shadow-md rounded-md bg-green-600">
+                  {productAlert.success}
+                </p>
+              </div>
+            </CartAlert>
+          ) : (
+            ""
+          )}
+          {productAlert.errorFav ? (
+            <CartAlert>
+              <div className="">
+                <div className="card__cart__alert shadow-md rounded-md bg-slate-700 text-sm sm:text-lg">
+                  {productAlert.errorFav}{" "}
+                  <div className="flex gap-14 items-center justify-center mt-5">
+                    <Link
+                      className="font-semibold sm:text-sm hover:text-teal-400"
+                      to="/sign-in"
+                    >
+                      INICIAR SESIÓN
+                    </Link>
+                    <Link
+                      className="font-semibold sm:text-sm hover:text-teal-400"
+                      to="/sign-up"
+                    >
+                      REGISTRARSE
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          </CartAlert>
-        ) : (
-          ""
-        )}
-      </div>
+            </CartAlert>
+          ) : (
+            ""
+          )}
+        </div>
+      )}
     </section>
   );
 }
