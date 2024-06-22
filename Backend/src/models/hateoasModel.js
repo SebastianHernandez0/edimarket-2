@@ -2,6 +2,7 @@ const prepHateoas= (data) => {
     const results= data.map((item)=>{
       return {
         nombre:item.nombre,
+        descripcion:item.descripcion,
         vendedor:item.vendedor_id,
         precio:item.precio,
         stock:item.stock,

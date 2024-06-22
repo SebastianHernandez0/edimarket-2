@@ -8,6 +8,7 @@ const userRoutes= require("./routes/userRoutes");
 const categoriaRoutes= require("./routes/categoriaRoutes");
 const productRoutes= require("./routes/productRoutes");
 const favoritosRoutes= require("./routes/favoritosRoutes");
+const carritoRoutes= require("./routes/carritoRoutes");
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -31,6 +32,7 @@ app.use("/usuarios", userRoutes);
 app.use("/categorias", categoriaRoutes);
 app.use("/productos", productRoutes);
 app.use("/favoritos", favoritosRoutes);
+app.use("/carrito", carritoRoutes);
 
 
 app.get("*", (req, res) => {

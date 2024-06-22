@@ -99,6 +99,14 @@ const consultarProductos = async () => {
   return products;
 };
 
+const consultarProductosByCategoria = async (categoria) => {
+  const values = [categoria];
+  const consulta =
+    "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where categorias.nombre_categoria=$1";
+  const { rows: products } = await db.query(consulta, values);
+  return products;
+};
+
 const consultarProductoById = async (id) => {
   const consulta =
     "select * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on categorias.id=producto_categoria.categoria_id where productos.id=$1";
@@ -272,5 +280,6 @@ module.exports = {
   agregarMetodoDePago,
   consultarMetodosPago,
   eliminarUsuario,
-  agregarCarrito
+  agregarCarrito,
+  consultarProductosByCategoria
 };

@@ -1,4 +1,4 @@
-const {consultarProductos, consultarProductoById, registrarProducto,agregarCarrito}= require("../models/userModel");
+const {consultarProductos, consultarProductoById, registrarProducto,agregarCarrito, consultarProductosByCategoria}= require("../models/userModel");
 const prepHateoas= require("../models/hateoasModel");
 const jwt = require("jsonwebtoken");
 
@@ -45,6 +45,17 @@ const agregarProducto = async (req, res) => {
       } 
 }
 
+const getProductosByCategoria = async (req, res) => {
+    try {
+        const {categoria} = req.params;
+        const productos = await consultarProductosByCategoria(categoria);
+        const hateoas=await prepHateoas(productos);
+        res.send(hateoas);
+      } catch (error) {
+        res.status(500).json({error: error.message});
+      }
+}
+
 const añadirProductoCarrito = async (req, res) => {
     try {
         const producto = req.body;
@@ -54,16 +65,9 @@ const añadirProductoCarrito = async (req, res) => {
         const { email,id } = jwt.decode(token);
         await agregarCarrito(id, producto);
         console.log(`El usuario ${email} con el id ${id} ha agregado un producto al carrito`);
-        res.status(201).json({
-          nombre: producto.nombre,
-          descripcion: producto.descripcion,
-          estado: producto.estado,
-          precio: producto.precio,
-          stock: producto.stock,
-          categoria: producto.categoria,
-        });
+        res.status(201).json({Mensaje:"Producto agregado al carrito"});
       } catch (error) {
         res.status(500).json({error: error.message});
       } 
 }
-module.exports= {getProductos, getProductoById, agregarProducto,añadirProductoCarrito}
+module.exports= {getProductos, getProductoById, agregarProducto,añadirProductoCarrito,getProductosByCategoria}
