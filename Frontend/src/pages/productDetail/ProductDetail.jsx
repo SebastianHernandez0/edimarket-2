@@ -170,10 +170,12 @@ export function ProductDetail() {
                 </p>
                 <div className="card__info__price__details">
                   <p className="card__paragraph card__paragraph__price">
-                    {product?.precio.toLocaleString("es-CL", {
-                      style: "currency",
-                      currency: "CLP",
-                    })}
+                    {product?.precio
+                      ? Number(product.precio).toLocaleString("es-CL", {
+                          style: "currency",
+                          currency: "CLP",
+                        })
+                      : null}
                   </p>
                   <IoHeartSharp
                     onClick={userToken ? handleAddToFav : handleNavigateToLogin}
@@ -190,7 +192,7 @@ export function ProductDetail() {
                   <span className="font-semibold">{product?.stock}</span>
                 </p>
                 <select
-                /*   onChange={handleProductQuantity}
+                  /*   onChange={handleProductQuantity}
                   value={productQuantity} */
                   className="w-1/2 font-medium mb-5 px-2 border rounded-md active: outline-none cursor-pointer"
                   name="quantity"
@@ -218,7 +220,7 @@ export function ProductDetail() {
                   <NavLink to="/shipping">Comprar ahora</NavLink>
                 </GeneralBtn>
                 <GeneralBtn
-                /*   onClick={handleAddToCart} */
+                  /*   onClick={handleAddToCart} */
                   className="card__info__btn card__info__btn__cart"
                   type="primary"
                 >
