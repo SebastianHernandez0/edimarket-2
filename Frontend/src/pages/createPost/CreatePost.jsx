@@ -14,8 +14,15 @@ export function CreatePost() {
     handleChange,
     inputRefs,
     image_url_regex,
+    userToken,
+    setUserData,
+    initialUserData,
   } = useContext(UserContext);
-  const [createPostSuccess, setCreatePostSuccess] = useState("");
+
+  const [createPostSuccess, setCreatePostSuccess] = useState({
+    success: "",
+    error: "",
+  });
 
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
@@ -24,7 +31,41 @@ export function CreatePost() {
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
     useDropzone({ onDrop });
 
-  const handlePostSubmit = (e) => {
+  const handleCreatePost = async (
+    nombre,
+    descripcion,
+    estado,
+    precio,
+    stock,
+    imagen,
+    categoria
+  ) => {
+    const response = await fetch("http://localhost:3000/productos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userToken}`,
+      },
+      body: JSON.stringify({
+        nombre,
+        descripcion,
+        estado,
+        precio,
+        stock,
+        imagen,
+        categoria,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error al subir producto");
+    }
+    const data = response.json();
+    return data;
+  };
+
+  const handlePostSubmit = async (e) => {
     e.preventDefault();
 
     if (userData.postimg.trim() === "") {
@@ -42,12 +83,12 @@ export function CreatePost() {
         ...prevErrors,
         errorTitulo: "Pon un título a tu producto.",
       }));
-    } else if (userData.precio.trim() === "") {
+    } else if (userData.precio === "") {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorPrecio: "Pon un precio a tu producto.",
       }));
-    } else if (!onlyNumbersRegex.test(userData.precio.trim())) {
+    } else if (!onlyNumbersRegex.test(userData.precio)) {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorPrecio: "Ingresa solo números.",
@@ -56,6 +97,16 @@ export function CreatePost() {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorCategorias: "Selecciona una categoria.",
+      }));
+    } else if (userData.productStock === "") {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorProductStock: "Indica el stock de tu producto.",
+      }));
+    } else if (!onlyNumbersRegex.test(userData.productStock)) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorProductStock: "Ingresa solo númereos.",
       }));
     } else if (userData.estado.trim() === "") {
       setInputFormError((prevErrors) => ({
@@ -68,14 +119,40 @@ export function CreatePost() {
         errorDescripcion: "Describe tu producto.",
       }));
     } else {
-      setCreatePostSuccess("Post creado con éxito");
-      setInputFormError({
-        errorTitulo: "",
-        errorPrecio: "",
-        errorCategorias: "",
-        errorEstado: "",
-        errorDescripcion: "",
-      });
+      try {
+        const res = await handleCreatePost(
+          userData.titulo,
+          userData.descripcion,
+          userData.estado,
+          userData.precio,
+          userData.productStock,
+          userData.postimg,
+          userData.categorias
+        );
+        setCreatePostSuccess((prevData) => ({
+          ...prevData,
+          success: "¡Has publicado tu producto!",
+        }));
+        setUserData(initialUserData);
+        setTimeout(() => {
+          setCreatePostSuccess((prevData) => ({
+            ...prevData,
+            success: "",
+          }));
+        }, 3000);
+      } catch (error) {
+        console.error("Error:", error.message);
+        setCreatePostSuccess((prevData) => ({
+          ...prevData,
+          error: "No pudimos publicar tu producto :(",
+        }));
+        setTimeout(() => {
+          setCreatePostSuccess((prevData) => ({
+            ...prevData,
+            error: "",
+          }));
+        }, 3000);
+      }
     }
   };
 
@@ -148,7 +225,7 @@ export function CreatePost() {
               placeholder="Ingresa la URL de la imágen"
             />
             {inputFormError.errorPostimg ? (
-              <p className="text-red-600 font-semibold text-sm ml-7">
+              <p className="text-red-600 font-semibold text-sm">
                 {inputFormError.errorPostimg}
               </p>
             ) : (
@@ -168,7 +245,7 @@ export function CreatePost() {
               placeholder="Título"
             />
             {inputFormError.errorTitulo ? (
-              <p className="text-red-600 font-semibold text-sm ml-7">
+              <p className="text-red-600 font-semibold text-sm">
                 {inputFormError.errorTitulo}
               </p>
             ) : (
@@ -188,34 +265,57 @@ export function CreatePost() {
               placeholder="Precio"
             />
             {inputFormError.errorPrecio ? (
-              <p className="text-red-600 font-semibold text-sm ml-7">
+              <p className="text-red-600 font-semibold text-sm">
                 {inputFormError.errorPrecio}
               </p>
             ) : (
               ""
             )}
-            <select
-              ref={inputRefs.categorias}
-              onChange={handleChange}
-              className={`createpost__card__input ${
-                inputFormError.errorCategorias
-                  ? "focus: outline-2 outline outline-red-600"
-                  : "focus: outline-2 outline-green-300"
-              }`}
-              name="categorias"
-              value={userData.categorias}
-              id="categorias"
-            >
-              <option value="">Categorías</option>
-              <option value="consolas">Consolas</option>
-              <option value="accesorios">Accesorios</option>
-              <option value="monitores">Monitores</option>
-              <option value="componentes">Componentes</option>
-              <option value="telefonos">Telefonía</option>
-              <option value="electrodomesticos">Electrodomésticos</option>
-            </select>
+            <div className="createpost__select__container">
+              <select
+                ref={inputRefs.categorias}
+                onChange={handleChange}
+                className={`createpost__card__input ${
+                  inputFormError.errorCategorias
+                    ? "focus: outline-2 outline outline-red-600"
+                    : "focus: outline-2 outline-green-300"
+                }`}
+                name="categorias"
+                value={userData.categorias}
+                id="categorias"
+              >
+                <option value="">Categorías</option>
+                <option value="Consolas">Consolas</option>
+                <option value="Accesorios">Accesorios</option>
+                <option value="Monitores">Monitores</option>
+                <option value="Componentes">Componentes</option>
+                <option value="Telefonía">Telefonía</option>
+                <option value="Electrodomésticos">Electrodomésticos</option>
+              </select>
+              <div className="flex flex-col ">
+                <input
+                  onChange={handleChange}
+                  ref={inputRefs.productStock}
+                  className={`createpost__card__input ${
+                    inputFormError.errorProductStock
+                      ? "focus: outline-2 outline outline-red-600"
+                      : "focus: outline-2 outline-green-300"
+                  }`}
+                  type="text"
+                  name="productStock"
+                  placeholder="Stock producto"
+                />
+                {inputFormError.errorProductStock ? (
+                  <p className="text-red-600 font-semibold text-sm">
+                    {inputFormError.errorProductStock}
+                  </p>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
             {inputFormError.errorCategorias ? (
-              <p className="text-red-600 font-semibold text-sm ml-7">
+              <p className="text-red-600 font-semibold text-sm">
                 {inputFormError.errorCategorias}
               </p>
             ) : (
@@ -239,7 +339,7 @@ export function CreatePost() {
               <option value="usado-aceptable">Usado-Aceptable</option>
             </select>
             {inputFormError.errorEstado ? (
-              <p className="text-red-600 font-semibold text-sm ml-7">
+              <p className="text-red-600 font-semibold text-sm">
                 {inputFormError.errorEstado}
               </p>
             ) : (
@@ -260,12 +360,23 @@ export function CreatePost() {
               placeholder="Descripción"
             ></textarea>
             {inputFormError.errorDescripcion ? (
-              <p className="text-red-600 font-semibold text-sm ml-7">
+              <p className="text-red-600 font-semibold text-sm">
                 {inputFormError.errorDescripcion}
               </p>
             ) : (
               ""
             )}
+            <div className="flex flex-col items-center mt-4">
+              {createPostSuccess.success ? (
+                <p className="font-bold text-green-600">
+                  {createPostSuccess.success}
+                </p>
+              ) : (
+                <p className="font-bold text-red-600">
+                  {createPostSuccess.error}
+                </p>
+              )}
+            </div>
             <GeneralBtn type="secondary" className="createpost__form__btn my-4">
               Crear publicación
             </GeneralBtn>

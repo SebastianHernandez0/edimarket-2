@@ -24,6 +24,7 @@ const initialUserData = {
   expiracion: "",
   cvv: "",
   postimg: "",
+  productStock: "",
 };
 
 const initialFormError = {
@@ -47,6 +48,7 @@ const initialFormError = {
   errorExpiracion: "",
   errorCvv: "",
   errorPostimg: "",
+  errorProductStock: "",
 };
 
 const initialStateToken = localStorage.getItem("token") || null;
@@ -86,6 +88,7 @@ export function UserProvider({ children }) {
     expiracion: useRef(null),
     cvv: useRef(null),
     postimg: useRef(null),
+    productStock: useRef(null),
   };
 
   // Resetear el estado si cambia la navegación (URL)
@@ -99,7 +102,8 @@ export function UserProvider({ children }) {
     const { name, value } = e.target;
     setUserData((prevUserData) => ({
       ...prevUserData,
-      [name]: value,
+      [name]:
+        name === "precio" || name === "productStock" ? Number(value) : value,
     }));
   };
 
