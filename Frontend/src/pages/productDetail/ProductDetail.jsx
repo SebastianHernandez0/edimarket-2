@@ -129,7 +129,7 @@ export function ProductDetail() {
       });
     }
   }, [navigate]);
-console.log(productById)
+
   return (
     <section className="productdetail__container">
       <div className="card__container">

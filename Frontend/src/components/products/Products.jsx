@@ -16,7 +16,16 @@ export function Products() {
 
     const data = await response.json();
 
-    setProducts(data.results);
+    // Formatear el precio a peso chileno
+    const formattedProducts = data.results.map((product) => ({
+      ...product,
+      precio: new Intl.NumberFormat("es-CL", {
+        style: "currency",
+        currency: "CLP",
+      }).format(product.precio),
+    }));
+
+    setProducts(formattedProducts);
   };
 
   useEffect(() => {
