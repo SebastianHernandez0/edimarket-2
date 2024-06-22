@@ -13,6 +13,37 @@ export function ProductProvider({ children }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
+  const handleGetProducts = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/productos");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al obtener domicilio");
+      }
+
+      const data = await response.json();
+
+      // Formatear el precio a peso chileno
+      const formattedProducts = data.results.map((product) => ({
+        ...product,
+        precio: new Intl.NumberFormat("es-CL", {
+          style: "currency",
+          currency: "CLP",
+        }).format(product.precio),
+      }));
+
+      setProducts(formattedProducts);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetProducts();
+  }, []);
+
   const handleProductDetail = (id) => {
     const product = products.find((product) => product.id === id);
     if (product) {

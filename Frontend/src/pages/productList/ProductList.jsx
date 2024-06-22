@@ -32,7 +32,7 @@ export function ProductList() {
   let sortedProducts = [...filteredProducts];
   useEffect(() => {
     handleGetFilteredProducts();
-  }, [sortedProducts]);
+  }, [categoria]);
 
   const handleSortChange = (event) => {
     setOrderBy(event.target.value);
