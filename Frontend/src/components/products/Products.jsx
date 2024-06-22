@@ -1,10 +1,27 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
 import "../products/products.css";
 
 export function Products() {
-  const { products, handleProductDetail } = useContext(ProductContext);
+  const { products, setProducts, handleProductDetail } =
+    useContext(ProductContext);
+
+  const handleGetProducts = async () => {
+    const response = await fetch("http://localhost:3000/productos");
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error al obtener domicilio");
+    }
+
+    const data = await response.json();
+
+    setProducts(data.results);
+  };
+
+  useEffect(() => {
+    handleGetProducts();
+  }, []);
 
   return (
     <div className="products__container">
@@ -17,13 +34,13 @@ export function Products() {
         {products?.map((product) => (
           <ProductCard
             onClick={() => handleProductDetail(product?.id)}
-            key={product?.id}
+            key={product.id}
             className="products__card shadow-md bg-white"
           >
             <div className="products__card__img__container">
               <img
                 className="products__card__img"
-                src={product?.href}
+                src={product?.imagen}
                 alt={product?.nombre}
               />
               <div className="products__card__desc__container px-4">

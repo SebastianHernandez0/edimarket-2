@@ -129,13 +129,13 @@ export function ProductDetail() {
       });
     }
   }, [navigate]);
-
+console.log(productById)
   return (
     <section className="productdetail__container">
       <div className="card__container">
         <OverlayScreen />
         <ProductCard className="card__body shadow-md rounded-md">
-          <img className="card__img" src={productById?.href} alt="" />
+          <img className="card__img" src={productById?.imagen} alt="" />
           <div className="card__info border-2 rounded-md">
             <div className="card__info__details">
               <p className="card__paragraph card__paragraph__name">
