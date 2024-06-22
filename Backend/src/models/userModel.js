@@ -74,6 +74,13 @@ const registrarUsuario = async (usuario) => {
   return user;
 };
 
+const eliminarUsuario = async (id) => {
+  const values = [id];
+  const consulta = "DELETE FROM usuarios WHERE id=$1";
+  await db.query(consulta, values);
+  return console.log("Usuario eliminado");
+};
+
 const verificarUsuario = async (email, contraseña) => {
   const values = [email];
   validarUser.parse({ email, contraseña });
@@ -89,6 +96,14 @@ const consultarProductos = async () => {
   const consulta =
     "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id";
   const { rows: products } = await db.query(consulta);
+  return products;
+};
+
+const consultarProductosByCategoria = async (categoria) => {
+  const values = [categoria];
+  const consulta =
+    "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where categorias.nombre_categoria=$1";
+  const { rows: products } = await db.query(consulta, values);
   return products;
 };
 
@@ -127,7 +142,7 @@ const registrarProducto = async (producto, vendedor_id) => {
     precio,
     stock,
     imagen,
-    vendedor_id,
+    vendedor_id
   ];
   const consultaProducto =
     "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado) VALUES ($1,$2,$3,$5,$6,$7,$8,$4)";
@@ -238,6 +253,16 @@ const consultarDirreccion = async (idUsuario) => {
   return domicilio;
 };
 
+const agregarCarrito = async (idUsuario, producto) => {
+  let {idProducto,cantidad} = producto;
+
+  const values = [idUsuario, idProducto, cantidad];
+  const consulta =
+    "INSERT INTO carrito(id,usuario_id,producto_id,cantidad,comprado) VALUES (DEFAULT,$1,$2,$3,false)";
+  await db.query(consulta, values);
+  return console.log("Producto agregado al carrito");
+}
+
 module.exports = {
   consultarUsuario,
   consultarUsuarioById,
@@ -254,4 +279,7 @@ module.exports = {
   borrarFavorito,
   agregarMetodoDePago,
   consultarMetodosPago,
+  eliminarUsuario,
+  agregarCarrito,
+  consultarProductosByCategoria
 };
