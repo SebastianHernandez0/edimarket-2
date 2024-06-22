@@ -52,7 +52,7 @@ export function ProductDetail() {
     handleGetProduct();
   }, [id, navigate]);
 
-  const handleAddToCart = () => {
+  /* const handleAddToCart = () => {
     const productWithQuantity = {
       ...productById,
       cantidad: productQuantity,
@@ -88,7 +88,7 @@ export function ProductDetail() {
       }
     }
   };
-
+ */
   const handleAddToFav = () => {
     if (!addedToFav.some((product) => product.id === productById.id)) {
       addToFav(productById);
@@ -190,8 +190,8 @@ export function ProductDetail() {
                   <span className="font-semibold">{product?.stock}</span>
                 </p>
                 <select
-                  onChange={handleProductQuantity}
-                  value={productQuantity}
+                /*   onChange={handleProductQuantity}
+                  value={productQuantity} */
                   className="w-1/2 font-medium mb-5 px-2 border rounded-md active: outline-none cursor-pointer"
                   name="quantity"
                   id=""
@@ -218,7 +218,7 @@ export function ProductDetail() {
                   <NavLink to="/shipping">Comprar ahora</NavLink>
                 </GeneralBtn>
                 <GeneralBtn
-                  onClick={handleAddToCart}
+                /*   onClick={handleAddToCart} */
                   className="card__info__btn card__info__btn__cart"
                   type="primary"
                 >

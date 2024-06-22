@@ -6,22 +6,37 @@ import { ProductCard } from "../../components/productCard/ProductCard";
 
 export function ProductList() {
   const { categoria } = useParams();
-  const { products, handleProductDetail } = useContext(ProductContext);
+  const { handleProductDetail } = useContext(ProductContext);
   const [orderBy, setOrderBy] = useState("");
   const navigate = useNavigate();
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  const filteredProducts = products.filter((product) => {
-    return product.categorias.some(
-      (categoriaObj) =>
-        categoriaObj.nombre.toLowerCase() === categoria.toLowerCase()
-    );
-  });
+  const handleGetFilteredProducts = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/categorias/${
+          categoria.charAt(0).toUpperCase() + categoria.slice(1)
+        }`
+      );
+      if (!response.ok) {
+        throw new Error("Producto no encontrado");
+      }
+      const data = await response.json();
+
+      setFilteredProducts(data.results);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+    }
+  };
+
+  let sortedProducts = [...filteredProducts];
+  useEffect(() => {
+    handleGetFilteredProducts();
+  }, [sortedProducts]);
 
   const handleSortChange = (event) => {
     setOrderBy(event.target.value);
   };
-
-  let sortedProducts = [...filteredProducts];
 
   if (orderBy === "menorPrecio") {
     sortedProducts.sort((a, b) => a.precio - b.precio);
@@ -70,7 +85,7 @@ export function ProductList() {
             <div className="products__card__img__container">
               <img
                 className="products__card__img"
-                src={product?.href}
+                src={product?.imagen}
                 alt={product?.nombre}
               />
               <div className="products__card__desc__container px-4">
@@ -78,10 +93,12 @@ export function ProductList() {
                   {product?.nombre}
                 </p>
                 <p className="products__card__paragraph font-semibold text-2xl">
-                  {product?.precio.toLocaleString("es-CL", {
-                    style: "currency",
-                    currency: "CLP",
-                  })}
+                  {product?.precio
+                    ? Number(product.precio).toLocaleString("es-CL", {
+                        style: "currency",
+                        currency: "CLP",
+                      })
+                    : null}
                 </p>
               </div>
             </div>
