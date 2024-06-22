@@ -88,11 +88,28 @@
     justify-content: space-between;
     gap: 50px;
   }
+  .preview__img__container {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+  }
   .createpost__preview__img {
+    position: relative;
     width: 100%;
     height: 100%;
     max-width: 700px;
+    object-fit: contain;
+    z-index: 20;
+  }
+  .createpost__preview__img__2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    z-index: 10;
+    filter: blur(10px) brightness(70%);
   }
   .createpost__preview__desktop {
     display: grid;

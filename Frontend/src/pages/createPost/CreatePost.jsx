@@ -236,14 +236,21 @@ export function CreatePost() {
             </GeneralBtn>
           </div>
         </form>
-        <div className="createpost__preview__desktop bg-white shadow-sm border rounded-md">
+        <div className="createpost__preview__desktop bg-white  border rounded-md">
           <div className="createpost__preview__body bg-gray-200">
             {acceptedFiles[0] ? (
-              <img
-                className="createpost__preview__img"
-                src={URL.createObjectURL(acceptedFiles[0])}
-                alt=""
-              />
+              <div className="preview__img__container">
+                <img
+                  className="createpost__preview__img"
+                  src={URL.createObjectURL(acceptedFiles[0])}
+                  alt=""
+                />
+                <img
+                  className="createpost__preview__img__2"
+                  src={URL.createObjectURL(acceptedFiles[0])}
+                  alt=""
+                />
+              </div>
             ) : (
               <div>
                 <p className="text-xl text-center mb-2 font-semibold">
