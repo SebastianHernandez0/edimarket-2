@@ -13,6 +13,7 @@ export function CreatePost() {
     setInputFormError,
     handleChange,
     inputRefs,
+    image_url_regex,
   } = useContext(UserContext);
   const [createPostSuccess, setCreatePostSuccess] = useState("");
 
@@ -26,15 +27,17 @@ export function CreatePost() {
   const handlePostSubmit = (e) => {
     e.preventDefault();
 
-    setInputFormError({
-      errorTitulo: "",
-      errorPrecio: "",
-      errorCategorias: "",
-      errorEstado: "",
-      errorDescripcion: "",
-    });
-
-    if (userData.titulo.trim() === "") {
+    if (userData.postimg.trim() === "") {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorPostimg: "Ingresa la URL del producto.",
+      }));
+    } else if (!image_url_regex.test(userData.postimg)) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorPostimg: "Ingresa una URL válida.",
+      }));
+    } else if (userData.titulo.trim() === "") {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorTitulo: "Pon un título a tu producto.",
@@ -88,7 +91,7 @@ export function CreatePost() {
           name="post"
         >
           <div className="createpost__card__file__container mb-5">
-            <div
+            {/*  <div
               className="createpost__card__fileimg cursor-pointer"
               {...getRootProps()}
             >
@@ -105,9 +108,10 @@ export function CreatePost() {
                   <IoMdImages className="text-3xl" />
                 </div>
               )}
-            </div>
+            </div> */}
+
             <div className="createpost__card__imgpreview">
-              {acceptedFiles[0] ? (
+              {/*  {acceptedFiles[0] ? (
                 <img
                   className="createpost__card__imgpreview__img"
                   src={URL.createObjectURL(acceptedFiles[0])}
@@ -115,10 +119,41 @@ export function CreatePost() {
                 />
               ) : (
                 <p className="text-center">Vista previa...</p>
+              )} */}
+              {userData.postimg ? (
+                <img
+                  className="createpost__card__imgpreview__img"
+                  src={userData.postimg}
+                  alt=""
+                />
+              ) : (
+                <p className="text-center">Vista previa...</p>
               )}
             </div>
+            {/* Arriba será para el drag and drop cuando se configure la subida de imágenes local*/}
           </div>
           <div className="createpost__card__data">
+            <input
+              ref={inputRefs.postimg}
+              type="text"
+              className={`createpost__card__input ${
+                inputFormError.errorPostimg
+                  ? "focus: outline-2 outline outline-red-600"
+                  : "focus: outline-2 outline-green-300"
+              }`}
+              name="postimg"
+              id=""
+              value={userData.postimg}
+              onChange={handleChange}
+              placeholder="Ingresa la URL de la imágen"
+            />
+            {inputFormError.errorPostimg ? (
+              <p className="text-red-600 font-semibold text-sm ml-7">
+                {inputFormError.errorPostimg}
+              </p>
+            ) : (
+              ""
+            )}
             <input
               ref={inputRefs.titulo}
               onChange={handleChange}
@@ -238,16 +273,16 @@ export function CreatePost() {
         </form>
         <div className="createpost__preview__desktop bg-white  border rounded-md">
           <div className="createpost__preview__body bg-gray-200">
-            {acceptedFiles[0] ? (
+            {userData.postimg ? (
               <div className="preview__img__container">
                 <img
                   className="createpost__preview__img"
-                  src={URL.createObjectURL(acceptedFiles[0])}
+                  src={userData.postimg}
                   alt=""
                 />
                 <img
                   className="createpost__preview__img__2"
-                  src={URL.createObjectURL(acceptedFiles[0])}
+                  src={userData.postimg}
                   alt=""
                 />
               </div>
