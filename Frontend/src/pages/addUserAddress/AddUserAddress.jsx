@@ -155,7 +155,7 @@ export function AddUserAdress() {
               name="direccion"
               ref={inputRefs.direccion}
             />
-            {userData.direccion.trim() === "" ? (
+            {inputFormError.errorDireccion ? (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorDireccion}
               </p>
@@ -181,7 +181,7 @@ export function AddUserAdress() {
                 <option value="">Selecciona</option>
                 <option value="metropolitana">Metropolitana</option>
               </select>
-              {userData.region === "" ? (
+              {inputFormError.errorRegion ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
                   {inputFormError.errorRegion}
                 </p>
@@ -214,7 +214,7 @@ export function AddUserAdress() {
                 <option value="puente-alto">Puente alto</option>
                 <option value="independencia">Independencia</option>
               </select>
-              {userData.email === "" ? (
+              {inputFormError.errorComuna ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
                   {inputFormError.errorComuna}
                 </p>
@@ -238,8 +238,7 @@ export function AddUserAdress() {
                 type="text"
                 name="codigoPostal"
               />
-              {userData.codigoPostal.trim() === "" ||
-              !onlyNumbersRegex.test(userData.codigoPostal.trim()) ? (
+              {inputFormError.errorCodigoPostal ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
                   {inputFormError.errorCodigoPostal}
                 </p>
@@ -261,8 +260,7 @@ export function AddUserAdress() {
                 type="text"
                 name="numero"
               />
-              {userData.numero.trim() === "" ||
-              !onlyNumbersRegex.test(userData.numero.trim()) ? (
+              {inputFormError.errorNumero ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
                   {inputFormError.errorNumero}
                 </p>
