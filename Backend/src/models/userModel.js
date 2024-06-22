@@ -134,7 +134,7 @@ const registrarProducto = async (producto, vendedor_id) => {
     precio,
     stock,
     imagen,
-    vendedor_id,
+    vendedor_id
   ];
   const consultaProducto =
     "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado) VALUES ($1,$2,$3,$5,$6,$7,$8,$4)";
@@ -245,6 +245,16 @@ const consultarDirreccion = async (idUsuario) => {
   return domicilio;
 };
 
+const agregarCarrito = async (idUsuario, producto) => {
+  let {idProducto,cantidad} = producto;
+
+  const values = [idUsuario, idProducto, cantidad];
+  const consulta =
+    "INSERT INTO carrito(id,usuario_id,producto_id,cantidad,comprado) VALUES (DEFAULT,$1,$2,$3,false)";
+  await db.query(consulta, values);
+  return console.log("Producto agregado al carrito");
+}
+
 module.exports = {
   consultarUsuario,
   consultarUsuarioById,
@@ -261,5 +271,6 @@ module.exports = {
   borrarFavorito,
   agregarMetodoDePago,
   consultarMetodosPago,
-  eliminarUsuario
+  eliminarUsuario,
+  agregarCarrito
 };
