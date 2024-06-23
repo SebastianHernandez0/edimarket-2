@@ -3,17 +3,14 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import footerLogo from "../../../public/imgs/aplication/logo2.png";
 
 export function Footer() {
   return (
     <footer className="footer__container">
       <div className="footer__subcontainer">
         <div className="footer__logo">
-          <img
-            className="footer__logo__img"
-            src="./imgs/aplication/logo2.png"
-            alt="logo"
-          />
+          <img className="footer__logo__img" src={footerLogo} alt="logo" />
           <p className="footer__logo__text">
             Todo lo que necesitas en un mismo lugar
           </p>
@@ -48,7 +45,9 @@ export function Footer() {
               <Link className="footer__section__link">Promociones</Link>
               <Link className="footer__section__link">Devoluciones</Link>
               <Link className="footer__section__link">Servicios técnicos</Link>
-              <Link className="footer__section__link">Asistencia de compra</Link>
+              <Link className="footer__section__link">
+                Asistencia de compra
+              </Link>
             </div>
           </div>
         </div>

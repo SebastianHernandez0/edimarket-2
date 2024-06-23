@@ -1,4 +1,20 @@
 .notfound__container {
+  display: grid;
+  grid-template-areas: "header";
+}
+.notfound__header {
+  padding: 10px 40px;
+  grid-area: header;
+  width: 100%;
+  z-index: 1001;
+  background: var(--verdeAgua);
+}
+.notfound__img__container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.notfound__body {
   position: fixed;
   top: 0;
   left: 0;
@@ -9,4 +25,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.notfound__img {
+  width: 100%;
+  max-width: 300px;
+}
+.notfound__header__img {
+  width: 180px;
+}
+
+@media (min-width: 576px) {
+  .notfound__img {
+    max-width: 400px;
+  }
 }

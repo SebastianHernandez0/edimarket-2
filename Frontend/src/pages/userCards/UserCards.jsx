@@ -27,7 +27,7 @@ export function UserCards() {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "Error al obtener domicilio");
+      throw new Error(errorData.message || "Error al obtener tarjetas");
     }
 
     const data = await response.json();
