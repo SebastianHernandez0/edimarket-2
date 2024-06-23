@@ -1,3 +1,11 @@
-/* .summary_container {
-    padding:8px;
-} */
+.summary__price {
+    justify-content: space-between;
+}
+
+.summary__products {
+    justify-content: space-between;
+}
+
+.summary__button {
+    width: 100%;
+}

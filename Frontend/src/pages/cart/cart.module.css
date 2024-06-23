@@ -1,4 +1,26 @@
-.cart__container {
-    grid-area: home;
-    margin: 0 auto;
-  }
+/* .cart__container {
+  grid-area: home;
+  margin: 0 auto;
+} */
+
+.summary__button {
+  width: 100%;
+}
+
+.cart_box {
+  background-color: var(--navbarColor);
+  border-radius: 8px;
+}
+
+/* .product_container {
+  border-bottom: 1px solid #dac6df !important;
+  padding-bottom: 20px !important;
+} */
+
+/* .product_container:last-child {
+  border-bottom: none ;
+} */
+
+/* .shipping__container {
+  grid-area: none;
+} */
