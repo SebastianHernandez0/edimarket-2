@@ -14,9 +14,7 @@ export function ProductList() {
   const handleGetFilteredProducts = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/categorias/${
-          categoria.charAt(0).toUpperCase() + categoria.slice(1)
-        }`
+        `http://localhost:3000/categorias/${categoria}`
       );
       if (!response.ok) {
         throw new Error("Producto no encontrado");

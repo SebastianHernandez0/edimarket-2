@@ -15,7 +15,7 @@ import { CiUser } from "react-icons/ci";
 import { CiHeart } from "react-icons/ci";
 import { GeneralBtn } from "../generalBtn/GeneralBtn.jsx";
 import { OverlayScreen } from "../overlayScreen/OverlayScreen.jsx";
-import navbarLogo from "../../../public/imgs/aplication/navLogo2.1.png";
+import navbarLogo from "/imgs/aplication/navLogo2.1.png";
 
 // Crear un componente envolvente para manejar la referencia
 const UserIcon = forwardRef((props, ref) => (
