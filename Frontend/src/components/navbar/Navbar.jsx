@@ -289,7 +289,7 @@ export function Navbar() {
                   <NavLink to="miperfil" className="navbar__user__menu__link">
                     Mi perfil
                   </NavLink>
-                  <NavLink to="" className="navbar__user__menu__link">
+                  <NavLink to="/createpost" className="navbar__user__menu__link">
                     Publicar
                   </NavLink>
                   <NavLink to="/favorites" className="navbar__user__menu__link">
