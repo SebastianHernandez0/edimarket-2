@@ -27,7 +27,7 @@ export function ProductDetail() {
   } = useContext(ProductContext);
   const { openModalCart, addToCart, cart } = useContext(CartContext);
 
-  const { userToken } = useContext(UserContext);
+  const { userToken, handleGetFavs } = useContext(UserContext);
 
   const timeoutRef = useRef(null);
   const navigate = useNavigate();
@@ -51,6 +51,7 @@ export function ProductDetail() {
       const errorData = await response.json();
       throw new Error(errorData.message || "Error al guardar el favorito");
     }
+    handleGetFavs();
     setProductAlert((prevState) => ({
       ...prevState,
       success: "¡Producto añadido a favoritos!.",
