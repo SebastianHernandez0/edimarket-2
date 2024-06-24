@@ -7,10 +7,11 @@ const categoriaRoutes= require("./routes/categoriaRoutes");
 const productRoutes= require("./routes/productRoutes");
 const favoritosRoutes= require("./routes/favoritosRoutes");
 const carritoRoutes= require("./routes/carritoRoutes");
+const port = process.env.PORT || 3000;
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-}); 
+app.listen(port, () => {
+      console.log(`Servidor escuchando en http://localhost:${port}`);})
+
 
 app.use(cors());
 app.use(express.json());
@@ -27,9 +28,6 @@ app.use("/carrito", carritoRoutes);
 app.get("*", (req, res) => {
   res.status(404).send("No encontrado");
 })
-
-
-
 
 
 
