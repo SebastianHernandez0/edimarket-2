@@ -23,6 +23,6 @@ router.post("/domicilio", verificarToken, agregarDomicilio);
 router.get("/usuario/domicilio", verificarToken, consultarDomicilio);
 router.post("/metodosPago",verificarToken, agregarPaymentMethod);
 router.get("/usuario/metodosPago",verificarToken, consultarPaymentMethods);
-router.delete("/usuario",verificarToken, deleteUser);
+router.delete("/",verificarToken, deleteUser);
 
 module.exports = router;

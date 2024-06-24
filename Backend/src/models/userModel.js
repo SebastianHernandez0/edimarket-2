@@ -56,6 +56,15 @@ const consultarUsuarioById = async (id) => {
   });
 };
 
+const modificarUsuario = async (id, usuario) => {
+  const {nombre,email, contraseña} = usuario;
+  const values = [nombre,email,contraseña,id];
+  const consulta= "UPDATE usuarios SET nombre=$1,email=$2,contraseña=$3 WHERE id=$4";
+  await db.query(consulta,values);
+  return console.log("Usuario modificado");
+
+}
+
 const registrarUsuario = async (usuario) => {
   const databaseUser = await consultarUsuario();
   let { nombre, email, contraseña } = usuario;
@@ -142,7 +151,7 @@ const registrarProducto = async (producto, vendedor_id) => {
     precio,
     stock,
     imagen,
-    vendedor_id
+    vendedor_id,
   ];
   const consultaProducto =
     "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado) VALUES ($1,$2,$3,$5,$6,$7,$8,$4)";
@@ -194,9 +203,11 @@ const agregarMetodoDePago = async (metodoDePago, idUsuario) => {
     codigo_seguridad,
   ];
   validarMetodoDePago.parse(metodoDePago);
-  const metodos= await consultarMetodosPago(idUsuario);
-  if(metodos.find((metodo)=>metodo.numero_tarjeta==numero_tarjeta)){
-    throw new Error("Ya existe un metodo de pago con el mismo numero de tarjeta");
+  const metodos = await consultarMetodosPago(idUsuario);
+  if (metodos.find((metodo) => metodo.numero_tarjeta == numero_tarjeta)) {
+    throw new Error(
+      "Ya existe un metodo de pago con el mismo numero de tarjeta"
+    );
   }
   const consulta =
     "INSERT INTO metodos_pago(id,usuario_id,tipo_tarjeta,numero_tarjeta,nombre_titular,fecha_expiracion,codigo_seguridad) VALUES (DEFAULT,$1,$2,$3,$4,$5,$6)";
@@ -254,13 +265,43 @@ const consultarDirreccion = async (idUsuario) => {
 };
 
 const agregarCarrito = async (idUsuario, producto) => {
-  let {idProducto,cantidad} = producto;
+  let { idProducto, cantidad } = producto;
+  const carrito = await consultarCarrito(idUsuario);
+  if (carrito.find((carrito) => carrito.producto_id == idProducto)) {
+    throw new Error("El producto ya está en el carrito");
+  }else {
+    const values = [idUsuario, idProducto, cantidad];
+    const consulta =
+      "INSERT INTO carrito(id,usuario_id,producto_id,cantidad,comprado) VALUES (DEFAULT,$1,$2,$3,false)";
+    await db.query(consulta, values);
+    return console.log("Producto agregado al carrito");
+  }
+};
 
-  const values = [idUsuario, idProducto, cantidad];
+const consultarCarrito = async (idUsuario) => {
+  const values = [idUsuario];
   const consulta =
-    "INSERT INTO carrito(id,usuario_id,producto_id,cantidad,comprado) VALUES (DEFAULT,$1,$2,$3,false)";
-  await db.query(consulta, values);
-  return console.log("Producto agregado al carrito");
+    "select carrito.id as carro_id, carrito.usuario_id,carrito.producto_id,carrito.cantidad,carrito.comprado, productos.id as producto_id, productos.nombre,productos.descripcion,productos.precio,productos.stock,productos.imagen,productos.vendedor_id,productos.estado from carrito inner join productos on carrito.producto_id=productos.id where carrito.usuario_id=$1";
+  const { rows: carrito } = await db.query(consulta, values);
+  return carrito;
+};
+
+const eliminarProducto= async (idUsuario,idProducto)=>{
+  const values = [idUsuario,idProducto];
+  const consulta = "DELETE FROM carrito WHERE usuario_id=$1 AND producto_id=$2";
+  await db.query(consulta,values);
+  return console.log("Producto eliminado del carrito");
+};
+
+const venta= async(IdUsuario,IdProducto,cantidad)=>{
+  const producto= await consultarProductoById(IdProducto);
+  const precio= producto.precio * cantidad;
+  const values=[IdUsuario,IdProducto,cantidad,precio];
+  const consulta="INSERT INTO ventas(id,comprador_id,producto_id,cantidad,precio,fecha_venta) VALUES (DEFAULT,$1,$2,$3,$4,now())";
+  await db.query(consulta,values);
+  return console.log("Venta realizada");
+
+
 }
 
 module.exports = {
@@ -281,5 +322,9 @@ module.exports = {
   consultarMetodosPago,
   eliminarUsuario,
   agregarCarrito,
-  consultarProductosByCategoria
+  consultarProductosByCategoria,
+  consultarCarrito,
+  eliminarProducto,
+  venta,
+  modificarUsuario
 };

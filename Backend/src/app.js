@@ -8,6 +8,11 @@ const productRoutes= require("./routes/productRoutes");
 const favoritosRoutes= require("./routes/favoritosRoutes");
 const carritoRoutes= require("./routes/carritoRoutes");
 
+const ventaRoutes= require("./routes/ventaRoutes");
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+      console.log(`Servidor escuchando en http://localhost:${port}`);})
 
 
 app.use(cors());
@@ -20,14 +25,13 @@ app.use("/categorias", categoriaRoutes);
 app.use("/productos", productRoutes);
 app.use("/favoritos", favoritosRoutes);
 app.use("/carrito", carritoRoutes);
+app.use("/venta", ventaRoutes);
 
 
-app.get("*", (req, res) => {
+app.get("*", (_, res) => {
   res.status(404).send("No encontrado");
 })
 
 
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
+module.exports = app;
