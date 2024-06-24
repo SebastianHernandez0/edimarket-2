@@ -12,6 +12,7 @@
 .createpost__card__data {
   display: flex;
   flex-direction: column;
+  margin: 0 20px;
 }
 .createpost__card__fileimg {
   background-color: transparent;
@@ -31,7 +32,7 @@
   display: flex;
   margin: 0 auto;
   padding: 0 13px;
-  width: 90%;
+  width: 100%;
   border: 1px solid var(--navOpacity);
   border-radius: 5px;
   min-height: 50px;
@@ -72,6 +73,7 @@
 .createpost__preview__desktop {
   display: none;
 }
+
 /*VERSION DESKTOP*/
 
 @media (min-width: 576px) {
@@ -88,11 +90,28 @@
     justify-content: space-between;
     gap: 50px;
   }
+  .preview__img__container {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+  }
   .createpost__preview__img {
+    position: relative;
     width: 100%;
     height: 100%;
     max-width: 700px;
+    object-fit: contain;
+    z-index: 20;
+  }
+  .createpost__preview__img__2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    z-index: 10;
+    filter: blur(10px) brightness(70%);
   }
   .createpost__preview__desktop {
     display: grid;

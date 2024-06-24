@@ -23,6 +23,8 @@ const initialUserData = {
   nombreTitular: "",
   expiracion: "",
   cvv: "",
+  postimg: "",
+  productStock: "",
 };
 
 const initialFormError = {
@@ -45,6 +47,8 @@ const initialFormError = {
   errorNombreTitular: "",
   errorExpiracion: "",
   errorCvv: "",
+  errorPostimg: "",
+  errorProductStock: "",
 };
 
 const initialStateToken = localStorage.getItem("token") || null;
@@ -56,6 +60,7 @@ export function UserProvider({ children }) {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   const rutFormatRegex = /^[0-9]+-[0-9]$/;
   const onlyNumbersRegex = /^[0-9]+$/;
+  const image_url_regex = /\bhttps?:\/\/\S+\.(?:png|jpe?g|gif|webp)\b/;
   const [userData, setUserData] = useState(initialUserData);
   const [user, setUser] = useState(initialStateUser);
   const [userAddress, setUserAddress] = useState("");
@@ -82,6 +87,8 @@ export function UserProvider({ children }) {
     nombreTitular: useRef(null),
     expiracion: useRef(null),
     cvv: useRef(null),
+    postimg: useRef(null),
+    productStock: useRef(null),
   };
 
   // Resetear el estado si cambia la navegación (URL)
@@ -95,7 +102,8 @@ export function UserProvider({ children }) {
     const { name, value } = e.target;
     setUserData((prevUserData) => ({
       ...prevUserData,
-      [name]: value,
+      [name]:
+        name === "precio" || name === "productStock" ? Number(value) : value,
     }));
   };
 
@@ -162,6 +170,7 @@ export function UserProvider({ children }) {
         setUserAddress,
         userCreditCards,
         setUserCreditCards,
+        image_url_regex,
       }}
     >
       {children}
