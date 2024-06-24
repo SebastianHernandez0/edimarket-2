@@ -28,7 +28,7 @@ export function Billing() {
                 <ThreeDots
                   visible={true}
                   height="25"
-                  width="100"
+                  width="100%"
                   color="#FFFFFF"
                   radius="2"
                   ariaLabel="three-dots-loading"

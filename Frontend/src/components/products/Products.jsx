@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
+import { Loader } from "../loader/Loader.jsx";
 import "../products/products.css";
 
 export function Products() {
@@ -41,7 +42,7 @@ export function Products() {
   return (
     <section>
       {loading ? (
-        <p className="text-center font-semibold text-lg">Cargando...</p>
+        <Loader />
       ) : (
         <div className="products__container">
           <div className="product__title__container">
