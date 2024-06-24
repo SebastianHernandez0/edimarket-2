@@ -221,6 +221,7 @@ const consultarFavorito = async (req, res) => {
           stock: favorito.stock,
           imagen: favorito.imagen,
           categoria: favorito.categoria,
+          producto_id: favorito.producto_id
         };
       }),
     });

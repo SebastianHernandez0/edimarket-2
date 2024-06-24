@@ -1,5 +1,6 @@
-import { createContext, useState, useRef, useEffect } from "react";
+import { createContext, useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ProductContext } from "./ProductContext";
 
 export const UserContext = createContext();
 
@@ -66,6 +67,7 @@ export function UserProvider({ children }) {
   const [userAddress, setUserAddress] = useState("");
   const [userCreditCards, setUserCreditCards] = useState([]);
   const [inputFormError, setInputFormError] = useState(initialFormError);
+  const { setLoading, setAddedToFav } = useContext(ProductContext);
 
   const inputRefs = {
     nombre: useRef(null),
@@ -90,6 +92,33 @@ export function UserProvider({ children }) {
     postimg: useRef(null),
     productStock: useRef(null),
   };
+
+  const handleGetFavs = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/favoritos", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al obtener productos");
+      }
+
+      const data = await response.json();
+      setAddedToFav(data.favoritos);
+      return data;
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetFavs();
+  }, []);
 
   // Resetear el estado si cambia la navegación (URL)
   useEffect(() => {

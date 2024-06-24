@@ -12,13 +12,19 @@ export function ProductProvider({ children }) {
   const [productQuantity, setProductQuantity] = useState(1);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState(null);
+  const [productAlert, setProductAlert] = useState({
+    succes: "",
+    error: "",
+    errorFav: "",
+  });
 
   const handleGetProducts = async () => {
     try {
       const response = await fetch("http://localhost:3000/productos");
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Error al obtener domicilio");
+        throw new Error(errorData.message || "Error al obtener productos");
       }
 
       const data = await response.json();
@@ -60,23 +66,6 @@ export function ProductProvider({ children }) {
     }
   };
 
-  const addToFav = (product) => {
-    const productFavIndex = addedToFav.findIndex(
-      (item) => item.id === product.id
-    );
-    if (productFavIndex !== -1) {
-      return;
-    }
-
-    setAddedToFav((prevState) => [
-      ...prevState,
-      {
-        ...product,
-        like: true,
-      },
-    ]);
-  };
-
   const handleProductQuantity = (e) => {
     setProductQuantity(Number(e.target.value));
   };
@@ -93,7 +82,6 @@ export function ProductProvider({ children }) {
         openCategories,
         setOpenCategories,
         handleProductDetail,
-        addToFav,
         addedToFav,
         setAddedToFav,
         productQuantity,
@@ -101,6 +89,10 @@ export function ProductProvider({ children }) {
         handleProductQuantity,
         loading,
         setLoading,
+        product,
+        setProduct,
+        productAlert,
+        setProductAlert,
       }}
     >
       {children}

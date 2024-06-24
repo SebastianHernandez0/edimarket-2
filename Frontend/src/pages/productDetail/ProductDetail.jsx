@@ -14,23 +14,60 @@ import { UserContext } from "../../context/UserContext";
 export function ProductDetail() {
   const {
     productById,
-    addToFav,
     addedToFav,
-    setAddedToFav,
     productQuantity,
     handleProductQuantity,
     loading,
     setLoading,
+    product,
+    setProduct,
+    productAlert,
+    setProductAlert,
+    setProductById,
   } = useContext(ProductContext);
-  const { openModalCart, addToCart, cart, productAlert, setProductAlert } =
-    useContext(CartContext);
+  const { openModalCart, addToCart, cart } = useContext(CartContext);
 
   const { userToken } = useContext(UserContext);
 
   const timeoutRef = useRef(null);
   const navigate = useNavigate();
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
+
+  const handleAddToFav = async () => {
+    const response = await fetch(
+      `http://localhost:3000/favoritos/${productById.producto_id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          usuario_id: productById.vendedor_id,
+        }),
+      }
+    );
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Error al guardar el favorito");
+    }
+    setProductAlert((prevState) => ({
+      ...prevState,
+      success: "¡Producto añadido a favoritos!.",
+      error: "",
+    }));
+
+    timeoutRef.current = setTimeout(() => {
+      setProductAlert((prevState) => ({
+        ...prevState,
+        success: "",
+      }));
+      timeoutRef.current = null;
+    }, 2400);
+
+    const data = response.json();
+    return data;
+  };
 
   useEffect(() => {
     const handleGetProduct = async () => {
@@ -41,6 +78,7 @@ export function ProductDetail() {
         }
         const data = await response.json();
         setProduct(data);
+        setProductById(data);
       } catch (error) {
         console.error("Error al obtener productos:", error);
         navigate("/not-found");
@@ -89,44 +127,6 @@ export function ProductDetail() {
     }
   };
  */
-  const handleAddToFav = () => {
-    if (!addedToFav.some((product) => product.id === productById.id)) {
-      addToFav(productById);
-      setProductAlert((prevState) => ({
-        ...prevState,
-        success: "¡Producto añadido a favoritos!.",
-        error: "",
-      }));
-
-      timeoutRef.current = setTimeout(() => {
-        setProductAlert((prevState) => ({
-          ...prevState,
-          success: "",
-        }));
-        timeoutRef.current = null;
-      }, 2400);
-    } else {
-      // Eliminar producto de favoritos
-      const updatedFav = addedToFav.filter(
-        (product) => product.id !== productById.id
-      );
-      setAddedToFav(updatedFav);
-
-      setProductAlert((prevState) => ({
-        ...prevState,
-        error: "¡Producto eliminado de favoritos!.",
-        success: "",
-      }));
-
-      timeoutRef.current = setTimeout(() => {
-        setProductAlert((prevState) => ({
-          ...prevState,
-          error: "",
-        }));
-        timeoutRef.current = null;
-      }, 2400);
-    }
-  };
 
   const handleNavigateToLogin = () => {
     if (!userToken) {
@@ -153,6 +153,7 @@ export function ProductDetail() {
       });
     }
   }, [navigate]);
+  console.log(addedToFav);
 
   return (
     <section className="productdetail__container">
@@ -180,7 +181,9 @@ export function ProductDetail() {
                   <IoHeartSharp
                     onClick={userToken ? handleAddToFav : handleNavigateToLogin}
                     className={`card__info__like__icon ${
-                      addedToFav.some((product) => product.id === product.id)
+                      addedToFav.some(
+                        (p) => p.producto_id === product.producto_id
+                      )
                         ? "text-red-600 transition duration-300"
                         : "text-gray-400 transition duration-300"
                     }`}
