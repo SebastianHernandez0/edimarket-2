@@ -1,6 +1,7 @@
-const {consultarProductos, consultarProductoById, registrarProducto,agregarCarrito, consultarProductosByCategoria}= require("../models/userModel");
+const {consultarProductos, consultarProductoById, registrarProducto,agregarCarrito, consultarProductosByCategoria,consultarCarrito,eliminarProducto,venta}= require("../models/userModel");
 const prepHateoas= require("../models/hateoasModel");
 const jwt = require("jsonwebtoken");
+
 
 const getProductos= async (req, res) => {
     try {
@@ -70,4 +71,52 @@ const añadirProductoCarrito = async (req, res) => {
         res.status(500).json({error: error.message});
       } 
 }
-module.exports= {getProductos, getProductoById, agregarProducto,añadirProductoCarrito,getProductosByCategoria}
+
+const getCarrito = async (req, res) => {
+    try {
+      const Authorization= req.header("Authorization");
+      const token = Authorization.split("Bearer ")[1];
+      jwt.verify(token, process.env.JWT_SECRET);
+      const { email,id } = jwt.decode(token);
+      const carrito = await consultarCarrito(id);
+      console.log(`El usuario ${email} con el id ${id} ha consultado el carrito`);
+      res.json(carrito);
+    } catch (error) {
+      res.status(500).json({error: error.message});
+    }
+}
+
+const deleteProductoCarrito = async (req, res) => {
+  try{
+    const { idProducto } = req.params;
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET);
+    const { email,id } = jwt.decode(token);
+    await eliminarProducto(id, idProducto);
+    console.log(`El usuario ${email} con el id ${id} ha eliminado un producto del carrito`);
+    res.status(200).json({
+      message: "Producto eliminado del carrito"
+    });
+  }catch (error) {
+    res.status(500).json({error: error.message});
+  }
+}
+
+const ventaRealizada= async(req,res)=>{
+  try{
+    const {idProducto,cantidad}=req.body;
+    const Authorization= req.header("Authorization");
+    const token=Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET);
+    const {email,id}=jwt.decode(token);
+    await venta(id,idProducto,cantidad);
+    console.log(`El usuario ${email} ha realizado una venta`);
+    res.status(200).json({mensaje:"venta realizada"})
+  }catch(error){
+    res.status(500).json({mensaje:error.message})
+  }
+}
+
+
+module.exports= {getProductos, getProductoById, agregarProducto,añadirProductoCarrito,getProductosByCategoria,getCarrito,deleteProductoCarrito,ventaRealizada}

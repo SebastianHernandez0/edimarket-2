@@ -12,7 +12,8 @@ const {
   borrarFavorito,
   agregarMetodoDePago,
   consultarMetodosPago,
-  eliminarUsuario
+  eliminarUsuario,
+  modificarUsuario
 } = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
@@ -56,7 +57,7 @@ const loginUser = async (req, res) => {
     const user = await verificarUsuario(email, contraseña);
     const token = jwt.sign(
       { email: user.email, id: user.id },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET, {expiresIn:"1d"}
     );
     res.status(200).json({
       token,
@@ -66,6 +67,23 @@ const loginUser = async (req, res) => {
     res.status(500).json({error: error.message});
   }
 };
+
+const ModifyUser = async (req, res) => {
+  try{
+    const usuario = req.body;
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET)
+    const {email, id} = jwt.decode(token);
+    await modificarUsuario(id,usuario);
+    console.log(`El usuario ${email} con el id ${id} ha sido modificado`);
+    res.status(200).json({
+      message: "Usuario modificado con exito"
+    });
+}catch(error){
+    res.status(500).json({error: error.message});
+  }
+}
 
 const deleteUser= async (req, res) => {
   try {
