@@ -154,7 +154,6 @@ export function ProductDetail() {
       });
     }
   }, [navigate]);
-  console.log(addedToFav);
 
   return (
     <section className="productdetail__container">

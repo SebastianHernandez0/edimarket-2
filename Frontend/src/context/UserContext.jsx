@@ -67,7 +67,7 @@ export function UserProvider({ children }) {
   const [userAddress, setUserAddress] = useState("");
   const [userCreditCards, setUserCreditCards] = useState([]);
   const [inputFormError, setInputFormError] = useState(initialFormError);
-  const { setLoading, setAddedToFav } = useContext(ProductContext);
+  const { setLoading, setAddedToFav, addedToFav } = useContext(ProductContext);
 
   const inputRefs = {
     nombre: useRef(null),
@@ -103,7 +103,7 @@ export function UserProvider({ children }) {
       });
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Error al obtener productos");
+        throw new Error(errorData.message || "Error al obtener favoritos");
       }
 
       const data = await response.json();
@@ -117,8 +117,19 @@ export function UserProvider({ children }) {
   };
 
   useEffect(() => {
-    handleGetFavs();
-  }, []);
+    if (userToken) {
+      handleGetFavs();
+    }
+    if (!userToken) {
+      setAddedToFav([]);
+    }
+  }, [userToken]);
+
+  useEffect(() => {
+    if (!userToken) {
+      setAddedToFav([]);
+    }
+  }, [userToken]);
 
   // Resetear el estado si cambia la navegación (URL)
   useEffect(() => {
