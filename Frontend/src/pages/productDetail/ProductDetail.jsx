@@ -181,8 +181,8 @@ export function ProductDetail() {
                   <IoHeartSharp
                     onClick={userToken ? handleAddToFav : handleNavigateToLogin}
                     className={`card__info__like__icon ${
-                      addedToFav.some(
-                        (p) => p.producto_id === product.producto_id
+                      addedToFav?.some(
+                        (p) => p?.producto_id === product?.producto_id
                       )
                         ? "text-red-600 transition duration-300"
                         : "text-gray-400 transition duration-300"
