@@ -1,5 +1,5 @@
 .myposts__container {
- grid-area: home;
+ grid-area: header;
   padding: 25px;
   margin: 60px auto;
   width: 100%;

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 body {
   font-family: "Montserrat", sans-serif !important;
@@ -12,7 +12,7 @@ body {
     "home"
     "footer";
   width: 100%;
-/*   grid-template-rows: 65px 1fr; */
+  grid-template-rows: 10px 1fr;
   min-width: 375px;
   background-color: var(--backgroundHomeColor);
   /* font-family: "Poppins", sans-serif;
@@ -70,7 +70,7 @@ p {
 }
 
 .btn-secondary:hover {
- background-color: var(--verdeAguaDark);
+  background-color: var(--verdeAguaDark);
 }
 
 /* .btn-tertiary {
