@@ -12,6 +12,43 @@ export function ProductProvider({ children }) {
   const [productQuantity, setProductQuantity] = useState(1);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState(null);
+  const [productAlert, setProductAlert] = useState({
+    succes: "",
+    error: "",
+    errorFav: "",
+  });
+
+  const handleGetProducts = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/productos");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al obtener productos");
+      }
+
+      const data = await response.json();
+
+      // Formatear el precio a peso chileno
+      const formattedProducts = data.results.map((product) => ({
+        ...product,
+        precio: new Intl.NumberFormat("es-CL", {
+          style: "currency",
+          currency: "CLP",
+        }).format(product.precio),
+      }));
+
+      setProducts(formattedProducts);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetProducts();
+  }, []);
 
   const handleProductDetail = (id) => {
     const product = products.find((product) => product.id === id);
@@ -27,23 +64,6 @@ export function ProductProvider({ children }) {
     } else {
       console.log("Producto no encontrado");
     }
-  };
-
-  const addToFav = (product) => {
-    const productFavIndex = addedToFav.findIndex(
-      (item) => item.id === product.id
-    );
-    if (productFavIndex !== -1) {
-      return;
-    }
-
-    setAddedToFav((prevState) => [
-      ...prevState,
-      {
-        ...product,
-        like: true,
-      },
-    ]);
   };
 
   const handleProductQuantity = (e) => {
@@ -62,7 +82,6 @@ export function ProductProvider({ children }) {
         openCategories,
         setOpenCategories,
         handleProductDetail,
-        addToFav,
         addedToFav,
         setAddedToFav,
         productQuantity,
@@ -70,6 +89,10 @@ export function ProductProvider({ children }) {
         handleProductQuantity,
         loading,
         setLoading,
+        product,
+        setProduct,
+        productAlert,
+        setProductAlert,
       }}
     >
       {children}
