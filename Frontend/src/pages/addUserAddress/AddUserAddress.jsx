@@ -16,6 +16,7 @@ export function AddUserAdress() {
     userToken,
     AddAddressSuccess,
     setAddAddressSuccess,
+    setLoading,
   } = useContext(UserContext);
 
   const navigate = useNavigate();
@@ -29,30 +30,36 @@ export function AddUserAdress() {
     region,
     codigo_postal
   ) => {
-    const response = await fetch("http://localhost:3000/usuarios/domicilio", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken}`,
-      },
-      body: JSON.stringify({
-        idUsuario,
-        direccion,
-        numero_casa,
-        ciudad,
-        comuna,
-        region,
-        codigo_postal,
-      }),
-    });
+    try {
+      const response = await fetch("http://localhost:3000/usuarios/domicilio", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          idUsuario,
+          direccion,
+          numero_casa,
+          ciudad,
+          comuna,
+          region,
+          codigo_postal,
+        }),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al agregar domicilio");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al agregar domicilio");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
     }
-
-    const data = await response.json();
-    return data;
   };
 
   const handleAddressSubmit = async (e) => {

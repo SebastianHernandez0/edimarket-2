@@ -2,6 +2,8 @@ import { useContext } from "react";
 import "../editUserAddress/editUserAddress.css";
 import { UserContext } from "../../context/UserContext";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
+import { ProductContext } from "../../context/ProductContext";
+import { useNavigate } from "react-router-dom";
 
 export function EditUserAddress() {
   const {
@@ -13,8 +15,55 @@ export function EditUserAddress() {
     inputFormError,
     AddAddressSuccess,
     setAddAddressSuccess,
+    userToken,
     userAddress,
+    user,
+    handleUserAddress,
   } = useContext(UserContext);
+  const { setLoading } = useContext(ProductContext);
+  const navigate = useNavigate();
+
+  const handleEditUserAddress = async (
+    direccion,
+    numero_casa,
+    ciudad,
+    comuna,
+    region,
+    codigo_postal,
+    idUsuario
+  ) => {
+    try {
+      const response = await fetch("http://localhost:3000/usuarios/domicilio", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          direccion,
+          numero_casa,
+          ciudad,
+          comuna,
+          region,
+          codigo_postal,
+          idUsuario,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al modificar domicilio");
+      }
+
+      const data = await response.json();
+      handleUserAddress();
+      return data;
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleAddressSubmit = async (e) => {
     e.preventDefault();
@@ -56,11 +105,19 @@ export function EditUserAddress() {
       }));
     } else {
       try {
+        const res = await handleEditUserAddress(
+          userData.direccion,
+          userData.numero,
+          userData.region,
+          userData.comuna,
+          userData.region,
+          userData.codigoPostal,
+          user.id
+        );
         setAddAddressSuccess((prevState) => ({
           ...prevState,
-          success: "¡Domicilio añadido!",
+          success: "Domicilio modificado",
         }));
-
         setTimeout(() => {
           navigate("/user-address");
         }, 1500);
@@ -68,7 +125,7 @@ export function EditUserAddress() {
         console.error("Error:", error.message);
         setAddAddressSuccess((prevState) => ({
           ...prevState,
-          error: "No pudimos agregar tu domicilio.",
+          error: "No pudimos modificar tu domicilio.",
         }));
       }
     }

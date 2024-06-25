@@ -69,7 +69,7 @@ export function UserAddress() {
                   <HiHome className="text-2xl" />
                   <span>
                     {address.direccion.charAt(0).toUpperCase() +
-                      address.direccion.slice(1)}
+                      address.direccion.slice(1)}{" "}
                     <span>{address.numero_casa}</span>
                   </span>
                 </div>
@@ -78,6 +78,14 @@ export function UserAddress() {
                   <span>
                     {address.region.charAt(0).toUpperCase() +
                       address.region.slice(1)}
+                  </span>{" "}
+                  <span className="">De Santiago</span>
+                </div>
+                <div className="region-comuna pl-8 text-sm">
+                  <span className="">Comuna</span>{" "}
+                  <span>
+                    {address.comuna.charAt(0).toUpperCase() +
+                      address.comuna.slice(1)}
                   </span>
                 </div>
                 <span className="usuario pl-8 text-sm">

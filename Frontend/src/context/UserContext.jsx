@@ -64,7 +64,7 @@ export function UserProvider({ children }) {
   const image_url_regex = /\bhttps?:\/\/\S+\.(?:png|jpe?g|gif|webp)\b/;
   const [userData, setUserData] = useState(initialUserData);
   const [user, setUser] = useState(initialStateUser);
-  const [userAddress, setUserAddress] = useState("");
+  const [userAddress, setUserAddress] = useState([]);
   const [userCreditCards, setUserCreditCards] = useState([]);
   const [inputFormError, setInputFormError] = useState(initialFormError);
   const [AddAddressSuccess, setAddAddressSuccess] = useState({
@@ -291,6 +291,7 @@ export function UserProvider({ children }) {
         handleDeleteFav,
         AddAddressSuccess,
         setAddAddressSuccess,
+        handleUserAddress,
       }}
     >
       {children}
