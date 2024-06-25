@@ -240,17 +240,21 @@ export function ProductDetail() {
                   <option value="4">4 unidades</option>
                   <option value="5">5 unidades</option>
                 </select>
-                <span className="text-gray-400">
-                  Estado:{" "}
-                  <span className="font-medium">
-                    {product?.estado.charAt(0).toUpperCase() +
-                      product?.estado.slice(1)}
+                <div className="mb-4">
+                  <span className="text-gray-400">
+                    Estado{" "}
+                    <span className="font-medium">
+                      {product?.estado.charAt(0).toUpperCase() +
+                        product?.estado.slice(1)}
+                    </span>
                   </span>
-                </span>
-                <span className="mb-4 text-gray-400">
-                  Vendedor:{" "}
-                  <span className="font-medium">{formatedSellerName}</span>
-                </span>
+                </div>
+                <div className="mb-4">
+                  <span className="text-gray-400">
+                    Vendedor{" "}
+                    <span className="font-medium">{formatedSellerName}</span>
+                  </span>
+                </div>
               </div>
               <div className="card__info__btn__container">
                 <GeneralBtn

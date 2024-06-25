@@ -1,7 +1,9 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import "../editUserData/editUserData.css";
 import { UserContext } from "../../context/UserContext";
+import { HiEye } from "react-icons/hi";
+import { HiEyeOff } from "react-icons/hi";
 
 export function EditUserData() {
   const {
@@ -13,6 +15,11 @@ export function EditUserData() {
     setInputFormError,
     user,
   } = useContext(UserContext);
+  const [userDataIcon, setUserDataIcon] = useState(false);
+
+  const handleUserDataIcon = () => {
+    setUserDataIcon(!userDataIcon);
+  };
 
   /* const handleUpdateUserData = async (nombres, email) => {
     const response = await fetch(`http://localhost:3000/usuarios/${user.id}`, {
@@ -58,6 +65,24 @@ export function EditUserData() {
         ...prevErrors,
         errorEmail: "Ingresa un correo electrónico válido.",
       }));
+    } else if (userData.contraseña.trim() === "") {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorContraseña: "Ingresa tu contraseña.",
+      }));
+    } else if (userData.contraseña.length < 8) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorContraseña: "Ingresa mínimo 8 caracteres.",
+      }));
+    } else if (userData.confirmContraseña.trim() === "") {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorConfirmContraseña: "Confirma tu contraseña.",
+      }));
+    } else if (
+      userData.contraseña.trim() !== userData.confirmContraseña.trim()
+    ) {
     } else {
       setSingUpSuccess("Datos actualizados con éxito");
     }
@@ -71,7 +96,7 @@ export function EditUserData() {
           onSubmit={handleEditData}
           className="edituserdata__form border rounded-md py-5 px-3 flex flex-col gap-5"
         >
-          <div>
+          <div className="user__input__container">
             <label className="font-semibold" htmlFor="">
               Nombre y apellido
             </label>
@@ -95,7 +120,7 @@ export function EditUserData() {
               ""
             )}
           </div>
-          <div>
+          <div className="user__input__container">
             <label className="font-semibold" htmlFor="">
               Email
             </label>
@@ -117,6 +142,77 @@ export function EditUserData() {
               </p>
             ) : (
               ""
+            )}
+          </div>
+          <div className="user__input__container">
+            <label className="font-semibold" htmlFor="">
+              Contraseña
+            </label>
+            <input
+              ref={inputRefs.contraseña}
+              value={userData.contraseña}
+              onChange={handleChange}
+              className={`data__input ${
+                inputFormError.errorContraseña
+                  ? "focus: outline-2 outline outline-red-600"
+                  : "focus: outline-2 outline-green-300"
+              }`}
+              name="contraseña"
+              type={userDataIcon ? "text" : "password"}
+            />
+            {inputFormError.errorContraseña ? (
+              <p className="text-red-600 font-semibold text-sm ml-7">
+                {inputFormError.errorContraseña}
+              </p>
+            ) : (
+              ""
+            )}
+            {userDataIcon ? (
+              <HiEye
+                onClick={handleUserDataIcon}
+                className="input__eye__icon__user"
+              />
+            ) : (
+              <HiEyeOff
+                onClick={handleUserDataIcon}
+                className="input__eye__icon__user"
+              />
+            )}
+          </div>
+          <div className="user__input__container">
+            <label className="font-semibold" htmlFor="">
+              Confirma tu contraseña
+            </label>
+            <input
+              ref={inputRefs.confirmContraseña}
+              name="confirmContraseña"
+              onChange={handleChange}
+              value={userData.confirmContraseña}
+              className={`data__input ${
+                inputFormError.errorConfirmContraseña
+                  ? "focus: outline-2 outline outline-red-600"
+                  : "focus: outline-2 outline-green-300"
+              }`}
+              type={userDataIcon ? "text" : "password"}
+            />
+            {inputFormError.errorConfirmContraseña ? (
+              <p className="text-red-600 font-semibold text-sm ml-7">
+                {inputFormError.errorConfirmContraseña}
+              </p>
+            ) : (
+              ""
+            )}
+
+            {userDataIcon ? (
+              <HiEye
+                onClick={handleUserDataIcon}
+                className="input__eye__icon__user"
+              />
+            ) : (
+              <HiEyeOff
+                onClick={handleUserDataIcon}
+                className="input__eye__icon__user"
+              />
             )}
           </div>
           <GeneralBtn className="text-center self-center" type="secondary">
