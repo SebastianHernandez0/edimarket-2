@@ -240,14 +240,14 @@ export function ProductDetail() {
                   <option value="4">4 unidades</option>
                   <option value="5">5 unidades</option>
                 </select>
-                <span className="">
+                <span className="text-gray-400">
                   Estado:{" "}
                   <span className="font-medium">
                     {product?.estado.charAt(0).toUpperCase() +
                       product?.estado.slice(1)}
                   </span>
                 </span>
-                <span className="mb-4">
+                <span className="mb-4 text-gray-400">
                   Vendedor:{" "}
                   <span className="font-medium">{formatedSellerName}</span>
                 </span>

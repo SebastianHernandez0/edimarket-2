@@ -1,5 +1,11 @@
 import "./App.css";
-import { Route, Routes, Navigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import { Home } from "./pages/home/Home.jsx";
 import { SingUp } from "./pages/singUp/singUp.jsx";
 import { SingIn } from "./pages/singIn/SingIn.jsx";
@@ -9,7 +15,7 @@ import { ProductDetail } from "./pages/productDetail/ProductDetail.jsx";
 import { CarritoModal } from "./components/carritoModal/CarritoModal.jsx";
 import { ProductList } from "./pages/productList/ProductList.jsx";
 import { Favorites } from "./pages/favorites/Favorites.jsx";
-import { useContext } from "react";
+import { useContext, useRef, useEffect } from "react";
 import { UserContext } from "./context/UserContext.jsx";
 import { MiPerfil } from "./pages/miPerfil/MiPerfil.jsx";
 import { CreatePost } from "./pages/createPost/CreatePost.jsx";
@@ -30,10 +36,24 @@ import { MyPotsts } from "./pages/myPosts/MyPosts.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
+  const location = useLocation();
+  const navbarRef = useRef(null);
+
+  useEffect(() => {
+    if (location.pathname === "/not-found") {
+      if (navbarRef.current) {
+        navbarRef.current.style.display = "none";
+      }
+    } else {
+      if (navbarRef.current) {
+        navbarRef.current.style.display = "";
+      }
+    }
+  }, [location.pathname]);
 
   return (
     <>
-      <Navbar />
+      <Navbar navbarRef={navbarRef} />
       <ScrollTop />
       <section className="app__container">
         <Routes>
@@ -113,7 +133,8 @@ function App() {
             path="/add-credit-cards"
             element={userToken ? <AddUserCards /> : <Navigate to="/sign-in" />}
           />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/not-found" element={<NotFound />} />
+          <Route path="*" element={<Navigate to="/not-found" />} />
         </Routes>
 
         <Footer />

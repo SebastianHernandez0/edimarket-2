@@ -21,6 +21,7 @@ export function ProductProvider({ children }) {
   });
 
   const getUserById = async (vendedor_id) => {
+    setLoading(true);
     try {
       const response = await fetch(
         `http://localhost:3000/usuarios/${vendedor_id}`
@@ -47,6 +48,7 @@ export function ProductProvider({ children }) {
   }, [productById]);
 
   const handleGetProducts = async () => {
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:3000/productos");
       if (!response.ok) {
@@ -78,6 +80,7 @@ export function ProductProvider({ children }) {
   }, []);
 
   const handleGetProduct = async (id) => {
+    setLoading(true);
     try {
       const response = await fetch(`http://localhost:3000/productos/${id}`);
       if (!response.ok) {

@@ -24,7 +24,7 @@ const UserIcon = forwardRef((props, ref) => (
   </div>
 ));
 
-export function Navbar() {
+export function Navbar({ navbarRef }) {
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [openPerfilMenu, setOpenPerfilMenu] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -33,7 +33,6 @@ export function Navbar() {
   const perfilButtonRef = useRef(null);
   const perfilMenuRef = useRef(null);
   const menuRef = useRef(null);
-  const navbarRef = useRef(null);
   const menuContainerRef = useRef(null);
   const { setOpenCategories } = useContext(ProductContext);
   const categoriesBtnRef = useRef(null);
@@ -289,7 +288,10 @@ export function Navbar() {
                   <NavLink to="miperfil" className="navbar__user__menu__link">
                     Mi perfil
                   </NavLink>
-                  <NavLink to="/createpost" className="navbar__user__menu__link">
+                  <NavLink
+                    to="/createpost"
+                    className="navbar__user__menu__link"
+                  >
                     Publicar
                   </NavLink>
                   <NavLink to="/favorites" className="navbar__user__menu__link">
