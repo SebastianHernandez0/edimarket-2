@@ -24,6 +24,7 @@ export function ProductDetail() {
     productAlert,
     setProductAlert,
     setProductById,
+    handleGetProduct,
   } = useContext(ProductContext);
   const { openModalCart, addToCart, cart } = useContext(CartContext);
 
@@ -32,6 +33,10 @@ export function ProductDetail() {
 
   const navigate = useNavigate();
   const { id } = useParams();
+
+  useEffect(() => {
+    handleGetProduct(id);
+  }, [id, navigate]);
 
   const handleAddToFav = async () => {
     try {
@@ -116,27 +121,6 @@ export function ProductDetail() {
       console.error("Error al eliminar favorito:", error);
     }
   };
-
-  useEffect(() => {
-    const handleGetProduct = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/productos/${id}`);
-        if (!response.ok) {
-          throw new Error("Producto no encontrado");
-        }
-        const data = await response.json();
-        setProduct(data);
-        setProductById(data);
-      } catch (error) {
-        console.error("Error al obtener productos:", error);
-        navigate("/not-found");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    handleGetProduct();
-  }, [id, navigate]);
 
   /* const handleAddToCart = () => {
     const productWithQuantity = {

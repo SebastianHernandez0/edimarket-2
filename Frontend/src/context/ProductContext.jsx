@@ -19,6 +19,31 @@ export function ProductProvider({ children }) {
     errorFav: "",
   });
 
+  const getUserById = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/usuarios/${productById?.vendedor_id}`
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al obtener usuario");
+      }
+
+      const data = response.json();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.error("Error al obtener usuario:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getUserById();
+  }, []);
+
   const handleGetProducts = async () => {
     try {
       const response = await fetch("http://localhost:3000/productos");
@@ -50,20 +75,25 @@ export function ProductProvider({ children }) {
     handleGetProducts();
   }, []);
 
-  const handleProductDetail = (id) => {
-    const product = products.find((product) => product.id === id);
-    if (product) {
-      // Verificar si el producto ya está presente
-      const isProductAlreadyAdded = productById.id === id;
-
-      // Si el producto no está presente, lo añadimos
-      if (!isProductAlreadyAdded) {
-        setProductById(product);
+  const handleGetProduct = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/productos/${id}`);
+      if (!response.ok) {
+        throw new Error("Producto no encontrado");
       }
-      navigate(`/product/${id}`);
-    } else {
-      console.log("Producto no encontrado");
+      const data = await response.json();
+      setProduct(data);
+      setProductById(data);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+      navigate("/not-found");
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleProductDetail = (id) => {
+    navigate(`/product/${id}`);
   };
 
   const handleProductQuantity = (e) => {
@@ -93,6 +123,7 @@ export function ProductProvider({ children }) {
         setProduct,
         productAlert,
         setProductAlert,
+        handleGetProduct,
       }}
     >
       {children}
