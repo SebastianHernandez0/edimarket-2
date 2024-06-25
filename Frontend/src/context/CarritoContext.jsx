@@ -7,11 +7,6 @@ export function CartProvider({ children }) {
   const [cartModal, setCartModal] = useState(false);
   const [cart, setCart] = useState([]);
   const navigate = useNavigate();
-  const [productAlert, setProductAlert] = useState({
-    succes: "",
-    error: "",
-    errorFav: "",
-  });
 
   const openModalCart = () => {
     if (!cartModal) {
@@ -50,8 +45,6 @@ export function CartProvider({ children }) {
         addToCart,
         cart,
         setCart,
-        productAlert,
-        setProductAlert,
       }}
     >
       {children}

@@ -285,12 +285,12 @@ export function CreatePost() {
                 id="categorias"
               >
                 <option value="">Categorías</option>
-                <option value="Consolas">Consolas</option>
-                <option value="Accesorios">Accesorios</option>
-                <option value="Monitores">Monitores</option>
-                <option value="Componentes">Componentes</option>
-                <option value="Telefonía">Telefonía</option>
-                <option value="Electrodomésticos">Electrodomésticos</option>
+                <option value="consolas">Consolas</option>
+                <option value="accesorios">Accesorios</option>
+                <option value="monitores">Monitores</option>
+                <option value="componentes">Componentes</option>
+                <option value="telefonia">Telefonía</option>
+                <option value="electrodomesticos">Electrodomésticos</option>
               </select>
               <div className="flex flex-col ">
                 <input

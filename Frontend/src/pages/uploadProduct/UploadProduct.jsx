@@ -1,10 +1,9 @@
-{/* <nav></nav>
-titulo
-form prducto
-<footer></footer> */}
+// import { ProductCard } from "../productCard/ProductCard";
 
 export function UploadProduct() {
   return (
-    <div>UploadProduct</div>
+    <div>
+      {/* crear publicacion */}
+    </div>
   )
 }
