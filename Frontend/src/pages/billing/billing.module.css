@@ -1,0 +1,19 @@
+.billing__container {
+  grid-area: none;
+}
+
+.shipping_box {
+  background-color: var(--navbarColor);
+  border-radius: 8px;
+}
+
+.delivery_type_container {
+  border-bottom: 1px solid #dac6df;
+}
+
+.delivery_type_container:last-child {
+  border-bottom: none;
+}
+
+.shipping__container {
+}
