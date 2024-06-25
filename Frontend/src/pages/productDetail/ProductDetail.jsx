@@ -244,8 +244,9 @@ export function ProductDetail() {
                   <span className="text-gray-400">
                     Estado{" "}
                     <span className="font-medium">
-                      {product?.estado.charAt(0).toUpperCase() +
-                        product?.estado.slice(1)}
+                      {product?.estado
+                        .replace(/-/g, " ")
+                        .replace(/\b\w/g, (char) => char.toUpperCase())}
                     </span>
                   </span>
                 </div>

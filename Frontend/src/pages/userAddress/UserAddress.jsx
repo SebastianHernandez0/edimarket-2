@@ -84,8 +84,9 @@ export function UserAddress() {
                 <div className="region-comuna pl-8 text-sm">
                   <span className="">Comuna</span>{" "}
                   <span>
-                    {address.comuna.charAt(0).toUpperCase() +
-                      address.comuna.slice(1)}
+                    {address.comuna
+                      .replace(/-/g, " ")
+                      .replace(/\b\w/g, (char) => char.toUpperCase())}
                   </span>
                 </div>
                 <span className="usuario pl-8 text-sm">
