@@ -27,46 +27,94 @@ export function ProductDetail() {
   } = useContext(ProductContext);
   const { openModalCart, addToCart, cart } = useContext(CartContext);
 
-  const { userToken, handleGetFavs, inputRefs } = useContext(UserContext);
+  const { userToken, handleGetFavs, inputRefs, handleDeleteFav } =
+    useContext(UserContext);
 
   const navigate = useNavigate();
   const { id } = useParams();
 
   const handleAddToFav = async () => {
-    const response = await fetch(
-      `http://localhost:3000/favoritos/${productById.producto_id}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-        body: JSON.stringify({
-          usuario_id: productById.vendedor_id,
-        }),
+    try {
+      const productFinded = addedToFav.find(
+        (product) => product.producto_id === productById.producto_id
+      );
+      if (!productFinded) {
+        const response = await fetch(
+          `http://localhost:3000/favoritos/${productById.producto_id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+            body: JSON.stringify({
+              usuario_id: productById.vendedor_id,
+            }),
+          }
+        );
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al eliminar el favorito");
+        }
+        handleGetFavs();
+        setProductAlert((prevState) => ({
+          ...prevState,
+          success: "¡Producto añadido a favoritos!.",
+          error: "",
+        }));
+
+        inputRefs.timeoutRef.current = setTimeout(() => {
+          setProductAlert((prevState) => ({
+            ...prevState,
+            success: "",
+          }));
+          inputRefs.timeoutRef.current = null;
+        }, 2400);
+
+        const data = response.json();
+
+        return data;
+      } else {
+        const response = await fetch(
+          `http://localhost:3000/favoritos/${productFinded.id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+            body: JSON.stringify({
+              usuario_id: addedToFav.usuario_id,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al eliminar favorito");
+        }
+
+        const data = await response.json();
+        handleGetFavs();
+        setProductAlert((prevState) => ({
+          ...prevState,
+          success: "",
+          error: "Producto eliminado de favoritos.",
+        }));
+
+        inputRefs.timeoutRef.current = setTimeout(() => {
+          setProductAlert((prevState) => ({
+            ...prevState,
+            error: "",
+          }));
+          inputRefs.timeoutRef.current = null;
+        }, 2400);
+
+        return data;
       }
-    );
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al guardar el favorito");
+    } catch (error) {
+      console.error("Error al eliminar favorito:", error);
     }
-    handleGetFavs();
-    setProductAlert((prevState) => ({
-      ...prevState,
-      success: "¡Producto añadido a favoritos!.",
-      error: "",
-    }));
-
-    inputRefs.timeoutRef.current = setTimeout(() => {
-      setProductAlert((prevState) => ({
-        ...prevState,
-        success: "",
-      }));
-      inputRefs.timeoutRef.current = null;
-    }, 2400);
-
-    const data = response.json();
-    return data;
   };
 
   useEffect(() => {

@@ -134,7 +134,7 @@ export function UserProvider({ children }) {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Error al obtener favoritos");
+        throw new Error(errorData.message || "Error al eliminar favorito");
       }
 
       const data = await response.json();
