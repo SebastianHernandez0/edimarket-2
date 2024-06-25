@@ -26,7 +26,7 @@ import { AddUserAdress } from "./pages/addUserAddress/AddUserAddress.jsx";
 import { NotFound } from "./pages/notFound/NotFound.jsx";
 import { UserCards } from "./pages/userCards/UserCards.jsx";
 import { AddUserCards } from "./pages/addUserCards/AddUserCards.jsx";
-import { UploadProduct } from "./pages/uploadProduct/UploadProduct.jsx";
+import { MyPotsts } from "./pages/myPosts/MyPosts.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -37,19 +37,28 @@ function App() {
       <ScrollTop />
       <section className="app__container">
         <Routes>
-          <Route path="/carro"
+          <Route
+            path="/carro"
             element={userToken ? <Cart /> : <Navigate to="/sign-in" />}
           />
-          <Route path="/billing"
+          <Route
+            path="/billing"
             element={userToken ? <Billing /> : <Navigate to="/sign-in" />}
           />
-          <Route path="/compra-exitosa"
-            element={userToken ? <PaymentSuccess /> : <Navigate to="/sign-in" />}
+          <Route
+            path="/compra-exitosa"
+            element={
+              userToken ? <PaymentSuccess /> : <Navigate to="/sign-in" />
+            }
           />
-          <Route path="/myProduct"
-            element={userToken ? <PublishedProduct /> : <Navigate to="/sign-in" />}
+          <Route
+            path="/myProduct"
+            element={
+              userToken ? <PublishedProduct /> : <Navigate to="/sign-in" />
+            }
           />
-          <Route path="shipping"
+          <Route
+            path="shipping"
             element={userToken ? <Shipping /> : <Navigate to="/sign-in" />}
           />
           <Route path="/" element={<Home />} />
@@ -85,8 +94,8 @@ function App() {
             element={userToken ? <EditUserData /> : <Navigate to="/sign-in" />}
           />
           <Route
-            path="/upload-product"
-            element={userToken ? <UploadProduct /> : <Navigate to="/sign-in" />}
+            path="/my-posts"
+            element={userToken ? <MyPotsts /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/user-address"

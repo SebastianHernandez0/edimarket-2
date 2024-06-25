@@ -9,8 +9,6 @@ import { useNavigate } from "react-router-dom";
 export function CarritoModal() {
   const { cartModal, setCartModal, cart } = useContext(CartContext);
 
-  console.log(cart)
-
   const closeCartModal = () => {
     if (cartModal) {
       setCartModal(false);
