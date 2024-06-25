@@ -15,8 +15,7 @@ const EditIcon = forwardRef((props, ref) => (
 
 export function UserAddress() {
   const [openEditModal, setOpenEditModal] = useState(false);
-  const { user, userToken, userAddress, setUserAddress } =
-    useContext(UserContext);
+  const { user, userAddress } = useContext(UserContext);
   const navigate = useNavigate();
   const addressRef = {
     iconRef: useRef(null),
@@ -53,39 +52,6 @@ export function UserAddress() {
   const handleNavigateToAdd = () => {
     navigate("/add-address");
   };
-
-  const handleUserAddress = async () => {
-    const response = await fetch(
-      `http://localhost:3000/usuarios/usuario/domicilio?userId=${user.id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al obtener domicilio");
-    }
-
-    const data = await response.json();
-
-    setUserAddress(
-      data.Domicilio.map((d) => {
-        return {
-          ...d,
-        };
-      })
-    );
-
-    return data;
-  };
-
-  useEffect(() => {
-    handleUserAddress();
-  }, []);
 
   return (
     <section className="useraddress__container bg-white shadow-sm rounded-sm">

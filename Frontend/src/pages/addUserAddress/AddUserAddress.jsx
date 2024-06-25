@@ -125,7 +125,7 @@ export function AddUserAdress() {
 
   return (
     <section className="adduseraddress__container bg-white shadow-sm rounded-sm">
-      <h1 className="">Añadir dirección</h1>
+      <h1 className="mb-5">Añadir dirección</h1>
       <div className="edituseraddress__body">
         <form
           onSubmit={handleAddressSubmit}

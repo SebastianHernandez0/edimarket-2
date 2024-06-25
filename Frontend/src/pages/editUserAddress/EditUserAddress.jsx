@@ -11,10 +11,9 @@ export function EditUserAddress() {
     inputRefs,
     onlyNumbersRegex,
     inputFormError,
-    user,
-    userToken,
     AddAddressSuccess,
     setAddAddressSuccess,
+    userAddress,
   } = useContext(UserContext);
 
   const handleAddressSubmit = async (e) => {
