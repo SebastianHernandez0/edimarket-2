@@ -26,6 +26,7 @@ import { AddUserAdress } from "./pages/addUserAddress/AddUserAddress.jsx";
 import { NotFound } from "./pages/notFound/NotFound.jsx";
 import { UserCards } from "./pages/userCards/UserCards.jsx";
 import { AddUserCards } from "./pages/addUserCards/AddUserCards.jsx";
+import { UploadProduct } from "./pages/uploadProduct/UploadProduct.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -36,12 +37,21 @@ function App() {
       <ScrollTop />
       <section className="app__container">
         <Routes>
-          <Route path="/carro" element={<Cart />} />
-          <Route path="/billing" element={<Billing />} />
-          <Route path="/compra-exitosa" element={<PaymentSuccess />} />
-          <Route path="/myProduct" element={<PublishedProduct />} />
-          {/*esta ruta debe tener el nombre del producto*/}
-          <Route path="shipping" element={<Shipping />} />
+          <Route path="/carro"
+            element={userToken ? <Cart /> : <Navigate to="/sign-in" />}
+          />
+          <Route path="/billing"
+            element={userToken ? <Billing /> : <Navigate to="/sign-in" />}
+          />
+          <Route path="/compra-exitosa"
+            element={userToken ? <PaymentSuccess /> : <Navigate to="/sign-in" />}
+          />
+          <Route path="/myProduct"
+            element={userToken ? <PublishedProduct /> : <Navigate to="/sign-in" />}
+          />
+          <Route path="shipping"
+            element={userToken ? <Shipping /> : <Navigate to="/sign-in" />}
+          />
           <Route path="/" element={<Home />} />
           <Route
             path="/"
@@ -73,6 +83,10 @@ function App() {
           <Route
             path="/edit-user-data"
             element={userToken ? <EditUserData /> : <Navigate to="/sign-in" />}
+          />
+          <Route
+            path="/upload-product"
+            element={userToken ? <UploadProduct /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/user-address"
