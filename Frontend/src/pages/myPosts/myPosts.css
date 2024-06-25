@@ -1,7 +1,57 @@
 .myposts__container {
- grid-area: header;
+  grid-area: header;
   padding: 25px;
   margin: 60px auto;
   width: 100%;
-  max-width: 1400px; 
+  max-width: 1000px;
+}
+
+.myposts__card__img {
+  width: 100%;
+  max-width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+.myposts__card__paragraph {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+.myposts__card__info {
+  width: 100%;
+}
+.myposts__btn__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.myposts__btn {
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+}
+
+.btn__edit {
+  transform: scale(2.2);
+}
+.btn__trash {
+  transform: scale(1.6);
+}
+
+@media (min-width: 576px) {
+  .myposts__card__paragraph {
+    max-width: 100%;
+  }
+  .myposts__card__paragraph {
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: none;
+  }
+  .myposts__btn__container {
+    justify-content: flex-start;
+  }
 }

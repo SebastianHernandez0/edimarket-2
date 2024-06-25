@@ -4,6 +4,7 @@ import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { UserContext } from "../../context/UserContext";
+import { Loader } from "../../components/loader/Loader";
 
 export function Favorites() {
   const { handleProductDetail, addedToFav, loading, productAlert } =
@@ -16,9 +17,7 @@ export function Favorites() {
       <h1 className="favorites__title text-2xl font-semibold">Mis favoritos</h1>
       <div className="">
         {loading ? (
-          <div className="flex items-center justify-center">
-            <p className="text-center font-semibold text-lg">Cargando...</p>
-          </div>
+          <Loader />
         ) : (
           <div>
             <div className="favorites__cards__container">
