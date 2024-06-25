@@ -116,6 +116,14 @@ const consultarProductosByCategoria = async (categoria) => {
   return products;
 };
 
+const consultarProductosPorUsuario = async (idUsuario) => {
+  const values = [idUsuario];
+  const consulta =
+    "select * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where vendedor_id=$1";
+  const { rows: products } = await db.query(consulta, values);
+  return products;
+}
+
 const consultarProductoById = async (id) => {
   const consulta =
     "select * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on categorias.id=producto_categoria.categoria_id where productos.id=$1";
@@ -162,6 +170,14 @@ const registrarProducto = async (producto, vendedor_id) => {
   return console.log("Registrado");
 };
 
+const modificarProducto= async (idUsuario,idProducto,producto)=>{
+  let {nombre,descripcion,estado,precio,stock,imagen}=producto;
+  const values=[nombre,descripcion,estado,precio,stock,imagen,idUsuario,idProducto];
+  const consulta="UPDATE productos SET nombre=$1,descripcion=$2,precio=$4,stock=$5,imagen=$6,estado=$3 WHERE vendedor_id=$7 AND id=$8";
+  await db.query(consulta,values);
+  return console.log("Producto modificado");
+}
+
 const agregarDirreccion = async (domicilio, idUsuario) => {
   const domicilios = await consultarDirreccion(idUsuario);
   if (domicilios.length > 0) {
@@ -185,6 +201,16 @@ const agregarDirreccion = async (domicilio, idUsuario) => {
     return console.log("Direccion agregada");
   }
 };
+
+const modificarDireccion= async(idUsuario,domicilio)=>{
+  const {direccion,numero_casa,ciudad,comuna,region,codigo_postal}=domicilio;
+  validarDomicilio.parse(domicilio);
+  const values=[direccion,numero_casa,ciudad,comuna,region,codigo_postal,idUsuario];
+  const consulta="UPDATE domicilio SET direccion=$1,ciudad=$3,region=$5,codigo_postal=$6,comuna=$4,numero_casa=$2 WHERE usuario_id=$7";
+  await db.query(consulta,values);
+  return console.log("Direccion modificada");
+  
+}
 
 const agregarMetodoDePago = async (metodoDePago, idUsuario) => {
   let {
@@ -326,5 +352,9 @@ module.exports = {
   consultarCarrito,
   eliminarProducto,
   venta,
-  modificarUsuario
+  modificarUsuario,
+  modificarProducto,
+  consultarProductosPorUsuario,
+  modificarDireccion
+
 };
