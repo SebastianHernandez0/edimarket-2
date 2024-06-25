@@ -1,28 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../favorites/favorites.css";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
+import { UserContext } from "../../context/UserContext";
 
 export function Favorites() {
-  const { handleProductDetail, addedToFav, setAddedToFav } =
+  const { handleProductDetail, addedToFav, loading, productAlert } =
     useContext(ProductContext);
 
-  const [elementDeleted, setElementDeleted] = useState("");
-
-  const handleDeleteFav = (product, event) => {
-    event.stopPropagation();
-
-    setAddedToFav((prevFavs) => {
-      return prevFavs.filter((element) => element.id !== product.id);
-    });
-
-    setElementDeleted("Has eliminado el producto de favoritos.");
-
-    setTimeout(() => {
-      setElementDeleted("");
-    }, 3000);
-  };
+  const { handleDeleteFav } = useContext(UserContext);
 
   return (
     <section className="favorites__container bg-white shadow-sm">
@@ -32,13 +19,13 @@ export function Favorites() {
           addedToFav.map((product) => {
             return (
               <ProductCard
-                onClick={() => handleProductDetail(product?.id)}
+                onClick={() => handleProductDetail(product?.producto_id)}
                 key={product.id}
               >
                 <div className="favorites__card__body">
                   <img
                     className="favorites__card__img shadow-md"
-                    src={product.href}
+                    src={product.imagen}
                     alt=""
                   />
                   <div className="favorites__card__info">
@@ -46,13 +33,15 @@ export function Favorites() {
                       {product.nombre}
                     </p>
                     <p className="favorites__card__info">
-                      {product.precio.toLocaleString("es-CL", {
-                        style: "currency",
-                        currency: "CLP",
-                      })}
+                      {product.precio
+                        ? Number(product.precio).toLocaleString("es-CL", {
+                            style: "currency",
+                            currency: "CLP",
+                          })
+                        : null}
                     </p>
                     <button
-                      onClick={(event) => handleDeleteFav(product, event)}
+                      onClick={(e) => handleDeleteFav(e, product?.id)}
                       className="favorites__card__info__btn font-bold text-blue-400"
                     >
                       Eliminar
@@ -78,7 +67,18 @@ export function Favorites() {
           </div>
         )}
       </div>
-      {elementDeleted ? (
+      {productAlert.errorFav ? (
+        <CartAlert>
+          <div>
+            <p className="card__cart__alert shadow-md rounded-md bg-slate-700">
+              {productAlert.errorFav}
+            </p>
+          </div>
+        </CartAlert>
+      ) : (
+        ""
+      )}
+      {/*  {elementDeleted ? (
         <CartAlert>
           <div>
             <p className="card__cart__alert shadow-md rounded-md bg-slate-700">
@@ -88,7 +88,7 @@ export function Favorites() {
         </CartAlert>
       ) : (
         ""
-      )}
+      )} */}
     </section>
   );
 }

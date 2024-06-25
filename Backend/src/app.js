@@ -7,6 +7,7 @@ const categoriaRoutes= require("./routes/categoriaRoutes");
 const productRoutes= require("./routes/productRoutes");
 const favoritosRoutes= require("./routes/favoritosRoutes");
 const carritoRoutes= require("./routes/carritoRoutes");
+
 const ventaRoutes= require("./routes/ventaRoutes");
 const port = process.env.PORT || 3000;
 

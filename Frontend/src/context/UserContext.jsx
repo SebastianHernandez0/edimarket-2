@@ -1,5 +1,6 @@
-import { createContext, useState, useRef, useEffect } from "react";
+import { createContext, useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { ProductContext } from "./ProductContext";
 
 export const UserContext = createContext();
 
@@ -66,6 +67,8 @@ export function UserProvider({ children }) {
   const [userAddress, setUserAddress] = useState("");
   const [userCreditCards, setUserCreditCards] = useState([]);
   const [inputFormError, setInputFormError] = useState(initialFormError);
+  const { setLoading, setAddedToFav, addedToFav, setProductAlert } =
+    useContext(ProductContext);
 
   const inputRefs = {
     nombre: useRef(null),
@@ -89,7 +92,83 @@ export function UserProvider({ children }) {
     cvv: useRef(null),
     postimg: useRef(null),
     productStock: useRef(null),
+    timeoutRef: useRef(null),
   };
+
+  const handleGetFavs = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/favoritos", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al obtener favoritos");
+      }
+
+      const data = await response.json();
+      setAddedToFav(data.favoritos);
+      return data;
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteFav = async (e, id) => {
+    e.stopPropagation();
+    try {
+      const response = await fetch(`http://localhost:3000/favoritos/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          usuario_id: addedToFav.usuario_id,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al eliminar favorito");
+      }
+
+      const data = await response.json();
+      handleGetFavs();
+      setProductAlert((prevState) => ({
+        ...prevState,
+        success: "",
+        errorFav: "Producto eliminado de favoritos.",
+      }));
+
+      inputRefs.timeoutRef.current = setTimeout(() => {
+        setProductAlert((prevState) => ({
+          ...prevState,
+          errorFav: "",
+        }));
+        inputRefs.timeoutRef.current = null;
+      }, 2400);
+
+      return data;
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (userToken) {
+      handleGetFavs();
+    }
+    if (!userToken) {
+      setAddedToFav([]);
+    }
+  }, [userToken]);
 
   // Resetear el estado si cambia la navegación (URL)
   useEffect(() => {
@@ -171,6 +250,8 @@ export function UserProvider({ children }) {
         userCreditCards,
         setUserCreditCards,
         image_url_regex,
+        handleGetFavs,
+        handleDeleteFav,
       }}
     >
       {children}

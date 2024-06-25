@@ -3,7 +3,7 @@ import { FaFacebookSquare } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import footerLogo from "../../../public/imgs/aplication/logo2.png";
+import footerLogo from "/imgs/aplication/logo2.png";
 
 export function Footer() {
   return (

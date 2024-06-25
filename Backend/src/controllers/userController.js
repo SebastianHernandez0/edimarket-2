@@ -24,7 +24,7 @@ const getAllUsers = async (req, res) => {
     const usuarios = await consultarUsuario();
     res.send(usuarios);
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -34,7 +34,7 @@ const getUserById = async (req, res) => {
     const usuario = await consultarUsuarioById(id);
     res.send(usuario);
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -49,7 +49,7 @@ const registrarUser = async (req, res) => {
       contraseña: usuario.contraseña,
     });
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -59,56 +59,57 @@ const loginUser = async (req, res) => {
     const user = await verificarUsuario(email, contraseña);
     const token = jwt.sign(
       { email: user.email, id: user.id },
-      process.env.JWT_SECRET, {expiresIn:"1d"}
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
     );
     res.status(200).json({
       token,
       user,
     });
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
 const ModifyUser = async (req, res) => {
-  try{
+  try {
     const usuario = req.body;
     const Authorization = req.header("Authorization");
     const token = Authorization.split("Bearer ")[1];
-    jwt.verify(token, process.env.JWT_SECRET)
-    const {email, id} = jwt.decode(token);
-    await modificarUsuario(id,usuario);
+    jwt.verify(token, process.env.JWT_SECRET);
+    const { email, id } = jwt.decode(token);
+    await modificarUsuario(id, usuario);
     console.log(`El usuario ${email} con el id ${id} ha sido modificado`);
     res.status(200).json({
-      message: "Usuario modificado con exito"
+      message: "Usuario modificado con exito",
     });
-  }catch(error){
-    res.status(500).json({error: error.message});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
-const deleteUser= async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     const Authorization = req.header("Authorization");
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
-    const {email, id} = jwt.decode(token);
+    const { email, id } = jwt.decode(token);
     await eliminarUsuario(id);
     console.log(`El usuario ${email} con el id ${id} ha sido eliminado`);
     res.status(200).json({
-      message: "Usuario eliminado con exito"
+      message: "Usuario eliminado con exito",
     });
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
 const consultarCategoria = async (req, res) => {
   try {
     const categorias = await consultarCategorias();
     res.send(categorias);
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -150,7 +151,7 @@ const agregarDomicilio = async (req, res) => {
       message: "Domicilio agregado",
     });
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -186,7 +187,7 @@ const agregarPaymentMethod = async (req, res) => {
       message: "Metodo de pago agregado",
     });
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -212,7 +213,7 @@ const consultarPaymentMethods = async (req, res) => {
       }),
     });
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -239,7 +240,7 @@ const consultarDomicilio = async (req, res) => {
       }),
     });
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -259,7 +260,7 @@ const addFavorito = async (req, res) => {
       message: "Producto agregado",
     });
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -283,12 +284,13 @@ const consultarFavorito = async (req, res) => {
           stock: favorito.stock,
           imagen: favorito.imagen,
           categoria: favorito.categoria,
-          idProducto: favorito.producto_id,
+          producto_id: favorito.producto_id,
+          usuario_id: id,
         };
       }),
     });
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -305,7 +307,7 @@ const deleteFav = async (req, res) => {
       message: "Favorito eliminado",
     });
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -327,3 +329,4 @@ module.exports = {
   consultarProductosPerUser,
   modificarDomicilio
 };                              
+

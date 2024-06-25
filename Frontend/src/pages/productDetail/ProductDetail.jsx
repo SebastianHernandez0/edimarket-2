@@ -14,23 +14,108 @@ import { UserContext } from "../../context/UserContext";
 export function ProductDetail() {
   const {
     productById,
-    addToFav,
     addedToFav,
-    setAddedToFav,
     productQuantity,
     handleProductQuantity,
     loading,
     setLoading,
+    product,
+    setProduct,
+    productAlert,
+    setProductAlert,
+    setProductById,
   } = useContext(ProductContext);
-  const { openModalCart, addToCart, cart, productAlert, setProductAlert } =
-    useContext(CartContext);
+  const { openModalCart, addToCart, cart } = useContext(CartContext);
 
-  const { userToken } = useContext(UserContext);
+  const { userToken, handleGetFavs, inputRefs, handleDeleteFav } =
+    useContext(UserContext);
 
-  const timeoutRef = useRef(null);
   const navigate = useNavigate();
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
+
+  const handleAddToFav = async () => {
+    try {
+      const productFinded = addedToFav.find(
+        (product) => product.producto_id === productById.producto_id
+      );
+      if (!productFinded) {
+        const response = await fetch(
+          `http://localhost:3000/favoritos/${productById.producto_id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+            body: JSON.stringify({
+              usuario_id: productById.vendedor_id,
+            }),
+          }
+        );
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al eliminar el favorito");
+        }
+        handleGetFavs();
+        setProductAlert((prevState) => ({
+          ...prevState,
+          success: "¡Producto añadido a favoritos!.",
+          error: "",
+        }));
+
+        inputRefs.timeoutRef.current = setTimeout(() => {
+          setProductAlert((prevState) => ({
+            ...prevState,
+            success: "",
+          }));
+          inputRefs.timeoutRef.current = null;
+        }, 2400);
+
+        const data = response.json();
+
+        return data;
+      } else {
+        const response = await fetch(
+          `http://localhost:3000/favoritos/${productFinded.id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+            body: JSON.stringify({
+              usuario_id: addedToFav.usuario_id,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al eliminar favorito");
+        }
+
+        const data = await response.json();
+        handleGetFavs();
+        setProductAlert((prevState) => ({
+          ...prevState,
+          success: "",
+          error: "Producto eliminado de favoritos.",
+        }));
+
+        inputRefs.timeoutRef.current = setTimeout(() => {
+          setProductAlert((prevState) => ({
+            ...prevState,
+            error: "",
+          }));
+          inputRefs.timeoutRef.current = null;
+        }, 2400);
+
+        return data;
+      }
+    } catch (error) {
+      console.error("Error al eliminar favorito:", error);
+    }
+  };
 
   useEffect(() => {
     const handleGetProduct = async () => {
@@ -41,6 +126,7 @@ export function ProductDetail() {
         }
         const data = await response.json();
         setProduct(data);
+        setProductById(data);
       } catch (error) {
         console.error("Error al obtener productos:", error);
         navigate("/not-found");
@@ -52,7 +138,7 @@ export function ProductDetail() {
     handleGetProduct();
   }, [id, navigate]);
 
-  const handleAddToCart = () => {
+  /* const handleAddToCart = () => {
     const productWithQuantity = {
       ...productById,
       cantidad: productQuantity,
@@ -73,60 +159,22 @@ export function ProductDetail() {
         }));
 
         // Cancelamos el temporizador anterior si existe
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
+        if (inputRefs.timeoutRef.current) {
+          clearTimeout(inputRefs.timeoutRef.current);
         }
 
         // Establecemos un nuevo temporizador
-        timeoutRef.current = setTimeout(() => {
+        inputRefs.timeoutRef.current = setTimeout(() => {
           setProductAlert((prevState) => ({
             ...prevState,
             error: "",
           }));
-          timeoutRef.current = null; // Limpiamos la referencia al temporizador
+          inputRefs.timeoutRef.current = null; // Limpiamos la referencia al temporizador
         }, 2400);
       }
     }
   };
-
-  const handleAddToFav = () => {
-    if (!addedToFav.some((product) => product.id === productById.id)) {
-      addToFav(productById);
-      setProductAlert((prevState) => ({
-        ...prevState,
-        success: "¡Producto añadido a favoritos!.",
-        error: "",
-      }));
-
-      timeoutRef.current = setTimeout(() => {
-        setProductAlert((prevState) => ({
-          ...prevState,
-          success: "",
-        }));
-        timeoutRef.current = null;
-      }, 2400);
-    } else {
-      // Eliminar producto de favoritos
-      const updatedFav = addedToFav.filter(
-        (product) => product.id !== productById.id
-      );
-      setAddedToFav(updatedFav);
-
-      setProductAlert((prevState) => ({
-        ...prevState,
-        error: "¡Producto eliminado de favoritos!.",
-        success: "",
-      }));
-
-      timeoutRef.current = setTimeout(() => {
-        setProductAlert((prevState) => ({
-          ...prevState,
-          error: "",
-        }));
-        timeoutRef.current = null;
-      }, 2400);
-    }
-  };
+ */
 
   const handleNavigateToLogin = () => {
     if (!userToken) {
@@ -135,12 +183,12 @@ export function ProductDetail() {
         errorFav: "Para añadir a favoritos inicia sesión o registrate.",
       }));
     }
-    timeoutRef.current = setTimeout(() => {
+    inputRefs.timeoutRef.current = setTimeout(() => {
       setProductAlert((prevState) => ({
         ...prevState,
         errorFav: "",
       }));
-      timeoutRef.current = null;
+      inputRefs.timeoutRef.current = null;
     }, 8000);
   };
 
@@ -170,15 +218,19 @@ export function ProductDetail() {
                 </p>
                 <div className="card__info__price__details">
                   <p className="card__paragraph card__paragraph__price">
-                    {product?.precio.toLocaleString("es-CL", {
-                      style: "currency",
-                      currency: "CLP",
-                    })}
+                    {product?.precio
+                      ? Number(product.precio).toLocaleString("es-CL", {
+                          style: "currency",
+                          currency: "CLP",
+                        })
+                      : null}
                   </p>
                   <IoHeartSharp
                     onClick={userToken ? handleAddToFav : handleNavigateToLogin}
                     className={`card__info__like__icon ${
-                      addedToFav.some((product) => product.id === product.id)
+                      addedToFav?.some(
+                        (p) => p?.producto_id === product?.producto_id
+                      )
                         ? "text-red-600 transition duration-300"
                         : "text-gray-400 transition duration-300"
                     }`}
@@ -190,8 +242,8 @@ export function ProductDetail() {
                   <span className="font-semibold">{product?.stock}</span>
                 </p>
                 <select
-                  onChange={handleProductQuantity}
-                  value={productQuantity}
+                  /*   onChange={handleProductQuantity}
+                  value={productQuantity} */
                   className="w-1/2 font-medium mb-5 px-2 border rounded-md active: outline-none cursor-pointer"
                   name="quantity"
                   id=""
@@ -202,6 +254,13 @@ export function ProductDetail() {
                   <option value="4">4 unidades</option>
                   <option value="5">5 unidades</option>
                 </select>
+                <span className="my-4">
+                  Estado:{" "}
+                  <span className="font-medium">
+                    {product?.estado.charAt(0).toUpperCase() +
+                      product?.estado.slice(1)}
+                  </span>
+                </span>
               </div>
               <div className="card__info__btn__container">
                 <GeneralBtn
@@ -211,7 +270,7 @@ export function ProductDetail() {
                   <NavLink to="/shipping">Comprar ahora</NavLink>
                 </GeneralBtn>
                 <GeneralBtn
-                  onClick={handleAddToCart}
+                  /*   onClick={handleAddToCart} */
                   className="card__info__btn card__info__btn__cart"
                   type="primary"
                 >
