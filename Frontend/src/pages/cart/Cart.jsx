@@ -1,3 +1,5 @@
+import cart from "./cart.module.css";
+import classNames from "classnames";
 import { useContext } from 'react';
 import { EmptyCart } from '../../components/emptyCart/EmptyCart';
 import { FullCart } from '../../components/fullCart/FullCart';
@@ -10,9 +12,9 @@ export function Cart() {
   console.log(cart)
 
   return (
-    <>
+    <div className='cart__container'>
       {cart.length ? <FullCart /> : <EmptyCart />}
-    </>
+    </div>
   )
 }
 

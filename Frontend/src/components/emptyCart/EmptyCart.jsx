@@ -6,7 +6,7 @@ import "../emptyCart/emptyCart.css";
 
 export function EmptyCart() {
   return (
-    <div className="emptyCart__container flex justify-center items-center flex-col">
+    <div className="emptyCart__container flex justify-center items-center flex-col mb-50">
       <img src={emptyCart} alt="empty cart" className="my-[20px] h-96" />
       <h1 className="text-center">Tu carro está vacío</h1>
       <p className="pb-[50px]">Suma productos y consigue envío gratis :D</p>

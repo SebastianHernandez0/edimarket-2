@@ -1,0 +1,1 @@
+INSERT INTO productos VALUES (DEFAULT, 'Iphone 15 pro max', 'Iphone 15 pro max color violeta 128GB' , 599990, '2', 'https://cdnx.jumpseller.com/smartmob1/image/47220338/refurb-iphone-12-purple-2021.jpg?1712002730', '2', 'Nuevo');
