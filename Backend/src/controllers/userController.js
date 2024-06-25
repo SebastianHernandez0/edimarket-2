@@ -13,7 +13,9 @@ const {
   agregarMetodoDePago,
   consultarMetodosPago,
   eliminarUsuario,
-  modificarUsuario
+  modificarUsuario,
+  consultarProductosPorUsuario,
+  modificarDireccion
 } = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
@@ -80,7 +82,7 @@ const ModifyUser = async (req, res) => {
     res.status(200).json({
       message: "Usuario modificado con exito"
     });
-}catch(error){
+  }catch(error){
     res.status(500).json({error: error.message});
   }
 }
@@ -110,6 +112,31 @@ const consultarCategoria = async (req, res) => {
   }
 };
 
+const consultarProductosPerUser= async (req, res) => {
+  try{
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET);
+    const {email, id} = jwt.decode(token);
+    const productos = await consultarProductosPorUsuario(id);
+    console.log(`El usuario ${email} con el id ${id} ha consultado sus productos`);
+    res.json({
+      productos: productos.map((producto) => {
+        return {
+          nombre: producto.nombre,
+          descripcion: producto.descripcion,
+          precio: producto.precio,
+          stock: producto.stock,
+          imagen: producto.imagen,
+          categoria: producto.nombre_categoria,
+        };
+      }),
+    });
+  }catch(error){
+    res.status(500).json({error: error.message});
+  }
+}
+
 const agregarDomicilio = async (req, res) => {
   try {
     const domicilio = req.body;
@@ -120,12 +147,29 @@ const agregarDomicilio = async (req, res) => {
     await agregarDirreccion(domicilio, id);
     console.log(`El usuario ${email} con el id ${id} ha agregado un domicilio`);
     res.status(201).json({
-      message: "Domcilio agregado",
+      message: "Domicilio agregado",
     });
   } catch (error) {
     res.status(500).json({error: error.message});
   }
 };
+
+const modificarDomicilio = async (req, res) => {
+  try {
+    const domicilio = req.body;
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET);
+    const { email, id } = jwt.decode(token);
+    await modificarDireccion(id,domicilio);
+    console.log(`El usuario ${email} con el id ${id} ha modificado su domicilio`);
+    res.status(200).json({
+      message: "Domicilio modificado",
+    });
+  } catch (error) {
+    res.status(500).json({error: error.message});
+  }
+}
 
 const agregarPaymentMethod = async (req, res) => {
   try {
@@ -278,5 +322,8 @@ module.exports = {
   deleteFav,
   agregarPaymentMethod,
   consultarPaymentMethods,
-  deleteUser
+  deleteUser,
+  ModifyUser,
+  consultarProductosPerUser,
+  modificarDomicilio
 };                              
