@@ -5,11 +5,17 @@ import { ProductContext } from "../../context/ProductContext";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { TbEdit } from "react-icons/tb";
 import { FaTrashCan } from "react-icons/fa6";
+import { useNavigate, useParams } from "react-router-dom";
 
 export function MyPotsts() {
   const { products } = useContext(ProductContext);
+  const navigate = useNavigate();
 
   const myProducts = products.filter((product) => product.vendedor === 12);
+
+  const handleEditProduct = () => {
+    navigate("/edit-post/");
+  };
 
   return (
     <section className="myposts__container bg-white shadow-sm">
@@ -36,11 +42,17 @@ export function MyPotsts() {
                     currency: "CLP",
                   })}
                 </p>
-                <p className="text-sm text-gray-400 mt-3">Publicado en Edimarket</p>
+                <p className="text-sm text-gray-400 mt-3">
+                  Publicado en Edimarket
+                </p>
               </div>
             </div>
             <div className="myposts__btn__container">
-              <GeneralBtn className="myposts__btn" type="secondary">
+              <GeneralBtn
+                onClick={handleEditProduct}
+                className="myposts__btn"
+                type="secondary"
+              >
                 <TbEdit className="btn__edit" />
               </GeneralBtn>
               <GeneralBtn className="myposts__btn" type="secondary">

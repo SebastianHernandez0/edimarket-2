@@ -34,6 +34,7 @@ import { UserCards } from "./pages/userCards/UserCards.jsx";
 import { AddUserCards } from "./pages/addUserCards/AddUserCards.jsx";
 import { MyPotsts } from "./pages/myPosts/MyPosts.jsx";
 import { EditUserAddress } from "./pages/editUserAddress/EditUserAddress.jsx";
+import { EditMyPost } from "./pages/editMyPost/EditMyPost.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -117,6 +118,10 @@ function App() {
           <Route
             path="/my-posts"
             element={userToken ? <MyPotsts /> : <Navigate to="/sign-in" />}
+          />
+          <Route
+            path="/edit-post"
+            element={userToken ? <EditMyPost /> : <Navigate to="/sign-in" />}
           />
           <Route
             path="/user-address"
