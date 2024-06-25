@@ -85,7 +85,9 @@ export function UserCards() {
                     <span className="text-sm">
                       Vencimiento{" "}
                       <span className="font-semibold">
-                        {card.fecha_expiracion}
+                        {card.fecha_expiracion.slice(0, 2) +
+                          "/" +
+                          card.fecha_expiracion.slice(2)}
                       </span>
                     </span>
                   </div>

@@ -240,7 +240,7 @@ export function ProductDetail() {
                   <option value="4">4 unidades</option>
                   <option value="5">5 unidades</option>
                 </select>
-                <div className="mb-4">
+                <div className="mb-4 text-sm">
                   <span className="text-gray-400">
                     Estado{" "}
                     <span className="font-medium">
@@ -249,9 +249,9 @@ export function ProductDetail() {
                     </span>
                   </span>
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 text-sm">
                   <span className="text-gray-400">
-                    Vendedor{" "}
+                    Publicado por{" "}
                     <span className="font-medium">{formatedSellerName}</span>
                   </span>
                 </div>
