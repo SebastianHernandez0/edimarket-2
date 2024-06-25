@@ -25,12 +25,14 @@ export function ProductDetail() {
     setProductAlert,
     setProductById,
     handleGetProduct,
+    seller,
   } = useContext(ProductContext);
   const { openModalCart, addToCart, cart } = useContext(CartContext);
 
   const { userToken, handleGetFavs, inputRefs, handleDeleteFav } =
     useContext(UserContext);
 
+  const formatedSellerName = seller[0]?.nombre.split(" ").slice(0, 1);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -238,12 +240,16 @@ export function ProductDetail() {
                   <option value="4">4 unidades</option>
                   <option value="5">5 unidades</option>
                 </select>
-                <span className="my-4">
+                <span className="">
                   Estado:{" "}
                   <span className="font-medium">
                     {product?.estado.charAt(0).toUpperCase() +
                       product?.estado.slice(1)}
                   </span>
+                </span>
+                <span className="mb-4">
+                  Vendedor:{" "}
+                  <span className="font-medium">{formatedSellerName}</span>
                 </span>
               </div>
               <div className="card__info__btn__container">

@@ -5,7 +5,7 @@ export const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
-  const [productById, setProductById] = useState([]);
+  const [productById, setProductById] = useState(null);
   const [addedProducts, setAddedProducts] = useState([]);
   const [openCategories, setOpenCategories] = useState(false);
   const [addedToFav, setAddedToFav] = useState([]);
@@ -13,25 +13,25 @@ export function ProductProvider({ children }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
+  const [seller, setSeller] = useState("");
   const [productAlert, setProductAlert] = useState({
     succes: "",
     error: "",
     errorFav: "",
   });
 
-  const getUserById = async () => {
+  const getUserById = async (vendedor_id) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/usuarios/${productById?.vendedor_id}`
+        `http://localhost:3000/usuarios/${vendedor_id}`
       );
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al obtener usuario");
       }
-
-      const data = response.json();
-      console.log(data);
+      const data = await response.json();
+      setSeller(data);
       return data;
     } catch (error) {
       console.error("Error al obtener usuario:", error);
@@ -41,8 +41,10 @@ export function ProductProvider({ children }) {
   };
 
   useEffect(() => {
-    getUserById();
-  }, []);
+    if (productById && productById.vendedor_id) {
+      getUserById(productById.vendedor_id);
+    }
+  }, [productById]);
 
   const handleGetProducts = async () => {
     try {
@@ -124,6 +126,7 @@ export function ProductProvider({ children }) {
         productAlert,
         setProductAlert,
         handleGetProduct,
+        seller,
       }}
     >
       {children}
