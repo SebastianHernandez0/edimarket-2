@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
+import { Loader } from "../../components/loader/Loader";
 
 export function ProductList() {
   const { categoria } = useParams();
@@ -50,16 +51,16 @@ export function ProductList() {
 
   return (
     <div className="products__container">
+      <h1 className="products__title text-2xl font-normal">
+        Estás en la siguiente categoría :{" "}
+        <span className="font-semibold">
+          {categoria.charAt(0).toUpperCase() + categoria.slice(1)}
+        </span>
+      </h1>
       {loading ? (
-        <p className="text-center font-semibold text-lg">Cargando...</p>
+        <Loader />
       ) : (
         <div>
-          <h1 className="products__title text-2xl font-normal">
-            Estás en la siguiente categoría :{" "}
-            <span className="font-semibold">
-              {categoria.charAt(0).toUpperCase() + categoria.slice(1)}
-            </span>
-          </h1>
           <select
             onChange={handleSortChange}
             className="products__filter shadow-sm rounded-md py-1 px-2 w-60 text-center mt-10 border border-gray-300"

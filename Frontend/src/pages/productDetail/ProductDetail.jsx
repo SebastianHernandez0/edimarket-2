@@ -10,6 +10,7 @@ import { useRef } from "react";
 import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import { OverlayScreen } from "../../components/overlayScreen/OverlayScreen";
 import { UserContext } from "../../context/UserContext";
+import { Loader } from "../../components/loader/Loader";
 
 export function ProductDetail() {
   const {
@@ -191,7 +192,7 @@ export function ProductDetail() {
   return (
     <section className="productdetail__container">
       {loading ? (
-        <p className="text-center font-semibold text-lg">Cargando...</p>
+        <Loader />
       ) : (
         <div className="card__container">
           <OverlayScreen />

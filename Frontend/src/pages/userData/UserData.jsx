@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "../userData/userData.css";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
+import { Loader } from "../../components/loader/Loader";
 
 export function UserData() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ export function UserData() {
   };
 
   const { user } = useContext(UserContext);
-  console.log(user);
+
   return (
     <section className="personaldata__container bg-white shadow-sm rounded-sm">
       <h1 className="text-2xl font-semibold mb-5">Datos personales</h1>
