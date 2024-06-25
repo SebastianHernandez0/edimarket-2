@@ -1,7 +1,7 @@
 .navbar__container {
   grid-area: navbar;
   position: sticky;
-  top:0;
+  top: 0;
   width: 100%;
   display: grid;
   align-items: center;
@@ -230,6 +230,7 @@
   .navbar__search__container {
     width: 100%;
     max-width: 450px;
+    min-width: 200px;
   }
   .navbar__search__icon__insideinput {
     top: 8px;

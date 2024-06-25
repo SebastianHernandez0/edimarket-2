@@ -67,6 +67,10 @@ export function UserProvider({ children }) {
   const [userAddress, setUserAddress] = useState("");
   const [userCreditCards, setUserCreditCards] = useState([]);
   const [inputFormError, setInputFormError] = useState(initialFormError);
+  const [AddAddressSuccess, setAddAddressSuccess] = useState({
+    success: "",
+    error: "",
+  });
   const { setLoading, setAddedToFav, addedToFav, setProductAlert } =
     useContext(ProductContext);
 
@@ -252,6 +256,8 @@ export function UserProvider({ children }) {
         image_url_regex,
         handleGetFavs,
         handleDeleteFav,
+        AddAddressSuccess,
+        setAddAddressSuccess,
       }}
     >
       {children}

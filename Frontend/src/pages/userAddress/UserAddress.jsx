@@ -58,7 +58,6 @@ export function UserAddress() {
     const response = await fetch(
       `http://localhost:3000/usuarios/usuario/domicilio?userId=${user.id}`,
       {
-        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${userToken}`,

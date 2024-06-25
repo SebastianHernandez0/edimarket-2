@@ -33,6 +33,7 @@ import { NotFound } from "./pages/notFound/NotFound.jsx";
 import { UserCards } from "./pages/userCards/UserCards.jsx";
 import { AddUserCards } from "./pages/addUserCards/AddUserCards.jsx";
 import { MyPotsts } from "./pages/myPosts/MyPosts.jsx";
+import { EditUserAddress } from "./pages/editUserAddress/EditUserAddress.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -124,6 +125,12 @@ function App() {
           <Route
             path="/add-address"
             element={userToken ? <AddUserAdress /> : <Navigate to="/sign-in" />}
+          />
+          <Route
+            path="/edit-address"
+            element={
+              userToken ? <EditUserAddress /> : <Navigate to="/sign-in" />
+            }
           />
           <Route
             path="/my-credit-cards"

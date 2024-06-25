@@ -3,8 +3,7 @@
   padding: 25px;
   margin: 60px auto;
   width: 100%;
-  max-width: 1400px;
-  display: grid;
+  max-width: 1000px;
 }
 .add__btn {
   padding: 5px 10px;

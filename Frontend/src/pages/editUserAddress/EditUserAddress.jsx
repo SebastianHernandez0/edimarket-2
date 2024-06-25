@@ -1,10 +1,9 @@
-import { useContext, useState } from "react";
-import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
-import "../addUserAddress/addUserAddress.css";
+import { useContext } from "react";
+import "../editUserAddress/editUserAddress.css";
 import { UserContext } from "../../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 
-export function AddUserAdress() {
+export function EditUserAddress() {
   const {
     setInputFormError,
     userData,
@@ -17,43 +16,6 @@ export function AddUserAdress() {
     AddAddressSuccess,
     setAddAddressSuccess,
   } = useContext(UserContext);
-
-  const navigate = useNavigate();
-
-  const handleAddAddress = async (
-    idUsuario,
-    direccion,
-    numero_casa,
-    ciudad,
-    comuna,
-    region,
-    codigo_postal
-  ) => {
-    const response = await fetch("http://localhost:3000/usuarios/domicilio", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken}`,
-      },
-      body: JSON.stringify({
-        idUsuario,
-        direccion,
-        numero_casa,
-        ciudad,
-        comuna,
-        region,
-        codigo_postal,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al agregar domicilio");
-    }
-
-    const data = await response.json();
-    return data;
-  };
 
   const handleAddressSubmit = async (e) => {
     e.preventDefault();
@@ -95,16 +57,6 @@ export function AddUserAdress() {
       }));
     } else {
       try {
-        const res = await handleAddAddress(
-          user.id,
-          userData.direccion,
-          userData.numero,
-          userData.region,
-          userData.comuna,
-          userData.region,
-          userData.codigoPostal
-        );
-
         setAddAddressSuccess((prevState) => ({
           ...prevState,
           success: "¡Domicilio añadido!",
@@ -124,8 +76,8 @@ export function AddUserAdress() {
   };
 
   return (
-    <section className="adduseraddress__container bg-white shadow-sm rounded-sm">
-      <h1 className="">Añadir dirección</h1>
+    <section className="edituseraddress__container bg-white shadow-sm rounded-sm">
+      <h1 className="mb-5">Editar dirección</h1>
       <div className="edituseraddress__body">
         <form
           onSubmit={handleAddressSubmit}
