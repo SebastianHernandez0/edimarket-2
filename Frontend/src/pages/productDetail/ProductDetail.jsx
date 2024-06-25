@@ -27,9 +27,8 @@ export function ProductDetail() {
   } = useContext(ProductContext);
   const { openModalCart, addToCart, cart } = useContext(CartContext);
 
-  const { userToken, handleGetFavs } = useContext(UserContext);
+  const { userToken, handleGetFavs, inputRefs } = useContext(UserContext);
 
-  const timeoutRef = useRef(null);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -58,12 +57,12 @@ export function ProductDetail() {
       error: "",
     }));
 
-    timeoutRef.current = setTimeout(() => {
+    inputRefs.timeoutRef.current = setTimeout(() => {
       setProductAlert((prevState) => ({
         ...prevState,
         success: "",
       }));
-      timeoutRef.current = null;
+      inputRefs.timeoutRef.current = null;
     }, 2400);
 
     const data = response.json();
@@ -112,17 +111,17 @@ export function ProductDetail() {
         }));
 
         // Cancelamos el temporizador anterior si existe
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
+        if (inputRefs.timeoutRef.current) {
+          clearTimeout(inputRefs.timeoutRef.current);
         }
 
         // Establecemos un nuevo temporizador
-        timeoutRef.current = setTimeout(() => {
+        inputRefs.timeoutRef.current = setTimeout(() => {
           setProductAlert((prevState) => ({
             ...prevState,
             error: "",
           }));
-          timeoutRef.current = null; // Limpiamos la referencia al temporizador
+          inputRefs.timeoutRef.current = null; // Limpiamos la referencia al temporizador
         }, 2400);
       }
     }
@@ -136,12 +135,12 @@ export function ProductDetail() {
         errorFav: "Para añadir a favoritos inicia sesión o registrate.",
       }));
     }
-    timeoutRef.current = setTimeout(() => {
+    inputRefs.timeoutRef.current = setTimeout(() => {
       setProductAlert((prevState) => ({
         ...prevState,
         errorFav: "",
       }));
-      timeoutRef.current = null;
+      inputRefs.timeoutRef.current = null;
     }, 8000);
   };
 

@@ -6,8 +6,10 @@ import { CartAlert } from "../../components/cartAlert/CartAlert";
 import { UserContext } from "../../context/UserContext";
 
 export function Favorites() {
-  const { handleProductDetail, addedToFav, loading } =
+  const { handleProductDetail, addedToFav, loading, productAlert } =
     useContext(ProductContext);
+
+  const { handleDeleteFav } = useContext(UserContext);
 
   return (
     <section className="favorites__container bg-white shadow-sm">
@@ -38,7 +40,10 @@ export function Favorites() {
                           })
                         : null}
                     </p>
-                    <button className="favorites__card__info__btn font-bold text-blue-400">
+                    <button
+                      onClick={(e) => handleDeleteFav(e, product?.id)}
+                      className="favorites__card__info__btn font-bold text-blue-400"
+                    >
                       Eliminar
                     </button>
                   </div>
@@ -62,6 +67,17 @@ export function Favorites() {
           </div>
         )}
       </div>
+      {productAlert.errorFav ? (
+        <CartAlert>
+          <div>
+            <p className="card__cart__alert shadow-md rounded-md bg-slate-700">
+              {productAlert.errorFav}
+            </p>
+          </div>
+        </CartAlert>
+      ) : (
+        ""
+      )}
       {/*  {elementDeleted ? (
         <CartAlert>
           <div>
