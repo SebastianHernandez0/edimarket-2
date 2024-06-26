@@ -20,6 +20,15 @@ export function ProductProvider({ children }) {
     errorFav: "",
   });
 
+  useEffect(() => {
+    setProductAlert({
+      succes: "",
+      error: "",
+      errorFav: "",
+      errorCart:""
+    });
+  }, [navigate]);
+
   const getUserById = async (vendedor_id) => {
     setLoading(true);
     try {

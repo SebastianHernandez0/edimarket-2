@@ -53,14 +53,21 @@
 .card__cart__alert {
   color: var(--navbarColor);
   position: fixed;
-  top: 90%;
+  top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  max-width: 600px;
+  max-width: 400px;
   padding: 10px 20px;
   text-align: center;
   z-index: 200;
+}
+.card__cart__alert__icon {
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transform: scale(2.5);
 }
 
 /*VERSION DESKTOP*/
