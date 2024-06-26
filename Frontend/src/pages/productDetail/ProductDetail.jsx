@@ -29,7 +29,8 @@ export function ProductDetail() {
   } = useContext(ProductContext);
   const { openModalCart, addToCart, cart } = useContext(CartContext);
 
-  const { userToken, handleGetFavs, inputRefs, user } = useContext(UserContext);
+  const { userToken, handleGetFavs, inputRefs, user, handleAddedToCart } =
+    useContext(UserContext);
 
   const formatedSellerName = seller[0]?.nombre.split(" ").slice(0, 1);
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ export function ProductDetail() {
       }
       const data = response.json();
       openModalCart();
-
+      handleAddedToCart();
       return data;
     } catch (error) {
       console.error("Error al agregar al carrito:", error);

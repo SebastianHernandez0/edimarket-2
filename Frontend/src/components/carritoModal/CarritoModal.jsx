@@ -37,11 +37,11 @@ export function CarritoModal() {
           </h1>
           <div className="cart__cards__container">
             {cart.map((element) => (
-              <ProductCard key={element.id}>
+              <ProductCard key={element.carro_id}>
                 <div className="cart__card__body">
                   <img
                     className="cart__card__img shadow-md"
-                    src={element.href}
+                    src={element.imagen}
                     alt=""
                   />
                   <p className="card__card__paragraph text-md font-light">

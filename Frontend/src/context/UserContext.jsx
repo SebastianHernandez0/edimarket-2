@@ -1,6 +1,7 @@
 import { createContext, useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProductContext } from "./ProductContext";
+import { CartContext } from "./CarritoContext";
 
 export const UserContext = createContext();
 
@@ -73,6 +74,7 @@ export function UserProvider({ children }) {
   });
   const { setLoading, setAddedToFav, addedToFav, setProductAlert } =
     useContext(ProductContext);
+  const { setCart, cart } = useContext(CartContext);
 
   const inputRefs = {
     nombre: useRef(null),
@@ -98,6 +100,33 @@ export function UserProvider({ children }) {
     productStock: useRef(null),
     timeoutRef: useRef(null),
   };
+
+  const handleAddedToCart = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/carrito", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al obtener domicilio");
+      }
+
+      const data = await response.json();
+      setCart(data);
+      return data;
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleAddedToCart();
+  }, []);
 
   const handleUserAddress = async () => {
     try {
@@ -273,7 +302,6 @@ export function UserProvider({ children }) {
   return (
     <UserContext.Provider
       value={{
-        userToken,
         emailRegex,
         rutFormatRegex,
         onlyNumbersRegex,
@@ -282,6 +310,7 @@ export function UserProvider({ children }) {
         inputRefs,
         handleChange,
         inputFormError,
+        userToken,
         setInputFormError,
         user,
         setUser,
@@ -298,6 +327,7 @@ export function UserProvider({ children }) {
         AddAddressSuccess,
         setAddAddressSuccess,
         handleUserAddress,
+        handleAddedToCart,
       }}
     >
       {children}
