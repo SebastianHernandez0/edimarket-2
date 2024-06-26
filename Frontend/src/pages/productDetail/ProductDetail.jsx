@@ -19,7 +19,6 @@ export function ProductDetail() {
     productQuantity,
     handleProductQuantity,
     loading,
-    setLoading,
     product,
     setProduct,
     productAlert,
@@ -30,8 +29,7 @@ export function ProductDetail() {
   } = useContext(ProductContext);
   const { openModalCart, addToCart, cart } = useContext(CartContext);
 
-  const { userToken, handleGetFavs, inputRefs, handleDeleteFav } =
-    useContext(UserContext);
+  const { userToken, handleGetFavs, inputRefs, user } = useContext(UserContext);
 
   const formatedSellerName = seller[0]?.nombre.split(" ").slice(0, 1);
   const navigate = useNavigate();
@@ -40,6 +38,33 @@ export function ProductDetail() {
   useEffect(() => {
     handleGetProduct(id);
   }, [id, navigate]);
+
+  const handleAddToCart = async (idUsuario, idProducto, cantidad) => {
+    try {
+      const response = await fetch("http://localhost:3000/carrito", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          idUsuario,
+          idProducto,
+          cantidad,
+        }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al agregar al carrito");
+      }
+      const data = response.json();
+      openModalCart();
+
+      return data;
+    } catch (error) {
+      console.error("Error al agregar al carrito:", error);
+    }
+  };
 
   const handleAddToFav = async () => {
     try {
@@ -125,45 +150,7 @@ export function ProductDetail() {
     }
   };
 
-  /* const handleAddToCart = () => {
-    const productWithQuantity = {
-      ...productById,
-      cantidad: productQuantity,
-    };
-
-    if (!cart.some((product) => product.id === productById.id)) {
-      addToCart(productWithQuantity);
-      openModalCart();
-    } else {
-      const productAdded = cart.find(
-        (product) => product.id === productById.id
-      );
-      if (productAdded) {
-        setProductAlert((prevState) => ({
-          ...prevState,
-          error: "Ya añadiste este producto al carrito.",
-          success: "",
-        }));
-
-        // Cancelamos el temporizador anterior si existe
-        if (inputRefs.timeoutRef.current) {
-          clearTimeout(inputRefs.timeoutRef.current);
-        }
-
-        // Establecemos un nuevo temporizador
-        inputRefs.timeoutRef.current = setTimeout(() => {
-          setProductAlert((prevState) => ({
-            ...prevState,
-            error: "",
-          }));
-          inputRefs.timeoutRef.current = null; // Limpiamos la referencia al temporizador
-        }, 2400);
-      }
-    }
-  };
- */
-
-  const handleNavigateToLogin = () => {
+  const handleNavigateToLogin = async () => {
     if (!userToken) {
       setProductAlert((prevState) => ({
         ...prevState,
@@ -178,16 +165,6 @@ export function ProductDetail() {
       inputRefs.timeoutRef.current = null;
     }, 8000);
   };
-
-  useEffect(() => {
-    if (navigate) {
-      setProductAlert({
-        success: "",
-        error: "",
-        errorFav: "",
-      });
-    }
-  }, [navigate]);
 
   return (
     <section className="productdetail__container">
@@ -229,8 +206,8 @@ export function ProductDetail() {
                   <span className="font-semibold">{product?.stock}</span>
                 </p>
                 <select
-                  /*   onChange={handleProductQuantity}
-                  value={productQuantity} */
+                  onChange={handleProductQuantity}
+                  value={productQuantity}
                   className="w-1/2 font-medium mb-5 px-2 border rounded-md active: outline-none cursor-pointer"
                   name="quantity"
                   id=""
@@ -266,7 +243,9 @@ export function ProductDetail() {
                   <NavLink to="/shipping">Comprar ahora</NavLink>
                 </GeneralBtn>
                 <GeneralBtn
-                  /*   onClick={handleAddToCart} */
+                  onClick={() =>
+                    handleAddToCart(user.id, parseInt(id), productQuantity)
+                  }
                   className="card__info__btn card__info__btn__cart"
                   type="primary"
                 >
