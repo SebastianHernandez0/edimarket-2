@@ -14,7 +14,8 @@ const {
   ModifyUser,
   consultarProductosPerUser,
   modificarDomicilio,
-  deleteProductoDelUsuario
+  deleteProductoDelUsuario,
+  deletePaymentMethod
 } = require("../controllers/userController");
 
 const verificarToken= require("../middlewares/verificarToken");
@@ -32,5 +33,6 @@ router.get("/usuario/metodosPago",verificarToken, consultarPaymentMethods);
 router.delete("/",verificarToken, deleteUser);
 router.put("/",verificarToken, ModifyUser);
 router.delete("/:idProducto",verificarToken, deleteProductoDelUsuario);
+router.delete("/usuario/metodosPago/:idMetodoDePago",verificarToken, deletePaymentMethod);
 
 module.exports = router;

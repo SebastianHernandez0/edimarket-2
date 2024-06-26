@@ -16,7 +16,8 @@ const {
   modificarUsuario,
   consultarProductosPorUsuario,
   modificarDireccion,
-  eliminarProductoDelUsuario
+  eliminarProductoDelUsuario,
+  eliminarMetodoDePago
 } = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
@@ -192,6 +193,25 @@ const agregarPaymentMethod = async (req, res) => {
   }
 };
 
+const deletePaymentMethod = async (req, res) => {
+  try {
+    const { idMetodoDePago } = req.params;
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET);
+    const { email, id } = jwt.decode(token);
+    await eliminarMetodoDePago(idMetodoDePago, id);
+    console.log(
+      `El usuario ${email} con el id ${id} ha eliminado un metodo de pago`
+    );
+    res.status(200).json({
+      message: "Metodo de pago eliminado",
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const consultarPaymentMethods = async (req, res) => {
   try {
     const Authorization = req.header("Authorization");
@@ -205,6 +225,7 @@ const consultarPaymentMethods = async (req, res) => {
     res.json({
       metodos: metodos.map((metodo) => {
         return {
+          id: metodo.id,
           tipo_tarjeta: metodo.tipo_tarjeta,
           numero_tarjeta: metodo.numero_tarjeta,
           nombre_titular: metodo.nombre_titular,
@@ -348,6 +369,7 @@ module.exports = {
   ModifyUser,
   consultarProductosPerUser,
   modificarDomicilio,
-  deleteProductoDelUsuario
+  deleteProductoDelUsuario,
+  deletePaymentMethod
 };                              
 

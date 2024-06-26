@@ -254,6 +254,13 @@ const agregarMetodoDePago = async (metodoDePago, idUsuario) => {
   return console.log("Metodo de pago agregado");
 };
 
+const eliminarMetodoDePago = async (idMetodoDePago, idUsuario) => {
+  const values = [idMetodoDePago, idUsuario];
+  const consulta = "DELETE FROM metodos_pago WHERE id=$1 AND usuario_id=$2";
+  await db.query(consulta, values);
+  return console.log("Metodo de pago eliminado");
+};
+
 const agregarFavorito = async (idProducto, idUsuario) => {
   const values = [idUsuario, idProducto];
   const favoritos = await consultarFavoritos(idUsuario);
@@ -369,6 +376,7 @@ module.exports = {
   modificarProducto,
   consultarProductosPorUsuario,
   modificarDireccion,
-  eliminarProductoDelUsuario
+  eliminarProductoDelUsuario,
+  eliminarMetodoDePago
 
 };
