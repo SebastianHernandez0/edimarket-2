@@ -120,7 +120,7 @@ function App() {
             element={userToken ? <MyPotsts /> : <Navigate to="/sign-in" />}
           />
           <Route
-            path="/edit-post"
+            path="/edit-post/:id"
             element={userToken ? <EditMyPost /> : <Navigate to="/sign-in" />}
           />
           <Route

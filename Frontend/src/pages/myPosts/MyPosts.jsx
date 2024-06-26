@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import "../myPosts/myPosts.css";
 import { ProductContext } from "../../context/ProductContext";
@@ -13,8 +13,8 @@ export function MyPotsts() {
 
   const myProducts = products.filter((product) => product.vendedor === 12);
 
-  const handleEditProduct = () => {
-    navigate("/edit-post/");
+  const handleEditProduct = (id) => {
+    navigate(`/edit-post/${id}`);
   };
 
   return (
@@ -49,7 +49,7 @@ export function MyPotsts() {
             </div>
             <div className="myposts__btn__container">
               <GeneralBtn
-                onClick={handleEditProduct}
+                onClick={() => handleEditProduct(product?.id)}
                 className="myposts__btn"
                 type="secondary"
               >

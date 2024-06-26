@@ -255,7 +255,7 @@ export function CreatePost() {
               ref={inputRefs.precio}
               onChange={handleChange}
               name="precio"
-              value={userData.precio}
+              value={userData.precio || ""}
               className={`createpost__card__input ${
                 inputFormError.errorPrecio
                   ? "focus: outline-2 outline outline-red-600"
@@ -292,6 +292,13 @@ export function CreatePost() {
                 <option value="telefonia">Telefonía</option>
                 <option value="electrodomesticos">Electrodomésticos</option>
               </select>
+              {inputFormError.errorCategorias ? (
+                <p className="text-red-600 font-semibold text-sm">
+                  {inputFormError.errorCategorias}
+                </p>
+              ) : (
+                ""
+              )}
               <div className="flex flex-col ">
                 <input
                   onChange={handleChange}
@@ -314,13 +321,7 @@ export function CreatePost() {
                 )}
               </div>
             </div>
-            {inputFormError.errorCategorias ? (
-              <p className="text-red-600 font-semibold text-sm">
-                {inputFormError.errorCategorias}
-              </p>
-            ) : (
-              ""
-            )}
+
             <select
               ref={inputRefs.estado}
               onChange={handleChange}
