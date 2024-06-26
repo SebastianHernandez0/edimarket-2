@@ -42,26 +42,45 @@ export function ProductDetail() {
 
   const handleAddToCart = async (idUsuario, idProducto, cantidad) => {
     try {
-      const response = await fetch("http://localhost:3000/carrito", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-        body: JSON.stringify({
-          idUsuario,
-          idProducto,
-          cantidad,
-        }),
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al agregar al carrito");
+      const productAdded = cart.find(
+        (producto) => producto.producto_id === idProducto
+      );
+      if (productAdded) {
+        setProductAlert((prevState) => ({
+          ...prevState,
+          success: "",
+          error: "Ya añadiste este producto al carrito.",
+        }));
+        openModalCart();
+        inputRefs.timeoutRef.current = setTimeout(() => {
+          setProductAlert((prevState) => ({
+            ...prevState,
+            error: "",
+          }));
+          inputRefs.timeoutRef.current = null;
+        }, 2400);
+      } else {
+        const response = await fetch("http://localhost:3000/carrito", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify({
+            idUsuario,
+            idProducto,
+            cantidad,
+          }),
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al agregar al carrito");
+        }
+        const data = response.json();
+        openModalCart();
+        handleAddedToCart();
+        return data;
       }
-      const data = response.json();
-      openModalCart();
-      handleAddedToCart();
-      return data;
     } catch (error) {
       console.error("Error al agregar al carrito:", error);
     }
