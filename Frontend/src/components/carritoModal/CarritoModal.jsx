@@ -14,27 +14,31 @@ export function CarritoModal() {
 
   const handleDeleteProduct = async (product_id, usuario_id) => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/carrito/${product_id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`,
-          },
-          body: JSON.stringify({
-            usuario_id,
-          }),
+      if (userToken) {
+        const response = await fetch(
+          `http://localhost:3000/carrito/${product_id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+            body: JSON.stringify({
+              usuario_id,
+            }),
+          }
+        );
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al eliminar del carrito");
         }
-      );
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al eliminar del carrito");
-      }
-      const data = response.json();
-      handleAddedToCart();
+        const data = response.json();
+        handleAddedToCart();
 
-      return data;
+        return data;
+      } else {
+        return;
+      }
     } catch (error) {
       console.error("Error al elimninar del carrito:", error);
     }

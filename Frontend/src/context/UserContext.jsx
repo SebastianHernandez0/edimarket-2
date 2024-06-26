@@ -103,20 +103,24 @@ export function UserProvider({ children }) {
 
   const handleAddedToCart = async () => {
     try {
-      const response = await fetch("http://localhost:3000/carrito", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al obtener domicilio");
-      }
+      if (userToken) {
+        const response = await fetch("http://localhost:3000/carrito", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener domicilio");
+        }
 
-      const data = await response.json();
-      setCart(data);
-      return data;
+        const data = await response.json();
+        setCart(data);
+        return data;
+      } else {
+        return;
+      }
     } catch (error) {
       console.error("Error:", error.message);
     } finally {
@@ -130,32 +134,36 @@ export function UserProvider({ children }) {
 
   const handleUserAddress = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/usuarios/usuario/domicilio?userId=${user.id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`,
-          },
+      if (userToken) {
+        const response = await fetch(
+          `http://localhost:3000/usuarios/usuario/domicilio?userId=${user.id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener domicilio");
         }
-      );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al obtener domicilio");
+        const data = await response.json();
+
+        setUserAddress(
+          data.Domicilio.map((d) => {
+            return {
+              ...d,
+            };
+          })
+        );
+
+        return data;
+      } else {
+        return;
       }
-
-      const data = await response.json();
-
-      setUserAddress(
-        data.Domicilio.map((d) => {
-          return {
-            ...d,
-          };
-        })
-      );
-
-      return data;
     } catch (error) {
       console.error("Error:", error.message);
     } finally {
@@ -169,20 +177,24 @@ export function UserProvider({ children }) {
 
   const handleGetFavs = async () => {
     try {
-      const response = await fetch("http://localhost:3000/favoritos", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al obtener favoritos");
-      }
+      if (userToken) {
+        const response = await fetch("http://localhost:3000/favoritos", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener favoritos");
+        }
 
-      const data = await response.json();
-      setAddedToFav(data.favoritos);
-      return data;
+        const data = await response.json();
+        setAddedToFav(data.favoritos);
+        return data;
+      } else {
+        return;
+      }
     } catch (error) {
       console.error("Error:", error.message);
     } finally {

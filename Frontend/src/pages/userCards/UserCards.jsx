@@ -14,36 +14,43 @@ export function UserCards() {
   };
   const { userToken, user, userCreditCards, setUserCreditCards } =
     useContext(UserContext);
-  const { loading } = useContext(ProductContext);
+  const { loading, setLoading } = useContext(ProductContext);
 
   const handleUserCards = async () => {
-    const response = await fetch(
-      `http://localhost:3000/usuarios/usuario/metodosPago/?idUsuario=${user.id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
+    try {
+      if (userToken) {
+        const response = await fetch(
+          `http://localhost:3000/usuarios/usuario/metodosPago/?idUsuario=${user.id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener tarjetas");
+        }
+
+        const data = await response.json();
+
+        setUserCreditCards(
+          data.metodos.map((d) => {
+            return {
+              ...d,
+            };
+          })
+        );
+
+        return data;
       }
-    );
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al obtener tarjetas");
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
     }
-
-    const data = await response.json();
-
-    setUserCreditCards(
-      data.metodos.map((d) => {
-        return {
-          ...d,
-        };
-      })
-    );
-
-    return data;
   };
 
   useEffect(() => {
