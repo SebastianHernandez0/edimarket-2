@@ -57,12 +57,18 @@ const consultarUsuarioById = async (id) => {
 };
 
 const modificarUsuario = async (id, usuario) => {
-  const {nombre,email, contraseña} = usuario;
-  const values = [nombre,email,contraseña,id];
+  let {nombre,email, contraseña} = usuario;
+  const databaseUser = await consultarUsuario();
+  if (databaseUser.find((user) => user.email == email)) {
+    throw new Error("El usuario ya existe");
+  }
+  validarUsuario.parse(usuario);
+  const hashedPassword = bcrypt.hashSync(contraseña);
+  contraseña = hashedPassword;
+  const values = [nombre,email,hashedPassword,id];
   const consulta= "UPDATE usuarios SET nombre=$1,email=$2,contraseña=$3 WHERE id=$4";
   await db.query(consulta,values);
   return console.log("Usuario modificado");
-
 }
 
 const registrarUsuario = async (usuario) => {
@@ -180,8 +186,8 @@ const modificarProducto= async (idUsuario,idProducto,producto)=>{
 
 const agregarDirreccion = async (domicilio, idUsuario) => {
   const domicilios = await consultarDirreccion(idUsuario);
-  if (domicilios.length > 0) {
-    throw new Error("ya existe una direccion asociada a este usuario");
+  if (domicilios.length > 2) {
+    throw new Error("Superó el número máximo de direcciones");
   } else {
     let { direccion, numero_casa, ciudad, comuna, region, codigo_postal } =
       domicilio;
