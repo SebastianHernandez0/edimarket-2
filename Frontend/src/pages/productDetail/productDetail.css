@@ -51,6 +51,7 @@
   font-size: 2rem;
 }
 .card__cart__alert {
+  overflow: hidden;
   color: var(--navbarColor);
   position: fixed;
   top: 85%;
@@ -63,11 +64,15 @@
   z-index: 200;
 }
 .card__cart__alert__icon {
+  border-radius: 50%;
   cursor: pointer;
   position: absolute;
   top: 10px;
   right: 10px;
   transform: scale(2.5);
+}
+.card__cart__alert__icon:hover {
+  background-color: #a8a8a85d;
 }
 
 /*VERSION DESKTOP*/
