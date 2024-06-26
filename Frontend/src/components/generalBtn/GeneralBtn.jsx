@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 
 export const GeneralBtn = forwardRef(
-  ({ type, className, children, onClick, style }, ref) => {
+  ({ type, className, children, onClick, style, disabled }, ref) => {
     const getButtonClass = () => {
       switch (type) {
         case "primary":
@@ -17,6 +17,7 @@ export const GeneralBtn = forwardRef(
 
     return (
       <button
+        disabled={disabled}
         ref={ref}
         style={style}
         className={`${getButtonClass()} ${className}`}

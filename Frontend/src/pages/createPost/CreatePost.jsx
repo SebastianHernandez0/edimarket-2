@@ -387,7 +387,11 @@ export function CreatePost() {
                 </p>
               )}
             </div>
-            <GeneralBtn type="secondary" className="createpost__form__btn my-4">
+            <GeneralBtn
+              type="secondary"
+              disabled={false}
+              className="createpost__form__btn my-4"
+            >
               Crear publicación
             </GeneralBtn>
           </div>

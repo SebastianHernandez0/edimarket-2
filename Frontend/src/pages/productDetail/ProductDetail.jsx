@@ -367,14 +367,14 @@ export function ProductDetail() {
             }}
           >
             <div className="card__cart__alert__container">
-              <div className="card__cart__alert shadow-md rounded-md bg-slate-700 text-sm sm:text-lg">
+              <div className="card__cart__alert shadow-lg rounded-md bg-slate-700 text-sm sm:text-lg">
                 <div className="flex flex-col">
                   <ModalIcon
                     ref={modalIconRef}
                     onClick={handleClose}
                     className="card__cart__alert__icon"
                   />
-                  <span className="font-semibold text-2xl">¡HOLA!</span>
+                  <span className="font-semibold text-2xl mb-2">¡HOLA!</span>
                   <span>{productAlert.errorFav}</span>
                 </div>
                 <div className="flex gap-5 items-center justify-center mt-5 ">
