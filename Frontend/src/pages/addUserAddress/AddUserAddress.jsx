@@ -3,6 +3,7 @@ import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import "../addUserAddress/addUserAddress.css";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { ProductContext } from "../../context/ProductContext";
 
 export function AddUserAdress() {
   const {
@@ -16,9 +17,9 @@ export function AddUserAdress() {
     userToken,
     AddAddressSuccess,
     setAddAddressSuccess,
-    setLoading,
+    handleUserAddress,
   } = useContext(UserContext);
-
+  const { setLoading } = useContext(ProductContext);
   const navigate = useNavigate();
 
   const handleAddAddress = async (
@@ -58,6 +59,7 @@ export function AddUserAdress() {
         }
 
         const data = await response.json();
+        handleUserAddress();
         return data;
       } else {
         return;

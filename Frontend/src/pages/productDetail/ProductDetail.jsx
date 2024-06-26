@@ -289,19 +289,33 @@ export function ProductDetail() {
                   Stock disponible{" "}
                   <span className="font-semibold">{product?.stock}</span>
                 </p>
-                <select
-                  onChange={handleProductQuantity}
-                  value={productQuantity}
-                  className="w-1/2 font-medium mb-5 px-2 border rounded-md active: outline-none cursor-pointer"
-                  name="quantity"
-                  id=""
-                >
-                  <option value="1">1 unidad</option>
-                  <option value="2">2 unidades</option>
-                  <option value="3">3 unidades</option>
-                  <option value="4">4 unidades</option>
-                  <option value="5">5 unidades</option>
-                </select>
+                <div className="flex flex-col mb-4">
+                  <select
+                    disabled={product?.stock === 0 ? true : false}
+                    onChange={handleProductQuantity}
+                    value={productQuantity}
+                    className="w-1/2 font-medium mb-5 px-2 border rounded-md active: outline-none cursor-pointer"
+                    name="quantity"
+                    id=""
+                  >
+                    <option value="1">1 unidad</option>
+                    <option value="2">2 unidades</option>
+                    <option value="3">3 unidades</option>
+                    <option value="4">4 unidades</option>
+                    <option value="5">5 unidades</option>
+                  </select>
+                  {product?.stock < productQuantity ? (
+                    <div className="flex items-center gap-1 text-red-600">
+                      <IoAlertCircleOutline className="text-xl" />
+                      <span className="text-sm font-semibold">
+                        La selección supera el stock disponible.
+                      </span>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+
                 <div className="mb-4 text-sm">
                   <span className="text-gray-400">
                     Estado{" "}
@@ -342,7 +356,11 @@ export function ProductDetail() {
                         ? "brightness(70%)"
                         : "brightness(100%)",
                   }}
-                  disabled={product?.stock === 0 ? true : false}
+                  disabled={
+                    product?.stock === 0 || product?.stock < productQuantity
+                      ? true
+                      : false
+                  }
                   className="card__info__btn card__info__btn__buy"
                   type="secondary"
                 >
@@ -364,7 +382,11 @@ export function ProductDetail() {
                         ? "brightness(70%)"
                         : "brightness(100%)",
                   }}
-                  disabled={product?.stock === 0 ? true : false}
+                  disabled={
+                    product?.stock === 0 || product?.stock < productQuantity
+                      ? true
+                      : false
+                  }
                 >
                   Agregar al carrito
                 </GeneralBtn>

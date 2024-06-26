@@ -41,6 +41,10 @@
 .btn__trash {
   transform: scale(1.6);
 }
+.post__img {
+  width: 100%;
+  max-width: 200px;
+}
 
 @media (min-width: 576px) {
   .myposts__card__paragraph {
