@@ -2,6 +2,8 @@ import { useContext, useState, useEffect } from "react";
 import "../editMyPost/editMyPost.css";
 import { UserContext } from "../../context/UserContext";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
+import { useNavigate, useParams } from "react-router-dom";
+import { ProductContext } from "../../context/ProductContext";
 
 export function EditMyPost() {
   const {
@@ -15,12 +17,55 @@ export function EditMyPost() {
     userToken,
     setUserData,
     initialUserData,
+    user,
   } = useContext(UserContext);
+  const { handleGetProducts, setLoading } = useContext(ProductContext);
 
   const [editPostSuccess, setEditPostSuccess] = useState({
     success: "",
     error: "",
   });
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const handleEditPost = async (
+    nombre,
+    descripcion,
+    estado,
+    precio,
+    stock,
+    imagen,
+    idUsuatio
+  ) => {
+    try {
+      const response = await fetch(`http://localhost:3000/productos/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          nombre,
+          descripcion,
+          estado,
+          precio,
+          stock,
+          imagen,
+          idUsuatio,
+        }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al subir producto");
+      }
+      const data = response.json();
+      return data;
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
@@ -50,11 +95,6 @@ export function EditMyPost() {
         ...prevErrors,
         errorPrecio: "Ingresa solo números.",
       }));
-    } else if (userData.categorias === "") {
-      setInputFormError((prevErrors) => ({
-        ...prevErrors,
-        errorCategorias: "Selecciona una categoria.",
-      }));
     } else if (userData.productStock === "") {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
@@ -77,11 +117,33 @@ export function EditMyPost() {
       }));
     } else {
       try {
+        const res = await handleEditPost(
+          userData.titulo,
+          userData.descripcion,
+          userData.estado,
+          userData.precio,
+          userData.productStock,
+          userData.postimg,
+          user.id
+        );
+        setEditPostSuccess((prevData) => ({
+          ...prevData,
+          success: "Has modificado tu producto.",
+        }));
+        setUserData(initialUserData);
+        setTimeout(() => {
+          setEditPostSuccess((prevData) => ({
+            ...prevData,
+            success: "",
+          }));
+          navigate("/my-posts");
+        }, 1500);
+        handleGetProducts();
       } catch (error) {
         console.error("Error:", error.message);
         setEditPostSuccess((prevData) => ({
           ...prevData,
-          error: "No pudimos publicar tu producto :(",
+          error: "No pudimos actualizar tu producto :(",
         }));
         setTimeout(() => {
           setEditPostSuccess((prevData) => ({
@@ -179,33 +241,6 @@ export function EditMyPost() {
                 ""
               )}
               <div className="createpost__select__container">
-                <select
-                  ref={inputRefs.categorias}
-                  onChange={handleChange}
-                  className={`createpost__card__input ${
-                    inputFormError.errorCategorias
-                      ? "focus: outline-2 outline outline-red-600"
-                      : "focus: outline-2 outline-green-300"
-                  }`}
-                  name="categorias"
-                  value={userData.categorias}
-                  id="categorias"
-                >
-                  <option value="">Categorías</option>
-                  <option value="consolas">Consolas</option>
-                  <option value="accesorios">Accesorios</option>
-                  <option value="monitores">Monitores</option>
-                  <option value="componentes">Componentes</option>
-                  <option value="telefonia">Telefonía</option>
-                  <option value="electrodomesticos">Electrodomésticos</option>
-                </select>
-                {inputFormError.errorCategorias ? (
-                  <p className="text-red-600 font-semibold text-sm">
-                    {inputFormError.errorCategorias}
-                  </p>
-                ) : (
-                  ""
-                )}
                 <div className="flex flex-col ">
                   <input
                     onChange={handleChange}

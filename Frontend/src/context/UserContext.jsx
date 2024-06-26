@@ -100,32 +100,38 @@ export function UserProvider({ children }) {
   };
 
   const handleUserAddress = async () => {
-    const response = await fetch(
-      `http://localhost:3000/usuarios/usuario/domicilio?userId=${user.id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
+    try {
+      const response = await fetch(
+        `http://localhost:3000/usuarios/usuario/domicilio?userId=${user.id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al obtener domicilio");
       }
-    );
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al obtener domicilio");
+      const data = await response.json();
+
+      setUserAddress(
+        data.Domicilio.map((d) => {
+          return {
+            ...d,
+          };
+        })
+      );
+
+      return data;
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
     }
-
-    const data = await response.json();
-
-    setUserAddress(
-      data.Domicilio.map((d) => {
-        return {
-          ...d,
-        };
-      })
-    );
-
-    return data;
   };
 
   useEffect(() => {

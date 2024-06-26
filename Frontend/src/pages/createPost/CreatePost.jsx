@@ -40,29 +40,33 @@ export function CreatePost() {
     imagen,
     categoria
   ) => {
-    const response = await fetch("http://localhost:3000/productos", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken}`,
-      },
-      body: JSON.stringify({
-        nombre,
-        descripcion,
-        estado,
-        precio,
-        stock,
-        imagen,
-        categoria,
-      }),
-    });
+    try {
+      const response = await fetch("http://localhost:3000/productos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          nombre,
+          descripcion,
+          estado,
+          precio,
+          stock,
+          imagen,
+          categoria,
+        }),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al subir producto");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al subir producto");
+      }
+      const data = response.json();
+      return data;
+    } catch (error) {
+      console.error("Error al eliminar favorito", error);
     }
-    const data = response.json();
-    return data;
   };
 
   const handlePostSubmit = async (e) => {

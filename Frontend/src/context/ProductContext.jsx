@@ -130,6 +130,7 @@ export function ProductProvider({ children }) {
         setProductAlert,
         handleGetProduct,
         seller,
+        handleGetProducts,
       }}
     >
       {children}
