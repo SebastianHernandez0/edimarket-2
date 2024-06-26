@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "../userData/userData.css";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
+import { Loader } from "../../components/loader/Loader";
 
 export function UserData() {
   const navigate = useNavigate();
@@ -30,6 +31,16 @@ export function UserData() {
             <div className="flex flex-col">
               <p className="font-semibold mb-1 text-lg">Email</p>
               <p className="text-sm">{user.email}</p>
+            </div>
+          </div>
+        </div>
+        <div className="personaldata__email flex items-center justify-between my-5">
+          <div className="flex items-center gap-10 flex-wrap w-full">
+            <div className="flex flex-col">
+              <p className="font-semibold mb-1 text-lg">Contraseña</p>
+              <p className="text-sm">
+                {"*".repeat(Math.min(user.contraseña.length, 10))}
+              </p>
             </div>
           </div>
         </div>

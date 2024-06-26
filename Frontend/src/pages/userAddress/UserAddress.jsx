@@ -6,6 +6,8 @@ import { UserAddressModal } from "../../components/userAddressModal/UserAddressM
 import { UserContext } from "../../context/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
+import { Loader } from "../../components/loader/Loader";
+import { ProductContext } from "../../context/ProductContext";
 
 const EditIcon = forwardRef((props, ref) => (
   <div ref={ref}>
@@ -15,8 +17,8 @@ const EditIcon = forwardRef((props, ref) => (
 
 export function UserAddress() {
   const [openEditModal, setOpenEditModal] = useState(false);
-  const { user, userToken, userAddress, setUserAddress } =
-    useContext(UserContext);
+  const { user, userAddress } = useContext(UserContext);
+  const { loading } = useContext(ProductContext);
   const navigate = useNavigate();
   const addressRef = {
     iconRef: useRef(null),
@@ -54,97 +56,79 @@ export function UserAddress() {
     navigate("/add-address");
   };
 
-  const handleUserAddress = async () => {
-    const response = await fetch(
-      `http://localhost:3000/usuarios/usuario/domicilio?userId=${user.id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al obtener domicilio");
-    }
-
-    const data = await response.json();
-
-    setUserAddress(
-      data.Domicilio.map((d) => {
-        return {
-          ...d,
-        };
-      })
-    );
-
-    return data;
-  };
-
-  useEffect(() => {
-    handleUserAddress();
-  }, []);
-
   return (
     <section className="useraddress__container bg-white shadow-sm rounded-sm">
       <h1 className="text-2xl font-semibold mb-5">Direcciones</h1>
-      {userAddress.length > 0 ? (
-        userAddress.map((address) => (
-          <div
-            key={address.numero_casa}
-            className="useradress__body flex justify-between"
-          >
-            <div className="w-full">
-              <hr className="w-full" />
-              <div className="direccion flex flex-col gap-2 my-3">
-                <div className="flex gap-2 items-center font-medium">
-                  <HiHome className="text-2xl" />
-                  <span>
-                    {address.direccion.charAt(0).toUpperCase() +
-                      address.direccion.slice(1)}
-                    <span>{address.numero_casa}</span>
-                  </span>
-                </div>
-                <div className="region-comuna pl-8 text-sm">
-                  <span className="">Región</span>{" "}
-                  <span>
-                    {address.region.charAt(0).toUpperCase() +
-                      address.region.slice(1)}
-                  </span>
-                </div>
-                <span className="usuario pl-8 text-sm">
-                  {user.nombre.charAt(0).toUpperCase() + user.nombre.slice(1)}
-                </span>
-              </div>
-            </div>
-            <div className="edit__icon">
-              <EditIcon
-                ref={addressRef.iconRef}
-                onClick={handleOpenEditModal}
-                className="text-xl mt-3 cursor-pointer"
-              />
-              {openEditModal ? (
-                <UserAddressModal ref={addressRef.modalRef} />
-              ) : null}
-            </div>
-          </div>
-        ))
+      {loading ? (
+        <Loader />
       ) : (
-        <div className="flex flex-col gap-3 items-center sm: my-5">
-          <p className="font-semibold">Agrega una dirección de entrega</p>
-          <GeneralBtn
-            onClick={handleNavigateToAdd}
-            type="secondary"
-            className=""
-          >
-            Añadir
-          </GeneralBtn>
+        <div>
+          {userAddress.length > 0 ? (
+            userAddress.map((address) => (
+              <div
+                key={address.numero_casa}
+                className="useradress__body flex justify-between"
+              >
+                <div className="w-full">
+                  <hr className="w-full" />
+                  <div className="direccion flex flex-col gap-2 my-3">
+                    <div className="flex gap-2 items-center font-medium">
+                      <HiHome className="text-2xl" />
+                      <span>
+                        {address.direccion.charAt(0).toUpperCase() +
+                          address.direccion.slice(1)}{" "}
+                        <span>{address.numero_casa}</span>
+                      </span>
+                    </div>
+                    <div className="region-comuna pl-8 text-sm">
+                      <span className="">Región</span>{" "}
+                      <span>
+                        {address.region.charAt(0).toUpperCase() +
+                          address.region.slice(1)}
+                      </span>{" "}
+                      <span className="">De Santiago</span>
+                    </div>
+                    <div className="region-comuna pl-8 text-sm">
+                      <span className="">Comuna</span>{" "}
+                      <span>
+                        {address.comuna
+                          .replace(/-/g, " ")
+                          .replace(/\b\w/g, (char) => char.toUpperCase())}
+                      </span>
+                    </div>
+                    <span className="usuario pl-8 text-sm">
+                      {user.nombre.charAt(0).toUpperCase() +
+                        user.nombre.slice(1)}
+                    </span>
+                  </div>
+                </div>
+                <div className="edit__icon">
+                  <EditIcon
+                    ref={addressRef.iconRef}
+                    onClick={handleOpenEditModal}
+                    className="text-xl mt-3 cursor-pointer"
+                  />
+                  {openEditModal ? (
+                    <UserAddressModal ref={addressRef.modalRef} />
+                  ) : null}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="flex flex-col gap-3 items-center sm: my-5">
+              <p className="font-semibold">Agrega una dirección de entrega</p>
+              <GeneralBtn
+                onClick={handleNavigateToAdd}
+                type="secondary"
+                className=""
+              >
+                Añadir
+              </GeneralBtn>
+            </div>
+          )}
+          <hr />
         </div>
       )}
-      <hr />
     </section>
   );
 }

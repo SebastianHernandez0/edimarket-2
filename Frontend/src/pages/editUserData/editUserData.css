@@ -3,7 +3,7 @@
   padding: 25px;
   margin: 60px auto;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1000px;
 }
 .edituserdata__body {
   display: flex;
@@ -25,7 +25,18 @@
 .edituserdata__form {
   width: 300px;
 }
+.user__input__container {
+  position: relative;
+  width: 100%;
+}
 
+.input__eye__icon__user {
+  position: absolute;
+  top: 35px;
+  right: 8%;
+  font-size: 1.7rem;
+  color: var(--dark_2);
+}
 @media (min-width: 576px) {
   .edituserdata__form {
     width: 450px;

@@ -1,6 +1,7 @@
 import { createContext, useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProductContext } from "./ProductContext";
+import { CartContext } from "./CarritoContext";
 
 export const UserContext = createContext();
 
@@ -64,11 +65,16 @@ export function UserProvider({ children }) {
   const image_url_regex = /\bhttps?:\/\/\S+\.(?:png|jpe?g|gif|webp)\b/;
   const [userData, setUserData] = useState(initialUserData);
   const [user, setUser] = useState(initialStateUser);
-  const [userAddress, setUserAddress] = useState("");
+  const [userAddress, setUserAddress] = useState([]);
   const [userCreditCards, setUserCreditCards] = useState([]);
   const [inputFormError, setInputFormError] = useState(initialFormError);
+  const [AddAddressSuccess, setAddAddressSuccess] = useState({
+    success: "",
+    error: "",
+  });
   const { setLoading, setAddedToFav, addedToFav, setProductAlert } =
     useContext(ProductContext);
+  const { setCart, cart } = useContext(CartContext);
 
   const inputRefs = {
     nombre: useRef(null),
@@ -95,22 +101,100 @@ export function UserProvider({ children }) {
     timeoutRef: useRef(null),
   };
 
+  const handleAddedToCart = async () => {
+    try {
+      if (userToken) {
+        const response = await fetch("http://localhost:3000/carrito", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener domicilio");
+        }
+
+        const data = await response.json();
+        setCart(data);
+        return data;
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleAddedToCart();
+  }, [userToken]);
+
+  const handleUserAddress = async () => {
+    try {
+      if (userToken) {
+        const response = await fetch(
+          `http://localhost:3000/usuarios/usuario/domicilio?userId=${user.id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener domicilio");
+        }
+
+        const data = await response.json();
+
+        setUserAddress(
+          data.Domicilio.map((d) => {
+            return {
+              ...d,
+            };
+          })
+        );
+
+        return data;
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleUserAddress();
+  }, [userToken]);
+
   const handleGetFavs = async () => {
     try {
-      const response = await fetch("http://localhost:3000/favoritos", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al obtener favoritos");
-      }
+      if (userToken) {
+        const response = await fetch("http://localhost:3000/favoritos", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener favoritos");
+        }
 
-      const data = await response.json();
-      setAddedToFav(data.favoritos);
-      return data;
+        const data = await response.json();
+        setAddedToFav(data.favoritos);
+        return data;
+      } else {
+        return;
+      }
     } catch (error) {
       console.error("Error:", error.message);
     } finally {
@@ -230,7 +314,6 @@ export function UserProvider({ children }) {
   return (
     <UserContext.Provider
       value={{
-        userToken,
         emailRegex,
         rutFormatRegex,
         onlyNumbersRegex,
@@ -239,6 +322,7 @@ export function UserProvider({ children }) {
         inputRefs,
         handleChange,
         inputFormError,
+        userToken,
         setInputFormError,
         user,
         setUser,
@@ -252,6 +336,10 @@ export function UserProvider({ children }) {
         image_url_regex,
         handleGetFavs,
         handleDeleteFav,
+        AddAddressSuccess,
+        setAddAddressSuccess,
+        handleUserAddress,
+        handleAddedToCart,
       }}
     >
       {children}

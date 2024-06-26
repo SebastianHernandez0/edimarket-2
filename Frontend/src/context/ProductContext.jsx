@@ -5,7 +5,7 @@ export const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState([]);
-  const [productById, setProductById] = useState([]);
+  const [productById, setProductById] = useState(null);
   const [addedProducts, setAddedProducts] = useState([]);
   const [openCategories, setOpenCategories] = useState(false);
   const [addedToFav, setAddedToFav] = useState([]);
@@ -13,13 +13,51 @@ export function ProductProvider({ children }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
+  const [seller, setSeller] = useState("");
   const [productAlert, setProductAlert] = useState({
     succes: "",
     error: "",
     errorFav: "",
   });
 
+  useEffect(() => {
+    setProductAlert({
+      succes: "",
+      error: "",
+      errorFav: "",
+      errorCart:""
+    });
+  }, [navigate]);
+
+  const getUserById = async (vendedor_id) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `http://localhost:3000/usuarios/${vendedor_id}`
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al obtener usuario");
+      }
+      const data = await response.json();
+      setSeller(data);
+      return data;
+    } catch (error) {
+      console.error("Error al obtener usuario:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (productById && productById.vendedor_id) {
+      getUserById(productById.vendedor_id);
+    }
+  }, [productById]);
+
   const handleGetProducts = async () => {
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:3000/productos");
       if (!response.ok) {
@@ -50,20 +88,26 @@ export function ProductProvider({ children }) {
     handleGetProducts();
   }, []);
 
-  const handleProductDetail = (id) => {
-    const product = products.find((product) => product.id === id);
-    if (product) {
-      // Verificar si el producto ya está presente
-      const isProductAlreadyAdded = productById.id === id;
-
-      // Si el producto no está presente, lo añadimos
-      if (!isProductAlreadyAdded) {
-        setProductById(product);
+  const handleGetProduct = async (id) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`http://localhost:3000/productos/${id}`);
+      if (!response.ok) {
+        throw new Error("Producto no encontrado");
       }
-      navigate(`/product/${id}`);
-    } else {
-      console.log("Producto no encontrado");
+      const data = await response.json();
+      setProduct(data);
+      setProductById(data);
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+      navigate("/not-found");
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleProductDetail = (id) => {
+    navigate(`/product/${id}`);
   };
 
   const handleProductQuantity = (e) => {
@@ -93,6 +137,9 @@ export function ProductProvider({ children }) {
         setProduct,
         productAlert,
         setProductAlert,
+        handleGetProduct,
+        seller,
+        handleGetProducts,
       }}
     >
       {children}

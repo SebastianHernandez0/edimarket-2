@@ -35,11 +35,6 @@ export function Categories() {
               <h3>Telefonía</h3>
             </div>
           </Link>
-          <Link className="categories__list__link" to="/category/publicaciones">
-            <div>
-              <h3>Publicaciones</h3>
-            </div>
-          </Link>
           <Link
             className="categories__list__link"
             to="/category/electrodomesticos"

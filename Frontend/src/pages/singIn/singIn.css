@@ -72,14 +72,6 @@
   border: none;
 }
 
-.input__eye__icon {
-  position: absolute;
-  top: 11px;
-  right: 8%;
-  font-size: 1.7rem;
-  color: var(--dark_2);
-}
-
 /*VERSIÓN DESKTOP*/
 
 @media (min-width: 576px) {

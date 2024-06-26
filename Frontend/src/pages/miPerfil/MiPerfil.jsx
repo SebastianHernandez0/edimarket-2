@@ -71,7 +71,7 @@ export function MiPerfil() {
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center w-full">
             <Link
-              to=""
+              to="/my-posts"
               className="miperfil__userinfo__data miperfil__userinfo__postlink w-full"
             >
               <MdSell className="miperfil__userinfo__icon text" />

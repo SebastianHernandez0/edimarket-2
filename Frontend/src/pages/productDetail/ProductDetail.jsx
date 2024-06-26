@@ -1,15 +1,28 @@
 import "../productDetail/productDetail.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState, forwardRef } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { IoHeartSharp } from "react-icons/io5";
 import { CartContext } from "../../context/CarritoContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
-import { useRef } from "react";
 import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import { OverlayScreen } from "../../components/overlayScreen/OverlayScreen";
 import { UserContext } from "../../context/UserContext";
+import { Loader } from "../../components/loader/Loader";
+import { IoIosClose } from "react-icons/io";
+import { IoAlertCircleOutline } from "react-icons/io5";
+
+const ModalIcon = forwardRef((props, ref) => (
+  <div ref={ref}>
+    <IoIosClose {...props} />
+  </div>
+));
+const HeartIcon = forwardRef((props, ref) => (
+  <div ref={ref}>
+    <IoHeartSharp {...props} />
+  </div>
+));
 
 export function ProductDetail() {
   const {
@@ -18,20 +31,82 @@ export function ProductDetail() {
     productQuantity,
     handleProductQuantity,
     loading,
-    setLoading,
     product,
-    setProduct,
     productAlert,
     setProductAlert,
-    setProductById,
+    handleGetProduct,
+    seller,
   } = useContext(ProductContext);
-  const { openModalCart, addToCart, cart } = useContext(CartContext);
+  const { openModalCart, cart } = useContext(CartContext);
 
-  const { userToken, handleGetFavs, inputRefs, handleDeleteFav } =
+  const { userToken, handleGetFavs, inputRefs, user, handleAddedToCart } =
     useContext(UserContext);
 
+  const [visible, setVisible] = useState(productAlert.errorFav ? true : false);
+  const formatedSellerName = seller[0]?.nombre.split(" ").slice(0, 1);
   const navigate = useNavigate();
   const { id } = useParams();
+  const errorModal = useRef(null);
+  const modalIconRef = useRef(null);
+  const heartIconRef = useRef(null);
+  const cartBtnRef = useRef(null);
+
+  useEffect(() => {
+    handleGetProduct(id);
+  }, [id, navigate]);
+
+  const handleAddToCart = async (idUsuario, idProducto, cantidad) => {
+    try {
+      const productAdded = cart.find(
+        (producto) => producto.producto_id === idProducto
+      );
+      if (productAdded) {
+        setProductAlert((prevState) => ({
+          ...prevState,
+          success: "",
+          error: "Ya añadiste este producto al carrito.",
+        }));
+        openModalCart();
+        inputRefs.timeoutRef.current = setTimeout(() => {
+          setProductAlert((prevState) => ({
+            ...prevState,
+            error: "",
+          }));
+          inputRefs.timeoutRef.current = null;
+        }, 2400);
+      } else {
+        if (userToken) {
+          const response = await fetch("http://localhost:3000/carrito", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+            body: JSON.stringify({
+              idUsuario,
+              idProducto,
+              cantidad,
+            }),
+          });
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || "Error al agregar al carrito");
+          }
+          const data = response.json();
+          openModalCart();
+          handleAddedToCart();
+          return data;
+        } else {
+          setProductAlert((prevState) => ({
+            ...prevState,
+            errorFav: "Para agregar al carrito ingresa a tu cuenta.",
+          }));
+        }
+      }
+    } catch (error) {
+      console.error("Error al agregar al carrito:", error);
+    }
+  };
 
   const handleAddToFav = async () => {
     try {
@@ -117,95 +192,57 @@ export function ProductDetail() {
     }
   };
 
-  useEffect(() => {
-    const handleGetProduct = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/productos/${id}`);
-        if (!response.ok) {
-          throw new Error("Producto no encontrado");
-        }
-        const data = await response.json();
-        setProduct(data);
-        setProductById(data);
-      } catch (error) {
-        console.error("Error al obtener productos:", error);
-        navigate("/not-found");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    handleGetProduct();
-  }, [id, navigate]);
-
-  /* const handleAddToCart = () => {
-    const productWithQuantity = {
-      ...productById,
-      cantidad: productQuantity,
-    };
-
-    if (!cart.some((product) => product.id === productById.id)) {
-      addToCart(productWithQuantity);
-      openModalCart();
-    } else {
-      const productAdded = cart.find(
-        (product) => product.id === productById.id
-      );
-      if (productAdded) {
-        setProductAlert((prevState) => ({
-          ...prevState,
-          error: "Ya añadiste este producto al carrito.",
-          success: "",
-        }));
-
-        // Cancelamos el temporizador anterior si existe
-        if (inputRefs.timeoutRef.current) {
-          clearTimeout(inputRefs.timeoutRef.current);
-        }
-
-        // Establecemos un nuevo temporizador
-        inputRefs.timeoutRef.current = setTimeout(() => {
-          setProductAlert((prevState) => ({
-            ...prevState,
-            error: "",
-          }));
-          inputRefs.timeoutRef.current = null; // Limpiamos la referencia al temporizador
-        }, 2400);
-      }
-    }
-  };
- */
-
-  const handleNavigateToLogin = () => {
+  const handleNavigateToLogin = async () => {
     if (!userToken) {
       setProductAlert((prevState) => ({
         ...prevState,
         errorFav: "Para añadir a favoritos inicia sesión o registrate.",
       }));
     }
-    inputRefs.timeoutRef.current = setTimeout(() => {
-      setProductAlert((prevState) => ({
-        ...prevState,
-        errorFav: "",
-      }));
-      inputRefs.timeoutRef.current = null;
-    }, 8000);
   };
 
   useEffect(() => {
-    if (navigate) {
-      setProductAlert({
-        success: "",
-        error: "",
-        errorFav: "",
-      });
+    if (productAlert.errorFav) {
+      setVisible(true);
     }
-  }, [navigate]);
+  }, [productAlert.errorFav]);
+
+  const handleClose = () => {
+    setVisible(false);
+    setTimeout(() => {
+      setProductAlert({ errorFav: "" });
+    }, 200);
+  };
+
+  const handleClickOutside = (event) => {
+    if (
+      errorModal.current &&
+      modalIconRef.current &&
+      heartIconRef.current &&
+      cartBtnRef.current &&
+      !errorModal.current.contains(event.target) &&
+      !modalIconRef.current.contains(event.target) &&
+      !cartBtnRef.current.contains(event.target) &&
+      !heartIconRef.current.contains(event.target)
+    ) {
+      setVisible(false);
+      setTimeout(() => {
+        setProductAlert({ errorFav: "" });
+      }, 200);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <section className="productdetail__container">
       {loading ? (
-        <p className="text-center font-semibold text-lg">Cargando...</p>
+        <Loader />
       ) : (
         <div className="card__container">
           <OverlayScreen />
@@ -213,6 +250,16 @@ export function ProductDetail() {
             <img className="card__img" src={product?.imagen} alt="" />
             <div className="card__info border-2 rounded-md">
               <div className="card__info__details">
+                {product?.stock === 0 ? (
+                  <div className="flex items-center gap-2">
+                    <IoAlertCircleOutline className="text-red-600 text-2xl" />
+                    <span className="text-red-600 font-semibold">
+                      Producto sin stock.
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <p className="card__paragraph card__paragraph__name">
                   {product?.nombre}
                 </p>
@@ -225,7 +272,8 @@ export function ProductDetail() {
                         })
                       : null}
                   </p>
-                  <IoHeartSharp
+                  <HeartIcon
+                    ref={heartIconRef}
                     onClick={userToken ? handleAddToFav : handleNavigateToLogin}
                     className={`card__info__like__icon ${
                       addedToFav?.some(
@@ -242,8 +290,8 @@ export function ProductDetail() {
                   <span className="font-semibold">{product?.stock}</span>
                 </p>
                 <select
-                  /*   onChange={handleProductQuantity}
-                  value={productQuantity} */
+                  onChange={handleProductQuantity}
+                  value={productQuantity}
                   className="w-1/2 font-medium mb-5 px-2 border rounded-md active: outline-none cursor-pointer"
                   name="quantity"
                   id=""
@@ -254,25 +302,69 @@ export function ProductDetail() {
                   <option value="4">4 unidades</option>
                   <option value="5">5 unidades</option>
                 </select>
-                <span className="my-4">
-                  Estado:{" "}
-                  <span className="font-medium">
-                    {product?.estado.charAt(0).toUpperCase() +
-                      product?.estado.slice(1)}
+                <div className="mb-4 text-sm">
+                  <span className="text-gray-400">
+                    Estado{" "}
+                    <span className="font-medium">
+                      {product?.estado
+                        .replace(/-/g, " ")
+                        .replace(/\b\w/g, (char) => char.toUpperCase())}
+                    </span>
                   </span>
-                </span>
+                </div>
+                <div className="mb-4 text-sm">
+                  <span className="text-gray-400">
+                    Publicado por{" "}
+                    <span className="font-medium">{formatedSellerName}</span>
+                  </span>
+                </div>
+                {product?.stock === 0 ? (
+                  <div className="mb-4 text-sm font-semibold">
+                    <span className="text-gray-400">
+                      Podrás comprar este producto cuando vuelva a tener stock.
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
               <div className="card__info__btn__container">
                 <GeneralBtn
+                  onClick={() => {
+                    navigate("/shipping");
+                  }}
+                  style={{
+                    pointerEvents: product?.stock === 0 ? "none" : "auto",
+                    cursor: product?.stock === 0 ? "not-allowed" : "pointer",
+                    opacity: product?.stock === 0 ? "0.7" : "1",
+                    filter:
+                      product?.stock === 0
+                        ? "brightness(70%)"
+                        : "brightness(100%)",
+                  }}
+                  disabled={product?.stock === 0 ? true : false}
                   className="card__info__btn card__info__btn__buy"
                   type="secondary"
                 >
-                  <NavLink to="/shipping">Comprar ahora</NavLink>
+                  Comprar ahora
                 </GeneralBtn>
                 <GeneralBtn
-                  /*   onClick={handleAddToCart} */
+                  ref={cartBtnRef}
+                  onClick={() =>
+                    handleAddToCart(user.id, parseInt(id), productQuantity)
+                  }
                   className="card__info__btn card__info__btn__cart"
                   type="primary"
+                  style={{
+                    pointerEvents: product?.stock === 0 ? "none" : "auto",
+                    cursor: product?.stock === 0 ? "not-allowed" : "pointer",
+                    opacity: product?.stock === 0 ? "0.7" : "1",
+                    filter:
+                      product?.stock === 0
+                        ? "brightness(70%)"
+                        : "brightness(100%)",
+                  }}
+                  disabled={product?.stock === 0 ? true : false}
                 >
                   Agregar al carrito
                 </GeneralBtn>
@@ -308,31 +400,43 @@ export function ProductDetail() {
           ) : (
             ""
           )}
-          {productAlert.errorFav ? (
-            <CartAlert>
-              <div className="">
-                <div className="card__cart__alert shadow-md rounded-md bg-slate-700 text-sm sm:text-lg">
-                  {productAlert.errorFav}{" "}
-                  <div className="flex gap-14 items-center justify-center mt-5">
-                    <Link
-                      className="font-semibold sm:text-sm hover:text-teal-400"
-                      to="/sign-in"
-                    >
-                      INICIAR SESIÓN
-                    </Link>
-                    <Link
-                      className="font-semibold sm:text-sm hover:text-teal-400"
-                      to="/sign-up"
-                    >
-                      REGISTRARSE
-                    </Link>
-                  </div>
+
+          <CartAlert
+            ref={errorModal}
+            style={{
+              opacity: visible ? "1" : "0",
+              visibility: visible ? "visible" : "hidden",
+              transition: "all 0.2s ease-in-out",
+            }}
+          >
+            <div className="card__cart__alert__container">
+              <div className="card__cart__alert shadow-lg rounded-md bg-slate-700 text-sm sm:text-lg">
+                <div className="flex flex-col">
+                  <ModalIcon
+                    ref={modalIconRef}
+                    onClick={handleClose}
+                    className="card__cart__alert__icon"
+                  />
+                  <span className="font-semibold text-2xl mb-2">¡HOLA!</span>
+                  <span>{productAlert.errorFav}</span>
+                </div>
+                <div className="flex gap-5 items-center justify-center mt-5 ">
+                  <Link
+                    className="font-bold sm:text-sm bg-gray-200 w-2/5 py-2 px-4 hover:brightness-75 rounded-md text-gray-800"
+                    to="/sign-in"
+                  >
+                    INGRESAR
+                  </Link>
+                  <Link
+                    className="font-bold sm:text-sm bg-gray-200 w-2/5 py-2 px-4 hover:brightness-75 rounded-md text-gray-800"
+                    to="/sign-up"
+                  >
+                    REGISTRARSE
+                  </Link>
                 </div>
               </div>
-            </CartAlert>
-          ) : (
-            ""
-          )}
+            </div>
+          </CartAlert>
         </div>
       )}
     </section>

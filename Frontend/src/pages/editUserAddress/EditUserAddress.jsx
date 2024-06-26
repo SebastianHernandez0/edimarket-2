@@ -1,10 +1,11 @@
-import { useContext, useState } from "react";
-import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
-import "../addUserAddress/addUserAddress.css";
+import { useContext } from "react";
+import "../editUserAddress/editUserAddress.css";
 import { UserContext } from "../../context/UserContext";
+import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
+import { ProductContext } from "../../context/ProductContext";
 import { useNavigate } from "react-router-dom";
 
-export function AddUserAdress() {
+export function EditUserAddress() {
   const {
     setInputFormError,
     userData,
@@ -12,56 +13,51 @@ export function AddUserAdress() {
     inputRefs,
     onlyNumbersRegex,
     inputFormError,
-    user,
-    userToken,
     AddAddressSuccess,
     setAddAddressSuccess,
-    setLoading,
+    userToken,
+    userAddress,
+    user,
+    handleUserAddress,
   } = useContext(UserContext);
-
+  const { setLoading } = useContext(ProductContext);
   const navigate = useNavigate();
 
-  const handleAddAddress = async (
-    idUsuario,
+  const handleEditUserAddress = async (
     direccion,
     numero_casa,
     ciudad,
     comuna,
     region,
-    codigo_postal
+    codigo_postal,
+    idUsuario
   ) => {
     try {
-      if (userToken) {
-        const response = await fetch(
-          "http://localhost:3000/usuarios/domicilio",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${userToken}`,
-            },
-            body: JSON.stringify({
-              idUsuario,
-              direccion,
-              numero_casa,
-              ciudad,
-              comuna,
-              region,
-              codigo_postal,
-            }),
-          }
-        );
+      const response = await fetch("http://localhost:3000/usuarios/domicilio", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          direccion,
+          numero_casa,
+          ciudad,
+          comuna,
+          region,
+          codigo_postal,
+          idUsuario,
+        }),
+      });
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || "Error al agregar domicilio");
-        }
-
-        const data = await response.json();
-        return data;
-      } else {
-        return;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al modificar domicilio");
       }
+
+      const data = await response.json();
+      handleUserAddress();
+      return data;
     } catch (error) {
       console.error("Error:", error.message);
     } finally {
@@ -109,21 +105,19 @@ export function AddUserAdress() {
       }));
     } else {
       try {
-        const res = await handleAddAddress(
-          user.id,
+        const res = await handleEditUserAddress(
           userData.direccion,
           userData.numero,
           userData.region,
           userData.comuna,
           userData.region,
-          userData.codigoPostal
+          userData.codigoPostal,
+          user.id
         );
-
         setAddAddressSuccess((prevState) => ({
           ...prevState,
-          success: "¡Domicilio añadido!",
+          success: "Domicilio modificado",
         }));
-
         setTimeout(() => {
           navigate("/user-address");
         }, 1500);
@@ -131,15 +125,15 @@ export function AddUserAdress() {
         console.error("Error:", error.message);
         setAddAddressSuccess((prevState) => ({
           ...prevState,
-          error: "No pudimos agregar tu domicilio.",
+          error: "No pudimos modificar tu domicilio.",
         }));
       }
     }
   };
 
   return (
-    <section className="adduseraddress__container bg-white shadow-sm rounded-sm">
-      <h1 className="mb-5">Añadir dirección</h1>
+    <section className="edituseraddress__container bg-white shadow-sm rounded-sm">
+      <h1 className="mb-5">Editar dirección</h1>
       <div className="edituseraddress__body">
         <form
           onSubmit={handleAddressSubmit}

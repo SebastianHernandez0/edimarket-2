@@ -40,29 +40,33 @@ export function CreatePost() {
     imagen,
     categoria
   ) => {
-    const response = await fetch("http://localhost:3000/productos", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken}`,
-      },
-      body: JSON.stringify({
-        nombre,
-        descripcion,
-        estado,
-        precio,
-        stock,
-        imagen,
-        categoria,
-      }),
-    });
+    try {
+      const response = await fetch("http://localhost:3000/productos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          nombre,
+          descripcion,
+          estado,
+          precio,
+          stock,
+          imagen,
+          categoria,
+        }),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al subir producto");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al subir producto");
+      }
+      const data = response.json();
+      return data;
+    } catch (error) {
+      console.error("Error al eliminar favorito", error);
     }
-    const data = response.json();
-    return data;
   };
 
   const handlePostSubmit = async (e) => {
@@ -102,6 +106,11 @@ export function CreatePost() {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
         errorProductStock: "Indica el stock de tu producto.",
+      }));
+    } else if (userData.productStock === 0) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorProductStock: "No puedes asignar stock 0.",
       }));
     } else if (!onlyNumbersRegex.test(userData.productStock)) {
       setInputFormError((prevErrors) => ({
@@ -255,7 +264,7 @@ export function CreatePost() {
               ref={inputRefs.precio}
               onChange={handleChange}
               name="precio"
-              value={userData.precio}
+              value={userData.precio || ""}
               className={`createpost__card__input ${
                 inputFormError.errorPrecio
                   ? "focus: outline-2 outline outline-red-600"
@@ -292,6 +301,13 @@ export function CreatePost() {
                 <option value="telefonia">Telefonía</option>
                 <option value="electrodomesticos">Electrodomésticos</option>
               </select>
+              {inputFormError.errorCategorias ? (
+                <p className="text-red-600 font-semibold text-sm">
+                  {inputFormError.errorCategorias}
+                </p>
+              ) : (
+                ""
+              )}
               <div className="flex flex-col ">
                 <input
                   onChange={handleChange}
@@ -314,13 +330,7 @@ export function CreatePost() {
                 )}
               </div>
             </div>
-            {inputFormError.errorCategorias ? (
-              <p className="text-red-600 font-semibold text-sm">
-                {inputFormError.errorCategorias}
-              </p>
-            ) : (
-              ""
-            )}
+
             <select
               ref={inputRefs.estado}
               onChange={handleChange}
@@ -377,7 +387,11 @@ export function CreatePost() {
                 </p>
               )}
             </div>
-            <GeneralBtn type="secondary" className="createpost__form__btn my-4">
+            <GeneralBtn
+              type="secondary"
+              disabled={false}
+              className="createpost__form__btn my-4"
+            >
               Crear publicación
             </GeneralBtn>
           </div>

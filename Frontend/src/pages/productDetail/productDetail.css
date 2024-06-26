@@ -51,16 +51,28 @@
   font-size: 2rem;
 }
 .card__cart__alert {
+  overflow: hidden;
   color: var(--navbarColor);
   position: fixed;
-  top: 90%;
+  top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  max-width: 600px;
+  max-width: 400px;
   padding: 10px 20px;
   text-align: center;
-  z-index: 120;
+  z-index: 200;
+}
+.card__cart__alert__icon {
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transform: scale(2.5);
+}
+.card__cart__alert__icon:hover {
+  background-color: #a8a8a85d;
 }
 
 /*VERSION DESKTOP*/
@@ -85,6 +97,7 @@
     justify-content: space-between;
     grid-area: info;
     height: 90%;
+    width: 90%;
   }
   .card__info__desc__container {
     grid-area: desc;

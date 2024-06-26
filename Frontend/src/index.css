@@ -58,3 +58,11 @@ body::-webkit-scrollbar-thumb {
   background: var(--verdeAgua);
   border-radius: 60px;
 }
+
+.input__eye__icon {
+  position: absolute;
+  top: 11px;
+  right: 8%;
+  font-size: 1.7rem;
+  color: var(--dark_2);
+}
