@@ -11,6 +11,7 @@ import { OverlayScreen } from "../../components/overlayScreen/OverlayScreen";
 import { UserContext } from "../../context/UserContext";
 import { Loader } from "../../components/loader/Loader";
 import { IoIosClose } from "react-icons/io";
+import { IoAlertCircleOutline } from "react-icons/io5";
 
 const ModalIcon = forwardRef((props, ref) => (
   <div ref={ref}>
@@ -238,6 +239,7 @@ export function ProductDetail() {
     };
   }, []);
 
+  console.log(product);
   return (
     <section className="productdetail__container">
       {loading ? (
@@ -249,6 +251,16 @@ export function ProductDetail() {
             <img className="card__img" src={product?.imagen} alt="" />
             <div className="card__info border-2 rounded-md">
               <div className="card__info__details">
+                {product.stock === 0 ? (
+                  <div className="flex items-center gap-2">
+                    <IoAlertCircleOutline className="text-red-600 text-2xl" />
+                    <span className="text-red-600 font-semibold">
+                      Producto sin stock.
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <p className="card__paragraph card__paragraph__name">
                   {product?.nombre}
                 </p>
