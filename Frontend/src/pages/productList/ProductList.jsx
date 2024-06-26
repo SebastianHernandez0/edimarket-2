@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { Loader } from "../../components/loader/Loader";
+import { UserContext } from "../../context/UserContext";
 
 export function ProductList() {
   const { categoria } = useParams();
@@ -11,6 +12,7 @@ export function ProductList() {
   const [orderBy, setOrderBy] = useState("");
   const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const { user } = useContext(UserContext);
 
   const handleGetFilteredProducts = async () => {
     try {
@@ -29,6 +31,10 @@ export function ProductList() {
   };
 
   let sortedProducts = [...filteredProducts];
+  let sortedAndFilteredProucts = sortedProducts.filter(
+    (product) => product.vendedor !== user.id
+  );
+
   useEffect(() => {
     handleGetFilteredProducts();
   }, [categoria]);
@@ -79,7 +85,7 @@ export function ProductList() {
             </option>
           </select>
           <div className="products__cards__container">
-            {sortedProducts?.map((product) => (
+            {sortedAndFilteredProucts?.map((product) => (
               <ProductCard
                 onClick={() => handleProductDetail(product?.id)}
                 key={product?.id}
