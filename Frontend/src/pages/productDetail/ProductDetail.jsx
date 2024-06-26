@@ -239,7 +239,6 @@ export function ProductDetail() {
     };
   }, []);
 
-  console.log(product);
   return (
     <section className="productdetail__container">
       {loading ? (
@@ -251,7 +250,7 @@ export function ProductDetail() {
             <img className="card__img" src={product?.imagen} alt="" />
             <div className="card__info border-2 rounded-md">
               <div className="card__info__details">
-                {product.stock === 0 ? (
+                {product?.stock === 0 ? (
                   <div className="flex items-center gap-2">
                     <IoAlertCircleOutline className="text-red-600 text-2xl" />
                     <span className="text-red-600 font-semibold">
@@ -319,13 +318,35 @@ export function ProductDetail() {
                     <span className="font-medium">{formatedSellerName}</span>
                   </span>
                 </div>
+                {product?.stock === 0 ? (
+                  <div className="mb-4 text-sm font-semibold">
+                    <span className="text-gray-400">
+                      Podrás comprar este producto cuando vuelva a tener stock.
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
               <div className="card__info__btn__container">
                 <GeneralBtn
+                  onClick={() => {
+                    navigate("/shipping");
+                  }}
+                  style={{
+                    pointerEvents: product?.stock === 0 ? "none" : "auto",
+                    cursor: product?.stock === 0 ? "not-allowed" : "pointer",
+                    opacity: product?.stock === 0 ? "0.7" : "1",
+                    filter:
+                      product?.stock === 0
+                        ? "brightness(70%)"
+                        : "brightness(100%)",
+                  }}
+                  disabled={product?.stock === 0 ? true : false}
                   className="card__info__btn card__info__btn__buy"
                   type="secondary"
                 >
-                  <NavLink to="/shipping">Comprar ahora</NavLink>
+                  Comprar ahora
                 </GeneralBtn>
                 <GeneralBtn
                   ref={cartBtnRef}
@@ -334,6 +355,16 @@ export function ProductDetail() {
                   }
                   className="card__info__btn card__info__btn__cart"
                   type="primary"
+                  style={{
+                    pointerEvents: product?.stock === 0 ? "none" : "auto",
+                    cursor: product?.stock === 0 ? "not-allowed" : "pointer",
+                    opacity: product?.stock === 0 ? "0.7" : "1",
+                    filter:
+                      product?.stock === 0
+                        ? "brightness(70%)"
+                        : "brightness(100%)",
+                  }}
+                  disabled={product?.stock === 0 ? true : false}
                 >
                   Agregar al carrito
                 </GeneralBtn>
