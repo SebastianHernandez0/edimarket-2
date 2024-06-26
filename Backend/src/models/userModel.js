@@ -176,6 +176,13 @@ const registrarProducto = async (producto, vendedor_id) => {
   return console.log("Registrado");
 };
 
+const eliminarProductoDelUsuario = async (idUsuario, idProducto) => {
+  const values = [idUsuario, idProducto];
+  const consulta= "DELETE FROM productos WHERE vendedor_id=$1 AND id=$2";
+  await db.query(consulta, values);
+  return console.log("Producto eliminado del usuario");
+}
+
 const modificarProducto= async (idUsuario,idProducto,producto)=>{
   let {nombre,descripcion,estado,precio,stock,imagen}=producto;
   const values=[nombre,descripcion,estado,precio,stock,imagen,idUsuario,idProducto];
@@ -361,6 +368,7 @@ module.exports = {
   modificarUsuario,
   modificarProducto,
   consultarProductosPorUsuario,
-  modificarDireccion
+  modificarDireccion,
+  eliminarProductoDelUsuario
 
 };

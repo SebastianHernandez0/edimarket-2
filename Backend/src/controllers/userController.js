@@ -15,7 +15,8 @@ const {
   eliminarUsuario,
   modificarUsuario,
   consultarProductosPorUsuario,
-  modificarDireccion
+  modificarDireccion,
+  eliminarProductoDelUsuario
 } = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
@@ -311,6 +312,25 @@ const deleteFav = async (req, res) => {
   }
 };
 
+const deleteProductoDelUsuario = async (req, res) => {
+  try {
+    const { idProducto } = req.params;
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET);
+    const { email, id } = jwt.decode(token);
+    await eliminarProductoDelUsuario(id, idProducto);
+    console.log(
+      `El usuario ${email} con el id ${id} ha eliminado un producto`
+    );
+    res.status(200).json({
+      message: "Producto eliminado",
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -327,6 +347,7 @@ module.exports = {
   deleteUser,
   ModifyUser,
   consultarProductosPerUser,
-  modificarDomicilio
+  modificarDomicilio,
+  deleteProductoDelUsuario
 };                              
 

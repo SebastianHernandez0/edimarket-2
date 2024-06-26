@@ -7,7 +7,7 @@ const {
   consultarCarrito,
   eliminarProducto,
   venta,
-  modificarProducto
+  modificarProducto,
 } = require("../models/userModel");
 const prepHateoas = require("../models/hateoasModel");
 const jwt = require("jsonwebtoken");
@@ -56,6 +56,8 @@ const agregarProducto = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
 
 const modifyProducto = async (req, res) => {
   try {
@@ -162,5 +164,5 @@ module.exports = {
   getCarrito,
   deleteProductoCarrito,
   ventaRealizada,
-  modifyProducto
+  modifyProducto,
 };
