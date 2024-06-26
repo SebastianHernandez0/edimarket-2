@@ -1,14 +1,50 @@
 import "../carritoModal/carritoModal.css";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CartContext } from "../../context/CarritoContext";
 import { IoCloseOutline } from "react-icons/io5";
 import { ProductCard } from "../productCard/ProductCard";
 import { GeneralBtn } from "../generalBtn/GeneralBtn";
 import { useNavigate } from "react-router-dom";
 import { TbTrashXFilled } from "react-icons/tb";
+import { UserContext } from "../../context/UserContext";
 
 export function CarritoModal() {
   const { cartModal, setCartModal, cart } = useContext(CartContext);
+  const { user, userToken, handleAddedToCart } = useContext(UserContext);
+
+  const handleDeleteProduct = async (product_id, usuario_id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/carrito/${product_id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify({
+            usuario_id,
+          }),
+        }
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al eliminar del carrito");
+      }
+      const data = response.json();
+      handleAddedToCart();
+
+      return data;
+    } catch (error) {
+      console.error("Error al elimninar del carrito:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (cart.length <= 0) {
+      setCartModal(false);
+    }
+  }, [cart]);
 
   const closeCartModal = () => {
     if (cartModal) {
@@ -48,7 +84,12 @@ export function CarritoModal() {
                   <p className="card__card__paragraph text-md font-light">
                     {element.nombre}
                   </p>
-                  <TbTrashXFilled className="cartmodal__trash__icon" />
+                  <TbTrashXFilled
+                    onClick={() =>
+                      handleDeleteProduct(element.producto_id, user.id)
+                    }
+                    className="cartmodal__trash__icon"
+                  />
                 </div>
               </ProductCard>
             ))}
