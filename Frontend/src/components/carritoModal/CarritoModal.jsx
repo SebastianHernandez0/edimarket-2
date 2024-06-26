@@ -5,6 +5,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { ProductCard } from "../productCard/ProductCard";
 import { GeneralBtn } from "../generalBtn/GeneralBtn";
 import { useNavigate } from "react-router-dom";
+import { TbTrashXFilled } from "react-icons/tb";
 
 export function CarritoModal() {
   const { cartModal, setCartModal, cart } = useContext(CartContext);
@@ -47,6 +48,7 @@ export function CarritoModal() {
                   <p className="card__card__paragraph text-md font-light">
                     {element.nombre}
                   </p>
+                  <TbTrashXFilled className="cartmodal__trash__icon" />
                 </div>
               </ProductCard>
             ))}
