@@ -377,6 +377,7 @@ export function UserProvider({ children }) {
         getProductBySeller,
         setMyProducts,
         myProducts,
+        getProductBySeller,
       }}
     >
       {children}

@@ -12,8 +12,30 @@ import postImg from "/imgs/aplication/posts.png";
 
 export function MyPotsts() {
   const { loading } = useContext(ProductContext);
-  const { user, myProducts } = useContext(UserContext);
+  const { userToken, myProducts, getProductBySeller } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const handleDeleteMyProducts = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/usuarios/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al subir producto");
+      }
+      const data = response.json();
+      getProductBySeller();
+      return data;
+    } catch (error) {
+      console.error("Error al eliminar producto", error);
+    }
+  };
 
   const handleEditProduct = (id) => {
     navigate(`/edit-post/${id}`);
@@ -61,7 +83,11 @@ export function MyPotsts() {
                   >
                     <TbEdit className="btn__edit" />
                   </GeneralBtn>
-                  <GeneralBtn className="myposts__btn" type="secondary">
+                  <GeneralBtn
+                    onClick={() => handleDeleteMyProducts(product.productoId)}
+                    className="myposts__btn"
+                    type="secondary"
+                  >
                     <FaTrashCan className="btn__trash" />
                   </GeneralBtn>
                 </div>
