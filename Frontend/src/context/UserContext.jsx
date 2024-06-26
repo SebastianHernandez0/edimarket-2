@@ -130,7 +130,7 @@ export function UserProvider({ children }) {
 
   useEffect(() => {
     handleAddedToCart();
-  }, []);
+  }, [userToken]);
 
   const handleUserAddress = async () => {
     try {
@@ -173,7 +173,7 @@ export function UserProvider({ children }) {
 
   useEffect(() => {
     handleUserAddress();
-  }, []);
+  }, [userToken]);
 
   const handleGetFavs = async () => {
     try {
