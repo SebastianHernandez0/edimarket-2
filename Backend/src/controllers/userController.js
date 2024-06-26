@@ -19,7 +19,7 @@ const {
   eliminarProductoDelUsuario,
   eliminarMetodoDePago,
   eliminarDomicilio,
-  consultarVentasUsuario
+  consultarVentasUsuario,
 } = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
@@ -117,17 +117,22 @@ const consultarCategoria = async (req, res) => {
   }
 };
 
-const consultarProductosPerUser= async (req, res) => {
-  try{
+const consultarProductosPerUser = async (req, res) => {
+  try {
     const Authorization = req.header("Authorization");
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
-    const {email, id} = jwt.decode(token);
+    const { email, id } = jwt.decode(token);
     const productos = await consultarProductosPorUsuario(id);
-    console.log(`El usuario ${email} con el id ${id} ha consultado sus productos`);
+    console.log(
+      `El usuario ${email} con el id ${id} ha consultado sus productos`
+    );
     res.json({
       productos: productos.map((producto) => {
         return {
+          usuario_: id,
+          id: producto.id,
+          productoId: producto.producto_id,
           nombre: producto.nombre,
           descripcion: producto.descripcion,
           precio: producto.precio,
@@ -137,10 +142,10 @@ const consultarProductosPerUser= async (req, res) => {
         };
       }),
     });
-  }catch(error){
-    res.status(500).json({error: error.message});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
 const agregarDomicilio = async (req, res) => {
   try {
@@ -166,15 +171,17 @@ const modificarDomicilio = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await modificarDireccion(id,domicilio);
-    console.log(`El usuario ${email} con el id ${id} ha modificado su domicilio`);
+    await modificarDireccion(id, domicilio);
+    console.log(
+      `El usuario ${email} con el id ${id} ha modificado su domicilio`
+    );
     res.status(200).json({
       message: "Domicilio modificado",
     });
   } catch (error) {
-    res.status(500).json({error: error.message});
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
 const agregarPaymentMethod = async (req, res) => {
   try {
@@ -288,8 +295,6 @@ const deleteDomicilio = async (req, res) => {
   }
 };
 
-
-
 const addFavorito = async (req, res) => {
   try {
     const { producto_id } = req.params;
@@ -365,9 +370,7 @@ const deleteProductoDelUsuario = async (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
     await eliminarProductoDelUsuario(id, idProducto);
-    console.log(
-      `El usuario ${email} con el id ${id} ha eliminado un producto`
-    );
+    console.log(`El usuario ${email} con el id ${id} ha eliminado un producto`);
     res.status(200).json({
       message: "Producto eliminado",
     });
@@ -376,12 +379,12 @@ const deleteProductoDelUsuario = async (req, res) => {
   }
 };
 
-const consultarVentas= async (req, res) => {
-  try{
+const consultarVentas = async (req, res) => {
+  try {
     const Authorization = req.header("Authorization");
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
-    const {email, id} = jwt.decode(token);
+    const { email, id } = jwt.decode(token);
     const ventas = await consultarVentasUsuario(id);
     console.log(`El usuario ${email} con el id ${id} ha consultado sus ventas`);
     res.json({
@@ -390,20 +393,20 @@ const consultarVentas= async (req, res) => {
           id: venta.id,
           comprador_id: venta.comprador_id,
           producto_id: venta.producto_id,
-          nombre:venta.nombre,
-          descripcion:venta.descripcion,
-          imagen:venta.imagen,
-          nombre_categoria:venta.nombre_categoria,
+          nombre: venta.nombre,
+          descripcion: venta.descripcion,
+          imagen: venta.imagen,
+          nombre_categoria: venta.nombre_categoria,
           cantidad: venta.cantidad,
           valor_total: venta.valor_total,
           fecha_venta: venta.fecha_venta,
         };
       }),
     });
-  }catch(error){
-    res.status(500).json({error: error.message});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
 module.exports = {
   getAllUsers,
@@ -425,6 +428,5 @@ module.exports = {
   deleteProductoDelUsuario,
   deletePaymentMethod,
   deleteDomicilio,
-  consultarVentas
-};                              
-
+  consultarVentas,
+};

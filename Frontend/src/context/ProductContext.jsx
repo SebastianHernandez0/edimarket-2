@@ -14,6 +14,7 @@ export function ProductProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
   const [seller, setSeller] = useState("");
+
   const [productAlert, setProductAlert] = useState({
     succes: "",
     error: "",
@@ -25,7 +26,7 @@ export function ProductProvider({ children }) {
       succes: "",
       error: "",
       errorFav: "",
-      errorCart:""
+      errorCart: "",
     });
   }, [navigate]);
 

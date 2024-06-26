@@ -11,11 +11,9 @@ import { UserContext } from "../../context/UserContext";
 import postImg from "/imgs/aplication/posts.png";
 
 export function MyPotsts() {
-  const { products, loading } = useContext(ProductContext);
-  const { user } = useContext(UserContext);
+  const { loading } = useContext(ProductContext);
+  const { user, myProducts } = useContext(UserContext);
   const navigate = useNavigate();
-
-  const myProducts = products.filter((product) => product.vendedor === user.id);
 
   const handleEditProduct = (id) => {
     navigate(`/edit-post/${id}`);
@@ -32,7 +30,7 @@ export function MyPotsts() {
             myProducts.map((product) => (
               <ProductCard
                 className="border p-5 rounded-md flex flex-col gap-4"
-                key={product.id}
+                key={product.productoId}
               >
                 <div className="myposts__card__body flex items-start gap-5">
                   <img
@@ -57,7 +55,7 @@ export function MyPotsts() {
                 </div>
                 <div className="myposts__btn__container">
                   <GeneralBtn
-                    onClick={() => handleEditProduct(product?.id)}
+                    onClick={() => handleEditProduct(product?.productoId)}
                     className="myposts__btn"
                     type="secondary"
                   >

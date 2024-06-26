@@ -68,6 +68,7 @@ export function UserProvider({ children }) {
   const [userAddress, setUserAddress] = useState([]);
   const [userCreditCards, setUserCreditCards] = useState([]);
   const [inputFormError, setInputFormError] = useState(initialFormError);
+  const [myProducts, setMyProducts] = useState([]);
   const [AddAddressSuccess, setAddAddressSuccess] = useState({
     success: "",
     error: "",
@@ -100,6 +101,39 @@ export function UserProvider({ children }) {
     productStock: useRef(null),
     timeoutRef: useRef(null),
   };
+
+  const getProductBySeller = async () => {
+    try {
+      if (userToken) {
+        const response = await fetch(
+          "http://localhost:3000/usuarios/usuario/productos",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener domicilio");
+        }
+        const data = await response.json();
+        setMyProducts(data.productos);
+        return data;
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getProductBySeller();
+  }, [userToken]);
 
   const handleAddedToCart = async () => {
     try {
@@ -340,6 +374,9 @@ export function UserProvider({ children }) {
         setAddAddressSuccess,
         handleUserAddress,
         handleAddedToCart,
+        getProductBySeller,
+        setMyProducts,
+        myProducts,
       }}
     >
       {children}
