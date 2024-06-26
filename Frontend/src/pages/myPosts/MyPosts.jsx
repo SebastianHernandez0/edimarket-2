@@ -7,12 +7,14 @@ import { TbEdit } from "react-icons/tb";
 import { FaTrashCan } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
 import { Loader } from "../../components/loader/Loader";
+import { UserContext } from "../../context/UserContext";
 
 export function MyPotsts() {
   const { products, loading } = useContext(ProductContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const myProducts = products.filter((product) => product.vendedor === 12);
+  const myProducts = products.filter((product) => product.vendedor === user.id);
 
   const handleEditProduct = (id) => {
     navigate(`/edit-post/${id}`);
