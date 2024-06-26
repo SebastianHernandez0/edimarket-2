@@ -107,6 +107,11 @@ export function CreatePost() {
         ...prevErrors,
         errorProductStock: "Indica el stock de tu producto.",
       }));
+    } else if (userData.productStock === 0) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorProductStock: "No puedes asignar stock 0.",
+      }));
     } else if (!onlyNumbersRegex.test(userData.productStock)) {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
