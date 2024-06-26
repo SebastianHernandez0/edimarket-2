@@ -216,13 +216,20 @@ const agregarDirreccion = async (domicilio, idUsuario) => {
 };
 
 const modificarDireccion= async(idUsuario,domicilio)=>{
-  const {direccion,numero_casa,ciudad,comuna,region,codigo_postal}=domicilio;
+  let {direccion,numero_casa,ciudad,comuna,region,codigo_postal}=domicilio;
   validarDomicilio.parse(domicilio);
   const values=[direccion,numero_casa,ciudad,comuna,region,codigo_postal,idUsuario];
   const consulta="UPDATE domicilio SET direccion=$1,ciudad=$3,region=$5,codigo_postal=$6,comuna=$4,numero_casa=$2 WHERE usuario_id=$7";
   await db.query(consulta,values);
   return console.log("Direccion modificada");
   
+}
+
+const eliminarDomicilio = async (idUsuario, idDomicilio) => {
+  const values = [idUsuario, idDomicilio];
+  const consulta = "DELETE FROM domicilio WHERE usuario_id=$1 AND id=$2";
+  await db.query(consulta, values);
+  return console.log("Domicilio eliminado");
 }
 
 const agregarMetodoDePago = async (metodoDePago, idUsuario) => {
@@ -343,12 +350,21 @@ const venta= async(IdUsuario,IdProducto,cantidad)=>{
   const producto= await consultarProductoById(IdProducto);
   const precio= producto.precio * cantidad;
   const values=[IdUsuario,IdProducto,cantidad,precio];
-  const consulta="INSERT INTO ventas(id,comprador_id,producto_id,cantidad,precio,fecha_venta) VALUES (DEFAULT,$1,$2,$3,$4,now())";
+  const consulta="INSERT INTO ventas(id,comprador_id,producto_id,cantidad,valor_total,fecha_venta) VALUES (DEFAULT,$1,$2,$3,$4,now())";
   await db.query(consulta,values);
   return console.log("Venta realizada");
 
 
 }
+
+const consultarVentasUsuario = async (idUsuario) => {
+  const values = [idUsuario];
+  const consulta =
+    "select * from ventas inner join productos on ventas.producto_id=productos.id inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on categorias.id=producto_categoria.categoria_id where ventas.comprador_id=$1";
+  const { rows: ventas } = await db.query(consulta, values);;
+  console.log(ventas);
+  return ventas;
+};
 
 module.exports = {
   consultarUsuario,
@@ -377,6 +393,8 @@ module.exports = {
   consultarProductosPorUsuario,
   modificarDireccion,
   eliminarProductoDelUsuario,
-  eliminarMetodoDePago
+  eliminarMetodoDePago,
+  eliminarDomicilio,
+  consultarVentasUsuario
 
 };

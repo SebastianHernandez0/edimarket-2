@@ -17,7 +17,9 @@ const {
   consultarProductosPorUsuario,
   modificarDireccion,
   eliminarProductoDelUsuario,
-  eliminarMetodoDePago
+  eliminarMetodoDePago,
+  eliminarDomicilio,
+  consultarVentasUsuario
 } = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
@@ -252,6 +254,7 @@ const consultarDomicilio = async (req, res) => {
     res.json({
       Domicilio: domicilio.map((domicilio) => {
         return {
+          id: domicilio.id,
           direccion: domicilio.direccion,
           numero_casa: domicilio.numero_casa,
           ciudad: domicilio.ciudad,
@@ -265,6 +268,27 @@ const consultarDomicilio = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+const deleteDomicilio = async (req, res) => {
+  try {
+    const { idDomicilio } = req.params;
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET);
+    const { email, id } = jwt.decode(token);
+    await eliminarDomicilio(id, idDomicilio);
+    console.log(
+      `El usuario ${email} con el id ${id} ha eliminado un domicilio`
+    );
+    res.status(200).json({
+      message: "Domicilio eliminado",
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 
 const addFavorito = async (req, res) => {
   try {
@@ -352,6 +376,35 @@ const deleteProductoDelUsuario = async (req, res) => {
   }
 };
 
+const consultarVentas= async (req, res) => {
+  try{
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET);
+    const {email, id} = jwt.decode(token);
+    const ventas = await consultarVentasUsuario(id);
+    console.log(`El usuario ${email} con el id ${id} ha consultado sus ventas`);
+    res.json({
+      ventas: ventas.map((venta) => {
+        return {
+          id: venta.id,
+          comprador_id: venta.comprador_id,
+          producto_id: venta.producto_id,
+          nombre:venta.nombre,
+          descripcion:venta.descripcion,
+          imagen:venta.imagen,
+          nombre_categoria:venta.nombre_categoria,
+          cantidad: venta.cantidad,
+          valor_total: venta.valor_total,
+          fecha_venta: venta.fecha_venta,
+        };
+      }),
+    });
+  }catch(error){
+    res.status(500).json({error: error.message});
+  }
+}
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -370,6 +423,8 @@ module.exports = {
   consultarProductosPerUser,
   modificarDomicilio,
   deleteProductoDelUsuario,
-  deletePaymentMethod
+  deletePaymentMethod,
+  deleteDomicilio,
+  consultarVentas
 };                              
 
