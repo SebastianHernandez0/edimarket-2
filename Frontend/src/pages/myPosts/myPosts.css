@@ -50,7 +50,7 @@
 .confirm__delete__modal {
   z-index: 50;
   position: absolute;
-  top: 100%;
+  top: 50%;
   left: 0;
 }
 .close__icon {
@@ -83,5 +83,9 @@
   }
   .myposts__btn__container {
     justify-content: flex-start;
+  }
+  .confirm__delete__modal {
+    top: 50%;
+    left: 200px;
   }
 }
