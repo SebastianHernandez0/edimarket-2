@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
 import { Loader } from "../loader/Loader.jsx";
@@ -8,6 +8,11 @@ import { UserContext } from "../../context/UserContext.jsx";
 export function Products() {
   const { products, handleProductDetail, loading } = useContext(ProductContext);
   const { userToken, user } = useContext(UserContext);
+
+  const filteredProducts =
+    user && products
+      ? products.filter((product) => product.vendedor !== user.id)
+      : products;
 
   return (
     <section>
@@ -23,7 +28,7 @@ export function Products() {
           <div className="products__cards__container">
             {userToken ? (
               <div className="products__cards__container">
-                {products?.map((product) => (
+                {filteredProducts?.map((product) => (
                   <ProductCard
                     onClick={() => handleProductDetail(product?.id)}
                     key={product.id}
