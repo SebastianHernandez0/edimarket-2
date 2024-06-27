@@ -1,10 +1,12 @@
 import "../userCards/userCards.css";
 import { Link, useNavigate } from "react-router-dom";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { ProductContext } from "../../context/ProductContext";
 import { Loader } from "../../components/loader/Loader";
+import { ConfirmDelete } from "../../components/confirmDelete/ConfirmDelete";
+import { IoIosClose } from "react-icons/io";
 
 export function UserCards() {
   const navigate = useNavigate();
@@ -15,6 +17,11 @@ export function UserCards() {
   const { userToken, user, userCreditCards, handleUserCards } =
     useContext(UserContext);
   const { loading, setLoading } = useContext(ProductContext);
+  const [confirmDeleteId, setConfirmDeleteId] = useState("");
+
+  const handleOpenModal = (id) => {
+    setConfirmDeleteId(id);
+  };
 
   const handleDeleteCards = async (id) => {
     try {
@@ -35,6 +42,7 @@ export function UserCards() {
       }
 
       const data = await response.json();
+      setConfirmDeleteId("");
       handleUserCards();
       return data;
     } catch (error) {
@@ -56,7 +64,7 @@ export function UserCards() {
               {userCreditCards.map((card) => (
                 <div
                   key={card?.numero_tarjeta}
-                  className="flex border rounded-md p-5"
+                  className="usercards__card__body flex border rounded-md p-5"
                 >
                   <div className="flex items-center justify-start gap-5 w-full">
                     <div className="credit-card-container">
@@ -91,9 +99,44 @@ export function UserCards() {
                         </span>
                       </span>
                     </div>
+                    {confirmDeleteId === card?.id ? (
+                      <ConfirmDelete className="confirm__delete__modal__card bg-gray-100 shadow-sm p-3 rounded-md flex flex-col items-stretch gap-4 border">
+                        <IoIosClose
+                          onClick={() => {
+                            setConfirmDeleteId("");
+                          }}
+                          className="close__icon"
+                        />
+                        <h2 className="text-center">Eliminar medio de pago</h2>
+                        <hr />
+                        <span className="text-center font-medium text-sm">
+                          ¿Seguro que quieres eliminar el medio de pago?
+                        </span>
+                        <hr />
+                        <div className="flex items-center justify-evenly">
+                          <GeneralBtn
+                            onClick={() => {
+                              setConfirmDeleteId("");
+                            }}
+                            type="primary"
+                            className="confirm__delete__btn"
+                          >
+                            Cancelar
+                          </GeneralBtn>
+                          <GeneralBtn
+                            onClick={() => handleDeleteCards(confirmDeleteId)}
+                            type="primary"
+                            className="confirm__delete__btn"
+                          >
+                            Eliminar
+                          </GeneralBtn>
+                        </div>
+                      </ConfirmDelete>
+                    ) : null}
                   </div>
+
                   <button
-                    onClick={() => handleDeleteCards(card?.id)}
+                    onClick={() => handleOpenModal(card?.id)}
                     className="self-end font-semibold hover:text-teal-500 text-sm sm:text-normal"
                   >
                     Eliminar
