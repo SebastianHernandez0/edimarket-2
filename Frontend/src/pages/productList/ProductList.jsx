@@ -8,7 +8,8 @@ import { UserContext } from "../../context/UserContext";
 
 export function ProductList() {
   const { categoria } = useParams();
-  const { handleProductDetail, loading } = useContext(ProductContext);
+  const { handleProductDetail, loading, setLoading } =
+    useContext(ProductContext);
   const [orderBy, setOrderBy] = useState("");
   const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -16,6 +17,7 @@ export function ProductList() {
 
   const handleGetFilteredProducts = async () => {
     try {
+      setLoading(true);
       const response = await fetch(
         `https://edimarket.onrender.com/categorias/${categoria}`
       );
@@ -27,6 +29,8 @@ export function ProductList() {
       setFilteredProducts(data.results);
     } catch (error) {
       console.error("Error al obtener productos:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
