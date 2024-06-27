@@ -1,5 +1,5 @@
 import "../myPosts/myPosts.css";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState, useRef, forwardRef } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { ProductContext } from "../../context/ProductContext";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
@@ -9,11 +9,46 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Loader } from "../../components/loader/Loader";
 import { UserContext } from "../../context/UserContext";
 import postImg from "/imgs/aplication/posts.png";
+import { ConfirmDelete } from "../../components/confirmDelete/ConfirmDelete";
+import { IoIosClose } from "react-icons/io";
 
-export function MyPotsts() {
+const CloseIcon = forwardRef((props, ref) => (
+  <div ref={ref}>
+    <IoIosClose {...props} />
+  </div>
+));
+
+export function MyPosts() {
   const { loading } = useContext(ProductContext);
   const { userToken, myProducts, getProductBySeller } = useContext(UserContext);
   const navigate = useNavigate();
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+  const modalContentRef = {
+    iconRef: useRef(null),
+    modalRef: useRef(null),
+    btnRef: useRef(null),
+  };
+
+  const handleClickOutside = (e) => {
+    if (
+      modalContentRef.modalRef.current &&
+      modalContentRef.iconRef.current &&
+      modalContentRef.btnRef.current &&
+      !modalContentRef.modalRef.current.contains(e.target) &&
+      !modalContentRef.btnRef.current.contains(e.target) &&
+      !modalContentRef.iconRef.current.contains(e.target)
+    ) {
+      setConfirmDeleteId(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const handleDeleteMyProducts = async (id) => {
     try {
@@ -27,10 +62,11 @@ export function MyPotsts() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Error al subir producto");
+        throw new Error(errorData.message || "Error al eliminar producto");
       }
-      const data = response.json();
+      const data = await response.json();
       getProductBySeller();
+      setConfirmDeleteId(null); // Reset the confirmation state after deletion
       return data;
     } catch (error) {
       console.error("Error al eliminar producto", error);
@@ -39,6 +75,10 @@ export function MyPotsts() {
 
   const handleEditProduct = (id) => {
     navigate(`/edit-post/${id}`);
+  };
+
+  const requestDeleteConfirmation = (id) => {
+    setConfirmDeleteId(id);
   };
 
   return (
@@ -51,7 +91,7 @@ export function MyPotsts() {
           {myProducts.length > 0 ? (
             myProducts.map((product) => (
               <ProductCard
-                className="border p-5 rounded-md flex flex-col gap-4"
+                className="mypost__card__body border p-5 rounded-md flex flex-col gap-4"
                 key={product.productoId}
               >
                 <div className="myposts__card__body flex items-start gap-5">
@@ -75,7 +115,7 @@ export function MyPotsts() {
                     </p>
                   </div>
                 </div>
-                <div className="myposts__btn__container">
+                <div className="myposts__btn__container flex items-center gap-2">
                   <GeneralBtn
                     onClick={() => handleEditProduct(product?.productoId)}
                     className="myposts__btn"
@@ -83,8 +123,21 @@ export function MyPotsts() {
                   >
                     <TbEdit className="btn__edit" />
                   </GeneralBtn>
+                  {confirmDeleteId === product?.productoId ? (
+                    <ConfirmDelete
+                      modalContentRef={modalContentRef}
+                      setConfirmDeleteId={setConfirmDeleteId}
+                      handleDeleteMyProduct={handleDeleteMyProducts}
+                      CloseIcon={CloseIcon}
+                      confirmDeleteId={confirmDeleteId}
+                    />
+                  ) : (
+                    ""
+                  )}
                   <GeneralBtn
-                    onClick={() => handleDeleteMyProducts(product.productoId)}
+                    onClick={() =>
+                      requestDeleteConfirmation(product?.productoId)
+                    }
                     className="myposts__btn"
                     type="secondary"
                   >

@@ -5,7 +5,9 @@
   width: 100%;
   max-width: 1000px;
 }
-
+.mypost__card__body {
+  position: relative;
+}
 .myposts__card__img {
   width: 100%;
   max-width: 120px;
@@ -44,6 +46,30 @@
 .post__img {
   width: 100%;
   max-width: 200px;
+}
+.confirm__delete__modal {
+  z-index: 50;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+.close__icon {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  transform: scale(2.5);
+}
+.close__icon:hover {
+  cursor: pointer;
+  background: #7a797963;
+  border-radius: 50%;
+}
+.confirm__delete__btn {
+  width: 120px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (min-width: 576px) {

@@ -17,6 +17,7 @@ export function CreatePost() {
     userToken,
     setUserData,
     initialUserData,
+    getProductBySeller,
   } = useContext(UserContext);
 
   const [createPostSuccess, setCreatePostSuccess] = useState({
@@ -63,6 +64,7 @@ export function CreatePost() {
         throw new Error(errorData.message || "Error al subir producto");
       }
       const data = response.json();
+      getProductBySeller();
       return data;
     } catch (error) {
       console.error("Error al eliminar favorito", error);
