@@ -17,15 +17,46 @@ const EditIcon = forwardRef((props, ref) => (
 
 export function UserAddress() {
   const [openEditModal, setOpenEditModal] = useState(false);
-  const { user, userAddress } = useContext(UserContext);
-  const { loading } = useContext(ProductContext);
+  const { user, userAddress, userToken, handleUserAddress } =
+    useContext(UserContext);
+  const { loading, setLoading } = useContext(ProductContext);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
   const navigate = useNavigate();
   const addressRef = {
     iconRef: useRef(null),
     modalRef: useRef(null),
   };
 
-  const handleOpenEditModal = () => {
+  const handleDeleteAddress = async (id) => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https://edimarket.onrender.com/usuarios/usuario/domicilio/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al editar usuario");
+      }
+      const data = await response.json();
+      handleUserAddress();
+      return data;
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOpenEditModal = (id) => {
+    setSelectedAddressId(id);
     setOpenEditModal(!openEditModal);
   };
 
@@ -105,11 +136,15 @@ export function UserAddress() {
                 <div className="edit__icon">
                   <EditIcon
                     ref={addressRef.iconRef}
-                    onClick={handleOpenEditModal}
+                    onClick={() => handleOpenEditModal(address.id)}
                     className="text-xl mt-3 cursor-pointer"
                   />
                   {openEditModal ? (
-                    <UserAddressModal ref={addressRef.modalRef} />
+                    <UserAddressModal
+                      handleDeleteAddress={handleDeleteAddress}
+                      selectedAddressId={selectedAddressId}
+                      ref={addressRef.modalRef}
+                    />
                   ) : null}
                 </div>
               </div>
