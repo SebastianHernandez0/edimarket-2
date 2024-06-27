@@ -9,10 +9,6 @@ export function Products() {
   const { products, handleProductDetail, loading } = useContext(ProductContext);
   const { userToken, user } = useContext(UserContext);
 
-  const filteredProducts = products.filter(
-    (product) => product.vendedor !== user.id
-  );
-
   return (
     <section>
       {loading ? (
@@ -27,7 +23,7 @@ export function Products() {
           <div className="products__cards__container">
             {userToken ? (
               <div className="products__cards__container">
-                {filteredProducts?.map((product) => (
+                {products?.map((product) => (
                   <ProductCard
                     onClick={() => handleProductDetail(product?.id)}
                     key={product.id}
