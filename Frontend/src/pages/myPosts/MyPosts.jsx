@@ -20,13 +20,16 @@ export function MyPosts() {
 
   const handleDeleteMyProducts = async (id) => {
     try {
-      const response = await fetch(`https://edimarket.onrender.com/usuarios/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
+      const response = await fetch(
+        `https://edimarket.onrender.com/usuarios/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();

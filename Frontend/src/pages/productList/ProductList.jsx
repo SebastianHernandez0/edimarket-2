@@ -13,7 +13,7 @@ export function ProductList() {
   const [orderBy, setOrderBy] = useState("");
   const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const { user } = useContext(UserContext);
+  const { user, userToken } = useContext(UserContext);
 
   const handleGetFilteredProducts = async () => {
     try {
@@ -35,9 +35,6 @@ export function ProductList() {
   };
 
   let sortedProducts = [...filteredProducts];
-  let sortedAndFilteredProucts = sortedProducts.filter(
-    (product) => product.vendedor !== user.id
-  );
 
   useEffect(() => {
     handleGetFilteredProducts();
@@ -47,17 +44,23 @@ export function ProductList() {
     setOrderBy(event.target.value);
   };
 
-  if (orderBy === "menorPrecio") {
-    sortedProducts.sort((a, b) => a.precio - b.precio);
-  } else if (orderBy === "mayorPrecio") {
-    sortedProducts.sort((a, b) => b.precio - a.precio);
-  }
-
   useEffect(() => {
     if (navigate) {
       setOrderBy("");
     }
   }, [navigate]);
+
+  if (userToken) {
+    sortedProducts = sortedProducts.filter(
+      (product) => product.vendedor !== user.id
+    );
+
+    if (orderBy === "menorPrecio") {
+      sortedProducts.sort((a, b) => a.precio - b.precio);
+    } else if (orderBy === "mayorPrecio") {
+      sortedProducts.sort((a, b) => b.precio - a.precio);
+    }
+  }
 
   return (
     <div className="products__container">
@@ -89,7 +92,7 @@ export function ProductList() {
             </option>
           </select>
           <div className="products__cards__container">
-            {sortedAndFilteredProucts?.map((product) => (
+            {sortedProducts.map((product) => (
               <ProductCard
                 onClick={() => handleProductDetail(product?.id)}
                 key={product?.id}
