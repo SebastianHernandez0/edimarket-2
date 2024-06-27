@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import "../addUserCards/addUserCards.css";
-import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
