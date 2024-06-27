@@ -5,7 +5,7 @@ import { ProductContext } from "../../context/ProductContext";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { TbEdit } from "react-icons/tb";
 import { FaTrashCan } from "react-icons/fa6";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Loader } from "../../components/loader/Loader";
 import { UserContext } from "../../context/UserContext";
 import postImg from "/imgs/aplication/posts.png";
@@ -22,23 +22,21 @@ export function MyPosts() {
   const { loading } = useContext(ProductContext);
   const { userToken, myProducts, getProductBySeller } = useContext(UserContext);
   const navigate = useNavigate();
-  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
-  const modalContentRef = {
-    iconRef: useRef(null),
-    modalRef: useRef(null),
-    btnRef: useRef(null),
-  };
+  const [confirmDeleteId, setConfirmDeleteId] = useState("");
+  const iconRef = useRef(null);
+  const modalRef = useRef(null);
+  const btnRef = useRef(null);
 
   const handleClickOutside = (e) => {
     if (
-      modalContentRef.modalRef.current &&
-      modalContentRef.iconRef.current &&
-      modalContentRef.btnRef.current &&
-      !modalContentRef.modalRef.current.contains(e.target) &&
-      !modalContentRef.btnRef.current.contains(e.target) &&
-      !modalContentRef.iconRef.current.contains(e.target)
+      modalRef.current &&
+      iconRef.current &&
+      btnRef.current &&
+      !modalRef.current.contains(e.target) &&
+      !iconRef.current.contains(e.target) &&
+      !btnRef.current.contains(e.target)
     ) {
-      setConfirmDeleteId(false);
+      setConfirmDeleteId("");
     }
   };
 
@@ -66,7 +64,7 @@ export function MyPosts() {
       }
       const data = await response.json();
       getProductBySeller();
-      setConfirmDeleteId(null); // Reset the confirmation state after deletion
+      setConfirmDeleteId(null);
       return data;
     } catch (error) {
       console.error("Error al eliminar producto", error);
@@ -92,7 +90,7 @@ export function MyPosts() {
             myProducts.map((product) => (
               <ProductCard
                 className="mypost__card__body border p-5 rounded-md flex flex-col gap-4"
-                key={product.productoId}
+                key={product?.productoId}
               >
                 <div className="myposts__card__body flex items-start gap-5">
                   <img
@@ -125,16 +123,48 @@ export function MyPosts() {
                   </GeneralBtn>
                   {confirmDeleteId === product?.productoId ? (
                     <ConfirmDelete
-                      modalContentRef={modalContentRef}
-                      setConfirmDeleteId={setConfirmDeleteId}
-                      handleDeleteMyProduct={handleDeleteMyProducts}
-                      CloseIcon={CloseIcon}
-                      confirmDeleteId={confirmDeleteId}
-                    />
+                      ref={modalRef}
+                      className="confirm__delete__modal bg-gray-100 shadow-sm p-3 rounded-md flex flex-col items-stretch gap-4 border"
+                    >
+                      <CloseIcon
+                        ref={iconRef}
+                        onClick={() => {
+                          setConfirmDeleteId("");
+                        }}
+                        className="close__icon"
+                      />
+                      <h2 className="text-center">Eliminar publicación</h2>
+                      <hr />
+                      <span className="text-center font-medium text-sm">
+                        ¿Seguro que quieres eliminar la publicación?
+                      </span>
+                      <hr />
+                      <div className="flex items-center justify-evenly">
+                        <GeneralBtn
+                          onClick={() => {
+                            setConfirmDeleteId("");
+                          }}
+                          type="primary"
+                          className="confirm__delete__btn"
+                        >
+                          Cancelar
+                        </GeneralBtn>
+                        <GeneralBtn
+                          onClick={() =>
+                            handleDeleteMyProducts(confirmDeleteId)
+                          }
+                          type="primary"
+                          className="confirm__delete__btn"
+                        >
+                          Eliminar
+                        </GeneralBtn>
+                      </div>
+                    </ConfirmDelete>
                   ) : (
                     ""
                   )}
                   <GeneralBtn
+                    ref={btnRef}
                     onClick={() =>
                       requestDeleteConfirmation(product?.productoId)
                     }
