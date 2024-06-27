@@ -10,6 +10,11 @@
   display: flex;
   flex-direction: column;
 }
+.credit-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 .credit-card-container {
   border-radius: 50%;
   border: 1px solid #b6b6b6;

@@ -15,6 +15,7 @@ export function AddUserCards() {
     inputRefs,
     userToken,
     user,
+    handleUserCards,
   } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -31,27 +32,31 @@ export function AddUserCards() {
     fecha_expiracion,
     codigo_seguridad
   ) => {
-    const response = await fetch("https://edimarket.onrender.com/usuarios/metodosPago", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken}`,
-      },
-      body: JSON.stringify({
-        usuario_id,
-        tipo_tarjeta,
-        numero_tarjeta,
-        nombre_titular,
-        fecha_expiracion,
-        codigo_seguridad,
-      }),
-    });
+    const response = await fetch(
+      "https://edimarket.onrender.com/usuarios/metodosPago",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          usuario_id,
+          tipo_tarjeta,
+          numero_tarjeta,
+          nombre_titular,
+          fecha_expiracion,
+          codigo_seguridad,
+        }),
+      }
+    );
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message || "Error al agregar metodo de pago");
     }
 
     const data = await response.json();
+    handleUserCards();
     return data;
   };
 

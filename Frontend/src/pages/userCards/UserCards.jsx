@@ -12,50 +12,37 @@ export function UserCards() {
   const handleNavigateToAddCard = () => {
     navigate("/add-credit-cards");
   };
-  const { userToken, user, userCreditCards, setUserCreditCards } =
+  const { userToken, user, userCreditCards, handleUserCards } =
     useContext(UserContext);
   const { loading, setLoading } = useContext(ProductContext);
 
-  const handleUserCards = async () => {
+  const handleDeleteCards = async (id) => {
     try {
-      if (userToken) {
-        const response = await fetch(
-          `https://edimarket.onrender.com/usuarios/usuario/metodosPago/?idUsuario=${user.id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${userToken}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || "Error al obtener tarjetas");
+      setLoading(true);
+      const response = await fetch(
+        `https://edimarket.onrender.com/usuarios/usuario/metodosPago/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
         }
-
-        const data = await response.json();
-
-        setUserCreditCards(
-          data.metodos.map((d) => {
-            return {
-              ...d,
-            };
-          })
-        );
-
-        return data;
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al eliminar tarjeta");
       }
+
+      const data = await response.json();
+      handleUserCards();
+      return data;
     } catch (error) {
       console.error("Error:", error.message);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    handleUserCards();
-  }, []);
 
   return (
     <section className="usercards__container bg-white shadow-sm rounded-sm">
@@ -68,7 +55,7 @@ export function UserCards() {
             <div className="credit-card__body">
               {userCreditCards.map((card) => (
                 <div
-                  key={card.numero_tarjeta}
+                  key={card?.numero_tarjeta}
                   className="flex border rounded-md p-5"
                 >
                   <div className="flex items-center justify-start gap-5 w-full">
@@ -76,7 +63,7 @@ export function UserCards() {
                       <img
                         className="credit-card__img"
                         src={`/imgs/aplication/${
-                          card.tipo_tarjeta === "visa"
+                          card?.tipo_tarjeta === "visa"
                             ? "visa.png"
                             : "mastercard.png"
                         }`}
@@ -85,29 +72,32 @@ export function UserCards() {
                     </div>
                     <div className="flex flex-col gap-2">
                       <span className="font-semibold text-lg">
-                        {card.tipo_tarjeta.charAt(0).toUpperCase() +
-                          card.tipo_tarjeta.slice(1)}
+                        {card?.tipo_tarjeta.charAt(0).toUpperCase() +
+                          card?.tipo_tarjeta.slice(1)}
                       </span>
                       <div>
                         <span className="text-sm">Terminada en </span>
                         <span className="font-semibold">
-                          {card.numero_tarjeta.slice(11, 15)}
+                          {card?.numero_tarjeta.slice(11, 15)}
                         </span>
                       </div>
 
                       <span className="text-sm">
                         Vencimiento{" "}
                         <span className="font-semibold">
-                          {card.fecha_expiracion.slice(0, 2) +
+                          {card?.fecha_expiracion.slice(0, 2) +
                             "/" +
-                            card.fecha_expiracion.slice(2)}
+                            card?.fecha_expiracion.slice(2)}
                         </span>
                       </span>
                     </div>
                   </div>
-                  <Link className="self-end font-semibold hover:text-teal-500 text-sm sm:text-normal">
+                  <button
+                    onClick={() => handleDeleteCards(card?.id)}
+                    className="self-end font-semibold hover:text-teal-500 text-sm sm:text-normal"
+                  >
                     Eliminar
-                  </Link>
+                  </button>
                 </div>
               ))}
             </div>
