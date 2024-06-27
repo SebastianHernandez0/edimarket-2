@@ -106,7 +106,7 @@ export function UserProvider({ children }) {
     try {
       if (userToken) {
         const response = await fetch(
-          "http://localhost:3000/usuarios/usuario/productos",
+          "https://edimarket.onrender.com/usuarios/usuario/productos",
           {
             headers: {
               "Content-Type": "application/json",
@@ -138,7 +138,7 @@ export function UserProvider({ children }) {
   const handleAddedToCart = async () => {
     try {
       if (userToken) {
-        const response = await fetch("http://localhost:3000/carrito", {
+        const response = await fetch("https://edimarket.onrender.com/carrito", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${userToken}`,
@@ -170,7 +170,7 @@ export function UserProvider({ children }) {
     try {
       if (userToken) {
         const response = await fetch(
-          `http://localhost:3000/usuarios/usuario/domicilio?userId=${user.id}`,
+          `https://edimarket.onrender.com/usuarios/usuario/domicilio?userId=${user.id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -212,7 +212,7 @@ export function UserProvider({ children }) {
   const handleGetFavs = async () => {
     try {
       if (userToken) {
-        const response = await fetch("http://localhost:3000/favoritos", {
+        const response = await fetch("https://edimarket.onrender.com/favoritos", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${userToken}`,
@@ -239,7 +239,7 @@ export function UserProvider({ children }) {
   const handleDeleteFav = async (e, id) => {
     e.stopPropagation();
     try {
-      const response = await fetch(`http://localhost:3000/favoritos/${id}`, {
+      const response = await fetch(`https://edimarket.onrender.com/favoritos/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

@@ -31,7 +31,7 @@ export function AddUserCards() {
     fecha_expiracion,
     codigo_seguridad
   ) => {
-    const response = await fetch("http://localhost:3000/usuarios/metodosPago", {
+    const response = await fetch("https://edimarket.onrender.com/usuarios/metodosPago", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

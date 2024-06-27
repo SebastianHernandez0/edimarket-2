@@ -20,7 +20,7 @@ export function MyPosts() {
 
   const handleDeleteMyProducts = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/usuarios/${id}`, {
+      const response = await fetch(`https://edimarket.onrender.com/usuarios/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

@@ -17,7 +17,7 @@ export function ProductList() {
   const handleGetFilteredProducts = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/categorias/${categoria}`
+        `https://edimarket.onrender.com/categorias/${categoria}`
       );
       if (!response.ok) {
         throw new Error("Producto no encontrado");

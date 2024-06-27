@@ -34,7 +34,7 @@ export function AddUserAdress() {
     try {
       if (userToken) {
         const response = await fetch(
-          "http://localhost:3000/usuarios/domicilio",
+          "https://edimarket.onrender.com/usuarios/domicilio",
           {
             method: "POST",
             headers: {

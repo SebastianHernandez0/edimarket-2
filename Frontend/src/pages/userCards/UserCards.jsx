@@ -20,7 +20,7 @@ export function UserCards() {
     try {
       if (userToken) {
         const response = await fetch(
-          `http://localhost:3000/usuarios/usuario/metodosPago/?idUsuario=${user.id}`,
+          `https://edimarket.onrender.com/usuarios/usuario/metodosPago/?idUsuario=${user.id}`,
           {
             headers: {
               "Content-Type": "application/json",

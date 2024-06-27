@@ -33,7 +33,7 @@ export function EditUserAddress() {
     idUsuario
   ) => {
     try {
-      const response = await fetch("http://localhost:3000/usuarios/domicilio", {
+      const response = await fetch("https://edimarket.onrender.com/usuarios/domicilio", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
