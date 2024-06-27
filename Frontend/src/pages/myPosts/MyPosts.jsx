@@ -1,5 +1,5 @@
 import "../myPosts/myPosts.css";
-import { useContext, useEffect, useState, useRef, forwardRef } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { ProductContext } from "../../context/ProductContext";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
@@ -12,41 +12,11 @@ import postImg from "/imgs/aplication/posts.png";
 import { ConfirmDelete } from "../../components/confirmDelete/ConfirmDelete";
 import { IoIosClose } from "react-icons/io";
 
-const CloseIcon = forwardRef((props, ref) => (
-  <div ref={ref}>
-    <IoIosClose {...props} />
-  </div>
-));
-
 export function MyPosts() {
   const { loading } = useContext(ProductContext);
   const { userToken, myProducts, getProductBySeller } = useContext(UserContext);
   const navigate = useNavigate();
   const [confirmDeleteId, setConfirmDeleteId] = useState("");
-  const iconRef = useRef(null);
-  const modalRef = useRef(null);
-  const btnRef = useRef(null);
-
-  const handleClickOutside = (e) => {
-    if (
-      modalRef.current &&
-      iconRef.current &&
-      btnRef.current &&
-      !modalRef.current.contains(e.target) &&
-      !iconRef.current.contains(e.target) &&
-      !btnRef.current.contains(e.target)
-    ) {
-      setConfirmDeleteId("");
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("click", handleClickOutside);
-
-    return () => {
-      window.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
 
   const handleDeleteMyProducts = async (id) => {
     try {
@@ -103,10 +73,12 @@ export function MyPosts() {
                       {product?.nombre}
                     </p>
                     <p className="myposts__card__info font-medium">
-                      {product?.precio.toLocaleString("es-CL", {
-                        style: "currency",
-                        currency: "CLP",
-                      })}
+                      {product?.precio
+                        ? Number(product.precio).toLocaleString("es-CL", {
+                            style: "currency",
+                            currency: "CLP",
+                          })
+                        : null}
                     </p>
                     <p className="text-sm text-gray-400 mt-3">
                       Publicado en Edimarket
@@ -122,12 +94,8 @@ export function MyPosts() {
                     <TbEdit className="btn__edit" />
                   </GeneralBtn>
                   {confirmDeleteId === product?.productoId ? (
-                    <ConfirmDelete
-                      ref={modalRef}
-                      className="confirm__delete__modal bg-gray-100 shadow-sm p-3 rounded-md flex flex-col items-stretch gap-4 border"
-                    >
-                      <CloseIcon
-                        ref={iconRef}
+                    <ConfirmDelete className="confirm__delete__modal bg-gray-100 shadow-sm p-3 rounded-md flex flex-col items-stretch gap-4 border">
+                      <IoIosClose
                         onClick={() => {
                           setConfirmDeleteId("");
                         }}
@@ -164,7 +132,6 @@ export function MyPosts() {
                     ""
                   )}
                   <GeneralBtn
-                    ref={btnRef}
                     onClick={() =>
                       requestDeleteConfirmation(product?.productoId)
                     }
