@@ -54,12 +54,12 @@ export function ProductList() {
     sortedProducts = sortedProducts.filter(
       (product) => product.vendedor !== user.id
     );
+  }
 
-    if (orderBy === "menorPrecio") {
-      sortedProducts.sort((a, b) => a.precio - b.precio);
-    } else if (orderBy === "mayorPrecio") {
-      sortedProducts.sort((a, b) => b.precio - a.precio);
-    }
+  if (orderBy === "menorPrecio") {
+    sortedProducts.sort((a, b) => a.precio - b.precio);
+  } else if (orderBy === "mayorPrecio") {
+    sortedProducts.sort((a, b) => b.precio - a.precio);
   }
 
   return (
@@ -92,7 +92,7 @@ export function ProductList() {
             </option>
           </select>
           <div className="products__cards__container">
-            {sortedProducts.map((product) => (
+            {sortedProducts?.map((product) => (
               <ProductCard
                 onClick={() => handleProductDetail(product?.id)}
                 key={product?.id}
