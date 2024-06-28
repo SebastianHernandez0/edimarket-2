@@ -102,6 +102,13 @@ export function UserProvider({ children }) {
     timeoutRef: useRef(null),
   };
 
+  useEffect(() => {
+    setAddAddressSuccess({
+      success: "",
+      error: "",
+    });
+  }, [navigate]);
+
   const handleUserCards = async () => {
     try {
       if (userToken) {

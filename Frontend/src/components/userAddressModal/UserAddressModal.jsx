@@ -19,7 +19,7 @@ export const UserAddressModal = forwardRef(
         className="addressmodal__container bg-white shadow-sm rounded-md border"
       >
         <button
-          onClick={() => handleNavigateToEditAddress(addressId)}
+          onClick={() => handleNavigateToEditAddress(selectedAddressId)}
           className="edit__btn w-full font-medium"
         >
           Editar
