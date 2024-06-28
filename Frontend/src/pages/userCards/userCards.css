@@ -37,9 +37,10 @@
 }
 .confirm__delete__modal__card {
   z-index: 50;
-  position: absolute;
+  position: fixed;
   top: 50%;
-  left: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media (min-width: 576px) {
@@ -49,9 +50,5 @@
   }
   .credit-card__img {
     padding: 15px;
-  }
-  .confirm__delete__modal__card {
-    top: 50%;
-    left: 30%;
   }
 }

@@ -1,13 +1,19 @@
 import "../userCards/userCards.css";
 import { Link, useNavigate } from "react-router-dom";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState, forwardRef } from "react";
 import { UserContext } from "../../context/UserContext";
 import { ProductContext } from "../../context/ProductContext";
 import { Loader } from "../../components/loader/Loader";
 import { ConfirmDelete } from "../../components/confirmDelete/ConfirmDelete";
 import { IoIosClose } from "react-icons/io";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
+
+const ModalIcon = forwardRef((props, ref) => (
+  <div ref={ref}>
+    <IoIosClose {...props} />
+  </div>
+));
 
 export function UserCards() {
   const navigate = useNavigate();
@@ -19,6 +25,9 @@ export function UserCards() {
     useContext(UserContext);
   const { loading, setLoading } = useContext(ProductContext);
   const [confirmDeleteId, setConfirmDeleteId] = useState("");
+  const iconRef = useRef(null);
+  const modalRef = useRef(null);
+  const btnRef = useRef(null);
   const [addCardSuccess, setAddCardSuccess] = useState({
     success: "",
     error: "",
@@ -69,6 +78,27 @@ export function UserCards() {
     }
   };
 
+  const handleClickOutside = (e) => {
+    if (
+      iconRef.current &&
+      btnRef.current &&
+      modalRef.current &&
+      !iconRef.current.contains(e.target) &&
+      !btnRef.current.contains(e.target) &&
+      !modalRef.current.contains(e.target)
+    ) {
+      setConfirmDeleteId("");
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <section className="usercards__container bg-white shadow-sm rounded-sm">
       <h1 className="mb-5">Mis tarjetas</h1>
@@ -117,8 +147,12 @@ export function UserCards() {
                       </span>
                     </div>
                     {confirmDeleteId === card?.id ? (
-                      <ConfirmDelete className="confirm__delete__modal__card bg-gray-100 shadow-sm p-3 rounded-md flex flex-col items-stretch gap-4 border">
-                        <IoIosClose
+                      <ConfirmDelete
+                        ref={modalRef}
+                        className="confirm__delete__modal__card bg-gray-100 shadow-sm p-3 rounded-md flex flex-col items-stretch gap-4 border"
+                      >
+                        <ModalIcon
+                          ref={iconRef}
                           onClick={() => {
                             setConfirmDeleteId("");
                           }}
@@ -153,6 +187,7 @@ export function UserCards() {
                   </div>
 
                   <button
+                    ref={confirmDeleteId === card?.id ? btnRef : null}
                     onClick={() => handleOpenModal(card?.id)}
                     className="self-end font-semibold hover:text-teal-500 text-sm sm:text-normal"
                   >
