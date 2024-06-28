@@ -12,27 +12,27 @@ export function Categories() {
         <div className="categories__list bg-gray-50 shadow-md ">
           <Link className="categories__list__link" to="/category/consolas">
             <div>
-              <h3>Consolas</h3>
+              <h4>Consolas</h4>
             </div>
           </Link>
           <Link className="categories__list__link" to="/category/accesorios">
             <div>
-              <h3>Accesorios</h3>
+              <h4>Accesorios</h4>
             </div>
           </Link>
           <Link className="categories__list__link" to="/category/monitores">
             <div>
-              <h3>Monitores</h3>
+              <h4>Monitores</h4>
             </div>
           </Link>
           <Link className="categories__list__link" to="/category/componentes">
             <div>
-              <h3>Componentes</h3>
+              <h4>Componentes</h4>
             </div>
           </Link>
           <Link className="categories__list__link" to="/category/telefonia">
             <div>
-              <h3>Telefonía</h3>
+              <h4>Telefonía</h4>
             </div>
           </Link>
           <Link
@@ -40,7 +40,7 @@ export function Categories() {
             to="/category/electrodomesticos"
           >
             <div>
-              <h3>Electrodomésticos</h3>
+              <h4>Electrodomésticos</h4>
             </div>
           </Link>
         </div>
