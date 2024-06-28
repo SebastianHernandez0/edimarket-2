@@ -14,6 +14,8 @@ export function ProductProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
   const [seller, setSeller] = useState("");
+  const [searchProduct, setSearchProduct] = useState("");
+  const [findedProduct, setFindedProduct] = useState([]);
 
   const [productAlert, setProductAlert] = useState({
     succes: "",
@@ -144,6 +146,10 @@ export function ProductProvider({ children }) {
         handleGetProduct,
         seller,
         handleGetProducts,
+        searchProduct,
+        setSearchProduct,
+        findedProduct,
+        setFindedProduct,
       }}
     >
       {children}
