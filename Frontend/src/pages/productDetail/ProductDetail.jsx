@@ -270,6 +270,7 @@ export function ProductDetail() {
                 <p className="card__paragraph card__paragraph__name">
                   {product?.nombre}
                 </p>
+                <hr className="mb-5"/>
                 <div className="card__info__price__details">
                   <p className="card__paragraph card__paragraph__price">
                     {product?.precio
@@ -398,7 +399,7 @@ export function ProductDetail() {
                   Agregar al carrito
                 </GeneralBtn>
               </div>
-              <hr className="mt-8" />
+              <hr className="my-8 sm:mb-0" />
               <div className="card__payment ">
                 <h3 className="mb-4 font-medium">Medios de pago</h3>
                 <div className="flex items-center justify-between">
