@@ -55,6 +55,7 @@ export function UserAddress() {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al editar usuario");
       } else {
+        setSelectedAddressId("");
         setDeleteSuccess((prevData) => ({
           ...prevData,
           success: "Domicilio eliminado.",
