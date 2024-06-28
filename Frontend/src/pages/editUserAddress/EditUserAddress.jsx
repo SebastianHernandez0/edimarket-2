@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import "../editUserAddress/editUserAddress.css";
 import { UserContext } from "../../context/UserContext";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
@@ -10,6 +10,7 @@ export function EditUserAddress() {
   const {
     setInputFormError,
     userData,
+    setUserData,
     handleChange,
     inputRefs,
     onlyNumbersRegex,
@@ -18,6 +19,7 @@ export function EditUserAddress() {
     setAddAddressSuccess,
     userToken,
     user,
+    userAddress,
     handleUserAddress,
   } = useContext(UserContext);
   const { setLoading } = useContext(ProductContext);
@@ -140,6 +142,19 @@ export function EditUserAddress() {
       }, 3000);
     }
   };
+
+  useEffect(() => {
+    setUserData((prevData) => ({
+      ...prevData,
+      direccion: userAddress[0]?.direccion,
+      region: userAddress[0]?.region,
+      comuna: userAddress[0]?.comuna,
+      codigoPostal: userAddress[0]?.codigo_postal,
+      numero: userAddress[0]?.numero_casa,
+    }));
+
+    inputRefs.direccion.current.focus();
+  }, []);
 
   return (
     <section className="edituseraddress__container bg-white shadow-sm rounded-sm">

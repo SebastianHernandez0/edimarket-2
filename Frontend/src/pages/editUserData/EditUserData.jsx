@@ -12,6 +12,7 @@ export function EditUserData() {
   const {
     emailRegex,
     userData,
+    setUserData,
     handleChange,
     inputRefs,
     inputFormError,
@@ -147,6 +148,16 @@ export function EditUserData() {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    setUserData((prevData) => ({
+      ...prevData,
+      nombre: user.nombre,
+      email: user.email,
+    }));
+
+    inputRefs.nombre.current.focus();
+  }, []);
+
   return (
     <section className="edituserdata__container bg-white shadow-sm rounded-sm">
       <h1 className="mb-5">Edita y guarda tus datos</h1>
@@ -156,7 +167,7 @@ export function EditUserData() {
           className="edituserdata__form border rounded-md py-5 px-3 flex flex-col gap-5"
         >
           <div className="user__input__container">
-            <label className="font-semibold" htmlFor="">
+            <label className="font-semibold" htmlFor="nombre">
               Nombre y apellido
             </label>
             <input
@@ -178,7 +189,7 @@ export function EditUserData() {
             )}
           </div>
           <div className="user__input__container">
-            <label className="font-semibold" htmlFor="">
+            <label className="font-semibold" htmlFor="email">
               Email
             </label>
             <input
@@ -200,7 +211,7 @@ export function EditUserData() {
             )}
           </div>
           <div className="user__input__container">
-            <label className="font-semibold" htmlFor="">
+            <label className="font-semibold" htmlFor="contraseña">
               Contraseña
             </label>
             <input
@@ -233,7 +244,7 @@ export function EditUserData() {
             )}
           </div>
           <div className="user__input__container">
-            <label className="font-semibold" htmlFor="">
+            <label className="font-semibold" htmlFor="confirmContraseña">
               Confirma tu contraseña
             </label>
             <input

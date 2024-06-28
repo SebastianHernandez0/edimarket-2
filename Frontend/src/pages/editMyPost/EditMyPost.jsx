@@ -19,8 +19,11 @@ export function EditMyPost() {
     setUserData,
     initialUserData,
     user,
+    myProducts,
+    getProductBySeller,
   } = useContext(UserContext);
-  const { handleGetProducts, setLoading } = useContext(ProductContext);
+  const { setLoading } = useContext(ProductContext);
+  const [product, setProduct] = useState(null);
 
   const [editPostSuccess, setEditPostSuccess] = useState({
     success: "",
@@ -141,6 +144,7 @@ export function EditMyPost() {
           success: "Has modificado tu producto.",
         }));
         setUserData(initialUserData);
+        getProductBySeller();
         setTimeout(() => {
           setEditPostSuccess((prevData) => ({
             ...prevData,
@@ -148,7 +152,6 @@ export function EditMyPost() {
           }));
           navigate("/my-posts");
         }, 1500);
-        handleGetProducts();
       } catch (error) {
         console.error("Error:", error.message);
         setEditPostSuccess((prevData) => ({
@@ -165,6 +168,21 @@ export function EditMyPost() {
     }
   };
 
+  useEffect(() => {
+    const newProduct = myProducts?.find((p) => p.productoId === parseInt(id));
+    if (newProduct) {
+      setProduct(newProduct);
+      setUserData({
+        postimg: newProduct.imagen || "",
+        titulo: newProduct.nombre || "",
+        precio: newProduct.precio || "",
+        productStock: newProduct.stock || "",
+        descripcion: newProduct.descripcion || "",
+        estado: newProduct.estado || "",
+      });
+    }
+  }, [product]);
+
   return (
     <section className="editmypost__container bg-white shadow-sm">
       <h1 className="text-2xl font-semibold mb-5">Editar publicación</h1>
@@ -177,10 +195,10 @@ export function EditMyPost() {
           >
             <div className="createpost__card__file__container mb-5">
               <div className="createpost__card__imgpreview">
-                {userData.postimg ? (
+                {userData?.postimg ? (
                   <img
                     className="createpost__card__imgpreview__img"
-                    src={userData.postimg}
+                    src={userData?.postimg}
                     alt=""
                   />
                 ) : (
@@ -199,7 +217,7 @@ export function EditMyPost() {
                 }`}
                 name="postimg"
                 id=""
-                value={userData.postimg}
+                value={userData?.postimg}
                 onChange={handleChange}
                 placeholder="Ingresa la URL de la imágen"
               />
@@ -214,7 +232,7 @@ export function EditMyPost() {
                 ref={inputRefs.titulo}
                 onChange={handleChange}
                 name="titulo"
-                value={userData.titulo}
+                value={userData?.titulo}
                 className={`createpost__card__input ${
                   inputFormError.errorTitulo
                     ? "focus: outline-2 outline outline-red-600"
@@ -234,7 +252,7 @@ export function EditMyPost() {
                 ref={inputRefs.precio}
                 onChange={handleChange}
                 name="precio"
-                value={userData.precio || ""}
+                value={userData?.precio || ""}
                 className={`createpost__card__input ${
                   inputFormError.errorPrecio
                     ? "focus: outline-2 outline outline-red-600"
@@ -253,6 +271,7 @@ export function EditMyPost() {
               <div className="createpost__select__container">
                 <div className="flex flex-col ">
                   <input
+                    value={userData?.productStock || ""}
                     onChange={handleChange}
                     ref={inputRefs.productStock}
                     className={`createpost__card__input ${
@@ -282,7 +301,7 @@ export function EditMyPost() {
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
-                value={userData.estado}
+                value={userData?.estado}
                 name="estado"
                 id="estado"
               >
@@ -306,7 +325,7 @@ export function EditMyPost() {
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
-                value={userData.descripcion}
+                value={userData?.descripcion}
                 name="descripcion"
                 id=""
                 rows="5"

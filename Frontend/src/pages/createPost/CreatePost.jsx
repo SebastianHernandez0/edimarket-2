@@ -212,7 +212,7 @@ export function CreatePost() {
               ) : (
                 <p className="text-center">Vista previa...</p>
               )} */}
-              {userData.postimg ? (
+              {userData?.postimg ? (
                 <img
                   className="createpost__card__imgpreview__img"
                   src={userData.postimg}
@@ -235,7 +235,7 @@ export function CreatePost() {
               }`}
               name="postimg"
               id=""
-              value={userData.postimg}
+              value={userData?.postimg}
               onChange={handleChange}
               placeholder="Ingresa la URL de la imágen"
             />
@@ -250,7 +250,7 @@ export function CreatePost() {
               ref={inputRefs.titulo}
               onChange={handleChange}
               name="titulo"
-              value={userData.titulo}
+              value={userData?.titulo}
               className={`createpost__card__input ${
                 inputFormError.errorTitulo
                   ? "focus: outline-2 outline outline-red-600"
@@ -270,7 +270,7 @@ export function CreatePost() {
               ref={inputRefs.precio}
               onChange={handleChange}
               name="precio"
-              value={userData.precio || ""}
+              value={userData?.precio || ""}
               className={`createpost__card__input ${
                 inputFormError.errorPrecio
                   ? "focus: outline-2 outline outline-red-600"
@@ -296,7 +296,7 @@ export function CreatePost() {
                     : "focus: outline-2 outline-green-300"
                 }`}
                 name="categorias"
-                value={userData.categorias}
+                value={userData?.categorias}
                 id="categorias"
               >
                 <option value="">Categorías</option>
@@ -316,6 +316,7 @@ export function CreatePost() {
               )}
               <div className="flex flex-col ">
                 <input
+                  value={userData?.productStock || ""}
                   onChange={handleChange}
                   ref={inputRefs.productStock}
                   className={`createpost__card__input ${
@@ -345,7 +346,7 @@ export function CreatePost() {
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
-              value={userData.estado}
+              value={userData?.estado}
               name="estado"
               id="estado"
             >
@@ -369,7 +370,7 @@ export function CreatePost() {
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
-              value={userData.descripcion}
+              value={userData?.descripcion}
               name="descripcion"
               id=""
               rows="5"
