@@ -28,6 +28,7 @@ export function ProductProvider({ children }) {
       errorFav: "",
       errorCart: "",
     });
+    setProductQuantity(1);
   }, [navigate]);
 
   const getUserById = async (vendedor_id) => {
@@ -92,7 +93,9 @@ export function ProductProvider({ children }) {
   const handleGetProduct = async (id) => {
     setLoading(true);
     try {
-      const response = await fetch(`https://edimarket.onrender.com/productos/${id}`);
+      const response = await fetch(
+        `https://edimarket.onrender.com/productos/${id}`
+      );
       if (!response.ok) {
         throw new Error("Producto no encontrado");
       }
