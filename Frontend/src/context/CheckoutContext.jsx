@@ -47,6 +47,10 @@ export function CheckoutProvider({ children }) {
     }
   };
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
     return (
       <CheckoutContext.Provider
         value={{
@@ -64,6 +68,7 @@ export function CheckoutProvider({ children }) {
           isLoading,
           setIsLoading,
           navigate,
+          capitalizeFirstLetter,
         }}
       >
         {children}

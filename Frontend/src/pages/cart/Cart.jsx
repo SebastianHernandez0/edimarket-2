@@ -7,9 +7,7 @@ import { CartContext } from "../../context/CarritoContext";
 
 export function Cart() {
 
-  const { cartModal, setCartModal, cart } = useContext(CartContext);
-
-  console.log(cart)
+  const { cart } = useContext(CartContext);
 
   return (
     <div className='cart__container'>

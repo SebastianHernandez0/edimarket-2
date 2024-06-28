@@ -20,6 +20,13 @@ export function CartProvider({ children }) {
     }
   }, [navigate]);
 
+  const formatearPrecio = (precio) => {
+    return new Intl.NumberFormat('es-CL', {
+      style: 'currency',
+      currency: 'CLP'
+    }).format(precio);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -28,6 +35,7 @@ export function CartProvider({ children }) {
         openModalCart,
         cart,
         setCart,
+        formatearPrecio
       }}
     >
       {children}

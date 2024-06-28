@@ -1,17 +1,57 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { CheckoutContext } from "../../context/CheckoutContext";
 import shipping from "/src/pages/shipping/shipping.module.css";
 import classNames from 'classnames';
+import { UserContext } from '../../context/UserContext';
 
 export function PaymentMethods() {
-  const { selectedPaymentMethod, paymentInfoJson, handleCheckboxChange, handleEfectivoChange } = useContext(CheckoutContext);
+  const { user, userCreditCards, userToken, setUserCreditCards } = useContext(UserContext);
+  const { selectedPaymentMethod, handleCheckboxChange, handleEfectivoChange, capitalizeFirstLetter } = useContext(CheckoutContext);
+
+  const handleUserCards = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/usuarios/usuario/metodosPago/?idUsuario=${user.id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al obtener tarjetas");
+      }
+      const data = await response.json();
+      setUserCreditCards(data.metodos);
+
+      return data;
+
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    handleUserCards();
+  }, []);
+
+  const maskCardNumber = (cardNumber) => {
+    return cardNumber.slice(0, -4).replace(/\d/g, '*') + cardNumber.slice(-4);
+  };
+
+  const formatExpirationDate = (date) => {
+    return date.slice(0, 2) + '/' + date.slice(2);
+  };
 
   return (
     <>
       <div className={classNames('p-4', shipping.billing_box)}>
         <h2>Elige tu medio de pago</h2>
-        {paymentInfoJson.map((paymentMethod) => (
-          <div key={paymentMethod.metodo_id} className={classNames("credit_card", shipping.delivery_type_container, shipping.delivery, paymentMethod.tipo.toLowerCase())}>
+        {userCreditCards.map((paymentMethod) => (
+          <div key={paymentMethod.metodo_id} className={classNames("credit_card", shipping.delivery_type_container, shipping.delivery, paymentMethod.tipo)}>
             <div className='flex items-center'>
               <input
                 type="checkbox"
@@ -21,11 +61,10 @@ export function PaymentMethods() {
                 onChange={() => handleCheckboxChange(paymentMethod.metodo_id)}
                 className='w-4 h-4 mr-3 text-blue-600 bg-gray-100 border-gray-300 rounded'
               />
-              <label htmlFor={`checkbox-${paymentMethod.metodo_id}`} className='font-semibold'>{paymentMethod.tipo}</label>
+              <label htmlFor={`checkbox-${paymentMethod.metodo_id}`} className='font-semibold'>{capitalizeFirstLetter(paymentMethod.tipo_tarjeta)}</label>
             </div>
-            <p>Número de tarjeta: {paymentMethod.numero_tarjeta}</p>
-            {/* mostrar los últimos 4 dígitos, los demás como * */}
-            <p>Fecha de expiración: {paymentMethod.fecha_expiracion}</p>
+            <p>Número de tarjeta: {maskCardNumber(paymentMethod.numero_tarjeta)}</p>
+            <p>Fecha de expiración: {formatExpirationDate(paymentMethod.fecha_expiracion)}</p>
           </div>
         ))}
         <div className={classNames("efectivo", shipping.delivery_type_container, shipping.delivery)}>
@@ -38,13 +77,13 @@ export function PaymentMethods() {
               checked={selectedPaymentMethod === 'efectivo'}
               onChange={handleEfectivoChange}
               className='w-4 h-4 mr-3 text-blue-600 bg-gray-100 border-gray-300 rounded'
-              />
+            />
             <label htmlFor="checkbox-efectivo" className='font-semibold'>Efectivo</label>
           </div>
           <p>Pagas al recibir la compra</p>
         </div>
+        {/* corregir checkbox */}
       </div>
     </>
   );
 }
-

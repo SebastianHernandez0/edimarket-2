@@ -6,9 +6,11 @@ import { Summary } from "../../components/summary/Summary";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { ThreeDots } from "react-loader-spinner";
 import { CheckoutContext } from "../../context/CheckoutContext";
+import { CartContext } from "../../context/CarritoContext";
 
 export function Billing() {
   const { isLoading, handleButtonClick, selectedPaymentMethod, setSelectedPaymentMethod } = useContext(CheckoutContext);
+  const { cart, setCart } = useContext(CartContext);
 
   return (
     <div className="pt-10">
@@ -37,7 +39,8 @@ export function Billing() {
                 />
               ) : (
                 "Realizar pago"
-              )}
+              )} 
+              {setCart([])}
             </GeneralBtn>
           </div>
         </div>

@@ -9,7 +9,7 @@ import classNames from "classnames";
 import { NavLink } from "react-router-dom";
 
 export function FullCart() {
-  const { cartModal, setCartModal, cart } = useContext(CartContext);
+  const { cart, formatearPrecio } = useContext(CartContext);
 
   return (
     <div className="fullcart__container pt-10">
@@ -22,14 +22,14 @@ export function FullCart() {
                 <div className={classNames('cart__card__body', cartStyle.product_container)}>
                   <img
                     className="cart__card__img shadow-md"
-                    src={element.href}
+                    src={element.imagen}
                     alt="producto"
                   />
                   <div>
-                  <p className="card__card__paragraph text-md font-light">
+                  <p className="card__card__paragraph text-md">
                     {element.nombre}
                   </p>
-                  <p>$ {element.precio}</p>
+                  <p className="font-semibold">{formatearPrecio(element.precio)}</p>
                   </div>
                 </div>
               </ProductCard>
@@ -40,7 +40,7 @@ export function FullCart() {
           <Summary />
           <div>
             <GeneralBtn type="primary" className={classNames('mt-8', cartStyle.summary__button)}>
-              <NavLink to="/billing">Continuar compra</NavLink>
+              <NavLink to="/shipping">Continuar compra</NavLink>
             </GeneralBtn>
           </div>
         </div>
