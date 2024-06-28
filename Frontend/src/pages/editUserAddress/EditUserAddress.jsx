@@ -21,6 +21,7 @@ export function EditUserAddress() {
     user,
     userAddress,
     handleUserAddress,
+    selectedAddressId,
   } = useContext(UserContext);
   const { setLoading } = useContext(ProductContext);
   const navigate = useNavigate();
@@ -144,15 +145,16 @@ export function EditUserAddress() {
   };
 
   useEffect(() => {
-/*     const newData = userAddress.find((address) => address.id === 0); */
-
+    const newData = userAddress.find(
+      (address) => address.id === selectedAddressId
+    );
     setUserData((prevData) => ({
       ...prevData,
-      direccion: userAddress[0]?.direccion,
-      region: userAddress[0]?.region,
-      comuna: userAddress[0]?.comuna,
-      codigoPostal: userAddress[0]?.codigo_postal,
-      numero: userAddress[0]?.numero_casa,
+      direccion: newData?.direccion,
+      region: newData?.region,
+      comuna: newData?.comuna,
+      codigoPostal: newData?.codigo_postal,
+      numero: newData?.numero_casa,
     }));
 
     inputRefs.direccion.current.focus();

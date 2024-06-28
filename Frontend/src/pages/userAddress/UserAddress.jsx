@@ -17,11 +17,16 @@ const EditIcon = forwardRef((props, ref) => (
 ));
 
 export function UserAddress() {
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const { user, userAddress, userToken, handleUserAddress } =
-    useContext(UserContext);
+  const {
+    user,
+    userAddress,
+    userToken,
+    handleUserAddress,
+    selectedAddressId,
+    setSelectedAddressId,
+  } = useContext(UserContext);
   const { loading, setLoading } = useContext(ProductContext);
-  const [selectedAddressId, setSelectedAddressId] = useState(null);
+
   const [deleteSuccess, setDeleteSuccess] = useState({
     success: "",
     error: "",

@@ -69,6 +69,7 @@ export function UserProvider({ children }) {
   const [userCreditCards, setUserCreditCards] = useState([]);
   const [inputFormError, setInputFormError] = useState(initialFormError);
   const [myProducts, setMyProducts] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [AddAddressSuccess, setAddAddressSuccess] = useState({
     success: "",
     error: "",
@@ -434,6 +435,8 @@ export function UserProvider({ children }) {
         setMyProducts,
         myProducts,
         handleUserCards,
+        selectedAddressId,
+        setSelectedAddressId,
       }}
     >
       {children}
