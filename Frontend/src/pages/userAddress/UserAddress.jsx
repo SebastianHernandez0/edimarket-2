@@ -111,6 +111,7 @@ export function UserAddress() {
       success: "",
       error: "",
     });
+    setSelectedAddressId("");
   }, [navigate]);
 
   return (
