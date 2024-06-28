@@ -42,6 +42,10 @@ export function SearchBar({ className, openSearchBar }) {
     );
     setFindedProduct(filteredProducts);
     navigate(`/product-name/${searchProduct.toLowerCase()}`);
+
+    if (searchProduct.trim() === "") {
+      inputRef.current.focus();
+    }
   };
 
   const handleRemoveContent = () => {
@@ -57,13 +61,14 @@ export function SearchBar({ className, openSearchBar }) {
         placeholder="Buscar producto"
         className="navbar__search__input"
         type="text"
+        maxLength="50"
       />
       <FiSearch
-        onClick={handleSearchProducts}
+        onClick={searchProduct !== "" ? handleSearchProducts : null}
         className="navbar__search__icon navbar__search__icon__insideinput"
       />
       <FiSearch
-        onClick={handleSearchProducts}
+        onClick={searchProduct !== "" ? handleSearchProducts : null}
         className="navbar__search__icon__insideinput"
       />
       {searchProduct ? (
