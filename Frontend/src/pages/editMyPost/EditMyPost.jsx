@@ -5,6 +5,7 @@ import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
+import profile from "/imgs/aplication/profile.png";
 
 export function EditMyPost() {
   const {
@@ -399,6 +400,10 @@ export function EditMyPost() {
               )}
               <hr />
               <p className="mt-5">Información del vendedor</p>
+              <div className="flex items-center gap-3 mt-5">
+                <img className="w-12" src={profile} alt="" />
+                <span className="font-medium">{user.nombre}</span>
+              </div>
             </div>
           </div>
         </div>

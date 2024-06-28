@@ -5,6 +5,7 @@ import { IoMdImages } from "react-icons/io";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { UserContext } from "../../context/UserContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
+import profile from "/imgs/aplication/profile.png";
 
 export function CreatePost() {
   const {
@@ -19,6 +20,7 @@ export function CreatePost() {
     setUserData,
     initialUserData,
     getProductBySeller,
+    user,
   } = useContext(UserContext);
 
   const [createPostSuccess, setCreatePostSuccess] = useState({
@@ -444,6 +446,10 @@ export function CreatePost() {
             )}
             <hr />
             <p className="mt-5">Información del vendedor</p>
+            <div className="flex items-center gap-3 mt-5">
+              <img className="w-12" src={profile} alt="" />
+              <span className="font-medium">{user.nombre}</span>
+            </div>
           </div>
         </div>
       </div>
