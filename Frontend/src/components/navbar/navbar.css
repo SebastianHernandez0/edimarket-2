@@ -124,6 +124,8 @@
   min-height: 150px;
   min-width: 180px;
   transform: scale(100%);
+  width: 100%;
+  max-width: 217px;
 }
 .navbar__menu__links {
   display: flex;
