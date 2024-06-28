@@ -38,7 +38,7 @@ export function EditMyPost() {
     idUsuatio
   ) => {
     try {
-      const response = await fetch(`http://localhost:3000/productos/${id}`, {
+      const response = await fetch(`https://edimarket.onrender.com/productos/${id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",

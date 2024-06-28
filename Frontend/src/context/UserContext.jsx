@@ -102,11 +102,61 @@ export function UserProvider({ children }) {
     timeoutRef: useRef(null),
   };
 
+  useEffect(() => {
+    setAddAddressSuccess({
+      success: "",
+      error: "",
+    });
+  }, [navigate]);
+
+  const handleUserCards = async () => {
+    try {
+      if (userToken) {
+        const response = await fetch(
+          `https://edimarket.onrender.com/usuarios/usuario/metodosPago/?idUsuario=${user.id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener tarjetas");
+        }
+
+        const data = await response.json();
+
+        setUserCreditCards(
+          data.metodos.map((d) => {
+            return {
+              ...d,
+            };
+          })
+        );
+
+        return data;
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleUserCards();
+  }, [userToken]);
+
   const getProductBySeller = async () => {
     try {
       if (userToken) {
         const response = await fetch(
-          "http://localhost:3000/usuarios/usuario/productos",
+          "https://edimarket.onrender.com/usuarios/usuario/productos",
           {
             headers: {
               "Content-Type": "application/json",
@@ -138,7 +188,7 @@ export function UserProvider({ children }) {
   const handleAddedToCart = async () => {
     try {
       if (userToken) {
-        const response = await fetch("http://localhost:3000/carrito", {
+        const response = await fetch("https://edimarket.onrender.com/carrito", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${userToken}`,
@@ -170,7 +220,7 @@ export function UserProvider({ children }) {
     try {
       if (userToken) {
         const response = await fetch(
-          `http://localhost:3000/usuarios/usuario/domicilio?userId=${user.id}`,
+          `https://edimarket.onrender.com/usuarios/usuario/domicilio?userId=${user.id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -212,12 +262,15 @@ export function UserProvider({ children }) {
   const handleGetFavs = async () => {
     try {
       if (userToken) {
-        const response = await fetch("http://localhost:3000/favoritos", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`,
-          },
-        });
+        const response = await fetch(
+          "https://edimarket.onrender.com/favoritos",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || "Error al obtener favoritos");
@@ -239,16 +292,19 @@ export function UserProvider({ children }) {
   const handleDeleteFav = async (e, id) => {
     e.stopPropagation();
     try {
-      const response = await fetch(`http://localhost:3000/favoritos/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-        body: JSON.stringify({
-          usuario_id: addedToFav.usuario_id,
-        }),
-      });
+      const response = await fetch(
+        `https://edimarket.onrender.com/favoritos/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify({
+            usuario_id: addedToFav.usuario_id,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -377,6 +433,7 @@ export function UserProvider({ children }) {
         getProductBySeller,
         setMyProducts,
         myProducts,
+        handleUserCards,
       }}
     >
       {children}

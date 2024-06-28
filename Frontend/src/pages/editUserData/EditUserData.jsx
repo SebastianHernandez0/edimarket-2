@@ -1,9 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import "../editUserData/editUserData.css";
 import { UserContext } from "../../context/UserContext";
 import { HiEye } from "react-icons/hi";
 import { HiEyeOff } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
+import { ProductContext } from "../../context/ProductContext";
 
 export function EditUserData() {
   const {
@@ -14,29 +16,47 @@ export function EditUserData() {
     inputFormError,
     setInputFormError,
     user,
+    userToken,
+    logout,
   } = useContext(UserContext);
+  const { setLoading } = useContext(ProductContext);
   const [userDataIcon, setUserDataIcon] = useState(false);
+  const navigate = useNavigate();
+  const [editSucces, setEditSucces] = useState({
+    success: "",
+    error: "",
+  });
 
   const handleUserDataIcon = () => {
     setUserDataIcon(!userDataIcon);
   };
 
-  /* const handleUpdateUserData = async (nombres, email) => {
-    const response = await fetch(`http://localhost:3000/usuarios/${user.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombres, email }),
-    });
+  const handleUpdateUserData = async (nombre, email, contraseña) => {
+    try {
+      setLoading(true);
+      const response = await fetch("https://edimarket.onrender.com/usuarios", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({ nombre, email, contraseña }),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al editar usuario");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al editar usuario");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error:", error.message);
+    } finally {
+      setLoading(false);
     }
-    const data = await response.json();
-    return data;
-  }; */
+  };
 
-  const handleEditData = async (e) => {
+  const handleSubmitEditData = async (e) => {
     e.preventDefault();
 
     setInputFormError({
@@ -44,7 +64,6 @@ export function EditUserData() {
       errorEmail: "",
     });
 
-    // Validar cada campo uno por uno
     if (userData.nombre.trim() === "") {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
@@ -83,17 +102,49 @@ export function EditUserData() {
     } else if (
       userData.contraseña.trim() !== userData.confirmContraseña.trim()
     ) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorConfirmContraseña: "Las contraseñas no coinciden.",
+      }));
     } else {
-      setSingUpSuccess("Datos actualizados con éxito");
+      try {
+        const res = await handleUpdateUserData(
+          userData.nombre,
+          userData.email,
+          userData.contraseña
+        );
+        setEditSucces((prevData) => ({
+          ...prevData,
+          success: "Datos actualizados con éxito.",
+        }));
+        setTimeout(() => {
+          logout();
+        }, 1500);
+      } catch (error) {
+        console.error("Error:", error.message);
+        setEditSucces((prevData) => ({
+          ...prevData,
+          error: "No pudimos actualizar tus datos.",
+        }));
+      }
     }
   };
+
+  useEffect(() => {
+    if (navigate) {
+      setEditSucces({
+        success: "",
+        error: "",
+      });
+    }
+  }, [navigate]);
 
   return (
     <section className="edituserdata__container bg-white shadow-sm rounded-sm">
       <h1 className="mb-5">Edita y guarda tus datos</h1>
       <div className="edituserdata__body">
         <form
-          onSubmit={handleEditData}
+          onSubmit={handleSubmitEditData}
           className="edituserdata__form border rounded-md py-5 px-3 flex flex-col gap-5"
         >
           <div className="user__input__container">
@@ -215,6 +266,16 @@ export function EditUserData() {
               />
             )}
           </div>
+          {editSucces.success ? (
+            <p className="font-bold text-green-600 text-center">
+              {editSucces.success}
+            </p>
+          ) : (
+            <p className="font-bold text-red-600 text-center">
+              {editSucces.error}
+            </p>
+          )}
+
           <GeneralBtn className="text-center self-center" type="secondary">
             Guardar
           </GeneralBtn>

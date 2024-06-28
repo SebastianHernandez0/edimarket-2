@@ -34,7 +34,7 @@ export function ProductProvider({ children }) {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3000/usuarios/${vendedor_id}`
+        `https://edimarket.onrender.com/usuarios/${vendedor_id}`
       );
 
       if (!response.ok) {
@@ -60,7 +60,7 @@ export function ProductProvider({ children }) {
   const handleGetProducts = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/productos");
+      const response = await fetch("https://edimarket.onrender.com/productos");
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al obtener productos");
@@ -92,7 +92,7 @@ export function ProductProvider({ children }) {
   const handleGetProduct = async (id) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3000/productos/${id}`);
+      const response = await fetch(`https://edimarket.onrender.com/productos/${id}`);
       if (!response.ok) {
         throw new Error("Producto no encontrado");
       }

@@ -4,18 +4,22 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { Loader } from "../../components/loader/Loader";
+import { UserContext } from "../../context/UserContext";
 
 export function ProductList() {
   const { categoria } = useParams();
-  const { handleProductDetail, loading } = useContext(ProductContext);
+  const { handleProductDetail, loading, setLoading } =
+    useContext(ProductContext);
   const [orderBy, setOrderBy] = useState("");
   const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const { user, userToken } = useContext(UserContext);
 
   const handleGetFilteredProducts = async () => {
     try {
+      setLoading(true);
       const response = await fetch(
-        `http://localhost:3000/categorias/${categoria}`
+        `https://edimarket.onrender.com/categorias/${categoria}`
       );
       if (!response.ok) {
         throw new Error("Producto no encontrado");
@@ -25,10 +29,13 @@ export function ProductList() {
       setFilteredProducts(data.results);
     } catch (error) {
       console.error("Error al obtener productos:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   let sortedProducts = [...filteredProducts];
+
   useEffect(() => {
     handleGetFilteredProducts();
   }, [categoria]);
@@ -37,17 +44,23 @@ export function ProductList() {
     setOrderBy(event.target.value);
   };
 
-  if (orderBy === "menorPrecio") {
-    sortedProducts.sort((a, b) => a.precio - b.precio);
-  } else if (orderBy === "mayorPrecio") {
-    sortedProducts.sort((a, b) => b.precio - a.precio);
-  }
-
   useEffect(() => {
     if (navigate) {
       setOrderBy("");
     }
   }, [navigate]);
+
+  if (userToken) {
+    sortedProducts = sortedProducts.filter(
+      (product) => product.vendedor !== user.id
+    );
+  }
+
+  if (orderBy === "menorPrecio") {
+    sortedProducts.sort((a, b) => a.precio - b.precio);
+  } else if (orderBy === "mayorPrecio") {
+    sortedProducts.sort((a, b) => b.precio - a.precio);
+  }
 
   return (
     <div className="products__container">

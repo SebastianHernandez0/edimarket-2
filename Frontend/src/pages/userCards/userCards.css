@@ -10,6 +10,14 @@
   display: flex;
   flex-direction: column;
 }
+.credit-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.usercards__card__body {
+  position: relative;
+}
 .credit-card-container {
   border-radius: 50%;
   border: 1px solid #b6b6b6;
@@ -27,6 +35,12 @@
   margin-top: 20px;
   align-self: end;
 }
+.confirm__delete__modal__card {
+  z-index: 50;
+  position: absolute;
+  top: 50%;
+  left: 0;
+}
 
 @media (min-width: 576px) {
   .credit-card-container {
@@ -35,5 +49,9 @@
   }
   .credit-card__img {
     padding: 15px;
+  }
+  .confirm__delete__modal__card {
+    top: 50%;
+    left: 30%;
   }
 }

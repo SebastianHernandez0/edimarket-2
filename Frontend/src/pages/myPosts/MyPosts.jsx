@@ -1,22 +1,55 @@
 import "../myPosts/myPosts.css";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { ProductContext } from "../../context/ProductContext";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { TbEdit } from "react-icons/tb";
 import { FaTrashCan } from "react-icons/fa6";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Loader } from "../../components/loader/Loader";
 import { UserContext } from "../../context/UserContext";
 import postImg from "/imgs/aplication/posts.png";
+import { ConfirmDelete } from "../../components/confirmDelete/ConfirmDelete";
+import { IoIosClose } from "react-icons/io";
 
-export function MyPotsts() {
+export function MyPosts() {
   const { loading } = useContext(ProductContext);
-  const { user, myProducts } = useContext(UserContext);
+  const { userToken, myProducts, getProductBySeller } = useContext(UserContext);
   const navigate = useNavigate();
+  const [confirmDeleteId, setConfirmDeleteId] = useState("");
+
+  const handleDeleteMyProducts = async (id) => {
+    try {
+      const response = await fetch(
+        `https://edimarket.onrender.com/usuarios/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al eliminar producto");
+      }
+      const data = await response.json();
+      getProductBySeller();
+      setConfirmDeleteId(null);
+      return data;
+    } catch (error) {
+      console.error("Error al eliminar producto", error);
+    }
+  };
 
   const handleEditProduct = (id) => {
     navigate(`/edit-post/${id}`);
+  };
+
+  const requestDeleteConfirmation = (id) => {
+    setConfirmDeleteId(id);
   };
 
   return (
@@ -29,8 +62,8 @@ export function MyPotsts() {
           {myProducts.length > 0 ? (
             myProducts.map((product) => (
               <ProductCard
-                className="border p-5 rounded-md flex flex-col gap-4"
-                key={product.productoId}
+                className="mypost__card__body border p-5 rounded-md flex flex-col gap-4"
+                key={product?.productoId}
               >
                 <div className="myposts__card__body flex items-start gap-5">
                   <img
@@ -43,17 +76,19 @@ export function MyPotsts() {
                       {product?.nombre}
                     </p>
                     <p className="myposts__card__info font-medium">
-                      {product?.precio.toLocaleString("es-CL", {
-                        style: "currency",
-                        currency: "CLP",
-                      })}
+                      {product?.precio
+                        ? Number(product.precio).toLocaleString("es-CL", {
+                            style: "currency",
+                            currency: "CLP",
+                          })
+                        : null}
                     </p>
                     <p className="text-sm text-gray-400 mt-3">
                       Publicado en Edimarket
                     </p>
                   </div>
                 </div>
-                <div className="myposts__btn__container">
+                <div className="myposts__btn__container flex items-center gap-2">
                   <GeneralBtn
                     onClick={() => handleEditProduct(product?.productoId)}
                     className="myposts__btn"
@@ -61,7 +96,51 @@ export function MyPotsts() {
                   >
                     <TbEdit className="btn__edit" />
                   </GeneralBtn>
-                  <GeneralBtn className="myposts__btn" type="secondary">
+                  {confirmDeleteId === product?.productoId ? (
+                    <ConfirmDelete className="confirm__delete__modal bg-gray-100 shadow-sm p-3 rounded-md flex flex-col items-stretch gap-4 border">
+                      <IoIosClose
+                        onClick={() => {
+                          setConfirmDeleteId("");
+                        }}
+                        className="close__icon"
+                      />
+                      <h2 className="text-center">Eliminar publicación</h2>
+                      <hr />
+                      <span className="text-center font-medium text-sm">
+                        ¿Seguro que quieres eliminar la publicación?
+                      </span>
+                      <hr />
+                      <div className="flex items-center justify-evenly">
+                        <GeneralBtn
+                          onClick={() => {
+                            setConfirmDeleteId("");
+                          }}
+                          type="primary"
+                          className="confirm__delete__btn"
+                        >
+                          Cancelar
+                        </GeneralBtn>
+                        <GeneralBtn
+                          onClick={() =>
+                            handleDeleteMyProducts(confirmDeleteId)
+                          }
+                          type="primary"
+                          className="confirm__delete__btn"
+                        >
+                          Eliminar
+                        </GeneralBtn>
+                      </div>
+                    </ConfirmDelete>
+                  ) : (
+                    ""
+                  )}
+                  <GeneralBtn
+                    onClick={() =>
+                      requestDeleteConfirmation(product?.productoId)
+                    }
+                    className="myposts__btn"
+                    type="secondary"
+                  >
                     <FaTrashCan className="btn__trash" />
                   </GeneralBtn>
                 </div>

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import "../addUserAddress/addUserAddress.css";
 import { UserContext } from "../../context/UserContext";
@@ -34,7 +34,7 @@ export function AddUserAdress() {
     try {
       if (userToken) {
         const response = await fetch(
-          "http://localhost:3000/usuarios/domicilio",
+          "https://edimarket.onrender.com/usuarios/domicilio",
           {
             method: "POST",
             headers: {
