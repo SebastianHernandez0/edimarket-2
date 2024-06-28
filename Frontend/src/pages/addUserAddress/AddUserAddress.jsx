@@ -255,6 +255,7 @@ export function AddUserAdress() {
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
+                maxLength="10"
                 type="text"
                 name="codigoPostal"
               />
@@ -279,6 +280,7 @@ export function AddUserAdress() {
                 }`}
                 type="text"
                 name="numero"
+                maxLength="8"
               />
               {inputFormError.errorNumero ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">

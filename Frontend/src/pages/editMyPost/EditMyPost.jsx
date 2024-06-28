@@ -180,6 +180,7 @@ export function EditMyPost() {
         descripcion: newProduct.descripcion || "",
         estado: newProduct.estado || "",
       });
+      inputRefs.postimg.current.focus();
     }
   }, [product]);
 
