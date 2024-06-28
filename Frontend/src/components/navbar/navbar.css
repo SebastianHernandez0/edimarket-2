@@ -59,6 +59,7 @@
   background: transparent;
   border: 1px solid var(--dark_2);
   font-weight: 500;
+  padding-right: 66px;
 }
 .navbar__search__icon__insideinput {
   right: 12px;

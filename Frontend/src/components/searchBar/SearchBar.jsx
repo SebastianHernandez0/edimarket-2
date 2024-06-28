@@ -1,14 +1,16 @@
 import "../perfil/perfil.css";
 import "../../components/searchBar/searchBar.css";
 import { FiSearch } from "react-icons/fi";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
+import { IoMdClose } from "react-icons/io";
 
 export function SearchBar({ className, openSearchBar }) {
   const navigate = useNavigate();
   const { searchProduct, setSearchProduct, products, setFindedProduct } =
     useContext(ProductContext);
+  const inputRef = useRef(null);
 
   const handleSearchProductName = (e) => {
     setSearchProduct(e.target.value);
@@ -42,9 +44,14 @@ export function SearchBar({ className, openSearchBar }) {
     navigate(`/product-name/${searchProduct.toLowerCase()}`);
   };
 
+  const handleRemoveContent = () => {
+    setSearchProduct("");
+  };
+
   return (
     <div className={`${className} navbar__search__input__container`}>
       <input
+        ref={inputRef}
         onChange={handleSearchProductName}
         value={searchProduct}
         placeholder="Buscar producto"
@@ -59,6 +66,14 @@ export function SearchBar({ className, openSearchBar }) {
         onClick={handleSearchProducts}
         className="navbar__search__icon__insideinput"
       />
+      {searchProduct ? (
+        <IoMdClose
+          onClick={handleRemoveContent}
+          className="removecontent__icon"
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }
