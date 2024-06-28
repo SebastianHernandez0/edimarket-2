@@ -9,7 +9,7 @@ export function Categories() {
   return (
     <section className="categories__container">
       {openCategories ? (
-        <div className="categories__list bg-gray-200 shadow-md ">
+        <div className="categories__list bg-gray-50 shadow-md ">
           <Link className="categories__list__link" to="/category/consolas">
             <div>
               <h3>Consolas</h3>
