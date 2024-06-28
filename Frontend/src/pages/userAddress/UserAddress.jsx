@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { Loader } from "../../components/loader/Loader";
 import { ProductContext } from "../../context/ProductContext";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
 
 const EditIcon = forwardRef((props, ref) => (
   <div ref={ref}>
@@ -21,6 +22,10 @@ export function UserAddress() {
     useContext(UserContext);
   const { loading, setLoading } = useContext(ProductContext);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [deleteSuccess, setDeleteSuccess] = useState({
+    success: "",
+    error: "",
+  });
   const navigate = useNavigate();
   const addressRef = {
     iconRef: useRef(null),
@@ -44,6 +49,17 @@ export function UserAddress() {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al editar usuario");
+      } else {
+        setDeleteSuccess((prevData) => ({
+          ...prevData,
+          success: "Domicilio eliminado.",
+        }));
+        setTimeout(() => {
+          setDeleteSuccess((prevData) => ({
+            ...prevData,
+            success: "",
+          }));
+        }, 1500);
       }
       const data = await response.json();
       handleUserAddress();
@@ -86,6 +102,13 @@ export function UserAddress() {
   const handleNavigateToAdd = () => {
     navigate("/add-address");
   };
+
+  useEffect(() => {
+    setDeleteSuccess({
+      success: "",
+      error: "",
+    });
+  }, [navigate]);
 
   return (
     <section className="useraddress__container bg-white shadow-sm rounded-sm">
@@ -163,6 +186,20 @@ export function UserAddress() {
           )}
           <hr />
         </div>
+      )}
+      {deleteSuccess.success && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-slate-700">
+            {deleteSuccess.success}
+          </p>
+        </CartAlert>
+      )}
+      {deleteSuccess.error && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+            {deleteSuccess.error}
+          </p>
+        </CartAlert>
       )}
     </section>
   );

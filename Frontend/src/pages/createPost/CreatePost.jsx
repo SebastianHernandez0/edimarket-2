@@ -4,6 +4,7 @@ import { useDropzone } from "react-dropzone";
 import { IoMdImages } from "react-icons/io";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { UserContext } from "../../context/UserContext";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
 
 export function CreatePost() {
   const {
@@ -67,7 +68,10 @@ export function CreatePost() {
       getProductBySeller();
       return data;
     } catch (error) {
-      console.error("Error al eliminar favorito", error);
+      console.error("Error:", error.message);
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -378,17 +382,6 @@ export function CreatePost() {
             ) : (
               ""
             )}
-            <div className="flex flex-col items-center mt-4">
-              {createPostSuccess.success ? (
-                <p className="font-bold text-green-600">
-                  {createPostSuccess.success}
-                </p>
-              ) : (
-                <p className="font-bold text-red-600">
-                  {createPostSuccess.error}
-                </p>
-              )}
-            </div>
             <GeneralBtn
               type="secondary"
               disabled={false}
@@ -453,6 +446,20 @@ export function CreatePost() {
           </div>
         </div>
       </div>
+      {createPostSuccess.success && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-green-600">
+            {createPostSuccess.success}
+          </p>
+        </CartAlert>
+      )}
+      {createPostSuccess.error && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+            {createPostSuccess.error}
+          </p>
+        </CartAlert>
+      )}
     </section>
   );
 }

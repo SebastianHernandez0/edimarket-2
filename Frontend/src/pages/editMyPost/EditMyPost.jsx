@@ -4,6 +4,7 @@ import { UserContext } from "../../context/UserContext";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
 
 export function EditMyPost() {
   const {
@@ -38,22 +39,25 @@ export function EditMyPost() {
     idUsuatio
   ) => {
     try {
-      const response = await fetch(`https://edimarket.onrender.com/productos/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-        body: JSON.stringify({
-          nombre,
-          descripcion,
-          estado,
-          precio,
-          stock,
-          imagen,
-          idUsuatio,
-        }),
-      });
+      const response = await fetch(
+        `https://edimarket.onrender.com/productos/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify({
+            nombre,
+            descripcion,
+            estado,
+            precio,
+            stock,
+            imagen,
+            idUsuatio,
+          }),
+        }
+      );
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al subir producto");
@@ -62,6 +66,7 @@ export function EditMyPost() {
       return data;
     } catch (error) {
       console.error("Error:", error.message);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -148,7 +153,7 @@ export function EditMyPost() {
         console.error("Error:", error.message);
         setEditPostSuccess((prevData) => ({
           ...prevData,
-          error: "No pudimos actualizar tu producto :(",
+          error: "No pudimos actualizar tu producto.",
         }));
         setTimeout(() => {
           setEditPostSuccess((prevData) => ({
@@ -314,17 +319,6 @@ export function EditMyPost() {
               ) : (
                 ""
               )}
-              <div className="flex flex-col items-center mt-4">
-                {editPostSuccess.success ? (
-                  <p className="font-bold text-green-600">
-                    {editPostSuccess.success}
-                  </p>
-                ) : (
-                  <p className="font-bold text-red-600">
-                    {editPostSuccess.error}
-                  </p>
-                )}
-              </div>
               <GeneralBtn
                 type="secondary"
                 className="createpost__form__btn my-4"
@@ -389,6 +383,20 @@ export function EditMyPost() {
           </div>
         </div>
       </div>
+      {editPostSuccess.success && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-green-600">
+            {editPostSuccess.success}
+          </p>
+        </CartAlert>
+      )}
+      {editPostSuccess.error && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+            {editPostSuccess.error}
+          </p>
+        </CartAlert>
+      )}
     </section>
   );
 }

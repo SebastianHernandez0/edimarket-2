@@ -293,7 +293,7 @@ export function Navbar({ navbarRef }) {
                 perfilButtonRef={perfilButtonRef}
               >
                 <div className="navbar__user__menu bg-gray-50 shadow-md">
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col ">
                     <span className="font-semibold">{user.nombre}</span>
                     <span className="text-xs text-gray-600">{user.email}</span>
                   </div>

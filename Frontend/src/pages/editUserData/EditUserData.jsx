@@ -6,6 +6,7 @@ import { HiEye } from "react-icons/hi";
 import { HiEyeOff } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
 
 export function EditUserData() {
   const {
@@ -22,7 +23,7 @@ export function EditUserData() {
   const { setLoading } = useContext(ProductContext);
   const [userDataIcon, setUserDataIcon] = useState(false);
   const navigate = useNavigate();
-  const [editSucces, setEditSucces] = useState({
+  const [editSuccess, setEditSuccess] = useState({
     success: "",
     error: "",
   });
@@ -51,6 +52,7 @@ export function EditUserData() {
       return data;
     } catch (error) {
       console.error("Error:", error.message);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -62,6 +64,8 @@ export function EditUserData() {
     setInputFormError({
       errorNombre: "",
       errorEmail: "",
+      errorContraseña: "",
+      errorConfirmContraseña: "",
     });
 
     if (userData.nombre.trim() === "") {
@@ -113,26 +117,30 @@ export function EditUserData() {
           userData.email,
           userData.contraseña
         );
-        setEditSucces((prevData) => ({
-          ...prevData,
+        setEditSuccess({
           success: "Datos actualizados con éxito.",
-        }));
+          error: "",
+        });
         setTimeout(() => {
           logout();
         }, 1500);
       } catch (error) {
-        console.error("Error:", error.message);
-        setEditSucces((prevData) => ({
-          ...prevData,
-          error: "No pudimos actualizar tus datos.",
-        }));
+        setEditSuccess({
+          success: "",
+          error: error.message || "No pudimos actualizar tus datos.",
+        });
+        setTimeout(() => {
+          setEditSuccess({
+            error: "",
+          });
+        }, 3000);
       }
     }
   };
 
   useEffect(() => {
     if (navigate) {
-      setEditSucces({
+      setEditSuccess({
         success: "",
         error: "",
       });
@@ -163,12 +171,10 @@ export function EditUserData() {
               name="nombre"
               type="text"
             />
-            {inputFormError.errorNombre ? (
+            {inputFormError.errorNombre && (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorNombre}
               </p>
-            ) : (
-              ""
             )}
           </div>
           <div className="user__input__container">
@@ -187,12 +193,10 @@ export function EditUserData() {
               name="email"
               type="text"
             />
-            {inputFormError.errorEmail ? (
+            {inputFormError.errorEmail && (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorEmail}
               </p>
-            ) : (
-              ""
             )}
           </div>
           <div className="user__input__container">
@@ -211,12 +215,10 @@ export function EditUserData() {
               name="contraseña"
               type={userDataIcon ? "text" : "password"}
             />
-            {inputFormError.errorContraseña ? (
+            {inputFormError.errorContraseña && (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorContraseña}
               </p>
-            ) : (
-              ""
             )}
             {userDataIcon ? (
               <HiEye
@@ -246,12 +248,10 @@ export function EditUserData() {
               }`}
               type={userDataIcon ? "text" : "password"}
             />
-            {inputFormError.errorConfirmContraseña ? (
+            {inputFormError.errorConfirmContraseña && (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorConfirmContraseña}
               </p>
-            ) : (
-              ""
             )}
 
             {userDataIcon ? (
@@ -266,20 +266,24 @@ export function EditUserData() {
               />
             )}
           </div>
-          {editSucces.success ? (
-            <p className="font-bold text-green-600 text-center">
-              {editSucces.success}
-            </p>
-          ) : (
-            <p className="font-bold text-red-600 text-center">
-              {editSucces.error}
-            </p>
-          )}
-
           <GeneralBtn className="text-center self-center" type="secondary">
             Guardar
           </GeneralBtn>
         </form>
+        {editSuccess.success && (
+          <CartAlert>
+            <p className="card__perfil__alert shadow-md rounded-md bg-green-600">
+              {editSuccess.success}
+            </p>
+          </CartAlert>
+        )}
+        {editSuccess.error && (
+          <CartAlert>
+            <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+              {editSuccess.error}
+            </p>
+          </CartAlert>
+        )}
       </div>
     </section>
   );

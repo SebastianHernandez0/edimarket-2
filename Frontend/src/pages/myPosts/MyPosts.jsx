@@ -11,12 +11,17 @@ import { UserContext } from "../../context/UserContext";
 import postImg from "/imgs/aplication/posts.png";
 import { ConfirmDelete } from "../../components/confirmDelete/ConfirmDelete";
 import { IoIosClose } from "react-icons/io";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
 
 export function MyPosts() {
-  const { loading } = useContext(ProductContext);
+  const { loading, setLoading } = useContext(ProductContext);
   const { userToken, myProducts, getProductBySeller } = useContext(UserContext);
   const navigate = useNavigate();
   const [confirmDeleteId, setConfirmDeleteId] = useState("");
+  const [postDeleted, setPostDeleted] = useState({
+    success: "",
+    error: "",
+  });
 
   const handleDeleteMyProducts = async (id) => {
     try {
@@ -30,17 +35,40 @@ export function MyPosts() {
           },
         }
       );
-
       if (!response.ok) {
         const errorData = await response.json();
+        setPostDeleted((prevState) => ({
+          ...prevState,
+          error: "Error al eliminar producto.",
+        }));
+        setTimeout(() => {
+          setPostDeleted((prevState) => ({
+            ...prevState,
+            error: "",
+          }));
+        }, 3000);
         throw new Error(errorData.message || "Error al eliminar producto");
+      } else {
+        setPostDeleted((prevState) => ({
+          ...prevState,
+          success: "Producto eliminado.",
+        }));
+        setTimeout(() => {
+          setPostDeleted((prevState) => ({
+            ...prevState,
+            success: "",
+          }));
+        }, 3000);
       }
       const data = await response.json();
       getProductBySeller();
       setConfirmDeleteId(null);
       return data;
     } catch (error) {
-      console.error("Error al eliminar producto", error);
+      console.error("Error:", error.message);
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -158,6 +186,20 @@ export function MyPosts() {
             </div>
           )}
         </div>
+      )}
+      {postDeleted.success && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-slate-700">
+            {postDeleted.success}
+          </p>
+        </CartAlert>
+      )}
+      {postDeleted.error && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+            {postDeleted.error}
+          </p>
+        </CartAlert>
       )}
     </section>
   );

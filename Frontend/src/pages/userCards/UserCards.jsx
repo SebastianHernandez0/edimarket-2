@@ -7,6 +7,7 @@ import { ProductContext } from "../../context/ProductContext";
 import { Loader } from "../../components/loader/Loader";
 import { ConfirmDelete } from "../../components/confirmDelete/ConfirmDelete";
 import { IoIosClose } from "react-icons/io";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
 
 export function UserCards() {
   const navigate = useNavigate();
@@ -18,6 +19,10 @@ export function UserCards() {
     useContext(UserContext);
   const { loading, setLoading } = useContext(ProductContext);
   const [confirmDeleteId, setConfirmDeleteId] = useState("");
+  const [addCardSuccess, setAddCardSuccess] = useState({
+    success: "",
+    error: "",
+  });
 
   const handleOpenModal = (id) => {
     setConfirmDeleteId(id);
@@ -39,6 +44,17 @@ export function UserCards() {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al eliminar tarjeta");
+      } else {
+        setAddCardSuccess((prevData) => ({
+          ...prevData,
+          success: "Tarjeta eliminada",
+        }));
+        setTimeout(() => {
+          setAddCardSuccess((prevData) => ({
+            ...prevData,
+            success: "",
+          }));
+        }, 3000);
       }
 
       const data = await response.json();
@@ -47,6 +63,7 @@ export function UserCards() {
       return data;
     } catch (error) {
       console.error("Error:", error.message);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -168,6 +185,20 @@ export function UserCards() {
             ""
           )}
         </div>
+      )}
+      {addCardSuccess.success && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-slate-700">
+            {addCardSuccess.success}
+          </p>
+        </CartAlert>
+      )}
+      {addCardSuccess.error && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+            {addCardSuccess.error}
+          </p>
+        </CartAlert>
       )}
     </section>
   );
