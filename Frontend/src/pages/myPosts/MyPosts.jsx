@@ -1,5 +1,5 @@
 import "../myPosts/myPosts.css";
-import { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState, useRef, forwardRef } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { ProductContext } from "../../context/ProductContext";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
@@ -13,6 +13,12 @@ import { ConfirmDelete } from "../../components/confirmDelete/ConfirmDelete";
 import { IoIosClose } from "react-icons/io";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
 
+const ModalIcon = forwardRef((props, ref) => (
+  <div ref={ref}>
+    <IoIosClose {...props} />
+  </div>
+));
+
 export function MyPosts() {
   const { loading, setLoading } = useContext(ProductContext);
   const { userToken, myProducts, getProductBySeller } = useContext(UserContext);
@@ -22,6 +28,10 @@ export function MyPosts() {
     success: "",
     error: "",
   });
+
+  const btnRef = useRef(null);
+  const modalRef = useRef(null);
+  const iconRef = useRef(null);
 
   const handleDeleteMyProducts = async (id) => {
     try {
@@ -80,6 +90,27 @@ export function MyPosts() {
     setConfirmDeleteId(id);
   };
 
+  const handleClickOutside = (e) => {
+    if (
+      iconRef.current &&
+      btnRef.current &&
+      modalRef.current &&
+      !iconRef.current.contains(e.target) &&
+      !btnRef.current.contains(e.target) &&
+      !modalRef.current.contains(e.target)
+    ) {
+      setConfirmDeleteId("");
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <section className="myposts__container bg-white shadow-sm">
       <h1 className="text-2xl font-semibold mb-5">Mis publicaciones</h1>
@@ -125,8 +156,12 @@ export function MyPosts() {
                     <TbEdit className="btn__edit" />
                   </GeneralBtn>
                   {confirmDeleteId === product?.productoId ? (
-                    <ConfirmDelete className="confirm__delete__modal bg-gray-100 shadow-sm p-3 rounded-md flex flex-col items-stretch gap-4 border">
-                      <IoIosClose
+                    <ConfirmDelete
+                      ref={modalRef}
+                      className="confirm__delete__modal bg-gray-100 shadow-sm p-3 rounded-md flex flex-col items-stretch gap-4 border"
+                    >
+                      <ModalIcon
+                        ref={iconRef}
                         onClick={() => {
                           setConfirmDeleteId("");
                         }}
@@ -188,6 +223,9 @@ export function MyPosts() {
                     ""
                   )}
                   <GeneralBtn
+                    ref={
+                      confirmDeleteId === product?.productoId ? btnRef : null
+                    }
                     onClick={() =>
                       requestDeleteConfirmation(product?.productoId)
                     }
