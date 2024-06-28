@@ -105,7 +105,7 @@ export function MyPosts() {
                     </p>
                     <p className="myposts__card__info font-medium">
                       {product?.precio
-                        ? Number(product.precio).toLocaleString("es-CL", {
+                        ? Number(product?.precio).toLocaleString("es-CL", {
                             style: "currency",
                             currency: "CLP",
                           })
@@ -134,8 +134,33 @@ export function MyPosts() {
                       />
                       <h2 className="text-center">Eliminar publicación</h2>
                       <hr />
+                      <div className="flex items-start overflow-hidden gap-5">
+                        <div>
+                          <img
+                            className="w-20 h-20 con object-cover rounded-md border"
+                            src={product?.imagen}
+                            alt=""
+                          />
+                        </div>
+                        <div className="overflow-hidden w-40 flex flex-col gap-2 sm:w-48">
+                          <span className="text-ellipsis overflow-hidden whitespace-nowrap">
+                            {product?.nombre}
+                          </span>
+                          <span className="font-medium">
+                            {product?.precio
+                              ? Number(product?.precio).toLocaleString(
+                                  "es-CL",
+                                  {
+                                    style: "currency",
+                                    currency: "CLP",
+                                  }
+                                )
+                              : null}
+                          </span>
+                        </div>
+                      </div>
                       <span className="text-center font-medium text-sm">
-                        ¿Seguro que quieres eliminar la publicación?
+                        ¿Seguro que quieres eliminar esta publicación?
                       </span>
                       <hr />
                       <div className="flex items-center justify-evenly">
