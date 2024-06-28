@@ -6,6 +6,7 @@ import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { UserContext } from "../../context/UserContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
 import profile from "/imgs/aplication/profile.png";
+import { ProductContext } from "../../context/ProductContext";
 
 export function CreatePost() {
   const {
@@ -34,6 +35,7 @@ export function CreatePost() {
 
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
     useDropzone({ onDrop });
+  const { setLoading } = useContext(ProductContext);
 
   const handleCreatePost = async (
     nombre,

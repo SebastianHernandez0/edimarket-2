@@ -1,0 +1,5 @@
+.searchproduct__container {
+  grid-area: home;
+  padding: 0 25px;
+  margin: 60px auto;
+}
