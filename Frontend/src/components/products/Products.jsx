@@ -4,6 +4,7 @@ import { ProductContext } from "../../context/ProductContext.jsx";
 import { Loader } from "../loader/Loader.jsx";
 import "../products/products.css";
 import { UserContext } from "../../context/UserContext.jsx";
+import { Pagination } from "../pagination/Pagination.jsx";
 
 export function Products() {
   const { products, handleProductDetail, loading } = useContext(ProductContext);
@@ -26,6 +27,7 @@ export function Products() {
             </h1>
           </div>
           <div className="products__cards__container">
+            <Pagination />
             {userToken ? (
               <div className="products__cards__container">
                 {filteredProducts?.map((product) => (
