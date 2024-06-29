@@ -77,7 +77,7 @@ export function ProductList() {
           <div>
             <select
               onChange={handleSortChange}
-              className="products__filter shadow-sm rounded-md py-1 px-2 w-60 text-center mt-10 border border-gray-300"
+              className="products__filter shadow-sm rounded-md py-1 px-2 w-60 text-center my-10 border border-gray-300"
               name="orderBy"
               id="orderBy"
               value={orderBy}

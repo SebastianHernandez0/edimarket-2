@@ -10,7 +10,7 @@ export function Pagination() {
       <hr className="" />
       <div className="flex flex-col sm:flex-row items-center mt-2 gap-2">
         <span className="text-sm">
-          items por página <span className="font-medium">20</span>{" "}
+          items por página <span className="font-medium">12</span>{" "}
         </span>
         <div className=" flex gap-1 sm:gap-3">
           <TbChevronLeftPipe className="paginaction__arrow pagination__arrow__first" />
