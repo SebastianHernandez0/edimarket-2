@@ -14,12 +14,12 @@ const prepHateoas = (data, page) => {
       descripcion: item.descripcion,
       estado: item.estado,
       fecha: item.fecha_producto,
-      pagina_siguiente: `/productos?page=${page+1}`
     };
   });
   const total = results.length;
   const HATEOAS = {
     total,
+    siguiente_pagina: `/productos?page=${page+1}`,
     results,
   };
   return HATEOAS;

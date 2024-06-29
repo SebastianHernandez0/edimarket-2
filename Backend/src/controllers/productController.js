@@ -52,6 +52,7 @@ const agregarProducto = async (req, res) => {
       stock: producto.stock,
       imagen: producto.imagen,
       categoria: producto.categoria,
+      fecha: producto.fecha_producto
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
