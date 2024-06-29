@@ -440,7 +440,7 @@ export function CreatePost() {
             )}
             <p className="font-medium text-lg my-5">Detalles</p>
             {userData.descripcion ? (
-              <p className="">{userData.descripcion}</p>
+              <p className="detail__paragraph">{userData.descripcion}</p>
             ) : (
               <p className="mb-8">
                 Aquí aparecerán los detalles de tu publicación.
