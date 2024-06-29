@@ -3,6 +3,8 @@ const prepHateoas = (data, page) => {
   page= parseInt(page);
   
   const results = data.map((item) => {
+    fecha_producto = item.fecha_producto.toISOString().split('T')[0];
+    console.log(fecha_producto);
     return {
       nombre: item.nombre,
       vendedor: item.vendedor_id,
@@ -13,7 +15,7 @@ const prepHateoas = (data, page) => {
       id: item.producto_id,
       descripcion: item.descripcion,
       estado: item.estado,
-      fecha: item.fecha_producto,
+      fecha: fecha_producto
     };
   });
   const total = results.length;
