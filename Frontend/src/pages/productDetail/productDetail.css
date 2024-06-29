@@ -123,7 +123,7 @@
     align-items: center;
     grid-area: imagen;
     min-height: 450px;
-    object-fit: cover;
+    object-fit: contain;
     max-height: 500px;
   }
 }
