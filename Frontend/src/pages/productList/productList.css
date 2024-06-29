@@ -1,3 +1,11 @@
+.product__list__container {
+  grid-area: header;
+  padding: 0 25px;
+  margin: 0 auto;
+  max-width: 1400px;
+  width: 100%;
+}
+
 .products__filter:hover {
   border: 1px solid var(--verdeAgua);
 }

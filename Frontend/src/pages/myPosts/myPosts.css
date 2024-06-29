@@ -5,7 +5,9 @@
   width: 100%;
   max-width: 1000px;
 }
-
+.myposts__card__body {
+  cursor: pointer;
+}
 .myposts__card__img {
   width: 100%;
   max-width: 120px;
@@ -45,6 +47,32 @@
   width: 100%;
   max-width: 200px;
 }
+.confirm__delete__modal {
+  z-index: 50;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 325px;
+}
+.close__icon {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  transform: scale(2.5);
+}
+.close__icon:hover {
+  cursor: pointer;
+  background: #7a797963;
+  border-radius: 50%;
+}
+.confirm__delete__btn {
+  width: 120px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 @media (min-width: 576px) {
   .myposts__card__paragraph {
@@ -57,5 +85,8 @@
   }
   .myposts__btn__container {
     justify-content: flex-start;
+  }
+  .confirm__delete__modal {
+    width: 380px;
   }
 }

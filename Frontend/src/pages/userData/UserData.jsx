@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import "../userData/userData.css";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
-import { Loader } from "../../components/loader/Loader";
 
 export function UserData() {
   const navigate = useNavigate();

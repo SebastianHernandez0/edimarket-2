@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import "../addUserCards/addUserCards.css";
-import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
+import { ProductContext } from "../../context/ProductContext";
 
 export function AddUserCards() {
   const {
@@ -15,7 +16,9 @@ export function AddUserCards() {
     inputRefs,
     userToken,
     user,
+    handleUserCards,
   } = useContext(UserContext);
+  const { setLoading } = useContext(ProductContext);
   const navigate = useNavigate();
 
   const [addCardSuccess, setAddCardSuccess] = useState({
@@ -31,28 +34,39 @@ export function AddUserCards() {
     fecha_expiracion,
     codigo_seguridad
   ) => {
-    const response = await fetch("http://localhost:3000/usuarios/metodosPago", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userToken}`,
-      },
-      body: JSON.stringify({
-        usuario_id,
-        tipo_tarjeta,
-        numero_tarjeta,
-        nombre_titular,
-        fecha_expiracion,
-        codigo_seguridad,
-      }),
-    });
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al agregar metodo de pago");
-    }
+    try {
+      const response = await fetch(
+        "https://edimarket.onrender.com/usuarios/metodosPago",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify({
+            usuario_id,
+            tipo_tarjeta,
+            numero_tarjeta,
+            nombre_titular,
+            fecha_expiracion,
+            codigo_seguridad,
+          }),
+        }
+      );
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al agregar metodo de pago");
+      }
 
-    const data = await response.json();
-    return data;
+      const data = await response.json();
+      handleUserCards();
+      return data;
+    } catch (error) {
+      console.error("Error:", error.message);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAddCreditCard = async (e) => {
@@ -139,9 +153,14 @@ export function AddUserCards() {
         console.error("Error:", error.message);
         setAddCardSuccess((prevState) => ({
           ...prevState,
-
           error: "No pudimos agregar la tarjeta.",
         }));
+        setTimeout(() => {
+          setAddCardSuccess((prevState) => ({
+            ...prevState,
+            error: "",
+          }));
+        }, 3000);
       }
     }
   };
@@ -282,16 +301,24 @@ export function AddUserCards() {
               )}
             </div>
           </div>
-          {addCardSuccess.success ? (
-            <p className="font-bold text-green-600">{addCardSuccess.success}</p>
-          ) : (
-            <p className="font-bold text-red-600">{addCardSuccess.error}</p>
-          )}
-
           <GeneralBtn className="addusercards__btn" type="secondary">
             Guardar
           </GeneralBtn>
         </form>
+        {addCardSuccess.success && (
+          <CartAlert>
+            <p className="card__perfil__alert shadow-md rounded-md bg-green-600">
+              {addCardSuccess.success}
+            </p>
+          </CartAlert>
+        )}
+        {addCardSuccess.error && (
+          <CartAlert>
+            <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+              {addCardSuccess.error}
+            </p>
+          </CartAlert>
+        )}
       </div>
     </section>
   );

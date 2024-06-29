@@ -19,15 +19,15 @@
 }
 .addusercards__form {
   margin: 50px auto;
-  max-width: 500px;
+  max-width: 390px;
 }
 
 .creditcards {
   width: 100%;
-  max-width: 450px;
+  max-width: 325px;
   object-fit: cover;
   border-radius: 20px;
-  min-height: 220px;
+  min-height: 180px;
   filter: drop-shadow(10px 10px 10px #000000ab);
 }
 
@@ -35,9 +35,9 @@
   margin-top: 25px;
 }
 
-@media (min-width: 576px) {
+/* @media (min-width: 576px) {
   .creditcards {
-    height: 290px;
-    max-width: 450px;
+ 
   }
 }
+ */

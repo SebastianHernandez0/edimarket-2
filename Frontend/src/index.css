@@ -66,3 +66,21 @@ body::-webkit-scrollbar-thumb {
   font-size: 1.7rem;
   color: var(--dark_2);
 }
+
+.card__perfil__alert {
+  overflow: hidden;
+  color: var(--navbarColor);
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 2%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 55px;
+  max-width: 400px;
+  padding: 10px 20px;
+  text-align: center;
+  z-index: 200;
+}

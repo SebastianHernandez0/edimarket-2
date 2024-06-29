@@ -1,50 +1,74 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import "../editUserData/editUserData.css";
 import { UserContext } from "../../context/UserContext";
 import { HiEye } from "react-icons/hi";
 import { HiEyeOff } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
+import { ProductContext } from "../../context/ProductContext";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
 
 export function EditUserData() {
   const {
     emailRegex,
     userData,
+    setUserData,
     handleChange,
     inputRefs,
     inputFormError,
     setInputFormError,
     user,
+    userToken,
+    logout,
   } = useContext(UserContext);
+  const { setLoading } = useContext(ProductContext);
   const [userDataIcon, setUserDataIcon] = useState(false);
+  const navigate = useNavigate();
+  const [editSuccess, setEditSuccess] = useState({
+    success: "",
+    error: "",
+  });
 
   const handleUserDataIcon = () => {
     setUserDataIcon(!userDataIcon);
   };
 
-  /* const handleUpdateUserData = async (nombres, email) => {
-    const response = await fetch(`http://localhost:3000/usuarios/${user.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombres, email }),
-    });
+  const handleUpdateUserData = async (nombre, email, contraseña) => {
+    try {
+      setLoading(true);
+      const response = await fetch("https://edimarket.onrender.com/usuarios", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({ nombre, email, contraseña }),
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Error al editar usuario");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al editar usuario");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error:", error.message);
+      throw error;
+    } finally {
+      setLoading(false);
     }
-    const data = await response.json();
-    return data;
-  }; */
+  };
 
-  const handleEditData = async (e) => {
+  const handleSubmitEditData = async (e) => {
     e.preventDefault();
 
     setInputFormError({
       errorNombre: "",
       errorEmail: "",
+      errorContraseña: "",
+      errorConfirmContraseña: "",
     });
 
-    // Validar cada campo uno por uno
     if (userData.nombre.trim() === "") {
       setInputFormError((prevErrors) => ({
         ...prevErrors,
@@ -83,21 +107,67 @@ export function EditUserData() {
     } else if (
       userData.contraseña.trim() !== userData.confirmContraseña.trim()
     ) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorConfirmContraseña: "Las contraseñas no coinciden.",
+      }));
     } else {
-      setSingUpSuccess("Datos actualizados con éxito");
+      try {
+        const res = await handleUpdateUserData(
+          userData.nombre,
+          userData.email,
+          userData.contraseña
+        );
+        setEditSuccess({
+          success: "Datos actualizados con éxito.",
+          error: "",
+        });
+        setTimeout(() => {
+          logout();
+        }, 1500);
+      } catch (error) {
+        setEditSuccess({
+          success: "",
+          error: error.message || "No pudimos actualizar tus datos.",
+        });
+        setTimeout(() => {
+          setEditSuccess({
+            error: "",
+          });
+        }, 3000);
+      }
     }
   };
+
+  useEffect(() => {
+    if (navigate) {
+      setEditSuccess({
+        success: "",
+        error: "",
+      });
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    setUserData((prevData) => ({
+      ...prevData,
+      nombre: user.nombre,
+      email: user.email,
+    }));
+
+    inputRefs.nombre.current.focus();
+  }, []);
 
   return (
     <section className="edituserdata__container bg-white shadow-sm rounded-sm">
       <h1 className="mb-5">Edita y guarda tus datos</h1>
       <div className="edituserdata__body">
         <form
-          onSubmit={handleEditData}
+          onSubmit={handleSubmitEditData}
           className="edituserdata__form border rounded-md py-5 px-3 flex flex-col gap-5"
         >
           <div className="user__input__container">
-            <label className="font-semibold" htmlFor="">
+            <label className="font-semibold" htmlFor="nombre">
               Nombre y apellido
             </label>
             <input
@@ -112,16 +182,14 @@ export function EditUserData() {
               name="nombre"
               type="text"
             />
-            {inputFormError.errorNombre ? (
+            {inputFormError.errorNombre && (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorNombre}
               </p>
-            ) : (
-              ""
             )}
           </div>
           <div className="user__input__container">
-            <label className="font-semibold" htmlFor="">
+            <label className="font-semibold" htmlFor="email">
               Email
             </label>
             <input
@@ -136,16 +204,14 @@ export function EditUserData() {
               name="email"
               type="text"
             />
-            {inputFormError.errorEmail ? (
+            {inputFormError.errorEmail && (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorEmail}
               </p>
-            ) : (
-              ""
             )}
           </div>
           <div className="user__input__container">
-            <label className="font-semibold" htmlFor="">
+            <label className="font-semibold" htmlFor="contraseña">
               Contraseña
             </label>
             <input
@@ -160,12 +226,10 @@ export function EditUserData() {
               name="contraseña"
               type={userDataIcon ? "text" : "password"}
             />
-            {inputFormError.errorContraseña ? (
+            {inputFormError.errorContraseña && (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorContraseña}
               </p>
-            ) : (
-              ""
             )}
             {userDataIcon ? (
               <HiEye
@@ -180,7 +244,7 @@ export function EditUserData() {
             )}
           </div>
           <div className="user__input__container">
-            <label className="font-semibold" htmlFor="">
+            <label className="font-semibold" htmlFor="confirmContraseña">
               Confirma tu contraseña
             </label>
             <input
@@ -195,12 +259,10 @@ export function EditUserData() {
               }`}
               type={userDataIcon ? "text" : "password"}
             />
-            {inputFormError.errorConfirmContraseña ? (
+            {inputFormError.errorConfirmContraseña && (
               <p className="text-red-600 font-semibold text-sm ml-7">
                 {inputFormError.errorConfirmContraseña}
               </p>
-            ) : (
-              ""
             )}
 
             {userDataIcon ? (
@@ -219,6 +281,20 @@ export function EditUserData() {
             Guardar
           </GeneralBtn>
         </form>
+        {editSuccess.success && (
+          <CartAlert>
+            <p className="card__perfil__alert shadow-md rounded-md bg-green-600">
+              {editSuccess.success}
+            </p>
+          </CartAlert>
+        )}
+        {editSuccess.error && (
+          <CartAlert>
+            <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+              {editSuccess.error}
+            </p>
+          </CartAlert>
+        )}
       </div>
     </section>
   );

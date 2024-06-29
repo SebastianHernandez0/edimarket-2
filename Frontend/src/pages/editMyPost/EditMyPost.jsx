@@ -4,6 +4,8 @@ import { UserContext } from "../../context/UserContext";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { useNavigate, useParams } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
+import profile from "/imgs/aplication/profile.png";
 
 export function EditMyPost() {
   const {
@@ -18,8 +20,11 @@ export function EditMyPost() {
     setUserData,
     initialUserData,
     user,
+    myProducts,
+    getProductBySeller,
   } = useContext(UserContext);
-  const { handleGetProducts, setLoading } = useContext(ProductContext);
+  const { setLoading } = useContext(ProductContext);
+  const [product, setProduct] = useState(null);
 
   const [editPostSuccess, setEditPostSuccess] = useState({
     success: "",
@@ -38,22 +43,25 @@ export function EditMyPost() {
     idUsuatio
   ) => {
     try {
-      const response = await fetch(`http://localhost:3000/productos/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-        body: JSON.stringify({
-          nombre,
-          descripcion,
-          estado,
-          precio,
-          stock,
-          imagen,
-          idUsuatio,
-        }),
-      });
+      const response = await fetch(
+        `https://edimarket.onrender.com/productos/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify({
+            nombre,
+            descripcion,
+            estado,
+            precio,
+            stock,
+            imagen,
+            idUsuatio,
+          }),
+        }
+      );
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al subir producto");
@@ -62,6 +70,7 @@ export function EditMyPost() {
       return data;
     } catch (error) {
       console.error("Error:", error.message);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -136,6 +145,7 @@ export function EditMyPost() {
           success: "Has modificado tu producto.",
         }));
         setUserData(initialUserData);
+        getProductBySeller();
         setTimeout(() => {
           setEditPostSuccess((prevData) => ({
             ...prevData,
@@ -143,12 +153,11 @@ export function EditMyPost() {
           }));
           navigate("/my-posts");
         }, 1500);
-        handleGetProducts();
       } catch (error) {
         console.error("Error:", error.message);
         setEditPostSuccess((prevData) => ({
           ...prevData,
-          error: "No pudimos actualizar tu producto :(",
+          error: "No pudimos actualizar tu producto.",
         }));
         setTimeout(() => {
           setEditPostSuccess((prevData) => ({
@@ -159,6 +168,22 @@ export function EditMyPost() {
       }
     }
   };
+
+  useEffect(() => {
+    const newProduct = myProducts?.find((p) => p.productoId === parseInt(id));
+    if (newProduct) {
+      setProduct(newProduct);
+      setUserData({
+        postimg: newProduct.imagen || "",
+        titulo: newProduct.nombre || "",
+        precio: newProduct.precio || "",
+        productStock: newProduct.stock || "",
+        descripcion: newProduct.descripcion || "",
+        estado: newProduct.estado || "",
+      });
+      inputRefs.postimg.current.focus();
+    }
+  }, [product]);
 
   return (
     <section className="editmypost__container bg-white shadow-sm">
@@ -172,10 +197,10 @@ export function EditMyPost() {
           >
             <div className="createpost__card__file__container mb-5">
               <div className="createpost__card__imgpreview">
-                {userData.postimg ? (
+                {userData?.postimg ? (
                   <img
                     className="createpost__card__imgpreview__img"
-                    src={userData.postimg}
+                    src={userData?.postimg}
                     alt=""
                   />
                 ) : (
@@ -194,7 +219,7 @@ export function EditMyPost() {
                 }`}
                 name="postimg"
                 id=""
-                value={userData.postimg}
+                value={userData?.postimg}
                 onChange={handleChange}
                 placeholder="Ingresa la URL de la imágen"
               />
@@ -209,7 +234,7 @@ export function EditMyPost() {
                 ref={inputRefs.titulo}
                 onChange={handleChange}
                 name="titulo"
-                value={userData.titulo}
+                value={userData?.titulo}
                 className={`createpost__card__input ${
                   inputFormError.errorTitulo
                     ? "focus: outline-2 outline outline-red-600"
@@ -229,7 +254,7 @@ export function EditMyPost() {
                 ref={inputRefs.precio}
                 onChange={handleChange}
                 name="precio"
-                value={userData.precio || ""}
+                value={userData?.precio || ""}
                 className={`createpost__card__input ${
                   inputFormError.errorPrecio
                     ? "focus: outline-2 outline outline-red-600"
@@ -248,6 +273,7 @@ export function EditMyPost() {
               <div className="createpost__select__container">
                 <div className="flex flex-col ">
                   <input
+                    value={userData?.productStock || ""}
                     onChange={handleChange}
                     ref={inputRefs.productStock}
                     className={`createpost__card__input ${
@@ -277,7 +303,7 @@ export function EditMyPost() {
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
-                value={userData.estado}
+                value={userData?.estado}
                 name="estado"
                 id="estado"
               >
@@ -301,7 +327,7 @@ export function EditMyPost() {
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
-                value={userData.descripcion}
+                value={userData?.descripcion}
                 name="descripcion"
                 id=""
                 rows="5"
@@ -314,17 +340,6 @@ export function EditMyPost() {
               ) : (
                 ""
               )}
-              <div className="flex flex-col items-center mt-4">
-                {editPostSuccess.success ? (
-                  <p className="font-bold text-green-600">
-                    {editPostSuccess.success}
-                  </p>
-                ) : (
-                  <p className="font-bold text-red-600">
-                    {editPostSuccess.error}
-                  </p>
-                )}
-              </div>
               <GeneralBtn
                 type="secondary"
                 className="createpost__form__btn my-4"
@@ -385,10 +400,28 @@ export function EditMyPost() {
               )}
               <hr />
               <p className="mt-5">Información del vendedor</p>
+              <div className="flex items-center gap-3 mt-5">
+                <img className="w-12" src={profile} alt="" />
+                <span className="font-medium">{user.nombre}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      {editPostSuccess.success && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-green-600">
+            {editPostSuccess.success}
+          </p>
+        </CartAlert>
+      )}
+      {editPostSuccess.error && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+            {editPostSuccess.error}
+          </p>
+        </CartAlert>
+      )}
     </section>
   );
 }

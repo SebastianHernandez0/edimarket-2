@@ -4,6 +4,8 @@
   margin: 60px auto;
   width: 100%;
   max-width: 1000px;
+  display: grid;
+  grid-template-rows: 50px;
 }
 .add__btn {
   padding: 5px 10px;

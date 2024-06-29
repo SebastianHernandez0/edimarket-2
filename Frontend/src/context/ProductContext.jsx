@@ -14,6 +14,8 @@ export function ProductProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
   const [seller, setSeller] = useState("");
+  const [searchProduct, setSearchProduct] = useState("");
+  const [findedProduct, setFindedProduct] = useState([]);
 
   const [productAlert, setProductAlert] = useState({
     succes: "",
@@ -28,13 +30,14 @@ export function ProductProvider({ children }) {
       errorFav: "",
       errorCart: "",
     });
+    setProductQuantity(1);
   }, [navigate]);
 
   const getUserById = async (vendedor_id) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3000/usuarios/${vendedor_id}`
+        `https://edimarket.onrender.com/usuarios/${vendedor_id}`
       );
 
       if (!response.ok) {
@@ -60,7 +63,7 @@ export function ProductProvider({ children }) {
   const handleGetProducts = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/productos");
+      const response = await fetch("https://edimarket.onrender.com/productos");
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al obtener productos");
@@ -92,7 +95,9 @@ export function ProductProvider({ children }) {
   const handleGetProduct = async (id) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3000/productos/${id}`);
+      const response = await fetch(
+        `https://edimarket.onrender.com/productos/${id}`
+      );
       if (!response.ok) {
         throw new Error("Producto no encontrado");
       }
@@ -141,6 +146,10 @@ export function ProductProvider({ children }) {
         handleGetProduct,
         seller,
         handleGetProducts,
+        searchProduct,
+        setSearchProduct,
+        findedProduct,
+        setFindedProduct,
       }}
     >
       {children}

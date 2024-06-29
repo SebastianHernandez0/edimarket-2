@@ -2,6 +2,8 @@
   grid-area: home;
   padding: 0 25px;
   margin: 60px auto;
+  max-width: 1400px;
+  width: 100%;
 }
 .products__card__img {
   width: 100%;

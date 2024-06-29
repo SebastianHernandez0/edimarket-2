@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
 import { Loader } from "../loader/Loader.jsx";
@@ -9,9 +9,10 @@ export function Products() {
   const { products, handleProductDetail, loading } = useContext(ProductContext);
   const { userToken, user } = useContext(UserContext);
 
-  const filteredProducts = products.filter(
-    (product) => product.vendedor !== user.id
-  );
+  const filteredProducts =
+    user && products
+      ? products.filter((product) => product.vendedor !== user.id)
+      : products;
 
   return (
     <section>

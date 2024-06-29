@@ -12,6 +12,9 @@ import { UserContext } from "../../context/UserContext";
 import { Loader } from "../../components/loader/Loader";
 import { IoIosClose } from "react-icons/io";
 import { IoAlertCircleOutline } from "react-icons/io5";
+import visa from "/imgs/aplication/visa.png";
+import masterCard from "/imgs/aplication/mastercard.png";
+import cash from "/imgs/aplication/cash.png";
 
 const ModalIcon = forwardRef((props, ref) => (
   <div ref={ref}>
@@ -76,18 +79,21 @@ export function ProductDetail() {
         }, 2400);
       } else {
         if (userToken) {
-          const response = await fetch("http://localhost:3000/carrito", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${userToken}`,
-            },
-            body: JSON.stringify({
-              idUsuario,
-              idProducto,
-              cantidad,
-            }),
-          });
+          const response = await fetch(
+            "https://edimarket.onrender.com/carrito",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${userToken}`,
+              },
+              body: JSON.stringify({
+                idUsuario,
+                idProducto,
+                cantidad,
+              }),
+            }
+          );
           if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || "Error al agregar al carrito");
@@ -115,7 +121,7 @@ export function ProductDetail() {
       );
       if (!productFinded) {
         const response = await fetch(
-          `http://localhost:3000/favoritos/${productById.producto_id}`,
+          `https://edimarket.onrender.com/favoritos/${productById.producto_id}`,
           {
             method: "POST",
             headers: {
@@ -151,7 +157,7 @@ export function ProductDetail() {
         return data;
       } else {
         const response = await fetch(
-          `http://localhost:3000/favoritos/${productFinded.id}`,
+          `https://edimarket.onrender.com/favoritos/${productFinded.id}`,
           {
             method: "DELETE",
             headers: {
@@ -248,6 +254,7 @@ export function ProductDetail() {
           <OverlayScreen />
           <ProductCard className="card__body shadow-md rounded-md">
             <img className="card__img" src={product?.imagen} alt="" />
+
             <div className="card__info border-2 rounded-md">
               <div className="card__info__details">
                 {product?.stock === 0 ? (
@@ -263,6 +270,7 @@ export function ProductDetail() {
                 <p className="card__paragraph card__paragraph__name">
                   {product?.nombre}
                 </p>
+                <hr className="mb-5"/>
                 <div className="card__info__price__details">
                   <p className="card__paragraph card__paragraph__price">
                     {product?.precio
@@ -391,10 +399,19 @@ export function ProductDetail() {
                   Agregar al carrito
                 </GeneralBtn>
               </div>
-              <hr className="mt-8" />
+              <hr className="my-8 sm:mb-0" />
+              <div className="card__payment ">
+                <h3 className="mb-4 font-medium">Medios de pago</h3>
+                <div className="flex items-center justify-between">
+                  <img className="w-16" src={visa} alt="" />
+                  <img className="w-16" src={masterCard} alt="" />
+                  <img className="w-16" src={cash} alt="" />
+                </div>
+              </div>
             </div>
             <div className="card__info__desc__container mt-8 p-4">
-              <h1 className="card__info__desc__title text-2xl">Descripción</h1>
+              <hr />
+              <h1 className="card__info__desc__title text-2xl mt-5">Descripción</h1>
               <div className="card__info__desc mt-10">
                 {product?.descripcion}
               </div>

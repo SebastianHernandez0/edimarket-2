@@ -30,7 +30,7 @@ export function NavBurger({
   };
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 576);
+      setIsMobile(window.innerWidth < 737);
     };
     if (!isMobile) {
       setOpenPerfilMenu(false);

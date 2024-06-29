@@ -4,6 +4,9 @@ import { useDropzone } from "react-dropzone";
 import { IoMdImages } from "react-icons/io";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { UserContext } from "../../context/UserContext";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
+import profile from "/imgs/aplication/profile.png";
+import { ProductContext } from "../../context/ProductContext";
 
 export function CreatePost() {
   const {
@@ -17,6 +20,8 @@ export function CreatePost() {
     userToken,
     setUserData,
     initialUserData,
+    getProductBySeller,
+    user,
   } = useContext(UserContext);
 
   const [createPostSuccess, setCreatePostSuccess] = useState({
@@ -30,6 +35,7 @@ export function CreatePost() {
 
   const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
     useDropzone({ onDrop });
+  const { setLoading } = useContext(ProductContext);
 
   const handleCreatePost = async (
     nombre,
@@ -41,7 +47,7 @@ export function CreatePost() {
     categoria
   ) => {
     try {
-      const response = await fetch("http://localhost:3000/productos", {
+      const response = await fetch("https://edimarket.onrender.com/productos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,9 +69,13 @@ export function CreatePost() {
         throw new Error(errorData.message || "Error al subir producto");
       }
       const data = response.json();
+      getProductBySeller();
       return data;
     } catch (error) {
-      console.error("Error al eliminar favorito", error);
+      console.error("Error:", error.message);
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -206,7 +216,7 @@ export function CreatePost() {
               ) : (
                 <p className="text-center">Vista previa...</p>
               )} */}
-              {userData.postimg ? (
+              {userData?.postimg ? (
                 <img
                   className="createpost__card__imgpreview__img"
                   src={userData.postimg}
@@ -229,7 +239,7 @@ export function CreatePost() {
               }`}
               name="postimg"
               id=""
-              value={userData.postimg}
+              value={userData?.postimg}
               onChange={handleChange}
               placeholder="Ingresa la URL de la imágen"
             />
@@ -244,7 +254,7 @@ export function CreatePost() {
               ref={inputRefs.titulo}
               onChange={handleChange}
               name="titulo"
-              value={userData.titulo}
+              value={userData?.titulo}
               className={`createpost__card__input ${
                 inputFormError.errorTitulo
                   ? "focus: outline-2 outline outline-red-600"
@@ -264,7 +274,7 @@ export function CreatePost() {
               ref={inputRefs.precio}
               onChange={handleChange}
               name="precio"
-              value={userData.precio || ""}
+              value={userData?.precio || ""}
               className={`createpost__card__input ${
                 inputFormError.errorPrecio
                   ? "focus: outline-2 outline outline-red-600"
@@ -290,7 +300,7 @@ export function CreatePost() {
                     : "focus: outline-2 outline-green-300"
                 }`}
                 name="categorias"
-                value={userData.categorias}
+                value={userData?.categorias}
                 id="categorias"
               >
                 <option value="">Categorías</option>
@@ -310,6 +320,7 @@ export function CreatePost() {
               )}
               <div className="flex flex-col ">
                 <input
+                  value={userData?.productStock || ""}
                   onChange={handleChange}
                   ref={inputRefs.productStock}
                   className={`createpost__card__input ${
@@ -339,7 +350,7 @@ export function CreatePost() {
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
-              value={userData.estado}
+              value={userData?.estado}
               name="estado"
               id="estado"
             >
@@ -363,7 +374,7 @@ export function CreatePost() {
                   ? "focus: outline-2 outline outline-red-600"
                   : "focus: outline-2 outline-green-300"
               }`}
-              value={userData.descripcion}
+              value={userData?.descripcion}
               name="descripcion"
               id=""
               rows="5"
@@ -376,17 +387,6 @@ export function CreatePost() {
             ) : (
               ""
             )}
-            <div className="flex flex-col items-center mt-4">
-              {createPostSuccess.success ? (
-                <p className="font-bold text-green-600">
-                  {createPostSuccess.success}
-                </p>
-              ) : (
-                <p className="font-bold text-red-600">
-                  {createPostSuccess.error}
-                </p>
-              )}
-            </div>
             <GeneralBtn
               type="secondary"
               disabled={false}
@@ -448,9 +448,27 @@ export function CreatePost() {
             )}
             <hr />
             <p className="mt-5">Información del vendedor</p>
+            <div className="flex items-center gap-3 mt-5">
+              <img className="w-12" src={profile} alt="" />
+              <span className="font-medium">{user.nombre}</span>
+            </div>
           </div>
         </div>
       </div>
+      {createPostSuccess.success && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-green-600">
+            {createPostSuccess.success}
+          </p>
+        </CartAlert>
+      )}
+      {createPostSuccess.error && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+            {createPostSuccess.error}
+          </p>
+        </CartAlert>
+      )}
     </section>
   );
 }
