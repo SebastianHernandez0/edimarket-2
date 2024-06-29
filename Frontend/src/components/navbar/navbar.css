@@ -273,8 +273,8 @@
     border-radius: 5px;
   }
   .navbar__user__menu {
-    top: 8px;
-    right: 38%;
+    top: 9px;
+    right: 300px;
   }
   .navbar__user__icon {
     display: flex;
