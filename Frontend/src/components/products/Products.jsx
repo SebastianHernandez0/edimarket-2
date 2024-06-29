@@ -17,15 +17,15 @@ export function Products() {
 
   return (
     <section>
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="products__container">
-          <div className="product__title__container">
-            <h1 className="products__title text-2xl font-semibold mt-7">
-              Productos recomendados
-            </h1>
-          </div>
+      <div className="products__container">
+        <div className="product__title__container">
+          <h1 className="products__title text-2xl font-semibold mt-7">
+            Productos recomendados
+          </h1>
+        </div>
+        {loading ? (
+          <Loader />
+        ) : (
           <div className="products__cards__container">
             <Pagination />
             {userToken ? (
@@ -88,8 +88,8 @@ export function Products() {
               </div>
             )}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 }

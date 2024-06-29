@@ -1,10 +1,23 @@
 .pagination__container {
   margin-top: 20px;
-  margin-left: auto;
-  margin-right: 40px;
-  width: max-content;
+  width: 100%;
 }
 .paginaction__arrow {
-  font-size: 1.4rem;
+  padding: 10px;
+  font-size: 2.7rem;
   cursor: pointer;
+}
+
+.paginaction__arrow:hover {
+  background: #00000011;
+  border-radius: 50%;
+}
+
+@media (min-width: 576px) {
+  .pagination__container {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: 40px;
+    width: max-content;
+  }
 }
