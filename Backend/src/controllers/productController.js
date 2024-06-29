@@ -14,8 +14,9 @@ const jwt = require("jsonwebtoken");
 
 const getProductos = async (req, res) => {
   try {
-    const productos = await consultarProductos();
-    const hateoas = await prepHateoas(productos);
+    const {limits=12,page=1, order_by} = req.query;
+    const productos = await consultarProductos(limits,page, order_by);
+    const hateoas = await prepHateoas(productos,page);
     res.send(hateoas);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -51,6 +52,7 @@ const agregarProducto = async (req, res) => {
       stock: producto.stock,
       imagen: producto.imagen,
       categoria: producto.categoria,
+      fecha: producto.fecha_producto
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -148,8 +150,8 @@ const ventaRealizada = async (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
     await venta(id, idProducto, cantidad);
-    console.log(`El usuario ${email} ha realizado una venta`);
-    res.status(200).json({ mensaje: "venta realizada" });
+    console.log(`El usuario ${email} ha realizado una compra`);
+    res.status(200).json({ mensaje: "compra realizada" });
   } catch (error) {
     res.status(500).json({ mensaje: error.message });
   }

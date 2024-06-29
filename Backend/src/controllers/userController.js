@@ -129,6 +129,7 @@ const consultarProductosPerUser = async (req, res) => {
     );
     res.json({
       productos: productos.map((producto) => {
+        fecha_producto = producto.fecha_producto.toISOString().split('T')[0];
         return {
           usuario_: id,
           id: producto.id,
@@ -140,6 +141,7 @@ const consultarProductosPerUser = async (req, res) => {
           stock: producto.stock,
           imagen: producto.imagen,
           categoria: producto.nombre_categoria,
+          fecha: fecha_producto
         };
       }),
     });
