@@ -23,6 +23,11 @@ const UserIcon = forwardRef((props, ref) => (
     <FaUserCircle {...props} />
   </div>
 ));
+const SearchIcon = forwardRef((props, ref) => (
+  <div ref={ref}>
+    <FiSearch {...props} />
+  </div>
+));
 
 export function Navbar({ navbarRef }) {
   const [openSearchBar, setOpenSearchBar] = useState(false);
@@ -34,6 +39,8 @@ export function Navbar({ navbarRef }) {
   const perfilMenuRef = useRef(null);
   const menuRef = useRef(null);
   const menuContainerRef = useRef(null);
+  const searchBarRef = useRef(null);
+  const searchBarIconRef = useRef(null);
   const { setOpenCategories } = useContext(ProductContext);
   const categoriesBtnRef = useRef(null);
   const { userToken, logout, user } = useContext(UserContext);
@@ -85,6 +92,15 @@ export function Navbar({ navbarRef }) {
       !menuContainerRef.current.contains(event.target)
     ) {
       setClicked(false);
+    }
+
+    if (
+      searchBarRef.current &&
+      searchBarIconRef.current &&
+      !searchBarRef.current.contains(event.target) &&
+      !searchBarIconRef.current.contains(event.target)
+    ) {
+      setOpenSearchBar(false);
     }
   };
 
@@ -139,9 +155,10 @@ export function Navbar({ navbarRef }) {
           />
           <div className="navbar__search__container">
             <div className="navbar__search__input__container">
-              <SearchBar openSearchBar={openSearchBar} />
+              <SearchBar ref={searchBarRef} openSearchBar={openSearchBar} />
             </div>
-            <FiSearch
+            <SearchIcon
+              ref={searchBarIconRef}
               onClick={handleOpenSearchBar}
               className="navbar__search__icon"
             />

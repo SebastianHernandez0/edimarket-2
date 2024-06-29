@@ -43,7 +43,7 @@
 }
 .navbar__search__input__container {
   position: absolute;
-  top: 180%;
+  top: 170%;
   left: 0;
   width: 100%;
   background: var(--backgroundHomeColor);

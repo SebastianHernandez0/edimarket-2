@@ -1,12 +1,12 @@
 import "../perfil/perfil.css";
 import "../../components/searchBar/searchBar.css";
 import { FiSearch } from "react-icons/fi";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { IoMdClose } from "react-icons/io";
 
-export function SearchBar({ className, openSearchBar }) {
+export const SearchBar = forwardRef(({ className, openSearchBar }, ref) => {
   const navigate = useNavigate();
   const { searchProduct, setSearchProduct, products, setFindedProduct } =
     useContext(ProductContext);
@@ -53,7 +53,7 @@ export function SearchBar({ className, openSearchBar }) {
   };
 
   return (
-    <div className={`${className} navbar__search__input__container`}>
+    <div ref={ref} className={`${className} navbar__search__input__container`}>
       <input
         ref={inputRef}
         onChange={handleSearchProductName}
@@ -81,4 +81,4 @@ export function SearchBar({ className, openSearchBar }) {
       )}
     </div>
   );
-}
+});
