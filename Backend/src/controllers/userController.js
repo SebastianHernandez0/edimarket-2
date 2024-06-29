@@ -135,6 +135,7 @@ const consultarProductosPerUser = async (req, res) => {
           productoId: producto.producto_id,
           nombre: producto.nombre,
           descripcion: producto.descripcion,
+          estado: producto.estado,
           precio: producto.precio,
           stock: producto.stock,
           imagen: producto.imagen,
