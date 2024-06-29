@@ -14,8 +14,9 @@ const jwt = require("jsonwebtoken");
 
 const getProductos = async (req, res) => {
   try {
-    const productos = await consultarProductos();
-    const hateoas = await prepHateoas(productos);
+    const {limits=12,page=1, order_by} = req.query;
+    const productos = await consultarProductos(limits,page, order_by);
+    const hateoas = await prepHateoas(productos,page);
     res.send(hateoas);
   } catch (error) {
     res.status(500).json({ error: error.message });

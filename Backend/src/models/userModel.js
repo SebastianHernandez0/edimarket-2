@@ -107,9 +107,21 @@ const verificarUsuario = async (email, contraseña) => {
     throw { code: 401, message: "El usuario o contraseña no coinciden" };
   return user;
 };
-const consultarProductos = async () => {
+const consultarProductos = async (limits,page, order_by) => {
+  let querys= "";
+  if(order_by){
+    const [campo,ordenamiention]= order_by.split("_");
+    querys += ` ORDER BY ${campo} ${ordenamiention}`;
+  }
+  if(limits){
+    querys += ` LIMIT ${limits}`
+  }
+  if(page && limits){
+    const offset = page * limits - limits;
+    querys += ` OFFSET ${offset}`
+  }
   const consulta =
-    "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id";
+    `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id ${querys}`;
   const { rows: products } = await db.query(consulta);
   return products;
 };

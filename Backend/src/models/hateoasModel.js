@@ -1,5 +1,7 @@
 
-const prepHateoas = (data) => {
+const prepHateoas = (data, page) => {
+  page= parseInt(page);
+  
   const results = data.map((item) => {
     return {
       nombre: item.nombre,
@@ -10,6 +12,9 @@ const prepHateoas = (data) => {
       imagen: item.imagen,
       id: item.producto_id,
       descripcion: item.descripcion,
+      estado: item.estado,
+      fecha: item.fecha_producto,
+      pagina_siguiente: `/productos?page=${page+1}`
     };
   });
   const total = results.length;
