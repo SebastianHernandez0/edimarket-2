@@ -22,7 +22,7 @@ export function SearchBar({ className, openSearchBar }) {
     );
 
     const handleResize = () => {
-      if (window.innerWidth <= 576 && !openSearchBar) {
+      if (window.innerWidth <= 737 && !openSearchBar) {
         searchBar.classList.add("searchInputActive");
       } else {
         searchBar.classList.remove("searchInputActive");

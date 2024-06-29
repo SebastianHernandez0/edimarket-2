@@ -206,7 +206,7 @@
 
 /*DESKTOP MODE*/
 
-@media (min-width: 576px) {
+@media (min-width: 737px) {
   .navbar__search__input__container {
     position: relative;
     background: none;
