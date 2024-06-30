@@ -126,10 +126,22 @@ const consultarProductos = async (limits,page, order_by) => {
   return products;
 };
 
-const consultarProductosByCategoria = async (categoria) => {
+const consultarProductosByCategoria = async (categoria,limits,page, order_by) => {
+  let querys= "";
+  if(order_by){
+    const [campo,ordenamiention]= order_by.split("_");
+    querys += ` ORDER BY ${campo} ${ordenamiention}`;
+  }
+  if(limits){
+    querys += ` LIMIT ${limits}`
+  }
+  if(page && limits){
+    const offset = page * limits - limits;
+    querys += ` OFFSET ${offset}`
+  }
   const values = [categoria];
   const consulta =
-    "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where categorias.nombre_categoria=$1";
+  `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where categorias.nombre_categoria=$1 ${querys}`;
   const { rows: products } = await db.query(consulta, values);
   return products;
 };

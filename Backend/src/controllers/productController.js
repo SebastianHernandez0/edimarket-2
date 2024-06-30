@@ -9,14 +9,14 @@ const {
   venta,
   modificarProducto,
 } = require("../models/userModel");
-const prepHateoas = require("../models/hateoasModel");
+const {prepHateoasProductos,prepHateoasCategorias} = require("../models/hateoasModel");
 const jwt = require("jsonwebtoken");
 
 const getProductos = async (req, res) => {
   try {
     const {limits=12,page=1, order_by} = req.query;
     const productos = await consultarProductos(limits,page, order_by);
-    const hateoas = await prepHateoas(productos,page);
+    const hateoas = await prepHateoasProductos(productos,page);
     res.send(hateoas);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -84,8 +84,9 @@ const modifyProducto = async (req, res) => {
 const getProductosByCategoria = async (req, res) => {
   try {
     const { categoria } = req.params;
-    const productos = await consultarProductosByCategoria(categoria);
-    const hateoas = await prepHateoas(productos);
+    const {limits=12,page=1, order_by} = req.query;
+    const productos = await consultarProductosByCategoria(categoria,limits,page, order_by);
+    const hateoas = await prepHateoasCategorias(productos,page,categoria);
     res.send(hateoas);
   } catch (error) {
     res.status(500).json({ error: error.message });
