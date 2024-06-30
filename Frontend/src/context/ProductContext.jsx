@@ -14,6 +14,8 @@ export function ProductProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState(null);
   const [seller, setSeller] = useState("");
+  const [searchProduct, setSearchProduct] = useState("");
+  const [findedProduct, setFindedProduct] = useState([]);
 
   const [productAlert, setProductAlert] = useState({
     succes: "",
@@ -28,6 +30,7 @@ export function ProductProvider({ children }) {
       errorFav: "",
       errorCart: "",
     });
+    setProductQuantity(1);
   }, [navigate]);
 
   const getUserById = async (vendedor_id) => {
@@ -92,7 +95,9 @@ export function ProductProvider({ children }) {
   const handleGetProduct = async (id) => {
     setLoading(true);
     try {
-      const response = await fetch(`https://edimarket.onrender.com/productos/${id}`);
+      const response = await fetch(
+        `https://edimarket.onrender.com/productos/${id}`
+      );
       if (!response.ok) {
         throw new Error("Producto no encontrado");
       }
@@ -141,6 +146,10 @@ export function ProductProvider({ children }) {
         handleGetProduct,
         seller,
         handleGetProducts,
+        searchProduct,
+        setSearchProduct,
+        findedProduct,
+        setFindedProduct,
       }}
     >
       {children}

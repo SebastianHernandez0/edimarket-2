@@ -9,13 +9,14 @@ const {
   venta,
   modificarProducto,
 } = require("../models/userModel");
-const prepHateoas = require("../models/hateoasModel");
+const {prepHateoasProductos,prepHateoasCategorias} = require("../models/hateoasModel");
 const jwt = require("jsonwebtoken");
 
 const getProductos = async (req, res) => {
   try {
-    const productos = await consultarProductos();
-    const hateoas = await prepHateoas(productos);
+    const {limits=12,page=1, order_by} = req.query;
+    const productos = await consultarProductos(limits,page, order_by);
+    const hateoas = await prepHateoasProductos(productos,page);
     res.send(hateoas);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -51,6 +52,7 @@ const agregarProducto = async (req, res) => {
       stock: producto.stock,
       imagen: producto.imagen,
       categoria: producto.categoria,
+      fecha: producto.fecha_producto
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -82,8 +84,9 @@ const modifyProducto = async (req, res) => {
 const getProductosByCategoria = async (req, res) => {
   try {
     const { categoria } = req.params;
-    const productos = await consultarProductosByCategoria(categoria);
-    const hateoas = await prepHateoas(productos);
+    const {limits=12,page=1, order_by} = req.query;
+    const productos = await consultarProductosByCategoria(categoria,limits,page, order_by);
+    const hateoas = await prepHateoasCategorias(productos,page,categoria);
     res.send(hateoas);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -149,7 +152,7 @@ const ventaRealizada = async (req, res) => { //TODO: LIZ
     const { email, id } = jwt.decode(token);
     await venta(id, idProducto, cantidad);
     console.log(`El usuario ${email} ha realizado una compra`);
-    res.status(200).json({ mensaje: "venta realizada" });
+    res.status(200).json({ mensaje: "compra realizada" });
   } catch (error) {
     res.status(500).json({ mensaje: error.message });
   }

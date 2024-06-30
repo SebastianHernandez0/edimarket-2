@@ -5,8 +5,8 @@
   width: 100%;
   max-width: 1000px;
 }
-.mypost__card__body {
-  position: relative;
+.myposts__card__body {
+  cursor: pointer;
 }
 .myposts__card__img {
   width: 100%;
@@ -49,9 +49,11 @@
 }
 .confirm__delete__modal {
   z-index: 50;
-  position: absolute;
+  position: fixed;
   top: 50%;
-  left: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 325px;
 }
 .close__icon {
   position: absolute;
@@ -85,7 +87,6 @@
     justify-content: flex-start;
   }
   .confirm__delete__modal {
-    top: 50%;
-    left: 200px;
+    width: 380px;
   }
 }

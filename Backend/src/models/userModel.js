@@ -107,17 +107,41 @@ const verificarUsuario = async (email, contraseña) => {
     throw { code: 401, message: "El usuario o contraseña no coinciden" };
   return user;
 };
-const consultarProductos = async () => {
+const consultarProductos = async (limits,page, order_by) => {
+  let querys= "";
+  if(order_by){
+    const [campo,ordenamiention]= order_by.split("_");
+    querys += ` ORDER BY ${campo} ${ordenamiention}`;
+  }
+  if(limits){
+    querys += ` LIMIT ${limits}`
+  }
+  if(page && limits){
+    const offset = page * limits - limits;
+    querys += ` OFFSET ${offset}`
+  }
   const consulta =
-    "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id";
+    `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id ${querys}`;
   const { rows: products } = await db.query(consulta);
   return products;
 };
 
-const consultarProductosByCategoria = async (categoria) => {
+const consultarProductosByCategoria = async (categoria,limits,page, order_by) => {
+  let querys= "";
+  if(order_by){
+    const [campo,ordenamiention]= order_by.split("_");
+    querys += ` ORDER BY ${campo} ${ordenamiention}`;
+  }
+  if(limits){
+    querys += ` LIMIT ${limits}`
+  }
+  if(page && limits){
+    const offset = page * limits - limits;
+    querys += ` OFFSET ${offset}`
+  }
   const values = [categoria];
   const consulta =
-    "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where categorias.nombre_categoria=$1";
+  `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where categorias.nombre_categoria=$1 ${querys}`;
   const { rows: products } = await db.query(consulta, values);
   return products;
 };
@@ -168,7 +192,7 @@ const registrarProducto = async (producto, vendedor_id) => {
     vendedor_id,
   ];
   const consultaProducto =
-    "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado) VALUES ($1,$2,$3,$5,$6,$7,$8,$4)";
+    "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado,fecha_producto) VALUES ($1,$2,$3,$5,$6,$7,$8,$4,DEFAULT)";
   const consultaCategoria =
     "INSERT INTO producto_categoria (id,producto_id,categoria_id) VALUES (DEFAULT,$1,$2)";
   await db.query(consultaProducto, valuesProducto);

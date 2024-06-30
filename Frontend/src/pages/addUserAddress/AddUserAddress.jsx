@@ -4,6 +4,7 @@ import "../addUserAddress/addUserAddress.css";
 import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
 
 export function AddUserAdress() {
   const {
@@ -66,6 +67,7 @@ export function AddUserAdress() {
       }
     } catch (error) {
       console.error("Error:", error.message);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -120,24 +122,36 @@ export function AddUserAdress() {
           userData.region,
           userData.codigoPostal
         );
-
-        setAddAddressSuccess((prevState) => ({
-          ...prevState,
+        setAddAddressSuccess({
+          error: "",
           success: "¡Domicilio añadido!",
-        }));
+        });
 
         setTimeout(() => {
           navigate("/user-address");
         }, 1500);
       } catch (error) {
         console.error("Error:", error.message);
-        setAddAddressSuccess((prevState) => ({
-          ...prevState,
+        setAddAddressSuccess({
+          success: "",
           error: "No pudimos agregar tu domicilio.",
-        }));
+        });
+        setTimeout(() => {
+          setAddAddressSuccess({
+            success: "",
+            error: "",
+          });
+        }, 3000);
       }
     }
   };
+
+  useEffect(() => {
+    setAddAddressSuccess({
+      success: "",
+      error: "",
+    });
+  }, [navigate]);
 
   return (
     <section className="adduseraddress__container bg-white shadow-sm rounded-sm">
@@ -241,6 +255,7 @@ export function AddUserAdress() {
                     ? "focus: outline-2 outline outline-red-600"
                     : "focus: outline-2 outline-green-300"
                 }`}
+                maxLength="10"
                 type="text"
                 name="codigoPostal"
               />
@@ -265,6 +280,7 @@ export function AddUserAdress() {
                 }`}
                 type="text"
                 name="numero"
+                maxLength="8"
               />
               {inputFormError.errorNumero ? (
                 <p className="text-red-600 font-semibold text-sm ml-7">
@@ -275,14 +291,6 @@ export function AddUserAdress() {
               )}
             </div>
           </div>
-          {AddAddressSuccess.success ? (
-            <p className="font-bold text-green-600">
-              {AddAddressSuccess.success}
-            </p>
-          ) : (
-            <p className="font-bold text-red-600">{AddAddressSuccess.error}</p>
-          )}
-
           <GeneralBtn
             type="secondary"
             className="adress__btn self-end justify-self-end"
@@ -290,6 +298,20 @@ export function AddUserAdress() {
             Guardar
           </GeneralBtn>
         </form>
+        {AddAddressSuccess.success && (
+          <CartAlert>
+            <p className="card__perfil__alert shadow-md rounded-md bg-green-600">
+              {AddAddressSuccess.success}
+            </p>
+          </CartAlert>
+        )}
+        {AddAddressSuccess.error && (
+          <CartAlert>
+            <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+              {AddAddressSuccess.error}
+            </p>
+          </CartAlert>
+        )}
       </div>
     </section>
   );

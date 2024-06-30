@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { Loader } from "../../components/loader/Loader";
 import { ProductContext } from "../../context/ProductContext";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
 
 const EditIcon = forwardRef((props, ref) => (
   <div ref={ref}>
@@ -16,16 +17,25 @@ const EditIcon = forwardRef((props, ref) => (
 ));
 
 export function UserAddress() {
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const { user, userAddress, userToken, handleUserAddress } =
-    useContext(UserContext);
+  const {
+    user,
+    userAddress,
+    userToken,
+    handleUserAddress,
+    selectedAddressId,
+    setSelectedAddressId,
+  } = useContext(UserContext);
   const { loading, setLoading } = useContext(ProductContext);
-  const [selectedAddressId, setSelectedAddressId] = useState(null);
+
+  const [deleteSuccess, setDeleteSuccess] = useState({
+    success: "",
+    error: "",
+  });
   const navigate = useNavigate();
-  const addressRef = {
-    iconRef: useRef(null),
-    modalRef: useRef(null),
-  };
+
+  const iconRef = useRef(null);
+  const modalRef = useRef(null);
+  const btnRef = useRef(null);
 
   const handleDeleteAddress = async (id) => {
     try {
@@ -44,6 +54,18 @@ export function UserAddress() {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al editar usuario");
+      } else {
+        setSelectedAddressId("");
+        setDeleteSuccess((prevData) => ({
+          ...prevData,
+          success: "Domicilio eliminado.",
+        }));
+        setTimeout(() => {
+          setDeleteSuccess((prevData) => ({
+            ...prevData,
+            success: "",
+          }));
+        }, 1500);
       }
       const data = await response.json();
       handleUserAddress();
@@ -57,35 +79,41 @@ export function UserAddress() {
 
   const handleOpenEditModal = (id) => {
     setSelectedAddressId(id);
-    setOpenEditModal(!openEditModal);
+    if (selectedAddressId) {
+      setSelectedAddressId("");
+    }
   };
 
   const handleClickOutside = (event) => {
     if (
-      addressRef.iconRef.current &&
-      !addressRef.iconRef.current.contains(event.target) &&
-      addressRef.modalRef.current &&
-      !addressRef.modalRef.current.contains(event.target)
+      iconRef.current &&
+      modalRef.current &&
+      !iconRef.current.contains(event.target) &&
+      !modalRef.current.contains(event.target)
     ) {
-      setOpenEditModal(false);
+      setSelectedAddressId("");
     }
   };
+  0;
 
   useEffect(() => {
-    if (openEditModal) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
+    window.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("click", handleClickOutside);
     };
-  }, [openEditModal]);
+  }, []);
 
   const handleNavigateToAdd = () => {
     navigate("/add-address");
   };
+
+  useEffect(() => {
+    setDeleteSuccess({
+      success: "",
+      error: "",
+    });
+    setSelectedAddressId("");
+  }, [navigate]);
 
   return (
     <section className="useraddress__container bg-white shadow-sm rounded-sm">
@@ -135,15 +163,15 @@ export function UserAddress() {
                 </div>
                 <div className="edit__icon">
                   <EditIcon
-                    ref={addressRef.iconRef}
+                    ref={selectedAddressId === address.id ? iconRef : null}
                     onClick={() => handleOpenEditModal(address.id)}
                     className="text-xl mt-3 cursor-pointer"
                   />
-                  {openEditModal ? (
+                  {selectedAddressId === address.id ? (
                     <UserAddressModal
                       handleDeleteAddress={handleDeleteAddress}
                       selectedAddressId={selectedAddressId}
-                      ref={addressRef.modalRef}
+                      ref={modalRef}
                     />
                   ) : null}
                 </div>
@@ -164,6 +192,29 @@ export function UserAddress() {
           <hr />
         </div>
       )}
+      {deleteSuccess.success && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-slate-700">
+            {deleteSuccess.success}
+          </p>
+        </CartAlert>
+      )}
+      {deleteSuccess.error && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+            {deleteSuccess.error}
+          </p>
+        </CartAlert>
+      )}
+      {userAddress.length > 0 && userAddress.length <= 2 ? (
+        <GeneralBtn
+          onClick={handleNavigateToAdd}
+          type="secondary"
+          className="flex items-center justify-center h-10 w-36 self-end justify-self-end mt-5"
+        >
+          Añadir
+        </GeneralBtn>
+      ) : null}
     </section>
   );
 }

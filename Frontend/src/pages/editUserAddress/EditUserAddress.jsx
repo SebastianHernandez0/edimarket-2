@@ -1,14 +1,16 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import "../editUserAddress/editUserAddress.css";
 import { UserContext } from "../../context/UserContext";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { ProductContext } from "../../context/ProductContext";
 import { useNavigate } from "react-router-dom";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
 
 export function EditUserAddress() {
   const {
     setInputFormError,
     userData,
+    setUserData,
     handleChange,
     inputRefs,
     onlyNumbersRegex,
@@ -16,9 +18,10 @@ export function EditUserAddress() {
     AddAddressSuccess,
     setAddAddressSuccess,
     userToken,
-    userAddress,
     user,
+    userAddress,
     handleUserAddress,
+    selectedAddressId,
   } = useContext(UserContext);
   const { setLoading } = useContext(ProductContext);
   const navigate = useNavigate();
@@ -33,22 +36,25 @@ export function EditUserAddress() {
     idUsuario
   ) => {
     try {
-      const response = await fetch("https://edimarket.onrender.com/usuarios/domicilio", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-        body: JSON.stringify({
-          direccion,
-          numero_casa,
-          ciudad,
-          comuna,
-          region,
-          codigo_postal,
-          idUsuario,
-        }),
-      });
+      const response = await fetch(
+        "https://edimarket.onrender.com/usuarios/domicilio",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+          body: JSON.stringify({
+            direccion,
+            numero_casa,
+            ciudad,
+            comuna,
+            region,
+            codigo_postal,
+            idUsuario,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -60,6 +66,7 @@ export function EditUserAddress() {
       return data;
     } catch (error) {
       console.error("Error:", error.message);
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -128,8 +135,30 @@ export function EditUserAddress() {
           error: "No pudimos modificar tu domicilio.",
         }));
       }
+      setTimeout(() => {
+        setAddAddressSuccess((prevState) => ({
+          ...prevState,
+          error: "",
+        }));
+      }, 3000);
     }
   };
+
+  useEffect(() => {
+    const newData = userAddress.find(
+      (address) => address.id === selectedAddressId
+    );
+    setUserData((prevData) => ({
+      ...prevData,
+      direccion: newData?.direccion,
+      region: newData?.region,
+      comuna: newData?.comuna,
+      codigoPostal: newData?.codigo_postal,
+      numero: newData?.numero_casa,
+    }));
+
+    inputRefs.direccion.current.focus();
+  }, []);
 
   return (
     <section className="edituseraddress__container bg-white shadow-sm rounded-sm">
@@ -267,14 +296,6 @@ export function EditUserAddress() {
               )}
             </div>
           </div>
-          {AddAddressSuccess.success ? (
-            <p className="font-bold text-green-600">
-              {AddAddressSuccess.success}
-            </p>
-          ) : (
-            <p className="font-bold text-red-600">{AddAddressSuccess.error}</p>
-          )}
-
           <GeneralBtn
             type="secondary"
             className="adress__btn self-end justify-self-end"
@@ -282,6 +303,20 @@ export function EditUserAddress() {
             Guardar
           </GeneralBtn>
         </form>
+        {AddAddressSuccess.success && (
+          <CartAlert>
+            <p className="card__perfil__alert shadow-md rounded-md bg-green-600">
+              {AddAddressSuccess.success}
+            </p>
+          </CartAlert>
+        )}
+        {AddAddressSuccess.error && (
+          <CartAlert>
+            <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+              {AddAddressSuccess.error}
+            </p>
+          </CartAlert>
+        )}
       </div>
     </section>
   );

@@ -23,6 +23,11 @@ const UserIcon = forwardRef((props, ref) => (
     <FaUserCircle {...props} />
   </div>
 ));
+const SearchIcon = forwardRef((props, ref) => (
+  <div ref={ref}>
+    <FiSearch {...props} />
+  </div>
+));
 
 export function Navbar({ navbarRef }) {
   const [openSearchBar, setOpenSearchBar] = useState(false);
@@ -34,9 +39,11 @@ export function Navbar({ navbarRef }) {
   const perfilMenuRef = useRef(null);
   const menuRef = useRef(null);
   const menuContainerRef = useRef(null);
+  const searchBarRef = useRef(null);
+  const searchBarIconRef = useRef(null);
   const { setOpenCategories } = useContext(ProductContext);
   const categoriesBtnRef = useRef(null);
-  const { userToken, logout } = useContext(UserContext);
+  const { userToken, logout, user } = useContext(UserContext);
   const { cart } = useContext(CartContext);
 
   useEffect(() => {
@@ -85,6 +92,15 @@ export function Navbar({ navbarRef }) {
       !menuContainerRef.current.contains(event.target)
     ) {
       setClicked(false);
+    }
+
+    if (
+      searchBarRef.current &&
+      searchBarIconRef.current &&
+      !searchBarRef.current.contains(event.target) &&
+      !searchBarIconRef.current.contains(event.target)
+    ) {
+      setOpenSearchBar(false);
     }
   };
 
@@ -139,9 +155,10 @@ export function Navbar({ navbarRef }) {
           />
           <div className="navbar__search__container">
             <div className="navbar__search__input__container">
-              <SearchBar openSearchBar={openSearchBar} />
+              <SearchBar ref={searchBarRef} openSearchBar={openSearchBar} />
             </div>
-            <FiSearch
+            <SearchIcon
+              ref={searchBarIconRef}
               onClick={handleOpenSearchBar}
               className="navbar__search__icon"
             />
@@ -176,6 +193,14 @@ export function Navbar({ navbarRef }) {
                     <h1 className="mb-3 font-medium text-center">
                       ¡Bienvenido!
                     </h1>
+                    <hr className="w-full" />
+                    <div className="flex flex-col gap-1 my-3">
+                      <span className="font-semibold">{user.nombre}</span>
+                      <span className="text-xs text-gray-600">
+                        {user.email}
+                      </span>
+                    </div>
+                    <hr className="w-full mb-3" />
                     <NavLink
                       to="miperfil"
                       className="navbar__menu__link navbar__menu__link__mobile"
@@ -285,6 +310,11 @@ export function Navbar({ navbarRef }) {
                 perfilButtonRef={perfilButtonRef}
               >
                 <div className="navbar__user__menu bg-gray-50 shadow-md">
+                  <div className="flex flex-col ">
+                    <span className="font-semibold">{user.nombre}</span>
+                    <span className="text-xs text-gray-600">{user.email}</span>
+                  </div>
+                  <hr className="w-full my-2" />
                   <NavLink to="miperfil" className="navbar__user__menu__link">
                     Mi perfil
                   </NavLink>
@@ -297,6 +327,7 @@ export function Navbar({ navbarRef }) {
                   <NavLink to="/favorites" className="navbar__user__menu__link">
                     Favoritos
                   </NavLink>
+                  <hr className="w-full my-2" />
                   <NavLink
                     onClick={logout}
                     to=""

@@ -4,6 +4,7 @@ import { ProductContext } from "../../context/ProductContext.jsx";
 import { Loader } from "../loader/Loader.jsx";
 import "../products/products.css";
 import { UserContext } from "../../context/UserContext.jsx";
+import { Pagination } from "../pagination/Pagination.jsx";
 
 export function Products() {
   const { products, handleProductDetail, loading } = useContext(ProductContext);
@@ -16,16 +17,17 @@ export function Products() {
 
   return (
     <section>
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="products__container">
-          <div className="product__title__container">
-            <h1 className="products__title text-2xl font-semibold mt-7">
-              Productos recomendados
-            </h1>
-          </div>
+      <div className="products__container">
+        <div className="product__title__container">
+          <h1 className="products__title text-2xl font-semibold mt-7">
+            Productos recomendados
+          </h1>
+        </div>
+        {loading ? (
+          <Loader />
+        ) : (
           <div className="products__cards__container">
+            <Pagination />
             {userToken ? (
               <div className="products__cards__container">
                 {filteredProducts?.map((product) => (
@@ -86,8 +88,8 @@ export function Products() {
               </div>
             )}
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 }
