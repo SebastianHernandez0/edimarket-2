@@ -39,7 +39,7 @@ export function Adresses() {
     };
 
     handleUserAddress();
-  }, [userToken, setUserAddress, userData.id]);
+  }, []);
 
   const handleAddressChange = (id) => {
     setSelectedAddress(id);

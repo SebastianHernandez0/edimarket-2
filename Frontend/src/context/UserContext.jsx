@@ -148,6 +148,12 @@ export function UserProvider({ children }) {
     }
   };
 
+  // useEffect(() => {
+  //   if (userToken) {
+  //     handleUserCards();
+  //   }
+  // }, [userToken]);
+
   useEffect(() => {
     handleUserCards();
   }, [userToken]);

@@ -35,9 +35,11 @@ export function PaymentMethods() {
   };
 
   useEffect(() => {
-    handleUserCards();
-  }, []);
-
+    if (user && user.id) {
+      handleUserCards();
+    }
+  }, [user, user.id]);
+  
   const maskCardNumber = (cardNumber) => {
     return cardNumber.slice(0, -4).replace(/\d/g, '*') + cardNumber.slice(-4);
   };
@@ -69,7 +71,6 @@ export function PaymentMethods() {
         ))}
         <div className={classNames("efectivo", shipping.delivery_type_container, shipping.delivery)}>
           <div className='flex items-center'>
-
             <input
               type="checkbox"
               id="checkbox-efectivo"

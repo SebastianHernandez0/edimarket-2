@@ -379,14 +379,14 @@ const deleteProductoDelUsuario = async (req, res) => {
   }
 };
 
-const consultarVentas = async (req, res) => {
+const consultarVentas = async (req, res) => { //TODO: LIZ
   try {
     const Authorization = req.header("Authorization");
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
     const ventas = await consultarVentasUsuario(id);
-    console.log(`El usuario ${email} con el id ${id} ha consultado sus ventas`);
+    console.log(`El usuario ${email} con el id ${id} ha consultado sus compras`);
     res.json({
       ventas: ventas.map((venta) => {
         return {

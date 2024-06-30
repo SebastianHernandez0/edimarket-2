@@ -346,15 +346,13 @@ const eliminarProducto= async (idUsuario,idProducto)=>{
   return console.log("Producto eliminado del carrito");
 };
 
-const venta= async(IdUsuario,IdProducto,cantidad)=>{
+const venta= async(IdUsuario,IdProducto,cantidad)=>{  //TODO: LIZ
   const producto= await consultarProductoById(IdProducto);
   const precio= producto.precio * cantidad;
   const values=[IdUsuario,IdProducto,cantidad,precio];
   const consulta="INSERT INTO ventas(id,comprador_id,producto_id,cantidad,valor_total,fecha_venta) VALUES (DEFAULT,$1,$2,$3,$4,now())";
   await db.query(consulta,values);
-  return console.log("Venta realizada");
-
-
+  return console.log("Compra realizada");
 }
 
 const consultarVentasUsuario = async (idUsuario) => {

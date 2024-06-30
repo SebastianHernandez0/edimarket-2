@@ -7,7 +7,6 @@ export const CheckoutContext = createContext();
 
 export function CheckoutProvider({ children }) {
 
-  // SHIPPING CONTEXT
   const [selectedAddress, setSelectedAddress] = useState('pickup');
   const userData = user;
 
@@ -19,7 +18,6 @@ export function CheckoutProvider({ children }) {
     setSelectedAddress('pickup');
   };
 
-  // BILLING CONTEXT
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const paymentInfoJson = paymentInfo;
 
