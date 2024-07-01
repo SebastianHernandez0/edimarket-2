@@ -11,7 +11,7 @@ export function PaymentMethods() {
   const handleUserCards = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/usuarios/usuario/metodosPago/?idUsuario=${user.id}`,
+        `https://edimarket.onrender.com/usuarios/usuario/metodosPago/?idUsuario=${user.id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export function PaymentMethods() {
       <div className={classNames('p-4', shipping.billing_box)}>
         <h2>Elige tu medio de pago</h2>
         {userCreditCards.map((paymentMethod) => (
-          <div key={paymentMethod.metodo_id} className={classNames("credit_card", shipping.delivery_type_container, shipping.delivery, paymentMethod.tipo)}>
+          <div key={paymentMethod.id} className={classNames("credit_card", shipping.delivery_type_container, shipping.delivery, paymentMethod.tipo)}>
             <div className='flex items-center'>
               <input
                 type="checkbox"

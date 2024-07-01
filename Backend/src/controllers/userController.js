@@ -382,7 +382,7 @@ const deleteProductoDelUsuario = async (req, res) => {
   }
 };
 
-const consultarVentas = async (req, res) => { //TODO: LIZ
+const consultarVentas = async (req, res) => {
   try {
     const Authorization = req.header("Authorization");
     const token = Authorization.split("Bearer ")[1];

@@ -192,7 +192,7 @@ const registrarProducto = async (producto, vendedor_id) => {
     vendedor_id,
   ];
   const consultaProducto =
-    "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado,fecha_producto) VALUES ($1,$2,$3,$5,$6,$7,$8,$4,DEFAULT)";
+  "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado,fecha_producto) VALUES ($1,$2,$3,$5,$6,$7,$8,$4,DEFAULT)";
   const consultaCategoria =
     "INSERT INTO producto_categoria (id,producto_id,categoria_id) VALUES (DEFAULT,$1,$2)";
   await db.query(consultaProducto, valuesProducto);
@@ -370,7 +370,7 @@ const eliminarProducto= async (idUsuario,idProducto)=>{
   return console.log("Producto eliminado del carrito");
 };
 
-const venta= async(IdUsuario,IdProducto,cantidad)=>{  //TODO: LIZ
+const venta= async(IdUsuario,IdProducto,cantidad)=>{
   const producto= await consultarProductoById(IdProducto);
   const precio= producto.precio * cantidad;
   const values=[IdUsuario,IdProducto,cantidad,precio];

@@ -143,7 +143,7 @@ const deleteProductoCarrito = async (req, res) => {
   }
 };
 
-const ventaRealizada = async (req, res) => { //TODO: LIZ
+const ventaRealizada = async (req, res) => {
   try {
     const { idProducto, cantidad } = req.body;
     const Authorization = req.header("Authorization");

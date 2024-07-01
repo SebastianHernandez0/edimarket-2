@@ -13,7 +13,7 @@ export function Adresses() {
       try {
         if (userToken) {
           const response = await fetch(
-            `http://localhost:3000/usuarios/usuario/domicilio?userId=${userData.id}`,
+            `https://edimarket.onrender.com/usuarios/usuario/domicilio?idUsuario=${userData.id}`,
             {
               headers: {
                 "Content-Type": "application/json",
