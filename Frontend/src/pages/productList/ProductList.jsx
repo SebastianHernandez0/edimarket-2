@@ -71,6 +71,10 @@ export function ProductList() {
     sortedProducts.sort((a, b) => b.precio - a.precio);
   }
 
+  useEffect(() => {
+    setPage(1);
+  }, [navigate]);
+
   return (
     <div className="product__list__container">
       <div className="products__container">
