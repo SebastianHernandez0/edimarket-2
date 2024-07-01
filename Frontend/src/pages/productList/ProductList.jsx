@@ -69,6 +69,10 @@ export function ProductList() {
     setPage(1);
   }, [navigate]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page]);
+
   return (
     <div className="product__list__container">
       <div className="products__container">
