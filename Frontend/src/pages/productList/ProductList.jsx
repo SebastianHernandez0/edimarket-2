@@ -6,6 +6,7 @@ import { ProductCard } from "../../components/productCard/ProductCard";
 import { Loader } from "../../components/loader/Loader";
 import { UserContext } from "../../context/UserContext";
 import { Pagination } from "../../components/pagination/Pagination";
+import { PaginationCategory } from "../../components/pagination/PaginationCategory";
 
 export function ProductList() {
   const { categoria } = useParams();
@@ -15,19 +16,26 @@ export function ProductList() {
   const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState([]);
   const { user, userToken } = useContext(UserContext);
+  const [totalPage, setTotalPage] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(12);
+  const [totalProducts, setTotalProducts] = useState(0);
 
   const handleGetFilteredProducts = async () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://edimarket.onrender.com/categorias/${categoria}`
+        `https://edimarket.onrender.com/categorias/${categoria}?page=${page}&limits=${limit}`
       );
       if (!response.ok) {
         throw new Error("Producto no encontrado");
       }
-      const data = await response.json();
+      const { productos_totales, productos_totales_pagina, results } =
+        await response.json();
 
-      setFilteredProducts(data.results);
+      setFilteredProducts(results);
+      setTotalProducts(productos_totales);
+      setTotalPage(productos_totales_pagina);
     } catch (error) {
       console.error("Error al obtener productos:", error);
     } finally {
@@ -39,7 +47,7 @@ export function ProductList() {
 
   useEffect(() => {
     handleGetFilteredProducts();
-  }, [categoria]);
+  }, [categoria, page]);
 
   const handleSortChange = (event) => {
     setOrderBy(event.target.value);
@@ -100,7 +108,13 @@ export function ProductList() {
                   Mayor precio
                 </option>
               </select>
-              <Pagination />
+              <PaginationCategory
+                totalPage={totalPage}
+                page={page}
+                setPage={setPage}
+                limit={limit}
+                totalProducts={totalProducts}
+              />
             </div>
             <div className="products__cards__container">
               {sortedProducts?.map((product) => (
@@ -134,6 +148,13 @@ export function ProductList() {
             </div>
           </div>
         )}
+        <PaginationCategory
+          totalPage={totalPage}
+          page={page}
+          setPage={setPage}
+          limit={limit}
+          totalProducts={totalProducts}
+        />
       </div>
     </div>
   );
