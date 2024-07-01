@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
 import { Loader } from "../loader/Loader.jsx";
@@ -7,8 +7,15 @@ import { UserContext } from "../../context/UserContext.jsx";
 import { Pagination } from "../pagination/Pagination.jsx";
 
 export function Products() {
-  const { products, handleProductDetail, loading } = useContext(ProductContext);
+  const { products, handleProductDetail, loading, page } =
+    useContext(ProductContext);
   const { userToken, user } = useContext(UserContext);
+
+  useEffect(() => {
+    if (page !== 1) {
+      window.scrollTo(0, 600);
+    }
+  }, [page]);
 
   return (
     <section>
