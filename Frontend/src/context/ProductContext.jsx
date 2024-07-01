@@ -20,6 +20,7 @@ export function ProductProvider({ children }) {
   const [nextPage, setNextPage] = useState("");
   const [totalPage, setTotalPage] = useState("");
   const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(12);
 
   const [productAlert, setProductAlert] = useState({
     succes: "",
@@ -64,10 +65,12 @@ export function ProductProvider({ children }) {
     }
   }, [productById]);
 
-  const handleGetProducts = async () => {
+  const handleGetProducts = async (page) => {
     setLoading(true);
     try {
-      const response = await fetch("https://edimarket.onrender.com/productos");
+      const response = await fetch(
+        `https://edimarket.onrender.com/productos?page=${page}&limits=${limit}`
+      );
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al obtener productos");
@@ -97,8 +100,8 @@ export function ProductProvider({ children }) {
   };
 
   useEffect(() => {
-    handleGetProducts();
-  }, []);
+    handleGetProducts(page);
+  }, [page]);
 
   const handleGetProduct = async (id) => {
     setLoading(true);
@@ -166,6 +169,8 @@ export function ProductProvider({ children }) {
         setTotalPage,
         page,
         setPage,
+        limit,
+        setLimit,
       }}
     >
       {children}
