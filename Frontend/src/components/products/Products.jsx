@@ -23,11 +23,11 @@ export function Products() {
             Productos recomendados
           </h1>
         </div>
+        <Pagination />
         {loading ? (
           <Loader />
         ) : (
           <div className="products__cards__container">
-            <Pagination />
             {userToken ? (
               <div className="products__cards__container">
                 {products?.map((product) => (
@@ -87,9 +87,9 @@ export function Products() {
                 ))}
               </div>
             )}
-            <Pagination />
           </div>
         )}
+        <Pagination />
       </div>
     </section>
   );
