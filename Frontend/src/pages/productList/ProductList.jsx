@@ -59,12 +59,6 @@ export function ProductList() {
     }
   }, [navigate]);
 
-  if (userToken) {
-    sortedProducts = sortedProducts.filter(
-      (product) => product.vendedor !== user.id
-    );
-  }
-
   if (orderBy === "menorPrecio") {
     sortedProducts.sort((a, b) => a.precio - b.precio);
   } else if (orderBy === "mayorPrecio") {
