@@ -21,6 +21,7 @@ export function ProductProvider({ children }) {
   const [totalPage, setTotalPage] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);
+  const [totalProducts, setTotalProducts] = useState(0);
 
   const [productAlert, setProductAlert] = useState({
     succes: "",
@@ -76,8 +77,13 @@ export function ProductProvider({ children }) {
         throw new Error(errorData.message || "Error al obtener productos");
       }
 
-      const { results, anterior_pagina, siguiente_pagina, total } =
-        await response.json();
+      const {
+        results,
+        anterior_pagina,
+        siguiente_pagina,
+        productos_total_pagina,
+        productos_total,
+      } = await response.json();
 
       // Formatear el precio a peso chileno
       const formattedProducts = results.map((product) => ({
@@ -89,9 +95,10 @@ export function ProductProvider({ children }) {
       }));
 
       setProducts(formattedProducts);
-      setTotalPage(total);
+      setTotalPage(productos_total_pagina);
       setNextPage(siguiente_pagina);
       setPrevPage(anterior_pagina);
+      setTotalProducts(productos_total);
     } catch (error) {
       console.error("Error al obtener productos:", error);
     } finally {
@@ -171,6 +178,7 @@ export function ProductProvider({ children }) {
         setPage,
         limit,
         setLimit,
+        totalProducts,
       }}
     >
       {children}
