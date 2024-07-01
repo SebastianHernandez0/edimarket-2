@@ -89,6 +89,7 @@ export function Products() {
             )}
           </div>
         )}
+        <Pagination />
       </div>
     </section>
   );

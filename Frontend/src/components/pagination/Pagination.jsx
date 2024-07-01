@@ -7,7 +7,7 @@ import { TbChevronLeft } from "react-icons/tb";
 import { ProductContext } from "../../context/ProductContext";
 
 export function Pagination() {
-  const { prevPage, nextPage, totalPage, page, setPage } =
+  const { prevPage, nextPage, totalPage, page, setPage, limit } =
     useContext(ProductContext);
 
   const handleNext = () => {

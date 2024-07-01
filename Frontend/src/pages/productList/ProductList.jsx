@@ -5,6 +5,7 @@ import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { Loader } from "../../components/loader/Loader";
 import { UserContext } from "../../context/UserContext";
+import { Pagination } from "../../components/pagination/Pagination";
 
 export function ProductList() {
   const { categoria } = useParams();
@@ -75,23 +76,32 @@ export function ProductList() {
           <Loader />
         ) : (
           <div>
-            <select
-              onChange={handleSortChange}
-              className="products__filter shadow-sm rounded-md py-1 px-2 w-60 text-center my-10 border border-gray-300"
-              name="orderBy"
-              id="orderBy"
-              value={orderBy}
-            >
-              <option className="text-start cursor-pointer" value="">
-                Ordenar por
-              </option>
-              <option className="text-start cursor-pointer" value="menorPrecio">
-                Menor precio
-              </option>
-              <option className="text-start cursor-pointer" value="mayorPrecio">
-                Mayor precio
-              </option>
-            </select>
+            <div className="flex items-center">
+              <select
+                onChange={handleSortChange}
+                className="products__filter shadow-sm rounded-md py-1 px-2 w-60 text-center my-10 border border-gray-300"
+                name="orderBy"
+                id="orderBy"
+                value={orderBy}
+              >
+                <option className="text-start cursor-pointer" value="">
+                  Ordenar por
+                </option>
+                <option
+                  className="text-start cursor-pointer"
+                  value="menorPrecio"
+                >
+                  Menor precio
+                </option>
+                <option
+                  className="text-start cursor-pointer"
+                  value="mayorPrecio"
+                >
+                  Mayor precio
+                </option>
+              </select>
+              <Pagination />
+            </div>
             <div className="products__cards__container">
               {sortedProducts?.map((product) => (
                 <ProductCard
