@@ -120,10 +120,13 @@ const consultarProductos = async (limits,page, order_by) => {
     const offset = page * limits - limits;
     querys += ` OFFSET ${offset}`
   }
+  const consultaAllProducts= "SELECT * from productos"
+
   const consulta =
     `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id ${querys}`;
   const { rows: products } = await db.query(consulta);
-  return products;
+  const {rows:productsAll} = await db.query(consultaAllProducts);
+  return {products,productsAll};
 };
 
 const consultarProductosByCategoria = async (categoria,limits,page, order_by) => {
@@ -140,10 +143,12 @@ const consultarProductosByCategoria = async (categoria,limits,page, order_by) =>
     querys += ` OFFSET ${offset}`
   }
   const values = [categoria];
+  const consultaAllProductsPerCategory= "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where categorias.nombre_categoria=$1"
   const consulta =
   `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where categorias.nombre_categoria=$1 ${querys}`;
   const { rows: products } = await db.query(consulta, values);
-  return products;
+  const {rows:productsAll} = await db.query(consultaAllProductsPerCategory, values);
+  return {products,productsAll};
 };
 
 const consultarProductosPorUsuario = async (idUsuario) => {

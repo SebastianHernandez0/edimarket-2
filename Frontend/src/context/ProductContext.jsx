@@ -16,6 +16,12 @@ export function ProductProvider({ children }) {
   const [seller, setSeller] = useState("");
   const [searchProduct, setSearchProduct] = useState("");
   const [findedProduct, setFindedProduct] = useState([]);
+  const [prevPage, setPrevPage] = useState("");
+  const [nextPage, setNextPage] = useState("");
+  const [totalPage, setTotalPage] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(12);
+  const [totalProducts, setTotalProducts] = useState(0);
 
   const [productAlert, setProductAlert] = useState({
     succes: "",
@@ -60,19 +66,27 @@ export function ProductProvider({ children }) {
     }
   }, [productById]);
 
-  const handleGetProducts = async () => {
+  const handleGetProducts = async (page) => {
     setLoading(true);
     try {
-      const response = await fetch("https://edimarket.onrender.com/productos");
+      const response = await fetch(
+        `https://edimarket.onrender.com/productos?page=${page}&limits=${limit}`
+      );
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al obtener productos");
       }
 
-      const data = await response.json();
+      const {
+        results,
+        anterior_pagina,
+        siguiente_pagina,
+        productos_total_pagina,
+        productos_total,
+      } = await response.json();
 
       // Formatear el precio a peso chileno
-      const formattedProducts = data.results.map((product) => ({
+      const formattedProducts = results.map((product) => ({
         ...product,
         precio: new Intl.NumberFormat("es-CL", {
           style: "currency",
@@ -81,6 +95,10 @@ export function ProductProvider({ children }) {
       }));
 
       setProducts(formattedProducts);
+      setTotalPage(productos_total_pagina);
+      setNextPage(siguiente_pagina);
+      setPrevPage(anterior_pagina);
+      setTotalProducts(productos_total);
     } catch (error) {
       console.error("Error al obtener productos:", error);
     } finally {
@@ -89,8 +107,8 @@ export function ProductProvider({ children }) {
   };
 
   useEffect(() => {
-    handleGetProducts();
-  }, []);
+    handleGetProducts(page);
+  }, [page]);
 
   const handleGetProduct = async (id) => {
     setLoading(true);
@@ -119,6 +137,10 @@ export function ProductProvider({ children }) {
   const handleProductQuantity = (e) => {
     setProductQuantity(Number(e.target.value));
   };
+
+  useEffect(() => {
+    setPage(1);
+  }, [navigate]);
 
   return (
     <ProductContext.Provider
@@ -150,6 +172,17 @@ export function ProductProvider({ children }) {
         setSearchProduct,
         findedProduct,
         setFindedProduct,
+        prevPage,
+        setPrevPage,
+        nextPage,
+        setNextPage,
+        totalPage,
+        setTotalPage,
+        page,
+        setPage,
+        limit,
+        setLimit,
+        totalProducts,
       }}
     >
       {children}

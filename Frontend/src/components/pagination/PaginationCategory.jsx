@@ -4,12 +4,14 @@ import { TbChevronRightPipe } from "react-icons/tb";
 import { TbChevronLeftPipe } from "react-icons/tb";
 import { TbChevronRight } from "react-icons/tb";
 import { TbChevronLeft } from "react-icons/tb";
-import { ProductContext } from "../../context/ProductContext";
 
-export function Pagination() {
-  const { totalPage, page, setPage, limit, totalProducts } =
-    useContext(ProductContext);
-
+export function PaginationCategory({
+  totalPage,
+  page,
+  setPage,
+  limit,
+  totalProducts,
+}) {
   const totalPages = Math.ceil(totalProducts / limit);
 
   const handleNext = () => {

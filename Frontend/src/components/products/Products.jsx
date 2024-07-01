@@ -10,11 +10,6 @@ export function Products() {
   const { products, handleProductDetail, loading } = useContext(ProductContext);
   const { userToken, user } = useContext(UserContext);
 
-  const filteredProducts =
-    user && products
-      ? products.filter((product) => product.vendedor !== user.id)
-      : products;
-
   return (
     <section>
       <div className="products__container">
@@ -23,14 +18,14 @@ export function Products() {
             Productos recomendados
           </h1>
         </div>
+        <Pagination />
         {loading ? (
           <Loader />
         ) : (
           <div className="products__cards__container">
-            <Pagination />
             {userToken ? (
               <div className="products__cards__container">
-                {filteredProducts?.map((product) => (
+                {products?.map((product) => (
                   <ProductCard
                     onClick={() => handleProductDetail(product?.id)}
                     key={product.id}
@@ -89,6 +84,7 @@ export function Products() {
             )}
           </div>
         )}
+        <Pagination />
       </div>
     </section>
   );

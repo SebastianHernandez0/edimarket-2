@@ -270,7 +270,7 @@ export function ProductDetail() {
                 <p className="card__paragraph card__paragraph__name">
                   {product?.nombre}
                 </p>
-                <hr className="mb-5"/>
+                <hr className="mb-5" />
                 <div className="card__info__price__details">
                   <p className="card__paragraph card__paragraph__price">
                     {product?.precio
@@ -280,17 +280,23 @@ export function ProductDetail() {
                         })
                       : null}
                   </p>
-                  <HeartIcon
-                    ref={heartIconRef}
-                    onClick={userToken ? handleAddToFav : handleNavigateToLogin}
-                    className={`card__info__like__icon ${
-                      addedToFav?.some(
-                        (p) => p?.producto_id === product?.producto_id
-                      )
-                        ? "text-red-600 transition duration-300"
-                        : "text-gray-400 transition duration-300"
-                    }`}
-                  />
+                  {user.id === product?.vendedor_id && userToken ? (
+                    ""
+                  ) : (
+                    <HeartIcon
+                      ref={heartIconRef}
+                      onClick={
+                        userToken ? handleAddToFav : handleNavigateToLogin
+                      }
+                      className={`card__info__like__icon ${
+                        addedToFav?.some(
+                          (p) => p?.producto_id === product?.producto_id
+                        )
+                          ? "text-red-600 transition duration-300"
+                          : "text-gray-400 transition duration-300"
+                      }`}
+                    />
+                  )}
                 </div>
 
                 <p className="card__paragraph card__paragraph__stock">
@@ -299,7 +305,12 @@ export function ProductDetail() {
                 </p>
                 <div className="flex flex-col mb-4">
                   <select
-                    disabled={product?.stock === 0 ? true : false}
+                    disabled={
+                      product?.stock === 0 ||
+                      (user.id === product?.vendedor_id && userToken)
+                        ? true
+                        : false
+                    }
                     onChange={handleProductQuantity}
                     value={productQuantity}
                     className="w-1/2 font-medium mb-5 px-2 border rounded-md active: outline-none cursor-pointer"
@@ -351,53 +362,63 @@ export function ProductDetail() {
                 )}
               </div>
               <div className="card__info__btn__container">
-                <GeneralBtn
-                  onClick={() => {
-                    navigate("/shipping");
-                  }}
-                  style={{
-                    pointerEvents: product?.stock === 0 ? "none" : "auto",
-                    cursor: product?.stock === 0 ? "not-allowed" : "pointer",
-                    opacity: product?.stock === 0 ? "0.7" : "1",
-                    filter:
-                      product?.stock === 0
-                        ? "brightness(70%)"
-                        : "brightness(100%)",
-                  }}
-                  disabled={
-                    product?.stock === 0 || product?.stock < productQuantity
-                      ? true
-                      : false
-                  }
-                  className="card__info__btn card__info__btn__buy"
-                  type="secondary"
-                >
-                  Comprar ahora
-                </GeneralBtn>
-                <GeneralBtn
-                  ref={cartBtnRef}
-                  onClick={() =>
-                    handleAddToCart(user.id, parseInt(id), productQuantity)
-                  }
-                  className="card__info__btn card__info__btn__cart"
-                  type="primary"
-                  style={{
-                    pointerEvents: product?.stock === 0 ? "none" : "auto",
-                    cursor: product?.stock === 0 ? "not-allowed" : "pointer",
-                    opacity: product?.stock === 0 ? "0.7" : "1",
-                    filter:
-                      product?.stock === 0
-                        ? "brightness(70%)"
-                        : "brightness(100%)",
-                  }}
-                  disabled={
-                    product?.stock === 0 || product?.stock < productQuantity
-                      ? true
-                      : false
-                  }
-                >
-                  Agregar al carrito
-                </GeneralBtn>
+                {user.id === product?.vendedor_id && userToken ? (
+                  <span className="">
+                    Vista previa de tu producto Publicado.
+                  </span>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    <GeneralBtn
+                      onClick={() => {
+                        navigate("/shipping");
+                      }}
+                      style={{
+                        pointerEvents: product?.stock === 0 ? "none" : "auto",
+                        cursor:
+                          product?.stock === 0 ? "not-allowed" : "pointer",
+                        opacity: product?.stock === 0 ? "0.7" : "1",
+                        filter:
+                          product?.stock === 0
+                            ? "brightness(70%)"
+                            : "brightness(100%)",
+                      }}
+                      disabled={
+                        product?.stock === 0 || product?.stock < productQuantity
+                          ? true
+                          : false
+                      }
+                      className="card__info__btn card__info__btn__buy"
+                      type="secondary"
+                    >
+                      Comprar ahora
+                    </GeneralBtn>
+                    <GeneralBtn
+                      ref={cartBtnRef}
+                      onClick={() =>
+                        handleAddToCart(user.id, parseInt(id), productQuantity)
+                      }
+                      className="card__info__btn card__info__btn__cart"
+                      type="primary"
+                      style={{
+                        pointerEvents: product?.stock === 0 ? "none" : "auto",
+                        cursor:
+                          product?.stock === 0 ? "not-allowed" : "pointer",
+                        opacity: product?.stock === 0 ? "0.7" : "1",
+                        filter:
+                          product?.stock === 0
+                            ? "brightness(70%)"
+                            : "brightness(100%)",
+                      }}
+                      disabled={
+                        product?.stock === 0 || product?.stock < productQuantity
+                          ? true
+                          : false
+                      }
+                    >
+                      Agregar al carrito
+                    </GeneralBtn>
+                  </div>
+                )}
               </div>
               <hr className="my-8 sm:mb-0" />
               <div className="card__payment ">
@@ -411,7 +432,9 @@ export function ProductDetail() {
             </div>
             <div className="card__info__desc__container mt-8 p-4">
               <hr />
-              <h1 className="card__info__desc__title text-2xl mt-5">Descripción</h1>
+              <h1 className="card__info__desc__title text-2xl mt-5">
+                Descripción
+              </h1>
               <div className="card__info__desc mt-10">
                 {product?.descripcion}
               </div>

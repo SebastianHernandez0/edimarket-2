@@ -2,13 +2,13 @@
   margin-top: 20px;
   width: 100%;
 }
-.paginaction__arrow {
+.pagination__arrow {
   padding: 10px;
   font-size: 2.7rem;
   cursor: pointer;
 }
 
-.paginaction__arrow:hover {
+.pagination__arrow:hover {
   background: #00000011;
   border-radius: 50%;
 }
