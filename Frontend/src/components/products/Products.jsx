@@ -10,11 +10,6 @@ export function Products() {
   const { products, handleProductDetail, loading } = useContext(ProductContext);
   const { userToken, user } = useContext(UserContext);
 
-  /*   const filteredProducts =
-    user && products
-      ? products.filter((product) => product.vendedor !== user.id)
-      : products; */
-
   return (
     <section>
       <div className="products__container">

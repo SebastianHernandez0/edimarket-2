@@ -20,7 +20,8 @@ const ModalIcon = forwardRef((props, ref) => (
 ));
 
 export function MyPosts() {
-  const { loading, setLoading } = useContext(ProductContext);
+  const { loading, setLoading, handleProductDetail } =
+    useContext(ProductContext);
   const { userToken, myProducts, getProductBySeller } = useContext(UserContext);
   const navigate = useNavigate();
   const [confirmDeleteId, setConfirmDeleteId] = useState("");
@@ -126,6 +127,7 @@ export function MyPosts() {
               >
                 <div className="myposts__card__body flex items-start gap-5">
                   <img
+                    onClick={() => handleProductDetail(product?.productoId)}
                     className="myposts__card__img border rounded-md"
                     src={product?.imagen}
                     alt=""
