@@ -1,7 +1,6 @@
 
-const prepHateoasProductos = (data, page) => {
+const prepHateoasProductos = (data, page,allProducts) => {
   page= parseInt(page);
-  
   const results = data.map((item) => {
     fecha_producto = item.fecha_producto.toISOString().split('T')[0];
     return {
@@ -17,7 +16,8 @@ const prepHateoasProductos = (data, page) => {
       fecha: fecha_producto
     };
   });
-  const total = results.length;
+  const totalPerPage = results.length;
+  const total = allProducts.length;
   const DisminuirPage= (page)=>{
     if(page>1){
       return page-1
@@ -26,14 +26,15 @@ const prepHateoasProductos = (data, page) => {
     }
   }
   const AumentarPage= (page)=>{
-    if(total<12){
+    if(totalPerPage<12){
       return page
     }else{
       return page + 1
     }
   }
   const HATEOAS = {
-    total,
+    productos_total: total,
+    productos_total_pagina: totalPerPage,
     siguiente_pagina: `/productos?page=${AumentarPage(page)}`,
     anterior_pagina: `/productos?page=${DisminuirPage(page)}`,
     results,
@@ -41,7 +42,7 @@ const prepHateoasProductos = (data, page) => {
   return HATEOAS;
 };
 
-const prepHateoasCategorias = (data, page, categoria) => {
+const prepHateoasCategorias = (data, page, categoria, allProducts) => {
   page= parseInt(page);
   
   const results = data.map((item) => {
@@ -59,7 +60,8 @@ const prepHateoasCategorias = (data, page, categoria) => {
       fecha: fecha_producto
     };
   });
-  const total = results.length;
+  const totalPerPage = results.length;
+  const total = allProducts.length;
   const DisminuirPage= (page)=>{
     if(page>1){
       return page-1
@@ -68,14 +70,15 @@ const prepHateoasCategorias = (data, page, categoria) => {
     }
   }
   const AumentarPage= (page)=>{
-    if(total<12){
+    if(totalPerPage<12){
       return page
     }else{
       return page + 1
     }
   }
   const HATEOAS = {
-    total,
+    productos_totales:total,
+    productos_totales_pagina:totalPerPage,
     siguiente_pagina: `/categorias/${categoria}?page=${AumentarPage(page)}`,
     anterior_pagina: `/categorias/${categoria}?page=${DisminuirPage(page)}`,
     results,
