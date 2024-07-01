@@ -11,7 +11,9 @@ export function Pagination() {
     useContext(ProductContext);
 
   const handleNext = () => {
-    if (totalPage !== 0) {
+    if (totalPage < 12) {
+      return;
+    } else {
       setPage(page + 1);
     }
   };
@@ -36,18 +38,28 @@ export function Pagination() {
         <div className=" flex items-center gap-1 sm:gap-3">
           <TbChevronLeftPipe
             onClick={handleFirstPage}
-            className="paginaction__arrow pagination__arrow__first"
+            className={`pagination__arrow pagination__arrow__prev ${
+              page === 1 ? "text-gray-400 hover:bg-none" : ""
+            }`}
           />
           <TbChevronLeft
             onClick={handlePrev}
-            className="paginaction__arrow pagination__arrow__prev"
+            className={`pagination__arrow pagination__arrow__prev ${
+              page === 1 ? "text-gray-400" : ""
+            }`}
           />
-          <span className="">{page}</span>
+          <span className="font-medium">{page}</span>
           <TbChevronRight
             onClick={handleNext}
-            className="paginaction__arrow pagination__arrow__next"
+            className={`pagination__arrow pagination__arrow__prev ${
+              totalPage < 12 ? "text-gray-400 hover:bg-none" : ""
+            }`}
           />
-          <TbChevronRightPipe className="paginaction__arrow pagination__arrow__last" />
+          <TbChevronRightPipe
+            className={`pagination__arrow pagination__arrow__prev ${
+              totalPage < 12 ? "text-gray-400 hover:bg-none" : ""
+            }`}
+          />
         </div>
       </div>
     </section>
