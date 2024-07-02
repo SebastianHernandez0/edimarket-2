@@ -261,7 +261,15 @@ export function ProductDetail() {
         <div className="card__container">
           <OverlayScreen />
           <ProductCard className="card__body shadow-md rounded-md">
-            <img className="card__img" src={product?.imagen} alt="" />
+            <img
+              className="card__img"
+              src={
+                product?.imagen
+                  ? product?.imagen
+                  : "/imgs/aplication/img-notfound.png"
+              }
+              alt=""
+            />
 
             <div className="card__info border-2 rounded-md">
               <div className="card__info__details">
