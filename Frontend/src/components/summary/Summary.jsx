@@ -21,7 +21,6 @@ export function Summary() {
     localStorage.setItem("directBuy", JSON.stringify(directBuy));
   }, [directBuy]);
 
-  console.log(directBuy);
   return (
     <div className="">
       <div>
