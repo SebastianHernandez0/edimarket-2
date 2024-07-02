@@ -11,8 +11,10 @@ const {
   allProducts
 } = require("../models/userModel");
 const {prepHateoasProductos,prepHateoasCategorias} = require("../models/hateoasModel");
+const {upload} = require("../controllers/userController");
+const fs= require("fs");
 const jwt = require("jsonwebtoken");
-const { get } = require("../app");
+const path = require('path');
 
 const getProductos = async (req, res) => {
   try {
@@ -27,8 +29,10 @@ const getProductos = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const productos = await allProducts();
-    res.send(productos);
+    const {limits,page=1, order_by} = req.query;
+    const productos = await allProducts(limits,page, order_by);
+    const hateoas = await prepHateoasProductos(productos,page,productos);
+    res.send(hateoas);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -51,7 +55,15 @@ const agregarProducto = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await registrarProducto(producto, id);
+    const productId= await registrarProducto(producto, id);
+    if(req.file){
+
+      const newPath= `./uploads/${productId}.jpg`;
+      fs.renameSync(req.file.path, newPath);
+      producto.imagen= newPath;
+      console.log(producto.imagen);
+    }
+    
     console.log(
       `El usuario ${email} con el id ${id} ha registrado un producto`
     );
