@@ -31,8 +31,7 @@ const getAllProducts = async (req, res) => {
   try {
     const {limits,page=1, order_by} = req.query;
     const productos = await allProducts(limits,page, order_by);
-    const hateoas = await prepHateoasProductos(productos,page,productos);
-    res.send(hateoas);
+    res.send(productos);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -56,13 +55,13 @@ const agregarProducto = async (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
     const productId= await registrarProducto(producto, id);
-    if(req.file){
-
-      const newPath= `./uploads/${productId}.jpg`;
-      fs.renameSync(req.file.path, newPath);
-      producto.imagen= newPath;
-      console.log(producto.imagen);
-    }
+    //if(req.file){
+      //producto.imagen= req.file.path;
+      //const newPath= `uploads/${productId}.jpg`;
+      //fs.renameSync(req.file.path, newPath);
+      //producto.imagen= newPath;
+      //console.log(req.file.path);
+    //}
     
     console.log(
       `El usuario ${email} con el id ${id} ha registrado un producto`
