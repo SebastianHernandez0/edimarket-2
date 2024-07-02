@@ -86,4 +86,7 @@
     justify-content: space-between;
     margin: 0;
   }
+  .footer__sections {
+    width: 34%;
+  }
 }
