@@ -49,19 +49,15 @@ const getProductoById = async (req, res) => {
 
 const agregarProducto = async (req, res) => {
   try {
+    const imagen= req.file.path
     const producto = req.body;
     const Authorization = req.header("Authorization");
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    const productId= await registrarProducto(producto, id);
-    //if(req.file){
-      //producto.imagen= req.file.path;
-      //const newPath= `uploads/${productId}.jpg`;
-      //fs.renameSync(req.file.path, newPath);
-      //producto.imagen= newPath;
-      //console.log(req.file.path);
-    //}
+    
+    await registrarProducto(producto, id, imagen);
+  
     
     console.log(
       `El usuario ${email} con el id ${id} ha registrado un producto`
@@ -72,7 +68,7 @@ const agregarProducto = async (req, res) => {
       estado: producto.estado,
       precio: producto.precio,
       stock: producto.stock,
-      imagen: producto.imagen,
+      imagen: imagen,
       categoria: producto.categoria,
       fecha: producto.fecha_producto
     });
