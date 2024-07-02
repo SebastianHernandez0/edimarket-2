@@ -37,6 +37,8 @@ import { EditUserAddress } from "./pages/editUserAddress/EditUserAddress.jsx";
 import { EditMyPost } from "./pages/editMyPost/EditMyPost.jsx";
 import { SearchProduct } from "./pages/searchProduct/SearchProduct.jsx";
 import { MyOrders } from "./pages/myOrders/MyOrders.jsx"
+import { NoAddressAdded } from "./components/noAddressAdded/NoAddressAdded.jsx";
+import { NoPaymentMethodsAdded } from "./components/noPaymentMethodsAdded/NoPaymentMethodsAdded.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -152,14 +154,14 @@ function App() {
             path="/my-orders"
             element={userToken ? <MyOrders /> : <Navigate to="/sign-in" />}
           />
-          {/* <Route
-            path="/my-orders"
-            element={userToken ? <AddUserCards /> : <Navigate to="/sign-in" />}
+          <Route
+            path="/no-address-added"
+            element={userToken ? <NoAddressAdded /> : <Navigate to="/sign-in" />}
           />
           <Route
-            path="/add-order"
-            element={userToken ? <AddUserCards /> : <Navigate to="/sign-in" />}
-          /> */}
+            path="/no-payment-added"
+            element={userToken ? <NoPaymentMethodsAdded /> : <Navigate to="/sign-in" />}
+          />
           <Route path="/not-found" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/not-found" />} />
         </Routes>

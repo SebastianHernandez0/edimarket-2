@@ -1,8 +1,8 @@
-import { useState, useContext, useEffect } from 'react';
-import { CheckoutContext } from "../../context/CheckoutContext";
-import shipping from "/src/pages/shipping/shipping.module.css";
+import { useContext, useEffect } from 'react';
 import classNames from 'classnames';
+import shipping from "/src/pages/shipping/shipping.module.css";
 import { UserContext } from '../../context/UserContext';
+import { CheckoutContext } from "../../context/CheckoutContext";
 
 export function PaymentMethods() {
   const { user, userCreditCards, userToken, setUserCreditCards } = useContext(UserContext);
@@ -39,7 +39,7 @@ export function PaymentMethods() {
       handleUserCards();
     }
   }, [user, user.id]);
-  
+
   const maskCardNumber = (cardNumber) => {
     return cardNumber.slice(0, -4).replace(/\d/g, '*') + cardNumber.slice(-4);
   };
@@ -57,13 +57,13 @@ export function PaymentMethods() {
             <div className='flex items-center'>
               <input
                 type="checkbox"
-                id={`checkbox-${paymentMethod.metodo_id}`}
-                value={paymentMethod.metodo_id}
-                checked={selectedPaymentMethod === paymentMethod.metodo_id}
-                onChange={() => handleCheckboxChange(paymentMethod.metodo_id)}
+                id={`checkbox-${paymentMethod.id}`}
+                value={paymentMethod.id}
+                checked={selectedPaymentMethod === paymentMethod.id}
+                onChange={() => handleCheckboxChange(paymentMethod.id)}
                 className='w-4 h-4 mr-3 text-blue-600 bg-gray-100 border-gray-300 rounded'
               />
-              <label htmlFor={`checkbox-${paymentMethod.metodo_id}`} className='font-semibold'>{capitalizeFirstLetter(paymentMethod.tipo_tarjeta)}</label>
+              <label htmlFor={`checkbox-${paymentMethod.id}`} className='font-semibold'>{capitalizeFirstLetter(paymentMethod.tipo_tarjeta)}</label>
             </div>
             <p>Número de tarjeta: {maskCardNumber(paymentMethod.numero_tarjeta)}</p>
             <p>Fecha de expiración: {formatExpirationDate(paymentMethod.fecha_expiracion)}</p>
@@ -83,8 +83,7 @@ export function PaymentMethods() {
           </div>
           <p>Pagas al recibir la compra</p>
         </div>
-        {/* corregir checkbox */}
       </div>
     </>
   );
-}
+};

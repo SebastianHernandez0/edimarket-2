@@ -5,8 +5,8 @@ import { UserContext } from '../../context/UserContext';
 import { CheckoutContext } from "../../context/CheckoutContext";
 
 export function Adresses() {
-  const { selectedAddress, setSelectedAddress, capitalizeFirstLetter } = useContext(CheckoutContext);
-  const { userAddress, setUserAddress, userToken, userData, handlePickupChange } = useContext(UserContext);
+  const { selectedAddress, handleAddressChange, handlePickupChange, capitalizeFirstLetter} = useContext(CheckoutContext);
+  const { userAddress, setUserAddress, userToken, userData } = useContext(UserContext);
 
   useEffect(() => {
     const handleUserAddress = async () => {
@@ -28,7 +28,6 @@ export function Adresses() {
           }
 
           const data = await response.json();
-
           setUserAddress(data.Domicilio);
 
           return data;
@@ -39,11 +38,7 @@ export function Adresses() {
     };
 
     handleUserAddress();
-  }, []);
-
-  const handleAddressChange = (id) => {
-    setSelectedAddress(id);
-  };
+  }, [userToken, userData.id, setUserAddress]);
 
   return (
     <div className="">
@@ -53,7 +48,7 @@ export function Adresses() {
           <input
             type="checkbox"
             id="pickup"
-            defaultChecked={selectedAddress === 'pickup'}
+            checked={selectedAddress === 'pickup'}
             onChange={handlePickupChange}
             className='w-4 h-4 mr-3 text-blue-600 bg-gray-100 border-gray-300 rounded'
           />
@@ -77,7 +72,6 @@ export function Adresses() {
               </label>
             </div>
           </div>
-          // corregir checkbox
         ))}
       </div>
     </div>
