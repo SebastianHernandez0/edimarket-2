@@ -39,6 +39,7 @@ export function ProductDetail() {
     setProductAlert,
     handleGetProduct,
     seller,
+    setDirectBuy,
   } = useContext(ProductContext);
   const { openModalCart, cart } = useContext(CartContext);
 
@@ -57,6 +58,13 @@ export function ProductDetail() {
   useEffect(() => {
     handleGetProduct(id);
   }, [id, navigate]);
+
+  useEffect(() => {
+    setDirectBuy((prevData) => ({
+      ...prevData,
+      cantidad: productQuantity,
+    }));
+  }, [productQuantity]);
 
   const handleAddToCart = async (idUsuario, idProducto, cantidad) => {
     try {
