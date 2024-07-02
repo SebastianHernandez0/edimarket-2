@@ -85,7 +85,7 @@ export function MiPerfil() {
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center w-full">
             <Link
-              to=""
+              to="/my-orders"
               className="miperfil__userinfo__data miperfil__userinfo__postlink w-full"
             >
               <HiMiniShoppingBag className="miperfil__userinfo__icon text" />

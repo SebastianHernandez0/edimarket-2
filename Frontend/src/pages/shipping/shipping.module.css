@@ -1,3 +1,7 @@
+.shipping_container {
+    grid-area: home !important;
+}
+
 .shipping_box, .billing_box {
     background-color:var(--navbarColor);
     border-radius: 8px;
