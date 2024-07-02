@@ -147,6 +147,7 @@ export function MyPosts() {
                     <p className="text-sm text-gray-400 mt-3">
                       Publicado en Edimarket
                     </p>
+                    <p className="text-sm text-gray-400 ">{product?.fecha}</p>
                   </div>
                 </div>
                 <div className="myposts__btn__container flex items-center gap-2">
