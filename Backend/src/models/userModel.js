@@ -213,6 +213,8 @@ const registrarProducto = async (producto, vendedor_id) => {
     imagen,
     vendedor_id,
   ];
+
+  console.log(nombre)
   const consultaProducto =
     "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado,fecha_producto) VALUES ($1,$2,$3,$5,$6,$7,$8,$4,DEFAULT)";
   const consultaCategoria =
