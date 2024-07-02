@@ -30,8 +30,6 @@ export function MyOrders() {
         const data = await response.json();
         setOrders(data.ventas);
         setLoading(false);
-
-        console.log(data);
       } catch (error) {
         console.error("Error:", error);
         setLoading(false);
