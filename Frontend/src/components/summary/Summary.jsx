@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import summary from "./summary.module.css";
 import { CartContext } from "../../context/CarritoContext";
 import classNames from "classnames";
@@ -17,7 +17,11 @@ export function Summary() {
     (acc, producto) => acc + producto.precio * producto.cantidad,
     0
   );
+  useEffect(() => {
+    localStorage.setItem("directBuy", JSON.stringify(directBuy));
+  }, [directBuy]);
 
+  console.log(directBuy);
   return (
     <div className="">
       <div>
