@@ -1,16 +1,38 @@
 import "../perfil/perfil.css";
 import "../../components/searchBar/searchBar.css";
 import { FiSearch } from "react-icons/fi";
-import { useContext, useEffect, useRef, forwardRef } from "react";
+import { useContext, useEffect, useRef, forwardRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { IoMdClose } from "react-icons/io";
 
 export const SearchBar = forwardRef(({ className, openSearchBar }, ref) => {
   const navigate = useNavigate();
-  const { searchProduct, setSearchProduct, products, setFindedProduct } =
+  const { searchProduct, setSearchProduct, setFindedProduct, setLoading } =
     useContext(ProductContext);
   const inputRef = useRef(null);
+  const [products, setPorducts] = useState([]);
+
+  const handleSearchProduct = async () => {
+    try {
+      const response = await fetch(
+        "https://edimarket.onrender.com/productos/productos/all"
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al obtener productos");
+      }
+
+      const data = await response.json();
+      setPorducts(data);
+      return data;
+    } catch (error) {
+      console.error("Error al obtener usuario:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSearchProductName = (e) => {
     setSearchProduct(e.target.value);
@@ -47,6 +69,10 @@ export const SearchBar = forwardRef(({ className, openSearchBar }, ref) => {
       inputRef.current.focus();
     }
   };
+
+  useEffect(() => {
+    handleSearchProduct();
+  }, []);
 
   const handleRemoveContent = () => {
     setSearchProduct("");
