@@ -87,6 +87,9 @@
     margin: 0;
   }
   .footer__sections {
-    width: 34%;
+    width: 54%;
+  }
+  .footer__sections {
+    max-width: 600px;
   }
 }
