@@ -131,7 +131,11 @@ export function ProductProvider({ children }) {
       const data = await response.json();
       setProduct(data);
       setProductById(data);
-      setDirectBuy(data);
+      setDirectBuy((prevData) => ({
+        ...prevData,
+        ...data,
+        cantidad: 1,
+      }));
     } catch (error) {
       console.error("Error al obtener productos:", error);
       navigate("/not-found");
