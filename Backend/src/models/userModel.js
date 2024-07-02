@@ -120,13 +120,19 @@ const consultarProductos = async (limits,page, order_by) => {
     const offset = page * limits - limits;
     querys += ` OFFSET ${offset}`
   }
-  const consultaAllProducts= "SELECT * from productos"
+  const consultaAllProducts= "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id"
 
   const consulta =
     `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id ${querys}`;
   const { rows: products } = await db.query(consulta);
   const {rows:productsAll} = await db.query(consultaAllProducts);
   return {products,productsAll};
+};
+
+const allProducts= async () => {
+  const consultaAllProducts= "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id"
+  const { rows: products } = await db.query(consultaAllProducts);
+  return products;
 };
 
 const consultarProductosByCategoria = async (categoria,limits,page, order_by) => {
@@ -424,6 +430,7 @@ module.exports = {
   eliminarProductoDelUsuario,
   eliminarMetodoDePago,
   eliminarDomicilio,
-  consultarVentasUsuario
+  consultarVentasUsuario,
+  allProducts
 
 };
