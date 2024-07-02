@@ -86,4 +86,6 @@ const prepHateoasCategorias = (data, page, categoria, allProducts) => {
   return HATEOAS;
 };
 
+
+
 module.exports = {prepHateoasProductos,prepHateoasCategorias}
