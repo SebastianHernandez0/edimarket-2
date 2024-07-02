@@ -20,7 +20,7 @@ export function SearchProduct() {
           findedProduct?.map((product) => (
             <ProductCard
               onClick={() => handleProductDetail(product?.id)}
-              key={product?.id}
+              key={product?.producto_id}
               className="products__card shadow-md bg-white"
             >
               <div className="products__card__img__container">
@@ -34,10 +34,12 @@ export function SearchProduct() {
                     {product?.nombre}
                   </p>
                   <p className="products__card__paragraph font-semibold text-2xl">
-                    {product?.precio.toLocaleString("es-CL", {
-                      style: "currency",
-                      currency: "CLP",
-                    })}
+                    {product?.precio
+                      ? Number(product.precio).toLocaleString("es-CL", {
+                          style: "currency",
+                          currency: "CLP",
+                        })
+                      : null}
                   </p>
                 </div>
               </div>

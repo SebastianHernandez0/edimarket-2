@@ -69,6 +69,10 @@ export function ProductList() {
     setPage(1);
   }, [navigate]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page]);
+
   return (
     <div className="product__list__container">
       <div className="products__container">
@@ -82,10 +86,10 @@ export function ProductList() {
           <Loader />
         ) : (
           <div>
-            <div className="flex items-center">
+            <div className="product__list__filters">
               <select
                 onChange={handleSortChange}
-                className="products__filter shadow-sm rounded-md py-1 px-2 w-60 text-center my-10 border border-gray-300"
+                className="products__filter shadow-sm rounded-md py-1 px-2 w-56 text-center my-10 border border-gray-300"
                 name="orderBy"
                 id="orderBy"
                 value={orderBy}

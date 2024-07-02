@@ -1,21 +1,29 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
 import { Loader } from "../loader/Loader.jsx";
 import "../products/products.css";
 import { UserContext } from "../../context/UserContext.jsx";
 import { Pagination } from "../pagination/Pagination.jsx";
+import star from "/imgs/aplication/estrella.svg";
 
 export function Products() {
-  const { products, handleProductDetail, loading } = useContext(ProductContext);
+  const { products, handleProductDetail, loading, page } =
+    useContext(ProductContext);
   const { userToken, user } = useContext(UserContext);
+
+  useEffect(() => {
+    if (page !== 1) {
+      window.scrollTo(0, 600);
+    }
+  }, [page]);
 
   return (
     <section>
       <div className="products__container">
         <div className="product__title__container">
           <h1 className="products__title text-2xl font-semibold mt-7">
-            Productos recomendados
+            Lo más reciente
           </h1>
         </div>
         <Pagination />
@@ -32,6 +40,18 @@ export function Products() {
                     className="products__card shadow-md bg-white"
                   >
                     <div className="products__card__img__container">
+                      {user.id === product?.vendedor ? (
+                        <div className="product__star__container">
+                          <span className="font-semibold">Mi producto</span>
+                          <img
+                            className="product__star__icon"
+                            src={star}
+                            alt=""
+                          />
+                        </div>
+                      ) : (
+                        ""
+                      )}
                       <img
                         className="products__card__img"
                         src={product?.imagen}

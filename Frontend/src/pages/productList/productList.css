@@ -12,3 +12,13 @@
 .products__filter {
   cursor: pointer;
 }
+
+.product__list__filters {
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 756px) {
+  .product__list__filters {
+    flex-direction: row;
+  }
+}

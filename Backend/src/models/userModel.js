@@ -120,13 +120,31 @@ const consultarProductos = async (limits,page, order_by) => {
     const offset = page * limits - limits;
     querys += ` OFFSET ${offset}`
   }
-  const consultaAllProducts= "SELECT * from productos"
+  const consultaAllProducts= "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id"
 
   const consulta =
     `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id ${querys}`;
   const { rows: products } = await db.query(consulta);
   const {rows:productsAll} = await db.query(consultaAllProducts);
   return {products,productsAll};
+};
+
+const allProducts= async ( limits,page, order_by) => {
+  let querys= "";
+  if(order_by){
+    const [campo,ordenamiention]= order_by.split("_");
+    querys += ` ORDER BY ${campo} ${ordenamiention}`;
+  }
+  if(limits){
+    querys += ` LIMIT ${limits}`
+  }
+  if(page && limits){
+    const offset = page * limits - limits;
+    querys += ` OFFSET ${offset}`
+  }
+  const consultaAllProducts= `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id ${querys}`
+  const { rows: products } = await db.query(consultaAllProducts);
+  return products;
 };
 
 const consultarProductosByCategoria = async (categoria,limits,page, order_by) => {
@@ -180,9 +198,8 @@ const idCategoria = async (categoria) => {
 };
 
 const registrarProducto = async (producto, vendedor_id) => {
-  let { nombre, descripcion, estado, precio, stock, imagen, categoria } =
-    producto;
-  validarProducto.parse(producto);
+  let { nombre, descripcion, estado, precio, stock, imagen, categoria } = producto;
+  //validarProducto.parse(producto);
   const categoriaId = await idCategoria(categoria);
   const id = Math.floor(Math.random() * 9999999);
   const valuesCategoria = [id, categoriaId];
@@ -196,13 +213,15 @@ const registrarProducto = async (producto, vendedor_id) => {
     imagen,
     vendedor_id,
   ];
+
+  console.log(nombre)
   const consultaProducto =
   "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado,fecha_producto) VALUES ($1,$2,$3,$5,$6,$7,$8,$4,DEFAULT)";
   const consultaCategoria =
     "INSERT INTO producto_categoria (id,producto_id,categoria_id) VALUES (DEFAULT,$1,$2)";
   await db.query(consultaProducto, valuesProducto);
   await db.query(consultaCategoria, valuesCategoria);
-  return console.log("Registrado");
+  return console.log("Registrado"),id;
 };
 
 const eliminarProductoDelUsuario = async (idUsuario, idProducto) => {
@@ -422,6 +441,7 @@ module.exports = {
   eliminarProductoDelUsuario,
   eliminarMetodoDePago,
   eliminarDomicilio,
-  consultarVentasUsuario
+  consultarVentasUsuario,
+  allProducts
 
 };
