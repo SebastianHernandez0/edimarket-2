@@ -23,7 +23,7 @@ export function Products() {
       <div className="products__container">
         <div className="product__title__container">
           <h1 className="products__title text-2xl font-semibold mt-7">
-            Productos recomendados
+            Lo más reciente
           </h1>
         </div>
         <Pagination />
