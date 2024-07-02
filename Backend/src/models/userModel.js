@@ -197,8 +197,8 @@ const idCategoria = async (categoria) => {
   return rows[0].id;
 };
 
-const registrarProducto = async (producto, vendedor_id) => {
-  let { nombre, descripcion, estado, precio, stock, imagen, categoria } = producto;
+const registrarProducto = async (producto, vendedor_id, imagen) => {
+  let { nombre, descripcion, estado, precio, stock,categoria } = producto;
   //validarProducto.parse(producto);
   const categoriaId = await idCategoria(categoria);
   const id = Math.floor(Math.random() * 9999999);
