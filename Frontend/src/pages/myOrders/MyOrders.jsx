@@ -61,45 +61,43 @@ export function MyOrders() {
   };
 
   return (
-    <div className="myOrders__container">
-      <div
-        className={classNames(
-          "pt-10 bg-white shadow-sm rounded-sm",
-          myOrders.myOrders__container
-        )}
-      >
-        <h1 className="">Mis compras</h1>
-        <div className="orders_box">
-          {loading ? (
-            <Loader />
-          ) : (
-            orders.map((order, index) => {
-              // Generar un número aleatorio único
-              const randomId = Math.floor(Math.random() * 1000000);
+    <div
+      className={classNames(
+        "myOrders__container pt-10 bg-white shadow-sm rounded-sm",
+        myOrders.myOrders__container
+      )}
+    >
+      <h1 className="">Mis compras</h1>
+      <div className="orders_box">
+        {loading ? (
+          <Loader />
+        ) : (
+          orders.map((order, index) => {
+            // Generar un número aleatorio único
+            const randomId = Math.floor(Math.random() * 1000000);
 
-              return (
-                <div
-                  className={classNames(
-                    "order_box flex flex-row",
-                    myOrders.order__container
-                  )}
-                  key={`${randomId}_${index}`}
-                >
-                  <div>
-                    <h2 className="pb-2">Número de órden: #{`${randomId}`}</h2>
-                    <p>Fecha de la compra: {formatDate(order.fecha_venta)}</p>
-                    <p className="font-semibold">
-                      {formatearPrecio(order.valor_total)}
-                    </p>
-                  </div>
-                  <div>
-                    <img className="h-24" src={order.imagen} alt="" />
-                  </div>
+            return (
+              <div
+                className={classNames(
+                  "order_box flex flex-row",
+                  myOrders.order__container
+                )}
+                key={`${randomId}_${index}`}
+              >
+                <div>
+                  <h2 className="pb-2">Número de órden: #{`${randomId}`}</h2>
+                  <p>Fecha de la compra: {formatDate(order.fecha_venta)}</p>
+                  <p className="font-semibold">
+                    {formatearPrecio(order.valor_total)}
+                  </p>
                 </div>
-              );
-            })
-          )}
-        </div>
+                <div>
+                  <img className="h-24" src={order.imagen} alt="" />
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );

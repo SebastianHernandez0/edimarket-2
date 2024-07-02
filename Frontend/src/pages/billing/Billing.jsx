@@ -66,9 +66,9 @@ export function Billing() {
   };
 
   return (
-    <div>
+    <div className={classNames("pt-10" , billing.billing__container)}>
       {userCreditCards.length ? (
-        <div className={classNames("pt-10", "billing__container")}>
+        <div >
           <h1 className="mb-10 ml-5">¿Cómo quieres pagar?</h1>
           <div className="flex mx-8 md:mx-8 lg:mx-28 flex-col md:flex-row">
             <div className="delivery w-full md:w-2/3">

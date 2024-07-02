@@ -24,9 +24,9 @@ export function Shipping() {
   };
 
   return (
-    <div>
+    <div className={classNames("pt-10", shipping.shipping_container)}>
       {userAddress.length ? (
-        <div className={classNames("pt-10", shipping.shipping_container)}>
+        <div>
           <h1 className="ml-5 mb-10">Elige dónde quieres recibir tu compra:</h1>
           <div className="shipping__container flex mx-8 md:mx-8 lg:mx-28 flex-col md:flex-row">
             <div className="delivery w-full md:w-2/3">
@@ -40,12 +40,12 @@ export function Shipping() {
                   className={classNames("mt-8", summary.summary__button, {
                     [summary["summary__button--disabled"]]:
                       !selectedAddress ||
-                      cart.length === 0 &&
-                      directBuy === null,
+                      (cart.length === 0 && directBuy === null),
                   })}
                   onClick={handleButtonClickAdress}
                   disabled={
-                    !selectedAddress || cart.length === 0 && directBuy === null
+                    !selectedAddress ||
+                    (cart.length === 0 && directBuy === null)
                   }
                 >
                   Continuar compra
