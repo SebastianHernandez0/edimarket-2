@@ -34,10 +34,12 @@ export function SearchProduct() {
                     {product?.nombre}
                   </p>
                   <p className="products__card__paragraph font-semibold text-2xl">
-                    {product?.precio.toLocaleString("es-CL", {
-                      style: "currency",
-                      currency: "CLP",
-                    })}
+                    {product?.precio
+                      ? Number(product.precio).toLocaleString("es-CL", {
+                          style: "currency",
+                          currency: "CLP",
+                        })
+                      : null}
                   </p>
                 </div>
               </div>
