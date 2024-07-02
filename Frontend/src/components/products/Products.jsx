@@ -5,6 +5,7 @@ import { Loader } from "../loader/Loader.jsx";
 import "../products/products.css";
 import { UserContext } from "../../context/UserContext.jsx";
 import { Pagination } from "../pagination/Pagination.jsx";
+import star from "/imgs/aplication/estrella.svg";
 
 export function Products() {
   const { products, handleProductDetail, loading, page } =
@@ -39,6 +40,18 @@ export function Products() {
                     className="products__card shadow-md bg-white"
                   >
                     <div className="products__card__img__container">
+                      {user.id === product?.vendedor ? (
+                        <div className="product__star__container">
+                          <span className="font-semibold">Mi producto</span>
+                          <img
+                            className="product__star__icon"
+                            src={star}
+                            alt=""
+                          />
+                        </div>
+                      ) : (
+                        ""
+                      )}
                       <img
                         className="products__card__img"
                         src={product?.imagen}
