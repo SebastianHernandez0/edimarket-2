@@ -62,6 +62,7 @@ export const SearchBar = forwardRef(({ className, openSearchBar }, ref) => {
     const filteredProducts = products.filter((product) =>
       product.nombre.toLowerCase().includes(searchProduct.toLowerCase())
     );
+
     setFindedProduct(filteredProducts);
     navigate(`/product-name/${searchProduct.toLowerCase()}`);
 

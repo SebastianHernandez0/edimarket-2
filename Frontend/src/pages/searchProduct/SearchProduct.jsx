@@ -2,10 +2,13 @@ import { useContext } from "react";
 import "../searchProduct/searchProduct.css";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
+import { UserContext } from "../../context/UserContext";
+import star from "/imgs/aplication/estrella.svg";
 
 export function SearchProduct() {
   const { findedProduct, handleProductDetail, searchProduct } =
     useContext(ProductContext);
+  const { user } = useContext(UserContext);
 
   return (
     <section className="searchproduct__container">
@@ -19,11 +22,19 @@ export function SearchProduct() {
         {findedProduct.length > 0 ? (
           findedProduct?.map((product) => (
             <ProductCard
-              onClick={() => handleProductDetail(product?.id)}
+              onClick={() => handleProductDetail(product?.producto_id)}
               key={product?.producto_id}
               className="products__card shadow-md bg-white"
             >
               <div className="products__card__img__container">
+                {user.id === product?.vendedor_id ? (
+                  <div className="product__star__container">
+                    <span className="font-semibold">Mi producto</span>
+                    <img className="product__star__icon" src={star} alt="" />
+                  </div>
+                ) : (
+                  ""
+                )}
                 <img
                   className="products__card__img"
                   src={product?.imagen}
