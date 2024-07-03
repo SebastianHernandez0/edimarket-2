@@ -22,10 +22,6 @@ export function Header() {
       original: "/imgs/aplication/banner/hero5.jpg",
       thumbnail: "/imgs/aplication/banner/hero5.jpg",
     },
-    {
-      original: "/imgs/aplication/slider_5.webp",
-      thumbnail: "/imgs/aplication/slider_5.webp",
-    },
   ];
 
   return (
