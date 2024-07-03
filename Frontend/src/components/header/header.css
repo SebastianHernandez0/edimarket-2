@@ -6,6 +6,7 @@
   height: 500px;
   object-fit: cover;
   overflow: hidden;
+  cursor: initial;
 }
 .slider__container {
   border-radius: 5px;
