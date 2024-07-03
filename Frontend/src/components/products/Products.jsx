@@ -5,7 +5,7 @@ import { Loader } from "../loader/Loader.jsx";
 import "../products/products.css";
 import { UserContext } from "../../context/UserContext.jsx";
 import { Pagination } from "../pagination/Pagination.jsx";
-import star from "/imgs/aplication/estrella.svg";
+import star from "/imgs/aplication/estrella.png";
 
 export function Products() {
   const { products, handleProductDetail, loading, page } =
