@@ -12,12 +12,12 @@ const {
 } = require("../models/userModel");
 const {prepHateoasProductos,prepHateoasCategorias} = require("../models/hateoasModel");
 const jwt = require("jsonwebtoken");
-const { get } = require("../app");
 
 const getProductos = async (req, res) => {
   try {
     const {limits=12,page=1, order_by} = req.query;
     const productos = await consultarProductos(limits,page, order_by);
+    console.log(productos.products.reverse());
     const hateoas = await prepHateoasProductos(productos.products,page,productos.productsAll);
     res.send(hateoas);
   } catch (error) {
