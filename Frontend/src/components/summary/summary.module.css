@@ -1,11 +1,17 @@
 .summary__price {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .summary__products {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .summary__button {
-    width: 100%;
+  width: 100%;
+}
+
+.summary__button--disabled,
+.summary__button--disabled:hover {
+  background-color: grey;
+  cursor: not-allowed;
 }

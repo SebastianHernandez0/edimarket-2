@@ -15,7 +15,7 @@ const jwt = require("jsonwebtoken");
 
 const getProductos = async (req, res) => {
   try {
-    const {limits=12,page=1, order_by} = req.query;
+    const {limits=12,page=1, order_by='fecha_DESC'} = req.query;
     const productos = await consultarProductos(limits,page, order_by);
     console.log(productos.products.reverse());
     const hateoas = await prepHateoasProductos(productos.products,page,productos.productsAll);
@@ -27,7 +27,8 @@ const getProductos = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const productos = await allProducts();
+    const {limits,page=1, order_by} = req.query;
+    const productos = await allProducts(limits,page, order_by);
     res.send(productos);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -51,7 +52,10 @@ const agregarProducto = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
+    
     await registrarProducto(producto, id);
+  
+    
     console.log(
       `El usuario ${email} con el id ${id} ha registrado un producto`
     );

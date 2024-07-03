@@ -5,6 +5,7 @@ import { Loader } from "../loader/Loader.jsx";
 import "../products/products.css";
 import { UserContext } from "../../context/UserContext.jsx";
 import { Pagination } from "../pagination/Pagination.jsx";
+import star from "/imgs/aplication/estrella.png";
 
 export function Products() {
   const { products, handleProductDetail, loading, page } =
@@ -22,7 +23,7 @@ export function Products() {
       <div className="products__container">
         <div className="product__title__container">
           <h1 className="products__title text-2xl font-semibold mt-7">
-            Productos recomendados
+            Lo más reciente
           </h1>
         </div>
         <Pagination />
@@ -39,9 +40,25 @@ export function Products() {
                     className="products__card shadow-md bg-white"
                   >
                     <div className="products__card__img__container">
+                      {user.id === product?.vendedor ? (
+                        <div className="product__star__container">
+                          <span className="font-semibold">Mi producto</span>
+                          <img
+                            className="product__star__icon"
+                            src={star}
+                            alt=""
+                          />
+                        </div>
+                      ) : (
+                        ""
+                      )}
                       <img
                         className="products__card__img"
-                        src={product?.imagen}
+                        src={
+                          product?.imagen
+                            ? product?.imagen
+                            : "/imgs/aplication/img-notfound.png"
+                        }
                         alt={product?.nombre}
                       />
                       <div className="products__card__desc__container px-4">
@@ -70,7 +87,11 @@ export function Products() {
                     <div className="products__card__img__container">
                       <img
                         className="products__card__img"
-                        src={product?.imagen}
+                        src={
+                          product?.imagen
+                            ? product?.imagen
+                            : "/imgs/aplication/img-notfound.png"
+                        }
                         alt={product?.nombre}
                       />
                       <div className="products__card__desc__container px-4">
