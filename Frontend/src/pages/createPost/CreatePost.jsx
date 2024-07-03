@@ -7,6 +7,7 @@ import { UserContext } from "../../context/UserContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
 import profile from "/imgs/aplication/profile.png";
 import { ProductContext } from "../../context/ProductContext";
+import { useNavigate } from "react-router-dom";
 
 export function CreatePost() {
   const {
@@ -24,6 +25,8 @@ export function CreatePost() {
     user,
   } = useContext(UserContext);
 
+  const navigate = useNavigate();
+  const { handleGetProducts } = useContext(ProductContext);
   const [createPostSuccess, setCreatePostSuccess] = useState({
     success: "",
     error: "",
@@ -69,7 +72,7 @@ export function CreatePost() {
         throw new Error(errorData.message || "Error al subir producto");
       }
       const data = response.json();
-      getProductBySeller();
+
       return data;
     } catch (error) {
       console.error("Error:", error.message);
@@ -158,7 +161,10 @@ export function CreatePost() {
             ...prevData,
             success: "",
           }));
-        }, 3000);
+          navigate("/my-posts");
+        }, 1500);
+        handleGetProducts();
+        getProductBySeller();
       } catch (error) {
         console.error("Error:", error.message);
         setCreatePostSuccess((prevData) => ({

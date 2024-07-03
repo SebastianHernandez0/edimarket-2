@@ -20,8 +20,13 @@ const ModalIcon = forwardRef((props, ref) => (
 ));
 
 export function MyPosts() {
-  const { loading, setLoading, handleProductDetail, serverError } =
-    useContext(ProductContext);
+  const {
+    loading,
+    setLoading,
+    handleProductDetail,
+    serverError,
+    handleGetProducts,
+  } = useContext(ProductContext);
   const { userToken, myProducts, getProductBySeller } = useContext(UserContext);
   const navigate = useNavigate();
   const [confirmDeleteId, setConfirmDeleteId] = useState("");
@@ -73,6 +78,7 @@ export function MyPosts() {
       }
       const data = await response.json();
       getProductBySeller();
+      handleGetProducts();
       setConfirmDeleteId(null);
       return data;
     } catch (error) {
