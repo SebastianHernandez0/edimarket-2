@@ -27,6 +27,9 @@ export function ProductProvider({ children }) {
   const [limit, setLimit] = useState(12);
   const [totalProducts, setTotalProducts] = useState(0);
   const [directBuy, setDirectBuy] = useState(initialStateProduct);
+  const [serverError, setServerError] = useState({
+    myPostGetError: "",
+  });
 
   useEffect(() => {
     localStorage.setItem("directBuy", JSON.stringify(directBuy));
@@ -199,6 +202,8 @@ export function ProductProvider({ children }) {
         totalProducts,
         directBuy,
         setDirectBuy,
+        serverError,
+        setServerError,
       }}
     >
       {children}
