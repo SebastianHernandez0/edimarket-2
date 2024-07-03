@@ -1,5 +1,5 @@
 .product__list__container {
-  grid-area: header;
+  grid-area: home;
   padding: 0 25px;
   margin: 0 auto;
   max-width: 1400px;
@@ -11,4 +11,14 @@
 }
 .products__filter {
   cursor: pointer;
+}
+
+.product__list__filters {
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 756px) {
+  .product__list__filters {
+    flex-direction: row;
+  }
 }

@@ -404,7 +404,7 @@ const consultarVentas = async (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
     const ventas = await consultarVentasUsuario(id);
-    console.log(`El usuario ${email} con el id ${id} ha consultado sus ventas`);
+    console.log(`El usuario ${email} con el id ${id} ha consultado sus compras`);
     res.json({
       ventas: ventas.map((venta) => {
         return {
