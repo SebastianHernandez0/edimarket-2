@@ -11,10 +11,7 @@ const {
   allProducts
 } = require("../models/userModel");
 const {prepHateoasProductos,prepHateoasCategorias} = require("../models/hateoasModel");
-const {upload} = require("../controllers/userController");
-const fs= require("fs");
 const jwt = require("jsonwebtoken");
-const path = require('path');
 
 const getProductos = async (req, res) => {
   try {
@@ -49,14 +46,13 @@ const getProductoById = async (req, res) => {
 
 const agregarProducto = async (req, res) => {
   try {
-    const imagen= req.file.path
     const producto = req.body;
     const Authorization = req.header("Authorization");
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
     
-    await registrarProducto(producto, id, imagen);
+    await registrarProducto(producto, id);
   
     
     console.log(
@@ -68,7 +64,7 @@ const agregarProducto = async (req, res) => {
       estado: producto.estado,
       precio: producto.precio,
       stock: producto.stock,
-      imagen: imagen,
+      imagen: producto.imagen,
       categoria: producto.categoria,
       fecha: producto.fecha_producto
     });
