@@ -1,5 +1,0 @@
-# .gitignore
-
-.env
-pacakage-lock.json
-node_modules/*
