@@ -40,6 +40,7 @@ export function ProductDetail() {
     handleGetProduct,
     seller,
     setDirectBuy,
+    handleDirectBuy,
   } = useContext(ProductContext);
   const { openModalCart, cart } = useContext(CartContext);
 
@@ -58,13 +59,6 @@ export function ProductDetail() {
   useEffect(() => {
     handleGetProduct(id);
   }, [id, navigate]);
-
-  useEffect(() => {
-    setDirectBuy((prevData) => ({
-      ...prevData,
-      cantidad: productQuantity,
-    }));
-  }, [productQuantity]);
 
   const handleAddToCart = async (idUsuario, idProducto, cantidad) => {
     try {
@@ -385,9 +379,7 @@ export function ProductDetail() {
                 ) : (
                   <div className="flex flex-col gap-3">
                     <GeneralBtn
-                      onClick={() => {
-                        navigate("/shipping");
-                      }}
+                      onClick={() => handleDirectBuy(productQuantity)}
                       style={{
                         pointerEvents: product?.stock === 0 ? "none" : "auto",
                         cursor:
