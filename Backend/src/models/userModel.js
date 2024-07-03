@@ -216,7 +216,7 @@ const registrarProducto = async (producto, vendedor_id, imagen) => {
 
   console.log(nombre)
   const consultaProducto =
-  "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado,fecha_producto) VALUES ($1,$2,$3,$5,$6,$7,$8,$4,DEFAULT)";
+    "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado,fecha) VALUES ($1,$2,$3,$5,$6,$7,$8,$4,DEFAULT)";
   const consultaCategoria =
     "INSERT INTO producto_categoria (id,producto_id,categoria_id) VALUES (DEFAULT,$1,$2)";
   await db.query(consultaProducto, valuesProducto);

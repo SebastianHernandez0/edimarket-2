@@ -18,7 +18,7 @@ const path = require('path');
 
 const getProductos = async (req, res) => {
   try {
-    const {limits=12,page=1, order_by} = req.query;
+    const {limits=12,page=1, order_by='fecha_DESC'} = req.query;
     const productos = await consultarProductos(limits,page, order_by);
     const hateoas = await prepHateoasProductos(productos.products,page,productos.productsAll);
     res.send(hateoas);
