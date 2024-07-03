@@ -41,7 +41,7 @@ export function Navbar({ navbarRef }) {
   const menuContainerRef = useRef(null);
   const searchBarRef = useRef(null);
   const searchBarIconRef = useRef(null);
-  const { setOpenCategories } = useContext(ProductContext);
+  const { setOpenCategories, setPage } = useContext(ProductContext);
   const categoriesBtnRef = useRef(null);
   const { userToken, logout, user } = useContext(UserContext);
   const { cart } = useContext(CartContext);
@@ -75,6 +75,7 @@ export function Navbar({ navbarRef }) {
 
   const handleBackToHome = () => {
     navigate("/");
+    setPage(1);
   };
 
   const handleClickOutside = (event) => {

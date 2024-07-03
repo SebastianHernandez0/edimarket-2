@@ -159,10 +159,6 @@ export function ProductProvider({ children }) {
     setProductQuantity(Number(e.target.value));
   };
 
-  useEffect(() => {
-    setPage(1);
-  }, [navigate]);
-
   return (
     <ProductContext.Provider
       value={{
