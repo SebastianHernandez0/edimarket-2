@@ -5,8 +5,8 @@ import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { Loader } from "../../components/loader/Loader";
 import { UserContext } from "../../context/UserContext";
-import { Pagination } from "../../components/pagination/Pagination";
 import { PaginationCategory } from "../../components/pagination/PaginationCategory";
+import star from "/imgs/aplication/estrella.png";
 
 export function ProductList() {
   const { categoria } = useParams();
@@ -72,7 +72,7 @@ export function ProductList() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [page]);
-
+  console.log(sortedProducts);
   return (
     <div className="product__list__container">
       <div className="products__container">
@@ -131,6 +131,18 @@ export function ProductList() {
                       src={product?.imagen}
                       alt={product?.nombre}
                     />
+                    {user.id === product?.vendedor ? (
+                      <div className="product__star__container">
+                        <span className="font-semibold">Mi producto</span>
+                        <img
+                          className="product__star__icon"
+                          src={star}
+                          alt=""
+                        />
+                      </div>
+                    ) : (
+                      ""
+                    )}
                     <div className="products__card__desc__container px-4">
                       <p className="products__card__paragraph text-slate-700 font-semibold text-lg">
                         {product?.nombre}
