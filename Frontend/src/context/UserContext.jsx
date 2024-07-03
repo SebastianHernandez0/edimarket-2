@@ -77,6 +77,7 @@ export function UserProvider({ children }) {
   const { setLoading, setAddedToFav, addedToFav, setProductAlert } =
     useContext(ProductContext);
   const { setCart, cart } = useContext(CartContext);
+  const { setDirectBuy } = useContext(ProductContext);
 
   const inputRefs = {
     nombre: useRef(null),
@@ -148,6 +149,12 @@ export function UserProvider({ children }) {
       setLoading(false);
     }
   };
+
+  // useEffect(() => {
+  //   if (userToken) {
+  //     handleUserCards();
+  //   }
+  // }, [userToken]);
 
   useEffect(() => {
     handleUserCards();
@@ -385,6 +392,7 @@ export function UserProvider({ children }) {
 
   const logout = () => {
     setUserToken(null);
+    setDirectBuy(null);
     navigate("/");
   };
 

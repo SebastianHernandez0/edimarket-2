@@ -1,18 +1,17 @@
 .myposts__container {
-  grid-area: header;
+  grid-area: home;
   padding: 25px;
   margin: 60px auto;
   width: 100%;
   max-width: 1000px;
 }
-.myposts__card__body {
-  cursor: pointer;
-}
+
 .myposts__card__img {
   width: 100%;
   max-width: 120px;
   height: 120px;
   object-fit: cover;
+  cursor: pointer;
 }
 .myposts__card__paragraph {
   white-space: nowrap;
