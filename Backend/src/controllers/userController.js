@@ -23,7 +23,6 @@ const {
 } = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
-
 const getAllUsers = async (req, res) => {
   try {
     const usuarios = await consultarUsuario();
@@ -130,7 +129,7 @@ const consultarProductosPerUser = async (req, res) => {
     );
     res.json({
       productos: productos.map((producto) => {
-        fecha_producto = producto.fecha.toISOString().split('T')[0];
+        fecha_producto = producto.fecha.toISOString().split("T")[0];
         return {
           usuario_: id,
           id: producto.id,
@@ -142,7 +141,7 @@ const consultarProductosPerUser = async (req, res) => {
           stock: producto.stock,
           imagen: producto.imagen,
           categoria: producto.nombre_categoria,
-          fecha: fecha_producto
+          fecha: fecha_producto,
         };
       }),
     });
@@ -390,7 +389,9 @@ const consultarVentas = async (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
     const ventas = await consultarVentasUsuario(id);
-    console.log(`El usuario ${email} con el id ${id} ha consultado sus compras`);
+    console.log(
+      `El usuario ${email} con el id ${id} ha consultado sus compras`
+    );
     res.json({
       ventas: ventas.map((venta) => {
         return {

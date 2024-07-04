@@ -47,7 +47,7 @@ const consultarUsuario = async () => {
 const consultarUsuarioById = async (id) => {
   const consulta = "SELECT * FROM usuarios WHERE id=$1";
   const { rows: users } = await db.query(consulta, [id]);
-  return users[0]
+  return users[0];
 };
 
 const modificarUsuario = async (id, usuario) => {
@@ -73,15 +73,17 @@ const registrarUsuario = async (usuario) => {
     if (databaseUser.find((user) => user.email === email)) {
       throw new Error("El usuario ya existe");
     }
-    const parsedUser= validarUsuario.parse(usuario);
+    const parsedUser = validarUsuario.parse(usuario);
     if (contraseña) {
       contraseña = bcrypt.hashSync(contraseña);
       hashedPassword = contraseña;
     }
     const values = [parsedUser.nombre, parsedUser.email, hashedPassword];
-    const consulta = (
-      "INSERT INTO usuarios (id,nombre, email, contraseña) VALUES (DEFAULT, $1, $2, $3) RETURNING id, nombre, email");
-    const { rows: [user] } = await db.query(consulta, values);
+    const consulta =
+      "INSERT INTO usuarios (id,nombre, email, contraseña) VALUES (DEFAULT, $1, $2, $3) RETURNING id, nombre, email";
+    const {
+      rows: [user],
+    } = await db.query(consulta, values);
     return user;
   } catch (error) {
     console.error("Error in registrarUsuario", error);
@@ -96,32 +98,31 @@ const eliminarUsuario = async (id) => {
   return console.log("Usuario eliminado");
 };
 
-const verificarUsuario = async (email, contraseña, isGoogleAuth= false) => {
+const verificarUsuario = async (email, contraseña, isGoogleAuth = false) => {
   try {
     const values = [email];
-  if (!isGoogleAuth) {
-    validarUser.parse({ email, contraseña });
-  }
-  const consulta = "SELECT * FROM usuarios WHERE email=$1";
-  const { rows } = await db.query(consulta, values);
-  if (rows.length === 0) {
-    // Si no se encuentra el usuario, devolver null
-    return null;
-  }
-  const user = rows[0];
-
-  if (!isGoogleAuth) {
-    const passwordVerified = bcrypt.compareSync(contraseña, user.contraseña);
-    if (!passwordVerified) {
-      throw { code: 401, message: "El usuario o contraseña no coinciden" };
+    if (!isGoogleAuth) {
+      validarUser.parse({ email, contraseña });
     }
-  }
-  return user;
+    const consulta = "SELECT * FROM usuarios WHERE email=$1";
+    const { rows } = await db.query(consulta, values);
+    if (rows.length === 0) {
+      // Si no se encuentra el usuario, devolver null
+      return null;
+    }
+    const user = rows[0];
+
+    if (!isGoogleAuth) {
+      const passwordVerified = bcrypt.compareSync(contraseña, user.contraseña);
+      if (!passwordVerified) {
+        throw { code: 401, message: "El usuario o contraseña no coinciden" };
+      }
+    }
+    return user;
   } catch (error) {
     console.error("Error in verificarUsuario", error);
     throw error;
   }
-  
 };
 const consultarProductos = async (limits, page, order_by) => {
   let querys = "";

@@ -8,16 +8,23 @@ const {
   eliminarProducto,
   venta,
   modificarProducto,
-  allProducts
+  allProducts,
 } = require("../models/userModel");
-const {prepHateoasProductos,prepHateoasCategorias} = require("../models/hateoasModel");
+const {
+  prepHateoasProductos,
+  prepHateoasCategorias,
+} = require("../models/hateoasModel");
 const jwt = require("jsonwebtoken");
 
 const getProductos = async (req, res) => {
   try {
-    const {limits=12,page=1, order_by='fecha_DESC'} = req.query;
-    const productos = await consultarProductos(limits,page, order_by);
-    const hateoas = await prepHateoasProductos(productos.products,page,productos.productsAll);
+    const { limits = 12, page = 1, order_by = "fecha_DESC" } = req.query;
+    const productos = await consultarProductos(limits, page, order_by);
+    const hateoas = await prepHateoasProductos(
+      productos.products,
+      page,
+      productos.productsAll
+    );
     res.send(hateoas);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -26,8 +33,8 @@ const getProductos = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const {limits,page=1, order_by} = req.query;
-    const productos = await allProducts(limits,page, order_by);
+    const { limits, page = 1, order_by } = req.query;
+    const productos = await allProducts(limits, page, order_by);
     res.send(productos);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -51,10 +58,9 @@ const agregarProducto = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    
+
     await registrarProducto(producto, id);
-  
-    
+
     console.log(
       `El usuario ${email} con el id ${id} ha registrado un producto`
     );
@@ -66,14 +72,12 @@ const agregarProducto = async (req, res) => {
       stock: producto.stock,
       imagen: producto.imagen,
       categoria: producto.categoria,
-      fecha: producto.fecha_producto
+      fecha: producto.fecha_producto,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-
-
 
 const modifyProducto = async (req, res) => {
   try {
@@ -98,9 +102,19 @@ const modifyProducto = async (req, res) => {
 const getProductosByCategoria = async (req, res) => {
   try {
     const { categoria } = req.params;
-    const {limits=12,page=1, order_by} = req.query;
-    const productos = await consultarProductosByCategoria(categoria,limits,page, order_by);
-    const hateoas = await prepHateoasCategorias(productos.products,page,categoria,productos.productsAll);
+    const { limits = 12, page = 1, order_by } = req.query;
+    const productos = await consultarProductosByCategoria(
+      categoria,
+      limits,
+      page,
+      order_by
+    );
+    const hateoas = await prepHateoasCategorias(
+      productos.products,
+      page,
+      categoria,
+      productos.productsAll
+    );
     res.send(hateoas);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -182,5 +196,5 @@ module.exports = {
   deleteProductoCarrito,
   ventaRealizada,
   modifyProducto,
-  getAllProducts
+  getAllProducts,
 };
