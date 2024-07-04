@@ -1,18 +1,12 @@
-const express = require("express");
-const router = express.Router();
-const {
-  getProductos,
-  getProductoById,
-  agregarProducto,
-  modifyProducto,
-  getAllProducts,
-} = require("../controllers/productController");
-const verificarToken = require("../middlewares/verificarToken");
+import { Router } from "express";
+const router = Router();
+import { productController } from "../controllers/productController.js";
+import verificarToken from "../middlewares/verificarToken.js";
 
-router.get("/", getProductos);
-router.get("/:id", getProductoById);
-router.post("/", verificarToken, agregarProducto);
-router.put("/:idProducto", verificarToken, modifyProducto);
-router.get("/productos/all", getAllProducts);
+router.get("/", productController.getProductos);
+router.get("/:id", productController.getProductoById);
+router.post("/", verificarToken, productController.agregarProducto);
+router.put("/:idProducto", verificarToken, productController.modifyProducto);
+router.get("/productos/all", productController.getAllProducts);
 
-module.exports = router;
+export default router;

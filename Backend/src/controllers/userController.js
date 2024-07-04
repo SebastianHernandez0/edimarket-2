@@ -1,27 +1,5 @@
-const {
-  consultarUsuario,
-  consultarUsuarioById,
-  registrarUsuario,
-  verificarUsuario,
-  consultarCategorias,
-  agregarDirreccion,
-  consultarDirreccion,
-  agregarFavorito,
-  consultarProductoById,
-  consultarFavoritos,
-  borrarFavorito,
-  agregarMetodoDePago,
-  consultarMetodosPago,
-  eliminarUsuario,
-  modificarUsuario,
-  consultarProductosPorUsuario,
-  modificarDireccion,
-  eliminarProductoDelUsuario,
-  eliminarMetodoDePago,
-  eliminarDomicilio,
-  consultarVentasUsuario,
-} = require("../models/userModel");
-const jwt = require("jsonwebtoken");
+import { userModel } from "../models/userModel.js";
+import jwt from "jsonwebtoken";
 
 const getAllUsers = async (req, res) => {
   try {
@@ -45,7 +23,7 @@ const getUserById = async (req, res) => {
 const registrarUser = async (req, res) => {
   try {
     const usuario = req.body;
-    await registrarUsuario(usuario);
+    await userModel.registrarUsuario(usuario);
     res.status(201).json({
       message: "Usuario registrado con exito",
       nombre: usuario.nombre,
@@ -60,7 +38,7 @@ const registrarUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, contraseña } = req.body;
-    const user = await verificarUsuario(email, contraseña);
+    const user = await userModel.verificarUsuario(email, contraseña);
     const token = jwt.sign(
       { email: user.email, id: user.id },
       process.env.JWT_SECRET,
@@ -82,7 +60,7 @@ const ModifyUser = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await modificarUsuario(id, usuario);
+    await userModel.modificarUsuario(id, usuario);
     console.log(`El usuario ${email} con el id ${id} ha sido modificado`);
     res.status(200).json({
       message: "Usuario modificado con exito",
@@ -98,7 +76,7 @@ const deleteUser = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await eliminarUsuario(id);
+    await userModel.eliminarUsuario(id);
     console.log(`El usuario ${email} con el id ${id} ha sido eliminado`);
     res.status(200).json({
       message: "Usuario eliminado con exito",
@@ -110,7 +88,7 @@ const deleteUser = async (req, res) => {
 
 const consultarCategoria = async (req, res) => {
   try {
-    const categorias = await consultarCategorias();
+    const categorias = await userModel.consultarCategorias();
     res.send(categorias);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -123,13 +101,13 @@ const consultarProductosPerUser = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    const productos = await consultarProductosPorUsuario(id);
+    const productos = await userModel.consultarProductosPorUsuario(id);
     console.log(
       `El usuario ${email} con el id ${id} ha consultado sus productos`
     );
     res.json({
       productos: productos.map((producto) => {
-        fecha_producto = producto.fecha.toISOString().split("T")[0];
+        const fecha_producto = producto.fecha.toISOString().split("T")[0];
         return {
           usuario_: id,
           id: producto.id,
@@ -157,7 +135,7 @@ const agregarDomicilio = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await agregarDirreccion(domicilio, id);
+    await userModel.agregarDirreccion(domicilio, id);
     console.log(`El usuario ${email} con el id ${id} ha agregado un domicilio`);
     res.status(201).json({
       message: "Domicilio agregado",
@@ -174,7 +152,7 @@ const modificarDomicilio = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await modificarDireccion(id, domicilio);
+    await userModel.modificarDireccion(id, domicilio);
     console.log(
       `El usuario ${email} con el id ${id} ha modificado su domicilio`
     );
@@ -193,7 +171,7 @@ const agregarPaymentMethod = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await agregarMetodoDePago(metodoDePago, id);
+    await userModel.agregarMetodoDePago(metodoDePago, id);
     console.log(
       `El usuario ${email} con el id ${id} ha agregado un metodo de pago`
     );
@@ -212,7 +190,7 @@ const deletePaymentMethod = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await eliminarMetodoDePago(idMetodoDePago, id);
+    await userModel.eliminarMetodoDePago(idMetodoDePago, id);
     console.log(
       `El usuario ${email} con el id ${id} ha eliminado un metodo de pago`
     );
@@ -230,7 +208,7 @@ const consultarPaymentMethods = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    const metodos = await consultarMetodosPago(id);
+    const metodos = await userModel.consultarMetodosPago(id);
     console.log(
       `El usuario ${email} con el id ${id} ha consultado sus metodos de pago`
     );
@@ -257,7 +235,7 @@ const consultarDomicilio = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    const domicilio = await consultarDirreccion(id);
+    const domicilio = await userModel.consultarDirreccion(id);
     console.log(
       `El usuario ${email} con el id ${id} ha consultado su domicilio`
     );
@@ -286,7 +264,7 @@ const deleteDomicilio = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await eliminarDomicilio(id, idDomicilio);
+    await userModel.eliminarDomicilio(id, idDomicilio);
     console.log(
       `El usuario ${email} con el id ${id} ha eliminado un domicilio`
     );
@@ -306,7 +284,7 @@ const addFavorito = async (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
     await agregarFavorito(producto_id, id);
-    const producto = await consultarProductoById(producto_id);
+    const producto = await userModel.consultarProductoById(producto_id);
     console.log(
       `El usuario ${email} con el id ${id} ha agregado un producto a favoritos`
     );
@@ -324,7 +302,7 @@ const consultarFavorito = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    const favoritos = await consultarFavoritos(id);
+    const favoritos = await userModel.consultarFavoritos(id);
     console.log(
       `El usuario ${email} con el id ${id} ha consultado sus favoritos`
     );
@@ -355,7 +333,7 @@ const deleteFav = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    const favorito = await borrarFavorito(idFavorito, id);
+    const favorito = await userModel.borrarFavorito(idFavorito, id);
     console.log(`El usuario ${email} con el id ${id} ha eliminado un favorito`);
     res.status(200).json({
       message: "Favorito eliminado",
@@ -372,7 +350,7 @@ const deleteProductoDelUsuario = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await eliminarProductoDelUsuario(id, idProducto);
+    await userModel.eliminarProductoDelUsuario(id, idProducto);
     console.log(`El usuario ${email} con el id ${id} ha eliminado un producto`);
     res.status(200).json({
       message: "Producto eliminado",
@@ -388,7 +366,7 @@ const consultarVentas = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    const ventas = await consultarVentasUsuario(id);
+    const ventas = await userModel.consultarVentasUsuario(id);
     console.log(
       `El usuario ${email} con el id ${id} ha consultado sus compras`
     );
@@ -413,7 +391,7 @@ const consultarVentas = async (req, res) => {
   }
 };
 
-module.exports = {
+export const userController = {
   getAllUsers,
   getUserById,
   registrarUser,

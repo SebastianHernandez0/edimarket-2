@@ -1,4 +1,5 @@
-const jwt = require("jsonwebtoken");
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
 
 const verificarToken = async (req, res, next) => {
   const vtoken = req.headers.authorization;
@@ -12,11 +13,11 @@ const verificarToken = async (req, res, next) => {
     return res.status(401).json({ error: "Invalid token" });
   }
   try {
-    jwt.verify(token, process.env.JWT_SECRET);
+    verify(token, process.env.JWT_SECRET);
     next();
   } catch (error) {
     res.status(401).json({ error: "Invalid token" });
   }
 };
 
-module.exports = verificarToken;
+export default verificarToken;

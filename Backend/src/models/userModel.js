@@ -1,42 +1,42 @@
-const z = require("zod");
-const bcrypt = require("bcryptjs");
-const format = require("pg-format");
-const db = require("../config/database");
+import { object, string, number } from "zod";
+import bcrypt from "bcryptjs";
+import format from "pg-format";
+import db from "../config/database.js";
 
-const validarUsuario = z.object({
-  nombre: z.string().min(3),
-  email: z.string().email(),
-  contraseña: z.string().min(8),
+const validarUsuario = object({
+  nombre: string().min(3),
+  email: string().email(),
+  contraseña: string().min(8),
 });
-const validarUser = z.object({
-  email: z.string().email(),
-  contraseña: z.string().min(8),
-});
-
-const validarProducto = z.object({
-  nombre: z.string().min(3),
-  descripcion: z.string().min(0),
-  precio: z.number().min(0),
-  stock: z.number().min(0),
-  imagen: z.string().min(3),
-  categoria: z.string().min(3),
+const validarUser = object({
+  email: string().email(),
+  contraseña: string().min(8),
 });
 
-const validarDomicilio = z.object({
-  direccion: z.string().min(3),
-  ciudad: z.string().min(3),
-  region: z.string().min(3),
-  codigo_postal: z.string().min(3),
-  numero_casa: z.string().min(0),
-  comuna: z.string().min(3),
+const validarProducto = object({
+  nombre: string().min(3),
+  descripcion: string().min(0),
+  precio: number().min(0),
+  stock: number().min(0),
+  imagen: string().min(3),
+  categoria: string().min(3),
 });
 
-const validarMetodoDePago = z.object({
-  tipo_tarjeta: z.string().min(3),
-  numero_tarjeta: z.string().min(3),
-  nombre_titular: z.string().min(3),
-  fecha_expiracion: z.string().min(3),
-  codigo_seguridad: z.string().min(3),
+const validarDomicilio = object({
+  direccion: string().min(3),
+  ciudad: string().min(3),
+  region: string().min(3),
+  codigo_postal: string().min(3),
+  numero_casa: string().min(0),
+  comuna: string().min(3),
+});
+
+const validarMetodoDePago = object({
+  tipo_tarjeta: string().min(3),
+  numero_tarjeta: string().min(3),
+  nombre_titular: string().min(3),
+  fecha_expiracion: string().min(3),
+  codigo_seguridad: string().min(3),
 });
 
 const consultarUsuario = async () => {
@@ -57,7 +57,7 @@ const modificarUsuario = async (id, usuario) => {
     throw new Error("El usuario ya existe");
   }
   validarUsuario.parse(usuario);
-  const hashedPassword = bcrypt.hashSync(contraseña);
+  const hashedPassword = hashSync(contraseña);
   contraseña = hashedPassword;
   const values = [nombre, email, hashedPassword, id];
   const consulta =
@@ -75,7 +75,7 @@ const registrarUsuario = async (usuario) => {
     }
     const parsedUser = validarUsuario.parse(usuario);
     if (contraseña) {
-      contraseña = bcrypt.hashSync(contraseña);
+      contraseña = hashSync(contraseña);
       hashedPassword = contraseña;
     }
     const values = [parsedUser.nombre, parsedUser.email, hashedPassword];
@@ -217,7 +217,7 @@ const consultarCategorias = async () => {
 
 const idCategoria = async (categoria) => {
   const values = [categoria];
-  const consulta = "SELECT id FROM categorias WHERE nombre_categoria=$1";
+  const consulta = "SELECT id FROM categorias WHERE nombre_categoria = $1";
   const { rows } = await db.query(consulta, values);
   return rows[0].id;
 };
@@ -460,7 +460,7 @@ const consultarVentasUsuario = async (idUsuario) => {
   return ventas;
 };
 
-module.exports = {
+export const userModel = {
   consultarUsuario,
   consultarUsuarioById,
   registrarUsuario,

@@ -1,15 +1,15 @@
-const exppress = require("express");
-const router = exppress.Router();
+import { Router } from "express";
+const router = Router();
 
-const {
-  añadirProductoCarrito,
-  getCarrito,
-  deleteProductoCarrito,
-} = require("../controllers/productController");
-const verificarToken = require("../middlewares/verificarToken");
+import { productController } from "../controllers/productController.js";
+import verificarToken from "../middlewares/verificarToken.js";
 
-router.post("/", verificarToken, añadirProductoCarrito);
-router.get("/", verificarToken, getCarrito);
-router.delete("/:idProducto", verificarToken, deleteProductoCarrito);
+router.post("/", verificarToken, productController.añadirProductoCarrito);
+router.get("/", verificarToken, productController.getCarrito);
+router.delete(
+  "/:idProducto",
+  verificarToken,
+  productController.deleteProductoCarrito
+);
 
-module.exports = router;
+export default router;

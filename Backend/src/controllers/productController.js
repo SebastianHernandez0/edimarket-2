@@ -1,26 +1,16 @@
-const {
-  consultarProductos,
-  consultarProductoById,
-  registrarProducto,
-  agregarCarrito,
-  consultarProductosByCategoria,
-  consultarCarrito,
-  eliminarProducto,
-  venta,
-  modificarProducto,
-  allProducts,
-} = require("../models/userModel");
-const {
-  prepHateoasProductos,
-  prepHateoasCategorias,
-} = require("../models/hateoasModel");
-const jwt = require("jsonwebtoken");
+import { userModel } from "../models/userModel.js";
+import { hateoasModel } from "../models/hateoasModel.js";
+import jwt from "jsonwebtoken";
 
 const getProductos = async (req, res) => {
   try {
     const { limits = 12, page = 1, order_by = "fecha_DESC" } = req.query;
-    const productos = await consultarProductos(limits, page, order_by);
-    const hateoas = await prepHateoasProductos(
+    const productos = await userModel.consultarProductos(
+      limits,
+      page,
+      order_by
+    );
+    const hateoas = await hateoasModel.prepHateoasProductos(
       productos.products,
       page,
       productos.productsAll
@@ -34,7 +24,7 @@ const getProductos = async (req, res) => {
 const getAllProducts = async (req, res) => {
   try {
     const { limits, page = 1, order_by } = req.query;
-    const productos = await allProducts(limits, page, order_by);
+    const productos = await userModel.allProducts(limits, page, order_by);
     res.send(productos);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -44,7 +34,7 @@ const getAllProducts = async (req, res) => {
 const getProductoById = async (req, res) => {
   try {
     const { id } = req.params;
-    const producto = await consultarProductoById(id);
+    const producto = await userModel.consultarProductoById(id);
     res.send(producto);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -59,7 +49,7 @@ const agregarProducto = async (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
 
-    await registrarProducto(producto, id);
+    await userModel.registrarProducto(producto, id);
 
     console.log(
       `El usuario ${email} con el id ${id} ha registrado un producto`
@@ -87,7 +77,7 @@ const modifyProducto = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await modificarProducto(id, idProducto, producto);
+    await userModel.modificarProducto(id, idProducto, producto);
     console.log(
       `El usuario ${email} con el id ${id} ha modificado un producto`
     );
@@ -103,13 +93,13 @@ const getProductosByCategoria = async (req, res) => {
   try {
     const { categoria } = req.params;
     const { limits = 12, page = 1, order_by } = req.query;
-    const productos = await consultarProductosByCategoria(
+    const productos = await userModel.consultarProductosByCategoria(
       categoria,
       limits,
       page,
       order_by
     );
-    const hateoas = await prepHateoasCategorias(
+    const hateoas = await hateoasModel.prepHateoasCategorias(
       productos.products,
       page,
       categoria,
@@ -128,7 +118,7 @@ const añadirProductoCarrito = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await agregarCarrito(id, producto);
+    await userModel.agregarCarrito(id, producto);
     console.log(
       `El usuario ${email} con el id ${id} ha agregado un producto al carrito`
     );
@@ -144,7 +134,7 @@ const getCarrito = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    const carrito = await consultarCarrito(id);
+    const carrito = await userModel.consultarCarrito(id);
     console.log(`El usuario ${email} con el id ${id} ha consultado el carrito`);
     res.json(carrito);
   } catch (error) {
@@ -159,7 +149,7 @@ const deleteProductoCarrito = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await eliminarProducto(id, idProducto);
+    await userModel.eliminarProducto(id, idProducto);
     console.log(
       `El usuario ${email} con el id ${id} ha eliminado un producto del carrito`
     );
@@ -186,7 +176,7 @@ const ventaRealizada = async (req, res) => {
   }
 };
 
-module.exports = {
+export const productController = {
   getProductos,
   getProductoById,
   agregarProducto,

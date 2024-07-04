@@ -1,42 +1,53 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+const router = Router();
 
-const {
-  getAllUsers,
-  getUserById,
-  registrarUser,
-  loginUser,
-  agregarDomicilio,
-  consultarDomicilio,
-  agregarPaymentMethod,
-  consultarPaymentMethods,
-  deleteUser,
-  ModifyUser,
-  consultarProductosPerUser,
-  modificarDomicilio,
-  deleteProductoDelUsuario,
-  deletePaymentMethod,
-  deleteDomicilio,
-  consultarVentas
-} = require("../controllers/userController");
+import { userController } from "../controllers/userController.js";
 
-const verificarToken= require("../middlewares/verificarToken");
+import verificarToken from "../middlewares/verificarToken.js";
 
-router.get("/", getAllUsers);
-router.get("/:id", getUserById);
-router.get("/usuario/productos", verificarToken, consultarProductosPerUser);
-router.post("/registro", registrarUser);
-router.post("/login", loginUser);
-router.post("/domicilio", verificarToken, agregarDomicilio);
-router.get("/usuario/domicilio", verificarToken, consultarDomicilio);
-router.put("/domicilio", verificarToken, modificarDomicilio);
-router.post("/metodosPago",verificarToken, agregarPaymentMethod);
-router.get("/usuario/metodosPago",verificarToken, consultarPaymentMethods);
-router.delete("/",verificarToken, deleteUser);
-router.put("/",verificarToken, ModifyUser);
-router.delete("/:idProducto",verificarToken, deleteProductoDelUsuario);
-router.delete("/usuario/metodosPago/:idMetodoDePago",verificarToken, deletePaymentMethod);
-router.delete("/usuario/domicilio/:idDomicilio",verificarToken, deleteDomicilio);
-router.get("/usuario/ventas", verificarToken, consultarVentas);
+router.get("/", userController.getAllUsers);
+router.get("/:id", userController.getUserById);
+router.get(
+  "/usuario/productos",
+  verificarToken,
+  userController.consultarProductosPerUser
+);
+router.post("/registro", userController.registrarUser);
+router.post("/login", userController.loginUser);
+router.post("/domicilio", verificarToken, userController.agregarDomicilio);
+router.get(
+  "/usuario/domicilio",
+  verificarToken,
+  userController.consultarDomicilio
+);
+router.put("/domicilio", verificarToken, userController.modificarDomicilio);
+router.post(
+  "/metodosPago",
+  verificarToken,
+  userController.agregarPaymentMethod
+);
+router.get(
+  "/usuario/metodosPago",
+  verificarToken,
+  userController.consultarPaymentMethods
+);
+router.delete("/", verificarToken, userController.deleteUser);
+router.put("/", verificarToken, userController.ModifyUser);
+router.delete(
+  "/:idProducto",
+  verificarToken,
+  userController.deleteProductoDelUsuario
+);
+router.delete(
+  "/usuario/metodosPago/:idMetodoDePago",
+  verificarToken,
+  userController.deletePaymentMethod
+);
+router.delete(
+  "/usuario/domicilio/:idDomicilio",
+  verificarToken,
+  userController.deleteDomicilio
+);
+router.get("/usuario/ventas", verificarToken, userController.consultarVentas);
 
-module.exports = router;
+export default router;

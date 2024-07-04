@@ -1,7 +1,7 @@
 const prepHateoasProductos = (data, page, allProducts) => {
   page = parseInt(page);
   const results = data.map((item) => {
-    fecha = item.fecha.toISOString().split("T")[0];
+    const fecha = item.fecha.toISOString().split("T")[0];
     return {
       nombre: item.nombre,
       vendedor: item.vendedor_id,
@@ -45,7 +45,7 @@ const prepHateoasCategorias = (data, page, categoria, allProducts) => {
   page = parseInt(page);
 
   const results = data.map((item) => {
-    fecha = item.fecha.toISOString().split("T")[0];
+   const fecha = item.fecha.toISOString().split("T")[0];
     return {
       nombre: item.nombre,
       vendedor: item.vendedor_id,
@@ -85,4 +85,4 @@ const prepHateoasCategorias = (data, page, categoria, allProducts) => {
   return HATEOAS;
 };
 
-module.exports = { prepHateoasProductos, prepHateoasCategorias };
+export const hateoasModel = { prepHateoasProductos, prepHateoasCategorias };

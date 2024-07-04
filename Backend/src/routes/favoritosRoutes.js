@@ -1,16 +1,12 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+const router = Router();
 
-const {
-  addFavorito,
-  consultarFavorito,
-  deleteFav,
-} = require("../controllers/userController");
+import { userController } from "../controllers/userController.js";
 
-const verificarToken = require("../middlewares/verificarToken");
+import verificarToken from "../middlewares/verificarToken.js";
 
-router.post("/:producto_id", verificarToken, addFavorito);
-router.delete("/:idFavorito", verificarToken, deleteFav);
-router.get("/", verificarToken, consultarFavorito);
+router.post("/:producto_id", verificarToken, userController.addFavorito);
+router.delete("/:idFavorito", verificarToken, userController.deleteFav);
+router.get("/", verificarToken, userController.consultarFavorito);
 
-module.exports = router;
+export default router;

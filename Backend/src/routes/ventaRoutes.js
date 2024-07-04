@@ -1,10 +1,9 @@
-const express= require("express")
-const router = express.Router()
+import { Router } from "express";
+const router = Router();
 
+import { productController } from "../controllers/productController.js";
+import verificarToken from "../middlewares/verificarToken.js";
 
-const {ventaRealizada}=require("../controllers/productController");
-const verificarToken= require("../middlewares/verificarToken")
+router.post("/", verificarToken, productController.ventaRealizada);
 
-router.post("/",verificarToken,ventaRealizada)
-
-module.exports = router;
+export default router;
