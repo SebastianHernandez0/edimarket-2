@@ -7,8 +7,9 @@ import cartStyle from "../../pages/cart/cart.module.css";
 import { Summary } from "../summary/Summary";
 import { GeneralBtn } from "../generalBtn/GeneralBtn";
 import classNames from "classnames";
-import { NavLink, useNavigate } from "react-router-dom";
-import { TbTrashXFilled } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
+import { CgMathPlus } from "react-icons/cg";
+import { CgMathMinus } from "react-icons/cg";
 
 export function FullCart() {
   const { cart, formatearPrecio } = useContext(CartContext);
@@ -54,10 +55,10 @@ export function FullCart() {
   return (
     <div className="fullcart__container pt-10">
       <h1 className="ml-5 mb-10">Tus productos</h1>
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col md:flex-row gap-5 md:gap-0">
         <div
           className={classNames(
-            "w-full",
+            "w-full shadow-sm",
             "md:w-2/3",
             "p-4",
             cartStyle.cart_box
@@ -82,17 +83,29 @@ export function FullCart() {
                       <p className="card__card__paragraph text-l text-ellipsis whitespace-nowrap overflow-hidden mb-2">
                         {element.nombre}
                       </p>
-                      <p className="font-semibold mb-2">
-                        {formatearPrecio(element.precio)}
-                      </p>
-                      <button
-                        onClick={() =>
-                          handleDeleteProduct(element.producto_id, user.id)
-                        }
-                        className="text-sm font-medium"
-                      >
-                        Eliminar
-                      </button>
+                      <div className="flex items-center gap-4 mb-3">
+                        <div className="cart__product__add flex items-center rounded bg-gray-100 p-1">
+                          <CgMathMinus className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded" />
+                          <span className="px-3">{element?.cantidad}</span>
+                          <CgMathPlus className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded" />
+                        </div>
+                        <p className="font-semibold text-lg">
+                          {formatearPrecio(element.precio)}
+                        </p>
+                      </div>
+                      <div className="flex flex-col items-start">
+                        <span className="text-xs font-medium mb-2 text-gray-800">
+                          Disponible {element?.stock}
+                        </span>
+                        <button
+                          onClick={() =>
+                            handleDeleteProduct(element.producto_id, user.id)
+                          }
+                          className="text-sm font-medium mt-2"
+                        >
+                          Eliminar
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -100,7 +113,7 @@ export function FullCart() {
             ))}
           </div>
         </div>
-        <div className="p-4 w-full md:w-1/3 bg-white m-0 md:ml-8">
+        <div className="p-4 w-full md:w-1/3 bg-white m-0 md:ml-8 shadow-sm rounded-md">
           <Summary />
           <div>
             <GeneralBtn
