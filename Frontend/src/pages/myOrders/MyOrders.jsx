@@ -80,7 +80,7 @@ export function MyOrders() {
                 return (
                   <div
                     className={classNames(
-                      "order_box flex flex-row w-full border rounded-md gap-2",
+                      "order_box flex flex-row w-full border shadow-sm rounded-md gap-2",
                       myOrders.order__container
                     )}
                     key={`${order.producto_id}_${index}`}
@@ -104,7 +104,7 @@ export function MyOrders() {
               })
             ) : (
               <div className="flex flex-col items-center gap-12">
-                <h2 className="text-center text-2xl">Aún no tienes compras.</h2>
+                <h2 className="text-center font-semibold text-3xl">Aún no tienes compras.</h2>
                 <p>Cuando compres , tus compras aparecerán acá</p>
                 <img className="w-[200px]" src={delivery} alt="" />
               </div>
