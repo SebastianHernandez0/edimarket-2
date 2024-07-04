@@ -36,7 +36,7 @@ export function AddUserCards() {
   ) => {
     try {
       const response = await fetch(
-        "https://edimarket.onrender.com/usuarios/metodosPago",
+        "http://localhost:3000/usuarios/metodosPago",
         {
           method: "POST",
           headers: {

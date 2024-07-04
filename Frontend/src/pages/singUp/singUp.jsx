@@ -33,7 +33,7 @@ export function SingUp() {
 
   const registerNewUser = async (nombre, email, contraseña) => {
     const response = await fetch(
-      "https://edimarket.onrender.com/usuarios/registro",
+      "http://localhost:3000/usuarios/registro",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

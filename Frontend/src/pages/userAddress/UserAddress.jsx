@@ -41,7 +41,7 @@ export function UserAddress() {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://edimarket.onrender.com/usuarios/usuario/domicilio/${id}`,
+        `http://localhost:3000/usuarios/usuario/domicilio/${id}`,
         {
           method: "DELETE",
           headers: {

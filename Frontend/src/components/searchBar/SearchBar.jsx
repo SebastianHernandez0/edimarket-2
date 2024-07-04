@@ -16,7 +16,7 @@ export const SearchBar = forwardRef(({ className, openSearchBar }, ref) => {
   const handleSearchProduct = async () => {
     try {
       const response = await fetch(
-        "https://edimarket.onrender.com/productos/productos/all"
+        "http://localhost:3000/productos/productos/all"
       );
 
       if (!response.ok) {

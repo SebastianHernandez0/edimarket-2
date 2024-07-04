@@ -18,7 +18,7 @@ export function FullCart() {
     try {
       if (userToken) {
         const response = await fetch(
-          `https://edimarket.onrender.com/carrito/${product_id}`,
+          `http://localhost:3000/carrito/${product_id}`,
           {
             method: "DELETE",
             headers: {

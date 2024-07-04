@@ -116,7 +116,7 @@ export function UserProvider({ children }) {
     try {
       if (userToken) {
         const response = await fetch(
-          `https://edimarket.onrender.com/usuarios/usuario/metodosPago/?idUsuario=${user.id}`,
+          `http://localhost:3000/usuarios/usuario/metodosPago/?idUsuario=${user.id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -165,7 +165,7 @@ export function UserProvider({ children }) {
     try {
       if (userToken) {
         const response = await fetch(
-          "https://edimarket.onrender.com/usuarios/usuario/productos",
+          "http://localhost:3000/usuarios/usuario/productos",
           {
             headers: {
               "Content-Type": "application/json",
@@ -205,7 +205,7 @@ export function UserProvider({ children }) {
   const handleAddedToCart = async () => {
     try {
       if (userToken) {
-        const response = await fetch("https://edimarket.onrender.com/carrito", {
+        const response = await fetch("http://localhost:3000/carrito", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${userToken}`,
@@ -239,7 +239,7 @@ export function UserProvider({ children }) {
     try {
       if (userToken) {
         const response = await fetch(
-          `https://edimarket.onrender.com/usuarios/usuario/domicilio?userId=${user.id}`,
+          `http://localhost:3000/usuarios/usuario/domicilio?userId=${user.id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -282,7 +282,7 @@ export function UserProvider({ children }) {
     try {
       if (userToken) {
         const response = await fetch(
-          "https://edimarket.onrender.com/favoritos",
+          "http://localhost:3000/favoritos",
           {
             headers: {
               "Content-Type": "application/json",
@@ -312,7 +312,7 @@ export function UserProvider({ children }) {
     e.stopPropagation();
     try {
       const response = await fetch(
-        `https://edimarket.onrender.com/favoritos/${id}`,
+        `http://localhost:3000/favoritos/${id}`,
         {
           method: "DELETE",
           headers: {

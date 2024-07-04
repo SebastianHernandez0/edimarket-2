@@ -14,7 +14,7 @@ export function MyOrders() {
       try {
         if (userToken) {
           const response = await fetch(
-            `https://edimarket.onrender.com/usuarios/usuario/ventas/?idUsuario=${user.id}`,
+            `http://localhost:3000/usuarios/usuario/ventas/?idUsuario=${user.id}`,
             {
               headers: {
                 "Content-Type": "application/json",

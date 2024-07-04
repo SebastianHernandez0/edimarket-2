@@ -223,31 +223,33 @@ const idCategoria = async (categoria) => {
 };
 
 const registrarProducto = async (producto, vendedor_id) => {
-  let { nombre, descripcion, estado, precio, stock, imagen, categoria } =
+  const { nombre, descripcion, estado, precio, stock, imagen, categoria } =
     producto;
   validarProducto.parse(producto);
-  const categoriaId = await idCategoria(categoria);
-  const id = Math.floor(Math.random() * 9999999);
-  const valuesCategoria = [id, categoriaId];
-  const valuesProducto = [
-    id,
-    nombre,
-    descripcion,
-    estado,
-    precio,
-    stock,
-    imagen,
-    vendedor_id,
-  ];
+  try {
+    const categoriaId = await idCategoria(categoria);
+    const valuesProducto = [
+      nombre,
+      descripcion,
+      estado,
+      precio,
+      stock,
+      imagen,
+      vendedor_id,
+    ];
+    const consultaProducto =
+      "INSERT INTO productos (nombre, descripcion, estado, precio, stock, imagen, vendedor_id, fecha) VALUES ($1, $2, $3, $4, $5, $6, $7, DEFAULT) RETURNING id";
+    const { rows } = await db.query(consultaProducto, valuesProducto);
+    const productoId = rows[0].id;
+    const valuesCategoria = [productoId, categoriaId];
+    const consultaCategoria =
+      "INSERT INTO producto_categoria (producto_id, categoria_id) VALUES ($1, $2)";
 
-  console.log(nombre);
-  const consultaProducto =
-    "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado,fecha) VALUES ($1,$2,$3,$5,$6,$7,$8,$4,DEFAULT)";
-  const consultaCategoria =
-    "INSERT INTO producto_categoria (id,producto_id,categoria_id) VALUES (DEFAULT,$1,$2)";
-  await db.query(consultaProducto, valuesProducto);
-  await db.query(consultaCategoria, valuesCategoria);
-  return console.log("Registrado"), id;
+    await db.query(consultaCategoria, valuesCategoria);
+    console.log("Producto registrado correctamente");
+  } catch (error) {
+    console.error("Error al registrar el producto:", error.message);
+  }
 };
 
 const eliminarProductoDelUsuario = async (idUsuario, idProducto) => {

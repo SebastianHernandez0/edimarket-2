@@ -25,7 +25,7 @@ export function ProductList() {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://edimarket.onrender.com/categorias/${categoria}?page=${page}&limits=${limit}`
+        `http://localhost:3000/categorias/${categoria}?page=${page}&limits=${limit}`
       );
       if (!response.ok) {
         throw new Error("Producto no encontrado");

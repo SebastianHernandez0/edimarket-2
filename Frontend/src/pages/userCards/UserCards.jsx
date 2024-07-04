@@ -41,7 +41,7 @@ export function UserCards() {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://edimarket.onrender.com/usuarios/usuario/metodosPago/${id}`,
+        `http://localhost:3000/usuarios/usuario/metodosPago/${id}`,
         {
           method: "DELETE",
           headers: {

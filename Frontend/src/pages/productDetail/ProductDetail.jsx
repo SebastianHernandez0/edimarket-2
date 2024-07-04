@@ -82,7 +82,7 @@ export function ProductDetail() {
       } else {
         if (userToken) {
           const response = await fetch(
-            "https://edimarket.onrender.com/carrito",
+            "http://localhost:3000/carrito",
             {
               method: "POST",
               headers: {
@@ -123,7 +123,7 @@ export function ProductDetail() {
       );
       if (!productFinded) {
         const response = await fetch(
-          `https://edimarket.onrender.com/favoritos/${productById.producto_id}`,
+          `http://localhost:3000/favoritos/${productById.producto_id}`,
           {
             method: "POST",
             headers: {
@@ -159,7 +159,7 @@ export function ProductDetail() {
         return data;
       } else {
         const response = await fetch(
-          `https://edimarket.onrender.com/favoritos/${productFinded.id}`,
+          `http://localhost:3000/favoritos/${productFinded.id}`,
           {
             method: "DELETE",
             headers: {

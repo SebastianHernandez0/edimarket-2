@@ -50,7 +50,7 @@ export function CreatePost() {
     categoria
   ) => {
     try {
-      const response = await fetch("https://edimarket.onrender.com/productos", {
+      const response = await fetch("http://localhost:3000/productos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
