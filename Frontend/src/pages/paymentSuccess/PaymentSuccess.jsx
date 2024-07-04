@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import ediFeliz from "../../../public/imgs/aplication/edi-feliz.svg";
+import ediFeliz from "/imgs/aplication/edi-feliz.svg";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import "../paymentSuccess/paymentSuccess.css";
 

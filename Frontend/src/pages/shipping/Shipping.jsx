@@ -1,13 +1,11 @@
 import { useContext } from "react";
 import { Adresses } from "../../components/adresses/Adresses";
-import { PaymentMethods } from "../../components/paymentMethods/PaymentMethods";
 import summary from "../../components/summary/summary.module.css";
 import shipping from "./shipping.module.css";
 import classNames from "classnames";
 import { CheckoutContext } from "../../context/CheckoutContext";
 import { Summary } from "../../components/summary/Summary";
 import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
-import { NavLink } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { NoAddressAdded } from "../../components/noAddressAdded/NoAddressAdded";
 import { CartContext } from "../../context/CarritoContext";

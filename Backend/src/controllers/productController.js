@@ -168,7 +168,7 @@ const ventaRealizada = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await venta(id, idProducto, cantidad);
+    await userModel.venta(id, idProducto, cantidad);
     console.log(`El usuario ${email} ha realizado una compra`);
     res.status(200).json({ mensaje: "compra realizada" });
   } catch (error) {

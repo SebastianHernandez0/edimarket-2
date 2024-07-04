@@ -25,7 +25,7 @@ export function Billing() {
       if (userToken) {
         for (const producto of cart) {
           const response = await fetch(
-            `https://edimarket.onrender.com/carrito/${producto.producto_id}`,
+            `http://localhost:3000/carrito/${producto.producto_id}`,
             {
               method: "DELETE",
               headers: {
@@ -57,7 +57,7 @@ export function Billing() {
   const handleOrder = async () => {
     try {
       const sendProduct = async (producto) => {
-        const response = await fetch(`https://edimarket.onrender.com/venta`, {
+        const response = await fetch(`http://localhost:3000/venta`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
