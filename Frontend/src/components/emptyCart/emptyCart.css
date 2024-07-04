@@ -1,4 +1,7 @@
 .emptyCart__container {
   grid-area: home;
-  margin: 0 auto;
+  padding: 0 25px;
+  margin: 60px auto;
+  max-width: 1000px;
+  width: 100%;
 }
