@@ -7,12 +7,13 @@ import cartStyle from "../../pages/cart/cart.module.css";
 import { Summary } from "../summary/Summary";
 import { GeneralBtn } from "../generalBtn/GeneralBtn";
 import classNames from "classnames";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { TbTrashXFilled } from "react-icons/tb";
 
 export function FullCart() {
   const { cart, formatearPrecio } = useContext(CartContext);
   const { user, userToken, handleAddedToCart } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleDeleteProduct = async (product_id, usuario_id) => {
     try {
@@ -44,6 +45,10 @@ export function FullCart() {
     } catch (error) {
       console.error("Error al elimninar del carrito:", error);
     }
+  };
+
+  const handleNextStep = () => {
+    navigate("/shipping");
   };
 
   return (
@@ -95,10 +100,11 @@ export function FullCart() {
           <Summary />
           <div>
             <GeneralBtn
+              onClick={handleNextStep}
               type="primary"
               className={classNames("mt-8", cartStyle.summary__button)}
             >
-              <NavLink to="/shipping">Continuar compra</NavLink>
+              Continuar compra
             </GeneralBtn>
           </div>
         </div>
