@@ -11,7 +11,7 @@ export function EmptyCart() {
   };
   return (
     <div className="emptyCart__container flex justify-center items-center flex-col mb-50 bg-gray-50 shadow-md rounded">
-      <div className="emptyCart__body flex flex-col items-center h-[500px] justify-center">
+      <div className="emptyCart__body flex flex-col items-center h-[500px] justify-center gap-8">
         <div className="flex flex-col gap-3 items-center">
           <img
             src={emptyCart}
