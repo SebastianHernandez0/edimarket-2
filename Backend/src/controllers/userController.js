@@ -283,7 +283,7 @@ const addFavorito = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await agregarFavorito(producto_id, id);
+    await userModel.agregarFavorito(producto_id, id);
     const producto = await userModel.consultarProductoById(producto_id);
     console.log(
       `El usuario ${email} con el id ${id} ha agregado un producto a favoritos`
