@@ -72,25 +72,29 @@ export function FullCart() {
                     cartStyle.product_container
                   )}
                 >
-                  <img
-                    className="cart__card__img shadow-md"
-                    src={element.imagen}
-                    alt="producto"
-                  />
-                  <div className="overflow-hidden">
-                    <p className="card__card__paragraph text-md text-ellipsis whitespace-nowrap overflow-hidden">
-                      {element.nombre}
-                    </p>
-                    <p className="font-semibold">
-                      {formatearPrecio(element.precio)}
-                    </p>
+                  <div className="flex overflow-hidden gap-3">
+                    <img
+                      className="cart__card__img shadow-md"
+                      src={element.imagen}
+                      alt="producto"
+                    />
+                    <div className="overflow-hidden">
+                      <p className="card__card__paragraph text-l text-ellipsis whitespace-nowrap overflow-hidden mb-2">
+                        {element.nombre}
+                      </p>
+                      <p className="font-semibold mb-2">
+                        {formatearPrecio(element.precio)}
+                      </p>
+                      <button
+                        onClick={() =>
+                          handleDeleteProduct(element.producto_id, user.id)
+                        }
+                        className="text-sm font-medium"
+                      >
+                        Eliminar
+                      </button>
+                    </div>
                   </div>
-                  <TbTrashXFilled
-                    onClick={() =>
-                      handleDeleteProduct(element.producto_id, user.id)
-                    }
-                    className="cartmodal__trash__icon"
-                  />
                 </div>
               </ProductCard>
             ))}
