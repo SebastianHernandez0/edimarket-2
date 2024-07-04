@@ -80,7 +80,7 @@ export function MyOrders() {
                 return (
                   <div
                     className={classNames(
-                      "order_box flex flex-row w-full border rounded-md",
+                      "order_box flex flex-row w-full border rounded-md gap-2",
                       myOrders.order__container
                     )}
                     key={`${order.producto_id}_${index}`}
@@ -90,14 +90,14 @@ export function MyOrders() {
                         Número de órden: #{`${order.producto_id * 2}`}
                       </h2>
                       <p className="text-sm mb-3">
-                        Fecha de la compra: {formatDate(order.fecha_venta)}
+                        Fecha de compra: {formatDate(order.fecha_venta)}
                       </p>
                       <p className="font-semibold">
                         {formatearPrecio(order.valor_total)}
                       </p>
                     </div>
                     <div>
-                      <img className="w-[120px] h-[100px] object-cover" src={order.imagen} alt="" />
+                      <img className="w-[100px] h-[80px] sm:w-[120px]h-[100px] object-cover" src={order.imagen} alt="" />
                     </div>
                   </div>
                 );
