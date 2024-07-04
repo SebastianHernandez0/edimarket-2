@@ -73,26 +73,29 @@ export function FullCart() {
                     cartStyle.product_container
                   )}
                 >
-                  <div className="flex overflow-hidden gap-3">
+                  <div className="flex overflow-hidden gap-3 w-full">
                     <img
                       className="cart__card__img shadow-md"
                       src={element.imagen}
                       alt="producto"
                     />
-                    <div className="overflow-hidden">
-                      <p className="card__card__paragraph text-l text-ellipsis whitespace-nowrap overflow-hidden mb-2">
-                        {element.nombre}
-                      </p>
-                      <div className="flex items-center gap-4 mb-3">
-                        <div className="cart__product__add flex items-center rounded bg-gray-100 p-1">
-                          <CgMathMinus className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded" />
-                          <span className="px-3">{element?.cantidad}</span>
-                          <CgMathPlus className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded" />
-                        </div>
-                        <p className="font-semibold text-lg">
-                          {formatearPrecio(element.precio)}
+                    <div className="overflow-hidden w-full">
+                      <div className="flex justify-between w-full flex-wrap">
+                        <p className="card__card__paragraph text-l text-ellipsis whitespace-nowrap overflow-hidden mb-2">
+                          {element.nombre}
                         </p>
+                        <div className="flex items-center gap-4 mb-3">
+                          <div className="cart__product__add flex items-center rounded bg-gray-100 p-1">
+                            <CgMathMinus className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded" />
+                            <span className="px-3">{element?.cantidad}</span>
+                            <CgMathPlus className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded" />
+                          </div>
+                          <p className="font-semibold text-lg">
+                            {formatearPrecio(element.precio)}
+                          </p>
+                        </div>
                       </div>
+
                       <div className="flex flex-col items-start">
                         <span className="text-xs font-medium mb-2 text-gray-800">
                           Disponible {element?.stock}
