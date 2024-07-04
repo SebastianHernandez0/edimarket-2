@@ -72,7 +72,7 @@ export function ProductList() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [page]);
-  console.log(sortedProducts);
+
   return (
     <div className="product__list__container">
       <div className="products__container">
