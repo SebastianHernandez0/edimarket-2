@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { Loader } from "../../components/loader/Loader";
 import { UserContext } from "../../context/UserContext";
 import myOrders from "./myOrders.module.css";
+import delivery from "/imgs/aplication/delivery.png";
 
 export function MyOrders() {
   const { userToken, user } = useContext(UserContext);
@@ -69,34 +70,44 @@ export function MyOrders() {
       )}
     >
       <h1 className="">Mis compras</h1>
-      <div className="orders_box">
+      <div className="orders_box h-full">
         {loading ? (
           <Loader />
         ) : (
-          orders.map((order, index) => {
-            return (
-              <div
-                className={classNames(
-                  "order_box flex flex-row",
-                  myOrders.order__container
-                )}
-                key={`${order.producto_id}_${index}`}
-              >
-                <div>
-                  <h2 className="pb-2">
-                    Número de órden: #{`${order.producto_id * 2}`}
-                  </h2>
-                  <p>Fecha de la compra: {formatDate(order.fecha_venta)}</p>
-                  <p className="font-semibold">
-                    {formatearPrecio(order.valor_total)}
-                  </p>
-                </div>
-                <div>
-                  <img className="h-24" src={order.imagen} alt="" />
-                </div>
+          <div className="flex flex-col items-center justify-center h-full">
+            {orders.length > 0 ? (
+              orders.map((order, index) => {
+                return (
+                  <div
+                    className={classNames(
+                      "order_box flex flex-row",
+                      myOrders.order__container
+                    )}
+                    key={`${order.producto_id}_${index}`}
+                  >
+                    <div>
+                      <h2 className="pb-2">
+                        Número de órden: #{`${order.producto_id * 2}`}
+                      </h2>
+                      <p>Fecha de la compra: {formatDate(order.fecha_venta)}</p>
+                      <p className="font-semibold">
+                        {formatearPrecio(order.valor_total)}
+                      </p>
+                    </div>
+                    <div>
+                      <img className="h-24" src={order.imagen} alt="" />
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="flex flex-col items-center gap-12">
+                <h2 className="text-center text-2xl">Aún no tienes compras.</h2>
+                <p>Cuando compres , tus compras aparecerán acá</p>
+                <img className="w-[200px]" src={delivery} alt="" />
               </div>
-            );
-          })
+            )}
+          </div>
         )}
       </div>
     </div>
