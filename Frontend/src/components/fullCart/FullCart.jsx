@@ -54,7 +54,7 @@ export function FullCart() {
   return (
     <div className="fullcart__container pt-10">
       <h1 className="ml-5 mb-10">Tus productos</h1>
-      <div className="flex mx-8 md:mx-8 lg:mx-28 flex-col md:flex-row">
+      <div className="flex flex-col md:flex-row">
         <div
           className={classNames(
             "w-full",
