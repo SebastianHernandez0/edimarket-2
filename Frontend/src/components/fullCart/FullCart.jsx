@@ -68,7 +68,7 @@ export function FullCart() {
               <ProductCard key={element.carro_id}>
                 <div
                   className={classNames(
-                    "cart__card__body",
+                    "cart__card__body overflow-hidden",
                     cartStyle.product_container
                   )}
                 >
@@ -77,8 +77,8 @@ export function FullCart() {
                     src={element.imagen}
                     alt="producto"
                   />
-                  <div>
-                    <p className="card__card__paragraph text-md">
+                  <div className="overflow-hidden">
+                    <p className="card__card__paragraph text-md text-ellipsis whitespace-nowrap overflow-hidden">
                       {element.nombre}
                     </p>
                     <p className="font-semibold">

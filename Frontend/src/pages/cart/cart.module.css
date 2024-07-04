@@ -1,5 +1,6 @@
 .cart__container {
   grid-area: home;
+  overflow: hidden;
 }
 
 .summary__button {
