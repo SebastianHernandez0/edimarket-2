@@ -47,17 +47,11 @@ const consultarUsuario = async () => {
 const consultarUsuarioById = async (id) => {
   const consulta = "SELECT * FROM usuarios WHERE id=$1";
   const { rows: users } = await db.query(consulta, [id]);
-  return users.map((user) => {
-    return {
-      id: user.id,
-      nombre: user.nombre,
-      email: user.email,
-    };
-  });
+  return users[0]
 };
 
 const modificarUsuario = async (id, usuario) => {
-  let {nombre,email, contraseña} = usuario;
+  let { nombre, email, contraseña } = usuario;
   const databaseUser = await consultarUsuario();
   if (databaseUser.find((user) => user.email == email)) {
     throw new Error("El usuario ya existe");
@@ -65,28 +59,34 @@ const modificarUsuario = async (id, usuario) => {
   validarUsuario.parse(usuario);
   const hashedPassword = bcrypt.hashSync(contraseña);
   contraseña = hashedPassword;
-  const values = [nombre,email,hashedPassword,id];
-  const consulta= "UPDATE usuarios SET nombre=$1,email=$2,contraseña=$3 WHERE id=$4";
-  await db.query(consulta,values);
+  const values = [nombre, email, hashedPassword, id];
+  const consulta =
+    "UPDATE usuarios SET nombre=$1,email=$2,contraseña=$3 WHERE id=$4";
+  await db.query(consulta, values);
   return console.log("Usuario modificado");
-}
+};
 
 const registrarUsuario = async (usuario) => {
-  const databaseUser = await consultarUsuario();
-  let { nombre, email, contraseña } = usuario;
-  if (databaseUser.find((user) => user.email === email)) {
-    throw new Error("El usuario ya existe");
+  try {
+    const databaseUser = await consultarUsuario();
+    let { nombre, email, contraseña } = usuario;
+    if (databaseUser.find((user) => user.email === email)) {
+      throw new Error("El usuario ya existe");
+    }
+    const parsedUser= validarUsuario.parse(usuario);
+    if (contraseña) {
+      contraseña = bcrypt.hashSync(contraseña);
+      hashedPassword = contraseña;
+    }
+    const values = [parsedUser.nombre, parsedUser.email, hashedPassword];
+    const consulta = (
+      "INSERT INTO usuarios (id,nombre, email, contraseña) VALUES (DEFAULT, $1, $2, $3) RETURNING id, nombre, email");
+    const { rows: [user] } = await db.query(consulta, values);
+    return user;
+  } catch (error) {
+    console.error("Error in registrarUsuario", error);
+    throw error;
   }
-  validarUsuario.parse(usuario);
-  const hashedPassword = bcrypt.hashSync(contraseña);
-  contraseña = hashedPassword;
-  const values = [nombre, email, hashedPassword];
-  const consulta = format(
-    "INSERT INTO usuarios (id,nombre, email, contraseña) VALUES (DEFAULT, $1, $2, $3)",
-    values
-  );
-  const { rows: user } = await db.query(consulta, values);
-  return user;
 };
 
 const eliminarUsuario = async (id) => {
@@ -96,77 +96,101 @@ const eliminarUsuario = async (id) => {
   return console.log("Usuario eliminado");
 };
 
-const verificarUsuario = async (email, contraseña) => {
-  const values = [email];
-  validarUser.parse({ email, contraseña });
+const verificarUsuario = async (email, contraseña, isGoogleAuth= false) => {
+  try {
+    const values = [email];
+  if (!isGoogleAuth) {
+    validarUser.parse({ email, contraseña });
+  }
   const consulta = "SELECT * FROM usuarios WHERE email=$1";
   const { rows } = await db.query(consulta, values);
+  if (rows.length === 0) {
+    // Si no se encuentra el usuario, devolver null
+    return null;
+  }
   const user = rows[0];
-  const passwordVerified = bcrypt.compareSync(contraseña, user.contraseña);
-  if (!passwordVerified)
-    throw { code: 401, message: "El usuario o contraseña no coinciden" };
+
+  if (!isGoogleAuth) {
+    const passwordVerified = bcrypt.compareSync(contraseña, user.contraseña);
+    if (!passwordVerified) {
+      throw { code: 401, message: "El usuario o contraseña no coinciden" };
+    }
+  }
   return user;
+  } catch (error) {
+    console.error("Error in verificarUsuario", error);
+    throw error;
+  }
+  
 };
-const consultarProductos = async (limits,page, order_by) => {
-  let querys= "";
-  if(order_by){
-    const [campo,ordenamiention]= order_by.split("_");
+const consultarProductos = async (limits, page, order_by) => {
+  let querys = "";
+  if (order_by) {
+    const [campo, ordenamiention] = order_by.split("_");
     querys += ` ORDER BY ${campo} ${ordenamiention}`;
   }
-  if(limits){
-    querys += ` LIMIT ${limits}`
+  if (limits) {
+    querys += ` LIMIT ${limits}`;
   }
-  if(page && limits){
+  if (page && limits) {
     const offset = page * limits - limits;
-    querys += ` OFFSET ${offset}`
+    querys += ` OFFSET ${offset}`;
   }
-  const consultaAllProducts= "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id"
+  const consultaAllProducts =
+    "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id";
 
-  const consulta =
-    `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id ${querys}`;
+  const consulta = `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id ${querys}`;
   const { rows: products } = await db.query(consulta);
-  const {rows:productsAll} = await db.query(consultaAllProducts);
-  return {products,productsAll};
+  const { rows: productsAll } = await db.query(consultaAllProducts);
+  return { products, productsAll };
 };
 
-const allProducts= async ( limits,page, order_by) => {
-  let querys= "";
-  if(order_by){
-    const [campo,ordenamiention]= order_by.split("_");
+const allProducts = async (limits, page, order_by) => {
+  let querys = "";
+  if (order_by) {
+    const [campo, ordenamiention] = order_by.split("_");
     querys += ` ORDER BY ${campo} ${ordenamiention}`;
   }
-  if(limits){
-    querys += ` LIMIT ${limits}`
+  if (limits) {
+    querys += ` LIMIT ${limits}`;
   }
-  if(page && limits){
+  if (page && limits) {
     const offset = page * limits - limits;
-    querys += ` OFFSET ${offset}`
+    querys += ` OFFSET ${offset}`;
   }
-  const consultaAllProducts= `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id ${querys}`
+  const consultaAllProducts = `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id ${querys}`;
   const { rows: products } = await db.query(consultaAllProducts);
   return products;
 };
 
-const consultarProductosByCategoria = async (categoria,limits,page, order_by) => {
-  let querys= "";
-  if(order_by){
-    const [campo,ordenamiention]= order_by.split("_");
+const consultarProductosByCategoria = async (
+  categoria,
+  limits,
+  page,
+  order_by
+) => {
+  let querys = "";
+  if (order_by) {
+    const [campo, ordenamiention] = order_by.split("_");
     querys += ` ORDER BY ${campo} ${ordenamiention}`;
   }
-  if(limits){
-    querys += ` LIMIT ${limits}`
+  if (limits) {
+    querys += ` LIMIT ${limits}`;
   }
-  if(page && limits){
+  if (page && limits) {
     const offset = page * limits - limits;
-    querys += ` OFFSET ${offset}`
+    querys += ` OFFSET ${offset}`;
   }
   const values = [categoria];
-  const consultaAllProductsPerCategory= "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where categorias.nombre_categoria=$1"
-  const consulta =
-  `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where categorias.nombre_categoria=$1 ${querys}`;
+  const consultaAllProductsPerCategory =
+    "SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where categorias.nombre_categoria=$1";
+  const consulta = `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where categorias.nombre_categoria=$1 ${querys}`;
   const { rows: products } = await db.query(consulta, values);
-  const {rows:productsAll} = await db.query(consultaAllProductsPerCategory, values);
-  return {products,productsAll};
+  const { rows: productsAll } = await db.query(
+    consultaAllProductsPerCategory,
+    values
+  );
+  return { products, productsAll };
 };
 
 const consultarProductosPorUsuario = async (idUsuario) => {
@@ -175,7 +199,7 @@ const consultarProductosPorUsuario = async (idUsuario) => {
     "select * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id where vendedor_id=$1";
   const { rows: products } = await db.query(consulta, values);
   return products;
-}
+};
 
 const consultarProductoById = async (id) => {
   const consulta =
@@ -198,7 +222,8 @@ const idCategoria = async (categoria) => {
 };
 
 const registrarProducto = async (producto, vendedor_id) => {
-  let { nombre, descripcion, estado, precio, stock, imagen,categoria } = producto;
+  let { nombre, descripcion, estado, precio, stock, imagen, categoria } =
+    producto;
   validarProducto.parse(producto);
   const categoriaId = await idCategoria(categoria);
   const id = Math.floor(Math.random() * 9999999);
@@ -214,30 +239,40 @@ const registrarProducto = async (producto, vendedor_id) => {
     vendedor_id,
   ];
 
-  console.log(nombre)
+  console.log(nombre);
   const consultaProducto =
     "INSERT INTO productos (id,nombre,descripcion,precio,stock,imagen,vendedor_id,estado,fecha) VALUES ($1,$2,$3,$5,$6,$7,$8,$4,DEFAULT)";
   const consultaCategoria =
     "INSERT INTO producto_categoria (id,producto_id,categoria_id) VALUES (DEFAULT,$1,$2)";
   await db.query(consultaProducto, valuesProducto);
   await db.query(consultaCategoria, valuesCategoria);
-  return console.log("Registrado"),id;
+  return console.log("Registrado"), id;
 };
 
 const eliminarProductoDelUsuario = async (idUsuario, idProducto) => {
   const values = [idUsuario, idProducto];
-  const consulta= "DELETE FROM productos WHERE vendedor_id=$1 AND id=$2";
+  const consulta = "DELETE FROM productos WHERE vendedor_id=$1 AND id=$2";
   await db.query(consulta, values);
   return console.log("Producto eliminado del usuario");
-}
+};
 
-const modificarProducto= async (idUsuario,idProducto,producto)=>{
-  let {nombre,descripcion,estado,precio,stock,imagen}=producto;
-  const values=[nombre,descripcion,estado,precio,stock,imagen,idUsuario,idProducto];
-  const consulta="UPDATE productos SET nombre=$1,descripcion=$2,precio=$4,stock=$5,imagen=$6,estado=$3 WHERE vendedor_id=$7 AND id=$8";
-  await db.query(consulta,values);
+const modificarProducto = async (idUsuario, idProducto, producto) => {
+  let { nombre, descripcion, estado, precio, stock, imagen } = producto;
+  const values = [
+    nombre,
+    descripcion,
+    estado,
+    precio,
+    stock,
+    imagen,
+    idUsuario,
+    idProducto,
+  ];
+  const consulta =
+    "UPDATE productos SET nombre=$1,descripcion=$2,precio=$4,stock=$5,imagen=$6,estado=$3 WHERE vendedor_id=$7 AND id=$8";
+  await db.query(consulta, values);
   return console.log("Producto modificado");
-}
+};
 
 const agregarDirreccion = async (domicilio, idUsuario) => {
   const domicilios = await consultarDirreccion(idUsuario);
@@ -263,22 +298,31 @@ const agregarDirreccion = async (domicilio, idUsuario) => {
   }
 };
 
-const modificarDireccion= async(idUsuario,domicilio)=>{
-  let {direccion,numero_casa,ciudad,comuna,region,codigo_postal}=domicilio;
+const modificarDireccion = async (idUsuario, domicilio) => {
+  let { direccion, numero_casa, ciudad, comuna, region, codigo_postal } =
+    domicilio;
   validarDomicilio.parse(domicilio);
-  const values=[direccion,numero_casa,ciudad,comuna,region,codigo_postal,idUsuario];
-  const consulta="UPDATE domicilio SET direccion=$1,ciudad=$3,region=$5,codigo_postal=$6,comuna=$4,numero_casa=$2 WHERE usuario_id=$7";
-  await db.query(consulta,values);
+  const values = [
+    direccion,
+    numero_casa,
+    ciudad,
+    comuna,
+    region,
+    codigo_postal,
+    idUsuario,
+  ];
+  const consulta =
+    "UPDATE domicilio SET direccion=$1,ciudad=$3,region=$5,codigo_postal=$6,comuna=$4,numero_casa=$2 WHERE usuario_id=$7";
+  await db.query(consulta, values);
   return console.log("Direccion modificada");
-  
-}
+};
 
 const eliminarDomicilio = async (idUsuario, idDomicilio) => {
   const values = [idUsuario, idDomicilio];
   const consulta = "DELETE FROM domicilio WHERE usuario_id=$1 AND id=$2";
   await db.query(consulta, values);
   return console.log("Domicilio eliminado");
-}
+};
 
 const agregarMetodoDePago = async (metodoDePago, idUsuario) => {
   let {
@@ -370,7 +414,7 @@ const agregarCarrito = async (idUsuario, producto) => {
   const carrito = await consultarCarrito(idUsuario);
   if (carrito.find((carrito) => carrito.producto_id == idProducto)) {
     throw new Error("El producto ya está en el carrito");
-  }else {
+  } else {
     const values = [idUsuario, idProducto, cantidad];
     const consulta =
       "INSERT INTO carrito(id,usuario_id,producto_id,cantidad,comprado) VALUES (DEFAULT,$1,$2,$3,false)";
@@ -387,27 +431,28 @@ const consultarCarrito = async (idUsuario) => {
   return carrito;
 };
 
-const eliminarProducto= async (idUsuario,idProducto)=>{
-  const values = [idUsuario,idProducto];
+const eliminarProducto = async (idUsuario, idProducto) => {
+  const values = [idUsuario, idProducto];
   const consulta = "DELETE FROM carrito WHERE usuario_id=$1 AND producto_id=$2";
-  await db.query(consulta,values);
+  await db.query(consulta, values);
   return console.log("Producto eliminado del carrito");
 };
 
-const venta= async(IdUsuario,IdProducto,cantidad)=>{
-  const producto= await consultarProductoById(IdProducto);
-  const precio= producto.precio * cantidad;
-  const values=[IdUsuario,IdProducto,cantidad,precio];
-  const consulta="INSERT INTO ventas(id,comprador_id,producto_id,cantidad,valor_total,fecha_venta) VALUES (DEFAULT,$1,$2,$3,$4,now())";
-  await db.query(consulta,values);
+const venta = async (IdUsuario, IdProducto, cantidad) => {
+  const producto = await consultarProductoById(IdProducto);
+  const precio = producto.precio * cantidad;
+  const values = [IdUsuario, IdProducto, cantidad, precio];
+  const consulta =
+    "INSERT INTO ventas(id,comprador_id,producto_id,cantidad,valor_total,fecha_venta) VALUES (DEFAULT,$1,$2,$3,$4,now())";
+  await db.query(consulta, values);
   return console.log("Compra realizada");
-}
+};
 
 const consultarVentasUsuario = async (idUsuario) => {
   const values = [idUsuario];
   const consulta =
     "select * from ventas inner join productos on ventas.producto_id=productos.id inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on categorias.id=producto_categoria.categoria_id where ventas.comprador_id=$1";
-  const { rows: ventas } = await db.query(consulta, values);;
+  const { rows: ventas } = await db.query(consulta, values);
   console.log(ventas);
   return ventas;
 };
@@ -442,6 +487,5 @@ module.exports = {
   eliminarMetodoDePago,
   eliminarDomicilio,
   consultarVentasUsuario,
-  allProducts
-
+  allProducts,
 };
