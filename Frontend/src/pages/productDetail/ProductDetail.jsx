@@ -48,7 +48,7 @@ export function ProductDetail() {
     useContext(UserContext);
 
   const [visible, setVisible] = useState(productAlert.errorFav ? true : false);
-  const formatedSellerName = seller[0]?.nombre.split(" ").slice(0, 1);
+  const formatedSellerName = seller?.nombre?.split(" ").slice(0, 1);
   const navigate = useNavigate();
   const { id } = useParams();
   const errorModal = useRef(null);
@@ -81,21 +81,18 @@ export function ProductDetail() {
         }, 2400);
       } else {
         if (userToken) {
-          const response = await fetch(
-            "http://localhost:3000/carrito",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${userToken}`,
-              },
-              body: JSON.stringify({
-                idUsuario,
-                idProducto,
-                cantidad,
-              }),
-            }
-          );
+          const response = await fetch("http://localhost:3000/carrito", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+            body: JSON.stringify({
+              idUsuario,
+              idProducto,
+              cantidad,
+            }),
+          });
           if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || "Error al agregar al carrito");

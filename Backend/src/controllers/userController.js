@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 const getAllUsers = async (req, res) => {
   try {
-    const usuarios = await consultarUsuario();
+    const usuarios = await userModel.consultarUsuario();
     res.send(usuarios);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -13,7 +13,7 @@ const getAllUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const usuario = await consultarUsuarioById(id);
+    const usuario = await userModel.consultarUsuarioById(id);
     res.send(usuario);
   } catch (error) {
     res.status(500).json({ error: error.message });
