@@ -1,4 +1,5 @@
 import { userModel } from "../models/userModel.js";
+import { productModel } from "../models/productModel.js";
 import jwt from "jsonwebtoken";
 
 const getAllUsers = async (req, res) => {
@@ -283,8 +284,8 @@ const addFavorito = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await userModel.agregarFavorito(producto_id, id);
-    const producto = await userModel.consultarProductoById(producto_id);
+    await productModel.agregarFavorito(producto_id, id);
+    const producto = await productModel.consultarProductoById(producto_id);
     console.log(
       `El usuario ${email} con el id ${id} ha agregado un producto a favoritos`
     );
@@ -302,7 +303,7 @@ const consultarFavorito = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    const favoritos = await userModel.consultarFavoritos(id);
+    const favoritos = await productModel.consultarFavoritos(id);
     console.log(
       `El usuario ${email} con el id ${id} ha consultado sus favoritos`
     );
@@ -333,7 +334,7 @@ const deleteFav = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    const favorito = await userModel.borrarFavorito(idFavorito, id);
+    const favorito = await productModel.borrarFavorito(idFavorito, id);
     console.log(`El usuario ${email} con el id ${id} ha eliminado un favorito`);
     res.status(200).json({
       message: "Favorito eliminado",

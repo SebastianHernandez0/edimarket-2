@@ -278,39 +278,6 @@ const eliminarMetodoDePago = async (idMetodoDePago, idUsuario) => {
   return console.log("Metodo de pago eliminado");
 };
 
-const agregarFavorito = async (idProducto, idUsuario) => {
-  const values = [idUsuario, idProducto];
-  const favoritos = await consultarFavoritos(idUsuario);
-  if (favoritos.find((favorito) => favorito.producto_id == idProducto)) {
-    throw new Error("El producto ya está en favoritos");
-  }
-  const consulta =
-    "INSERT INTO favoritos(favorito_id,usuario_id,producto_id) VALUES (DEFAULT,$1,$2)";
-  await db.query(consulta, values);
-  return console.log("Favorito agregado");
-};
-
-const borrarFavorito = async (idFavorito, idUsuario) => {
-  const values = [idFavorito, idUsuario];
-  const favoritos = await consultarFavoritos(idUsuario);
-  if (favoritos.find((favorito) => favorito.favorito_id == idFavorito)) {
-    const consulta =
-      "DELETE FROM favoritos WHERE favorito_id=$1 AND usuario_id=$2";
-    await db.query(consulta, values);
-    return console.log("Favorito eliminado");
-  } else {
-    throw new Error("El favorito no existe");
-  }
-};
-
-const consultarFavoritos = async (idUsuario) => {
-  const values = [idUsuario];
-  const consulta =
-    "select * from usuarios inner join favoritos on usuarios.id=favoritos.usuario_id inner join productos on productos.id=favoritos.producto_id where usuarios.id=$1";
-  const { rows: favoritos } = await db.query(consulta, values);
-  return favoritos;
-};
-
 const consultarMetodosPago = async (idUsuario) => {
   const values = [idUsuario];
   const consulta =
@@ -374,9 +341,6 @@ export const userModel = {
   verificarUsuario,
   agregarDirreccion,
   consultarDirreccion,
-  agregarFavorito,
-  consultarFavoritos,
-  borrarFavorito,
   agregarMetodoDePago,
   consultarMetodosPago,
   eliminarUsuario,
