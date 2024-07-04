@@ -16,7 +16,7 @@ export function EmptyCart() {
           <img
             src={emptyCart}
             alt="empty cart"
-            className="w-[200px] sm:w-[250px]"
+            className="w-[130px]"
           />
           <h1 className="text-center">¡Tu carro está vacío!</h1>
           <p className="pb-[50px]">
