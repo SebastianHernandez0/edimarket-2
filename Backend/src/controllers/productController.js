@@ -1,5 +1,6 @@
 import { userModel } from "../models/userModel.js";
 import { hateoasModel } from "../models/hateoasModel.js";
+import { productModel } from "../models/productModel.js";
 import jwt from "jsonwebtoken";
 
 const getProductos = async (req, res) => {
@@ -24,7 +25,7 @@ const getProductos = async (req, res) => {
 const getAllProducts = async (req, res) => {
   try {
     const { limits, page = 1, order_by } = req.query;
-    const productos = await userModel.allProducts(limits, page, order_by);
+    const productos = await productModel.allProducts(limits, page, order_by);
     res.send(productos);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -34,7 +35,7 @@ const getAllProducts = async (req, res) => {
 const getProductoById = async (req, res) => {
   try {
     const { id } = req.params;
-    const producto = await userModel.consultarProductoById(id);
+    const producto = await productModel.consultarProductoById(id);
     res.send(producto);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -49,7 +50,7 @@ const agregarProducto = async (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
 
-    await userModel.registrarProducto(producto, id);
+    await productModel.registrarProducto(producto, id);
 
     console.log(
       `El usuario ${email} con el id ${id} ha registrado un producto`
@@ -77,7 +78,7 @@ const modifyProducto = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await userModel.modificarProducto(id, idProducto, producto);
+    await productModel.modificarProducto(id, idProducto, producto);
     console.log(
       `El usuario ${email} con el id ${id} ha modificado un producto`
     );
@@ -168,7 +169,7 @@ const ventaRealizada = async (req, res) => {
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await userModel.venta(id, idProducto, cantidad);
+    await productModel.venta(id, idProducto, cantidad);
     console.log(`El usuario ${email} ha realizado una compra`);
     res.status(200).json({ mensaje: "compra realizada" });
   } catch (error) {

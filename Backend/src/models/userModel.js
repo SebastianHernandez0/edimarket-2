@@ -13,15 +13,6 @@ const validarUser = object({
   contraseña: string().min(8),
 });
 
-const validarProducto = object({
-  nombre: string().min(3),
-  descripcion: string().min(0),
-  precio: number().min(0),
-  stock: number().min(0),
-  imagen: string().min(3),
-  categoria: string().min(3),
-});
-
 const validarDomicilio = object({
   direccion: string().min(3),
   ciudad: string().min(3),
@@ -57,7 +48,7 @@ const modificarUsuario = async (id, usuario) => {
     throw new Error("El usuario ya existe");
   }
   validarUsuario.parse(usuario);
-  const hashedPassword = hashSync(contraseña);
+  const hashedPassword = bcrypt.hashSync(contraseña);
   contraseña = hashedPassword;
   const values = [nombre, email, hashedPassword, id];
   const consulta =
@@ -70,14 +61,18 @@ const registrarUsuario = async (usuario) => {
   try {
     const databaseUser = await consultarUsuario();
     let { nombre, email, contraseña } = usuario;
+
     if (databaseUser.find((user) => user.email === email)) {
       throw new Error("El usuario ya existe");
     }
     const parsedUser = validarUsuario.parse(usuario);
+
+    let hashedPassword = contraseña;
+
     if (contraseña) {
-      contraseña = hashSync(contraseña);
-      hashedPassword = contraseña;
+      hashedPassword = bcrypt.hashSync(contraseña);
     }
+
     const values = [parsedUser.nombre, parsedUser.email, hashedPassword];
     const consulta =
       "INSERT INTO usuarios (id,nombre, email, contraseña) VALUES (DEFAULT, $1, $2, $3) RETURNING id, nombre, email";
@@ -146,24 +141,6 @@ const consultarProductos = async (limits, page, order_by) => {
   return { products, productsAll };
 };
 
-const allProducts = async (limits, page, order_by) => {
-  let querys = "";
-  if (order_by) {
-    const [campo, ordenamiention] = order_by.split("_");
-    querys += ` ORDER BY ${campo} ${ordenamiention}`;
-  }
-  if (limits) {
-    querys += ` LIMIT ${limits}`;
-  }
-  if (page && limits) {
-    const offset = page * limits - limits;
-    querys += ` OFFSET ${offset}`;
-  }
-  const consultaAllProducts = `SELECT * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on producto_categoria.categoria_id=categorias.id ${querys}`;
-  const { rows: products } = await db.query(consultaAllProducts);
-  return products;
-};
-
 const consultarProductosByCategoria = async (
   categoria,
   limits,
@@ -202,54 +179,10 @@ const consultarProductosPorUsuario = async (idUsuario) => {
   return products;
 };
 
-const consultarProductoById = async (id) => {
-  const consulta =
-    "select * from productos inner join producto_categoria on productos.id=producto_categoria.producto_id inner join categorias on categorias.id=producto_categoria.categoria_id where productos.id=$1";
-  const { rows: products } = await db.query(consulta, [id]);
-  return products[0];
-};
-
 const consultarCategorias = async () => {
   const consulta = "SELECT * FROM categorias";
   const { rows: categorias } = await db.query(consulta);
   return categorias;
-};
-
-const idCategoria = async (categoria) => {
-  const values = [categoria];
-  const consulta = "SELECT id FROM categorias WHERE nombre_categoria = $1";
-  const { rows } = await db.query(consulta, values);
-  return rows[0].id;
-};
-
-const registrarProducto = async (producto, vendedor_id) => {
-  const { nombre, descripcion, estado, precio, stock, imagen, categoria } =
-    producto;
-  validarProducto.parse(producto);
-  try {
-    const categoriaId = await idCategoria(categoria);
-    const valuesProducto = [
-      nombre,
-      descripcion,
-      estado,
-      precio,
-      stock,
-      imagen,
-      vendedor_id,
-    ];
-    const consultaProducto =
-      "INSERT INTO productos (nombre, descripcion, estado, precio, stock, imagen, vendedor_id, fecha) VALUES ($1, $2, $3, $4, $5, $6, $7, DEFAULT) RETURNING id";
-    const { rows } = await db.query(consultaProducto, valuesProducto);
-    const productoId = rows[0].id;
-    const valuesCategoria = [productoId, categoriaId];
-    const consultaCategoria =
-      "INSERT INTO producto_categoria (producto_id, categoria_id) VALUES ($1, $2)";
-
-    await db.query(consultaCategoria, valuesCategoria);
-    console.log("Producto registrado correctamente");
-  } catch (error) {
-    console.error("Error al registrar el producto:", error.message);
-  }
 };
 
 const eliminarProductoDelUsuario = async (idUsuario, idProducto) => {
@@ -257,24 +190,6 @@ const eliminarProductoDelUsuario = async (idUsuario, idProducto) => {
   const consulta = "DELETE FROM productos WHERE vendedor_id=$1 AND id=$2";
   await db.query(consulta, values);
   return console.log("Producto eliminado del usuario");
-};
-
-const modificarProducto = async (idUsuario, idProducto, producto) => {
-  let { nombre, descripcion, estado, precio, stock, imagen } = producto;
-  const values = [
-    nombre,
-    descripcion,
-    estado,
-    precio,
-    stock,
-    imagen,
-    idUsuario,
-    idProducto,
-  ];
-  const consulta =
-    "UPDATE productos SET nombre=$1,descripcion=$2,precio=$4,stock=$5,imagen=$6,estado=$3 WHERE vendedor_id=$7 AND id=$8";
-  await db.query(consulta, values);
-  return console.log("Producto modificado");
 };
 
 const agregarDirreccion = async (domicilio, idUsuario) => {
@@ -441,16 +356,6 @@ const eliminarProducto = async (idUsuario, idProducto) => {
   return console.log("Producto eliminado del carrito");
 };
 
-const venta = async (IdUsuario, IdProducto, cantidad) => {
-  const producto = await consultarProductoById(IdProducto);
-  const valor_total = producto.precio * cantidad;
-  const values = [IdUsuario, IdProducto, cantidad, valor_total];
-  const consulta =
-    "INSERT INTO ventas(id,comprador_id,producto_id,cantidad,valor_total,fecha_venta) VALUES (DEFAULT,$1,$2,$3,$4,now())";
-  await db.query(consulta, values);
-  return console.log("Compra realizada");
-};
-
 const consultarVentasUsuario = async (idUsuario) => {
   const values = [idUsuario];
   const consulta =
@@ -466,9 +371,7 @@ export const userModel = {
   registrarUsuario,
   consultarCategorias,
   consultarProductos,
-  registrarProducto,
   verificarUsuario,
-  consultarProductoById,
   agregarDirreccion,
   consultarDirreccion,
   agregarFavorito,
@@ -481,14 +384,11 @@ export const userModel = {
   consultarProductosByCategoria,
   consultarCarrito,
   eliminarProducto,
-  venta,
   modificarUsuario,
-  modificarProducto,
   consultarProductosPorUsuario,
   modificarDireccion,
   eliminarProductoDelUsuario,
   eliminarMetodoDePago,
   eliminarDomicilio,
   consultarVentasUsuario,
-  allProducts,
 };

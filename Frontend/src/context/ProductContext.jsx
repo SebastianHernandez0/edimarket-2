@@ -87,7 +87,7 @@ export function ProductProvider({ children }) {
     }
   }, [productById]);
 
-  const handleGetProducts = async (page) => {
+  const handleGetProducts = async () => {
     setLoading(true);
     try {
       const response = await fetch(
@@ -128,7 +128,7 @@ export function ProductProvider({ children }) {
   };
 
   useEffect(() => {
-    handleGetProducts(page);
+    handleGetProducts();
   }, [page]);
 
   const handleGetProduct = async (id) => {
