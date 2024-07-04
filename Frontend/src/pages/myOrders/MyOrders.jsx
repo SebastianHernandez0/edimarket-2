@@ -69,33 +69,35 @@ export function MyOrders() {
         myOrders.myOrders__container
       )}
     >
-      <h1 className="">Mis compras</h1>
-      <div className="orders_box h-full">
+      <h1 className="mb-4">Mis compras</h1>
+      <div className="orders_box ">
         {loading ? (
           <Loader />
         ) : (
-          <div className="flex flex-col items-center justify-center h-full">
+          <div className="flex flex-col items-center h-full gap-5">
             {orders.length > 0 ? (
               orders.map((order, index) => {
                 return (
                   <div
                     className={classNames(
-                      "order_box flex flex-row",
+                      "order_box flex flex-row w-full border rounded-md",
                       myOrders.order__container
                     )}
                     key={`${order.producto_id}_${index}`}
                   >
                     <div>
-                      <h2 className="pb-2">
+                      <h2 className="pb-2 text-base sm:text-lg">
                         Número de órden: #{`${order.producto_id * 2}`}
                       </h2>
-                      <p>Fecha de la compra: {formatDate(order.fecha_venta)}</p>
+                      <p className="text-sm mb-3">
+                        Fecha de la compra: {formatDate(order.fecha_venta)}
+                      </p>
                       <p className="font-semibold">
                         {formatearPrecio(order.valor_total)}
                       </p>
                     </div>
                     <div>
-                      <img className="h-24" src={order.imagen} alt="" />
+                      <img className="w-[120px] h-[100px] object-cover" src={order.imagen} alt="" />
                     </div>
                   </div>
                 );
