@@ -3,6 +3,7 @@ import { GeneralBtn } from "../generalBtn/GeneralBtn";
 import { IoIosStar } from "react-icons/io";
 import { BsHandThumbsUp } from "react-icons/bs";
 import { BsHandThumbsDown } from "react-icons/bs";
+import { IoIosStarOutline } from "react-icons/io";
 
 export function Comments() {
   const prueba = "sdas";
@@ -15,15 +16,15 @@ export function Comments() {
       </p>
       <div className="comments__container flex flex-col gap-10">
         <div className="comments__body w-full">
-          <form className="comments__form__container">
-            <div className="comments__input__body flex flex-col gap-5">
+          <form className="comments__form__container mt-7">
+            <div className="comments__input__body flex flex-col gap-5 md:flex-row items-center">
               <input
                 className="input w-full"
                 type="text"
                 placeholder="Escribe tu comentario."
               />
               <GeneralBtn
-                className="w-full h-12 flex items-center justify-center"
+                className="w-full h-12 flex items-center justify-center md:w-1/3"
                 type="secondary"
               >
                 Comentar
@@ -43,8 +44,8 @@ export function Comments() {
                       <IoIosStar />
                       <IoIosStar />
                       <IoIosStar />
-                      <IoIosStar />
-                      <IoIosStar />
+                      <IoIosStarOutline/>
+                      <IoIosStarOutline />
                     </span>
                   </div>
                   <div>
