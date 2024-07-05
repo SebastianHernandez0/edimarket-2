@@ -1,8 +1,8 @@
+import "../fullCart/fullCart.css";
 import { useContext, useEffect, useState } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { CartContext } from "../../context/CarritoContext";
 import { UserContext } from "../../context/UserContext";
-import "../fullCart/fullCart.css";
 import cartStyle from "../../pages/cart/cart.module.css";
 import { Summary } from "../summary/Summary";
 import { GeneralBtn } from "../generalBtn/GeneralBtn";
@@ -63,10 +63,6 @@ export function FullCart() {
         cantidad: productInCart.cantidad + 1,
       };
 
-      /*   if (updatedProduct.cantidad > productInCart.stock) {
-        setStockAlert("Stock insuficiente");
-      } */
-
       const updatedCart = cart.map((product) =>
         product.producto_id === id ? updatedProduct : product
       );
@@ -95,12 +91,11 @@ export function FullCart() {
   useEffect(() => {
     const newCart = cart.filter((product) => product.cantidad > product.stock);
 
-    if (newCart.length !== 0) {
+    if (newCart.length > 0) {
       setStockAlert("Stock Insuficiente");
     } else {
       setStockAlert("");
     }
-    console.log(newCart);
   }, [cart]);
 
   return (
