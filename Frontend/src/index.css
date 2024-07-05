@@ -84,3 +84,14 @@ body::-webkit-scrollbar-thumb {
   text-align: center;
   z-index: 200;
 }
+
+.input {
+  background-color: transparent;
+  display: flex;
+  margin: 0 auto;
+  padding: 0 13px;
+  margin-top: 20px;
+  border: 1px solid var(--navOpacity);
+  border-radius: 5px;
+  height: 50px;
+}

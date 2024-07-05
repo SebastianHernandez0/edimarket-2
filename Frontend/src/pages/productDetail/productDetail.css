@@ -75,7 +75,6 @@
   background-color: #a8a8a85d;
 }
 
-
 /*VERSION DESKTOP*/
 
 @media (min-width: 576px) {
@@ -87,6 +86,7 @@
     display: grid;
     grid-template-areas:
       "imagen info"
+      "desc info"
       "desc info"
       "desc info";
     grid-template-columns: 1fr 400px;

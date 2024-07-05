@@ -444,9 +444,10 @@ export function ProductDetail() {
                 {product?.descripcion}
               </div>
             </div>
-            <div className="card__info__desc__comentary mt-8 p-4">
+            <div className="card__info__desc__comentary mt-8 p-4 w-full">
               <hr />
-              <Comments></Comments>
+              {/*COMPÓNENTE DE COMENTARIOS*/}
+              <Comments />
             </div>
           </ProductCard>
           {productAlert.error ? (
