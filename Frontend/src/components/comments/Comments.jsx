@@ -1,6 +1,8 @@
 import "../comments/comments.css";
 import { GeneralBtn } from "../generalBtn/GeneralBtn";
 import { IoIosStar } from "react-icons/io";
+import { BsHandThumbsUp } from "react-icons/bs";
+import { BsHandThumbsDown } from "react-icons/bs";
 
 export function Comments() {
   const prueba = "sdas";
@@ -32,7 +34,7 @@ export function Comments() {
         {prueba ? (
           <div className="opiniones__container">
             <h3 className="my-3 font-medium">Opiniones</h3>
-            <div className="opiniones__body flex flex-col gap-8">
+            <div className="opiniones__body flex flex-col">
               <div className="">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
@@ -55,8 +57,19 @@ export function Comments() {
                     Corrupti, non tempore obcaecati dolore inventore totam
                     tempora nihil quae!
                   </p>
+                  <div className="flex items-center gap-3 mt-3">
+                    <div className="flex items-center gap-2 cursor-pointer hover:outline outline-teal-500 outline-1 rounded-xl px-2">
+                      <BsHandThumbsUp />
+                      <span>0</span>
+                    </div>
+                    <div className="flex items-center gap-2 cursor-pointer hover:outline outline-teal-500 outline-1 rounded-xl px-2">
+                      <BsHandThumbsDown />
+                      <span>0</span>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <hr className="my-5"/>
               <div className="">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
@@ -79,6 +92,16 @@ export function Comments() {
                     Corrupti, non tempore obcaecati dolore inventore totam
                     tempora nihil quae!
                   </p>
+                  <div className="flex items-center gap-3 mt-3">
+                    <div className="flex items-center gap-2">
+                      <BsHandThumbsUp />
+                      <span>0</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <BsHandThumbsDown />
+                      <span>0</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
