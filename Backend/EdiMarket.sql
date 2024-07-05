@@ -83,12 +83,13 @@ CREATE TABLE
 	metodos_pago (
 		id SERIAL PRIMARY KEY,
 		usuario_id INT NOT NULL,
+		producto_id INT NOT NULL,
 		tipo_tarjeta VARCHAR(50) NOT NULL,
 		numero_tarjeta VARCHAR(255) NOT NULL,
 		nombre_titular VARCHAR(255) NOT NULL,
 		fecha_expiracion VARCHAR(20) NOT NULL,
 		codigo_seguridad VARCHAR(4) NOT NULL,
-		FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE
+		FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE,
 	);
 
 CREATE TABLE
@@ -100,5 +101,6 @@ CREATE TABLE
 		bueno INT NOT NULL,
 		malo INT NOT NULL,
 		fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-		FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE
+		FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE,
+		FOREIGN KEY (producto_id) REFERENCES productos (id) ON DELETE CASCADE
 	);

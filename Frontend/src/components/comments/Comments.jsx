@@ -3,7 +3,7 @@ import { GeneralBtn } from "../generalBtn/GeneralBtn";
 import { IoIosStar } from "react-icons/io";
 
 export function Comments() {
-  const prueba = "";
+  const prueba = "sdas";
 
   return (
     <section className="comments__container">
@@ -84,7 +84,9 @@ export function Comments() {
             </div>
           </div>
         ) : (
-          <p className="text-center">Aún no hay comentarios. ¡Anímate y escribe uno!</p>
+          <p className="text-center">
+            Aún no hay comentarios. ¡Anímate y escribe uno!
+          </p>
         )}
       </div>
     </section>
