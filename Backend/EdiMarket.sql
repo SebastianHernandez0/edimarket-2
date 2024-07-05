@@ -96,10 +96,21 @@ CREATE TABLE
 	comentarios_producto (
 		id SERIAL PRIMARY KEY,
 		usuario_id INT NOT NULL,
+		producto_id INT NOT NULL,
 		comentario TEXT NOT NULL,
 		calificación INT NOT NULL,
 		bueno INT NOT NULL,
 		malo INT NOT NULL,
+		fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (producto_id) REFERENCES productos (id) ON DELETE CASCADE
+	);
+
+CREATE TABLE
+	preguntas_producto (
+		id SERIAL PRIMARY KEY,
+		producto_id INT NOT NULL,
+		usuario_id INT NOT NULL,
+		pregunta VARCHAR(255),
 		fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		FOREIGN KEY (producto_id) REFERENCES productos (id) ON DELETE CASCADE
 	);

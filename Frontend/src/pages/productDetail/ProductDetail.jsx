@@ -454,7 +454,7 @@ export function ProductDetail() {
                 {product?.descripcion}
               </div>
             </div>
-            <div className="card__info__questions mt-8 p-4 w-full">
+            <div className="card__info__questions mt-8 p-4 w-full h-full">
               <hr />
               <Questions />
             </div>
