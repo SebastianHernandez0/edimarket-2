@@ -90,3 +90,15 @@ CREATE TABLE
 		codigo_seguridad VARCHAR(4) NOT NULL,
 		FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE
 	);
+
+CREATE TABLE
+	comentarios_producto (
+		id SERIAL PRIMARY KEY,
+		usuario_id INT NOT NULL,
+		comentario TEXT NOT NULL,
+		calificación INT NOT NULL,
+		bueno INT NOT NULL,
+		malo INT NOT NULL,
+		fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE
+	);
