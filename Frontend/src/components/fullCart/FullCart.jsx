@@ -12,7 +12,7 @@ import { CgMathPlus } from "react-icons/cg";
 import { CgMathMinus } from "react-icons/cg";
 
 export function FullCart() {
-  const { cart, formatearPrecio } = useContext(CartContext);
+  const { cart, setCart, formatearPrecio } = useContext(CartContext);
   const { user, userToken, handleAddedToCart } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -52,9 +52,42 @@ export function FullCart() {
     navigate("/shipping");
   };
 
+  const handleAddQuantity = (id) => {
+    const productInCart = cart.find((product) => product.producto_id === id);
+    if (productInCart) {
+      const updatedProduct = {
+        ...productInCart,
+        cantidad: productInCart.cantidad + 1,
+      };
+
+      const updatedCart = cart.map((product) =>
+        product.producto_id === id ? updatedProduct : product
+      );
+
+      setCart(updatedCart);
+    }
+  };
+
+  const handleRestQuantity = (id) => {
+    const productInCart = cart.find((product) => product.producto_id === id);
+
+    if (productInCart.cantidad > 1) {
+      const updatedProduct = {
+        ...productInCart,
+        cantidad: productInCart.cantidad - 1,
+      };
+
+      const updatedCart = cart.map((product) =>
+        product.producto_id === id ? updatedProduct : product
+      );
+
+      setCart(updatedCart);
+    }
+  };
+
   return (
     <div className="fullcart__container pt-10">
-      <div className="flex flex-col md:flex-row gap-5 md:gap-0">
+      <div className="flex flex-col md:flex-row gap-5 md:gap-0 justify-center">
         <div
           className={classNames(
             "w-full shadow-sm",
@@ -84,14 +117,24 @@ export function FullCart() {
                         <p className="card__card__paragraph text-l text-ellipsis whitespace-nowrap overflow-hidden mb-2 w-[450px]">
                           {element.nombre}
                         </p>
-                        <div className="flex items-center gap-4 mb-3">
+                        <div className="flex items-center gap-4 mb-3 md:w-[200px]">
                           <div className="cart__product__add flex items-center rounded bg-gray-100 p-1">
-                            <CgMathMinus className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded" />
+                            <CgMathMinus
+                              onClick={() =>
+                                handleRestQuantity(element?.producto_id)
+                              }
+                              className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded"
+                            />
                             <span className="px-3">{element?.cantidad}</span>
-                            <CgMathPlus className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded" />
+                            <CgMathPlus
+                              onClick={() =>
+                                handleAddQuantity(element?.producto_id)
+                              }
+                              className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded"
+                            />
                           </div>
                           <p className="font-semibold text-lg">
-                            {formatearPrecio(element.precio)}
+                            {formatearPrecio(element?.precio)}
                           </p>
                         </div>
                       </div>
@@ -116,7 +159,7 @@ export function FullCart() {
             ))}
           </div>
         </div>
-        <div className="p-4 w-full md:w-1/3 bg-white m-0 md:ml-8 shadow-sm rounded-md h-max">
+        <div className="p-4 w-full md:w-1/4 bg-white m-0 md:ml-8 shadow-sm rounded-md h-max min-w-[300px]">
           <Summary />
           <div>
             <GeneralBtn
