@@ -63,9 +63,9 @@ export function FullCart() {
         cantidad: productInCart.cantidad + 1,
       };
 
-      if (updatedProduct.cantidad > productInCart.stock) {
+      /*   if (updatedProduct.cantidad > productInCart.stock) {
         setStockAlert("Stock insuficiente");
-      }
+      } */
 
       const updatedCart = cart.map((product) =>
         product.producto_id === id ? updatedProduct : product
@@ -83,9 +83,7 @@ export function FullCart() {
         ...productInCart,
         cantidad: productInCart.cantidad - 1,
       };
-      if (updatedProduct.cantidad <= productInCart.stock) {
-        setStockAlert("");
-      }
+
       const updatedCart = cart.map((product) =>
         product.producto_id === id ? updatedProduct : product
       );
@@ -93,6 +91,17 @@ export function FullCart() {
       setCart(updatedCart);
     }
   };
+
+  useEffect(() => {
+    const newCart = cart.filter((product) => product.cantidad > product.stock);
+
+    if (newCart.length !== 0) {
+      setStockAlert("Stock Insuficiente");
+    } else {
+      setStockAlert("");
+    }
+    console.log(newCart);
+  }, [cart]);
 
   return (
     <div className="fullcart__container pt-10">
@@ -141,7 +150,7 @@ export function FullCart() {
                                 </span>
                                 <CgMathPlus
                                   onClick={() => {
-                                    stockAlert
+                                    element?.cantidad > element?.stock
                                       ? null
                                       : handleAddQuantity(element?.producto_id);
                                   }}
