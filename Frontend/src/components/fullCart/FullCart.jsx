@@ -54,7 +54,6 @@ export function FullCart() {
 
   return (
     <div className="fullcart__container pt-10">
-      <h1 className="ml-5 mb-10">Tus productos</h1>
       <div className="flex flex-col md:flex-row gap-5 md:gap-0">
         <div
           className={classNames(
@@ -64,12 +63,13 @@ export function FullCart() {
             cartStyle.cart_box
           )}
         >
-          <div className="cart__cards__container">
+          <div className="">
+            <h1 className="ml-5 mb-10">Tus productos</h1>
             {cart.map((element) => (
               <ProductCard key={element.carro_id}>
                 <div
                   className={classNames(
-                    "cart__card__body overflow-hidden",
+                    "product__body__cart overflow-hidden border-t border-gray-400 py-5",
                     cartStyle.product_container
                   )}
                 >
@@ -81,7 +81,7 @@ export function FullCart() {
                     />
                     <div className="overflow-hidden w-full">
                       <div className="flex justify-between w-full flex-wrap">
-                        <p className="card__card__paragraph text-l text-ellipsis whitespace-nowrap overflow-hidden mb-2">
+                        <p className="card__card__paragraph text-l text-ellipsis whitespace-nowrap overflow-hidden mb-2 w-[450px]">
                           {element.nombre}
                         </p>
                         <div className="flex items-center gap-4 mb-3">
@@ -104,7 +104,7 @@ export function FullCart() {
                           onClick={() =>
                             handleDeleteProduct(element.producto_id, user.id)
                           }
-                          className="text-sm font-medium mt-2"
+                          className="text-sm font-semibold mt-2 sm:hover:text-teal-500"
                         >
                           Eliminar
                         </button>
@@ -116,7 +116,7 @@ export function FullCart() {
             ))}
           </div>
         </div>
-        <div className="p-4 w-full md:w-1/3 bg-white m-0 md:ml-8 shadow-sm rounded-md">
+        <div className="p-4 w-full md:w-1/3 bg-white m-0 md:ml-8 shadow-sm rounded-md h-max">
           <Summary />
           <div>
             <GeneralBtn
