@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { CartContext } from "../../context/CarritoContext";
 import { UserContext } from "../../context/UserContext";
@@ -10,11 +10,14 @@ import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 import { CgMathPlus } from "react-icons/cg";
 import { CgMathMinus } from "react-icons/cg";
+import { IoAlertCircleOutline } from "react-icons/io5";
+import summary from "../../components/summary/summary.module.css";
 
 export function FullCart() {
   const { cart, setCart, formatearPrecio } = useContext(CartContext);
   const { user, userToken, handleAddedToCart } = useContext(UserContext);
   const navigate = useNavigate();
+  const [stockAlert, setStockAlert] = useState("");
 
   const handleDeleteProduct = async (product_id, usuario_id) => {
     try {
@@ -60,6 +63,10 @@ export function FullCart() {
         cantidad: productInCart.cantidad + 1,
       };
 
+      if (updatedProduct.cantidad > productInCart.stock) {
+        setStockAlert("Stock insuficiente");
+      }
+
       const updatedCart = cart.map((product) =>
         product.producto_id === id ? updatedProduct : product
       );
@@ -76,7 +83,9 @@ export function FullCart() {
         ...productInCart,
         cantidad: productInCart.cantidad - 1,
       };
-
+      if (updatedProduct.cantidad <= productInCart.stock) {
+        setStockAlert("");
+      }
       const updatedCart = cart.map((product) =>
         product.producto_id === id ? updatedProduct : product
       );
@@ -99,7 +108,7 @@ export function FullCart() {
           <div className="">
             <h1 className="ml-5 mb-10">Tus productos</h1>
             {cart.map((element) => (
-              <ProductCard key={element.carro_id}>
+              <ProductCard key={element?.carro_id}>
                 <div
                   className={classNames(
                     "product__body__cart overflow-hidden border-t border-gray-400 py-5",
@@ -109,43 +118,60 @@ export function FullCart() {
                   <div className="flex overflow-hidden gap-3 w-full">
                     <img
                       className="cart__card__img shadow-md"
-                      src={element.imagen}
+                      src={element?.imagen}
                       alt="producto"
                     />
                     <div className="overflow-hidden w-full">
-                      <div className="flex justify-between w-full flex-wrap">
-                        <p className="card__card__paragraph text-l text-ellipsis whitespace-nowrap overflow-hidden mb-2 w-[450px]">
-                          {element.nombre}
+                      <div className="flex gap-0 lg:gap-[70px] w-full flex-wrap">
+                        <p className="card__card__paragraph text-l text-ellipsis whitespace-nowrap overflow-hidden mb-2 w-[450px] md:mb-0">
+                          {element?.nombre}
                         </p>
-                        <div className="flex items-center gap-4 mb-3 md:w-[200px]">
-                          <div className="cart__product__add flex items-center rounded bg-gray-100 p-1">
-                            <CgMathMinus
-                              onClick={() =>
-                                handleRestQuantity(element?.producto_id)
-                              }
-                              className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded"
-                            />
-                            <span className="px-3">{element?.cantidad}</span>
-                            <CgMathPlus
-                              onClick={() =>
-                                handleAddQuantity(element?.producto_id)
-                              }
-                              className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded"
-                            />
+                        <div className="flex items-center gap-4 mb-3 md:w-[200px] md:mb-0 ">
+                          <div>
+                            <div className="flex items-center gap-4">
+                              <div className="cart__product__add flex items-center rounded bg-gray-100 p-1 relative">
+                                <CgMathMinus
+                                  onClick={() =>
+                                    handleRestQuantity(element?.producto_id)
+                                  }
+                                  className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded"
+                                />
+                                <span className="px-3">
+                                  {element?.cantidad}
+                                </span>
+                                <CgMathPlus
+                                  onClick={() =>
+                                    handleAddQuantity(element?.producto_id)
+                                  }
+                                  className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded"
+                                />
+                              </div>
+                              <p className="font-semibold text-lg">
+                                {formatearPrecio(
+                                  element?.precio * element?.cantidad
+                                )}
+                              </p>
+                            </div>
+                            {element?.cantidad > element?.stock ? (
+                              <div className="flex items-center gap-1 absolute text-red-600">
+                                <IoAlertCircleOutline className="scale-110" />
+                                <p className="font-semibold text-sm">
+                                  {stockAlert}
+                                </p>
+                              </div>
+                            ) : (
+                              ""
+                            )}
                           </div>
-                          <p className="font-semibold text-lg">
-                            {formatearPrecio(element?.precio)}
-                          </p>
                         </div>
                       </div>
-
                       <div className="flex flex-col items-start">
                         <span className="text-xs font-medium mb-2 text-gray-800">
                           Disponible {element?.stock}
                         </span>
                         <button
                           onClick={() =>
-                            handleDeleteProduct(element.producto_id, user.id)
+                            handleDeleteProduct(element?.producto_id, user.id)
                           }
                           className="text-sm font-semibold mt-2 sm:hover:text-teal-500"
                         >
@@ -163,9 +189,11 @@ export function FullCart() {
           <Summary />
           <div>
             <GeneralBtn
-              onClick={handleNextStep}
+              onClick={stockAlert ? null : handleNextStep}
               type="primary"
-              className={classNames("mt-8", cartStyle.summary__button)}
+              className={classNames("mt-8", summary.summary__button, {
+                [summary["summary__button--disabled"]]: stockAlert,
+              })}
             >
               Continuar compra
             </GeneralBtn>
