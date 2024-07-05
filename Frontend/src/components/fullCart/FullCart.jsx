@@ -41,7 +41,7 @@ export function FullCart() {
         }
         const data = response.json();
         handleAddedToCart();
-
+        setStockAlert("");
         return data;
       } else {
         return;
@@ -126,7 +126,7 @@ export function FullCart() {
                         <p className="card__card__paragraph text-l text-ellipsis whitespace-nowrap overflow-hidden mb-2 w-[450px] md:mb-0">
                           {element?.nombre}
                         </p>
-                        <div className="flex items-center gap-4 mb-3 md:w-[200px] md:mb-0 ">
+                        <div className="flex items-center gap-4 mb-5 md:w-[200px] md:mb-0 ">
                           <div>
                             <div className="flex items-center gap-4">
                               <div className="cart__product__add flex items-center rounded bg-gray-100 p-1 relative">
@@ -140,9 +140,11 @@ export function FullCart() {
                                   {element?.cantidad}
                                 </span>
                                 <CgMathPlus
-                                  onClick={() =>
-                                    handleAddQuantity(element?.producto_id)
-                                  }
+                                  onClick={() => {
+                                    stockAlert
+                                      ? null
+                                      : handleAddQuantity(element?.producto_id);
+                                  }}
                                   className="icon text-2xl cursor-pointer hover:bg-slate-200 rounded"
                                 />
                               </div>
