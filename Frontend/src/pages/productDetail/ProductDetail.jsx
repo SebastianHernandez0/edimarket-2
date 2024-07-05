@@ -16,6 +16,7 @@ import visa from "/imgs/aplication/visa.png";
 import masterCard from "/imgs/aplication/mastercard.png";
 import cash from "/imgs/aplication/cash.png";
 import { Comments } from "../../components/comments/Comments";
+import { Questions } from "../../components/questions/Questions";
 
 const ModalIcon = forwardRef((props, ref) => (
   <div ref={ref}>
@@ -452,6 +453,10 @@ export function ProductDetail() {
               <div className="card__info__desc mt-10">
                 {product?.descripcion}
               </div>
+            </div>
+            <div className="card__info__questions mt-8 p-4 w-full">
+              <hr />
+              <Questions />
             </div>
             <div className="card__info__desc__comentary mt-8 p-4 w-full">
               <hr />

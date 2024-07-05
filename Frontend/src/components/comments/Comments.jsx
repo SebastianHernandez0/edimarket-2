@@ -6,32 +6,15 @@ import { BsHandThumbsDown } from "react-icons/bs";
 import { IoIosStarOutline } from "react-icons/io";
 
 export function Comments() {
-  const prueba = "sdas";
+  const prueba = "asds";
 
   return (
     <section className="comments__container">
-      <h1 className="text-2xl mt-5">Comentarios</h1>
+      <h1 className="text-2xl mt-5">Valoraciones</h1>
       <p className="mt-5">
-        Deja tu comentario para que otras personas conozcan sobre este producto.
+        Deja tu valoración al comprar para que otras personas conozcan sobre este producto.
       </p>
-      <div className="comments__container flex flex-col gap-10">
-        <div className="comments__body w-full">
-          <form className="comments__form__container mt-7">
-            <div className="comments__input__body flex flex-col gap-5 md:flex-row items-center">
-              <input
-                className="input w-full"
-                type="text"
-                placeholder="Escribe tu comentario."
-              />
-              <GeneralBtn
-                className="w-full h-12 flex items-center justify-center md:w-1/3"
-                type="secondary"
-              >
-                Comentar
-              </GeneralBtn>
-            </div>
-          </form>
-        </div>
+      <div className="comments__container flex flex-col gap-5">
         {prueba ? (
           <div className="opiniones__container">
             <h3 className="my-3 font-medium">Opiniones</h3>
@@ -44,7 +27,7 @@ export function Comments() {
                       <IoIosStar />
                       <IoIosStar />
                       <IoIosStar />
-                      <IoIosStarOutline/>
+                      <IoIosStarOutline />
                       <IoIosStarOutline />
                     </span>
                   </div>
@@ -70,7 +53,7 @@ export function Comments() {
                   </div>
                 </div>
               </div>
-              <hr className="my-5"/>
+              <hr className="my-5" />
               <div className="">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
@@ -109,7 +92,7 @@ export function Comments() {
           </div>
         ) : (
           <p className="text-center">
-            Aún no hay comentarios. ¡Anímate y escribe uno!
+            Aún no hay valoraciones. ¡Compra y deja tu valoración!
           </p>
         )}
       </div>
