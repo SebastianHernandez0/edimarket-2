@@ -6,7 +6,7 @@ import { GeneralBtn } from "../../components/generalBtn/GeneralBtn";
 import { IoHeartSharp } from "react-icons/io5";
 import { CartContext } from "../../context/CarritoContext";
 import { CartAlert } from "../../components/cartAlert/CartAlert";
-import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { OverlayScreen } from "../../components/overlayScreen/OverlayScreen";
 import { UserContext } from "../../context/UserContext";
 import { Loader } from "../../components/loader/Loader";
@@ -15,6 +15,7 @@ import { IoAlertCircleOutline } from "react-icons/io5";
 import visa from "/imgs/aplication/visa.png";
 import masterCard from "/imgs/aplication/mastercard.png";
 import cash from "/imgs/aplication/cash.png";
+import { Comments } from "../../components/comments/Comments";
 
 const ModalIcon = forwardRef((props, ref) => (
   <div ref={ref}>
@@ -39,7 +40,6 @@ export function ProductDetail() {
     setProductAlert,
     handleGetProduct,
     seller,
-    setDirectBuy,
     handleDirectBuy,
   } = useContext(ProductContext);
   const { openModalCart, cart } = useContext(CartContext);
@@ -443,6 +443,10 @@ export function ProductDetail() {
               <div className="card__info__desc mt-10">
                 {product?.descripcion}
               </div>
+            </div>
+            <div className="card__info__desc__comentary mt-8 p-4">
+              <hr />
+              <Comments></Comments>
             </div>
           </ProductCard>
           {productAlert.error ? (
