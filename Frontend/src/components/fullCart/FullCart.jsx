@@ -117,7 +117,7 @@ export function FullCart() {
                 >
                   <div className="flex overflow-hidden gap-3 w-full">
                     <img
-                      className="cart__card__img shadow-md"
+                      className="cart__img shadow-md"
                       src={element?.imagen}
                       alt="producto"
                     />
