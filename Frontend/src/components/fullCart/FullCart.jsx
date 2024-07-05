@@ -133,7 +133,7 @@ export function FullCart() {
                         <div className="flex items-center gap-4 mb-5 md:w-[200px] md:mb-0 ">
                           <div>
                             <div className="flex items-center gap-4">
-                              <div className="cart__product__add flex items-center rounded bg-gray-100 p-1 relative">
+                              <div className="cart__product__add flex items-center rounded bg-gray-100 p-1 relative shadow select-none">
                                 <CgMathMinus
                                   onClick={() =>
                                     handleRestQuantity(element?.producto_id)
