@@ -1,7 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { GeneralBtn } from "../generalBtn/GeneralBtn";
 import { ProductContext } from "../../context/ProductContext";
 import { UserContext } from "../../context/UserContext";
+import { IoMdCloseCircle } from "react-icons/io";
 
 export function QuestionEditoModal({
   setSelectedQuestionToEdit,
@@ -11,9 +12,10 @@ export function QuestionEditoModal({
 }) {
   const { questionsByProductId, handleGetQuestionsByProductId } =
     useContext(ProductContext);
-  const { userToken } = useContext(UserContext);
+  const { userToken, userData } = useContext(UserContext);
   const [questionData, setQuestioData] = useState("");
   const [errorQuestionData, setErrorQuestionData] = useState("");
+  const inputRef = useRef(null);
 
   const handleEditQuestion = async () => {
     try {
@@ -69,6 +71,7 @@ export function QuestionEditoModal({
     if (filteredId) {
       setQuestioData(filteredId.pregunta);
     }
+    inputRef.current.focus();
   }, []);
 
   useEffect(() => {
@@ -77,13 +80,26 @@ export function QuestionEditoModal({
     }
   }, [questionData]);
 
+  const handleCloseModal = () => {
+    setEditQuestion(false);
+    setSelectedQuestionToEdit("");
+    setSelectedQuestionId("");
+  };
+
+  useEffect(() => {
+    if (userData.preguntas !== "") {
+      handleCloseModal();
+    }
+  });
+
   return (
     <form
       onSubmit={handleSubmitQuestion}
-      className="flex items-start gap-2 shadow border rounded-md py-2 px-4"
+      className="flex items-start gap-2 shadow border rounded-md py-2 px-4 relative"
     >
       <div>
         <input
+          ref={inputRef}
           value={questionData}
           name="questionData"
           onChange={(e) => {
@@ -112,6 +128,10 @@ export function QuestionEditoModal({
       >
         Guardar
       </GeneralBtn>
+      <IoMdCloseCircle
+        onClick={handleCloseModal}
+        className="absolute -top-4 -right-4 scale-[1.5] cursor-pointer"
+      />
     </form>
   );
 }
