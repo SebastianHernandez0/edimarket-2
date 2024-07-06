@@ -112,6 +112,11 @@ export function Questions() {
         ...prevErrors,
         errorPreguntas: "Ingresa una pregunta",
       }));
+    } else if (userData.preguntas.trim().length < 5) {
+      setInputFormError((prevErrors) => ({
+        ...prevErrors,
+        errorPreguntas: "Ingresa mínimo 8 caracteres",
+      }));
     } else {
       const res = await handleSendQuestion();
       handleGetQuestionsByProductId();
