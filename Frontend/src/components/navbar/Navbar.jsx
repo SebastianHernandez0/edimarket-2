@@ -16,6 +16,8 @@ import { CiHeart } from "react-icons/ci";
 import { GeneralBtn } from "../generalBtn/GeneralBtn.jsx";
 import { OverlayScreen } from "../overlayScreen/OverlayScreen.jsx";
 import navbarLogo from "/imgs/aplication/navLogo2.1.png";
+import { CiSquareQuestion } from "react-icons/ci";
+import { CiStar } from "react-icons/ci";
 
 // Crear un componente envolvente para manejar la referencia
 const UserIcon = forwardRef((props, ref) => (
@@ -210,6 +212,20 @@ export function Navbar({ navbarRef }) {
                       Mi perfil
                     </NavLink>
                     <NavLink
+                      to="/"
+                      className="navbar__menu__link navbar__menu__link__mobile"
+                    >
+                      <CiSquareQuestion className="miperfil__icon"/>
+                      Preguntas
+                    </NavLink>
+                    <NavLink
+                      to="/"
+                      className="navbar__menu__link navbar__menu__link__mobile"
+                    >
+                      <CiStar className="miperfil__icon"/>
+                      Opiniones
+                    </NavLink>
+                    <NavLink
                       to="/favorites"
                       className="navbar__menu__link navbar__menu__link__mobile"
                     >
@@ -318,6 +334,12 @@ export function Navbar({ navbarRef }) {
                   <hr className="w-full my-2" />
                   <NavLink to="miperfil" className="navbar__user__menu__link">
                     Mi perfil
+                  </NavLink>
+                  <NavLink to="/" className="navbar__user__menu__link">
+                    Preguntas
+                  </NavLink>
+                  <NavLink to="/" className="navbar__user__menu__link">
+                    Opiniones
                   </NavLink>
                   <NavLink
                     to="/createpost"
