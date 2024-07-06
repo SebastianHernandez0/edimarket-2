@@ -348,6 +348,15 @@ const getPreguntasByUser = async (idUsuario) => {
   return preguntas;
 };
 
+const modifyPreguntasByUser = async (pregunta, idUsuario) => {
+  const values = [pregunta, idUsuario];
+  const query =
+    "UPDATE preguntas_producto SET pregunta=$1 WHERE usuario_id=$2";
+  const { rows: preguntas } = await db.query(query, values);
+  console.log(preguntas);
+  return preguntas;
+};
+
 export const userModel = {
   consultarUsuario,
   consultarUsuarioById,
@@ -373,4 +382,5 @@ export const userModel = {
   consultarVentasUsuario,
   pregunta,
   getPreguntasByUser,
+  modifyPreguntasByUser,
 };

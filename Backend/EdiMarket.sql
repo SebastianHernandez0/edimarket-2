@@ -110,7 +110,7 @@ CREATE TABLE
 		id SERIAL PRIMARY KEY,
 		producto_id INT NOT NULL,
 		usuario_id INT NOT NULL,
-		pregunta VARCHAR(255),
+		pregunta VARCHAR(255) NOT NULL,
 		fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		FOREIGN KEY (producto_id) REFERENCES productos (id) ON DELETE CASCADE
 	);

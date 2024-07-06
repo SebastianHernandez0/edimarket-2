@@ -431,6 +431,23 @@ const getPreguntas = async (req, res) => {
   }
 };
 
+const modifyPreguntas = async (req, res) => {
+  try {
+    const { pregunta } = req.body;
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET);
+    const { email, id } = jwt.decode(token);
+    await userModel.modifyPreguntasByUser(pregunta, id);
+    console.log(`El usuario ${email} ha modificado una pregunta`);
+    res.status(200).json({
+      message: "Pregunta modificada",
+    });
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
+};
+
 export const userController = {
   getAllUsers,
   getUserById,
@@ -454,4 +471,5 @@ export const userController = {
   consultarVentas,
   preguntaRealizada,
   getPreguntas,
+  modifyPreguntas,
 };
