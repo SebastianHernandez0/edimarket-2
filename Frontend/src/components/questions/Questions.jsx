@@ -6,6 +6,7 @@ import { UserContext } from "../../context/UserContext";
 import { useParams } from "react-router-dom";
 import { Loader } from "../loader/Loader";
 import { HiDotsVertical } from "react-icons/hi";
+import { QuestionEditoModal } from "../questionEditModal/QuestionEditoModal";
 
 const EditIcon = forwardRef((props, ref) => {
   return (
@@ -37,7 +38,7 @@ export function Questions() {
   const { id } = useParams();
   const [selectedQuestionId, setSelectedQuestionId] = useState("");
   const [selectedQuestionToEdit, setSelectedQuestionToEdit] = useState("");
-  const [editQuestion, setEditoQuestion] = useState(false);
+  const [editQuestion, setEditQuestion] = useState(false);
   const iconRef = useRef(null);
   const modalRef = useRef(null);
 
@@ -149,7 +150,7 @@ export function Questions() {
     setSelectedQuestionId("");
     setSelectedQuestionToEdit(id);
     if (selectedQuestionToEdit) {
-      setEditoQuestion(true);
+      setEditQuestion(true);
     }
   };
 
@@ -208,10 +209,12 @@ export function Questions() {
                         <div>
                           <p className="">{pregunta.pregunta}</p>
                           {selectedQuestionToEdit === pregunta?.id ? (
-                            <input
-                              className="input"
-                              placeholder="edita tu pregunta"
-                              type="text"
+                            <QuestionEditoModal
+                              setSelectedQuestionToEdit={
+                                setSelectedQuestionToEdit
+                              }
+                              setEditQuestion={setEditQuestion}
+                              setSelectedQuestionId={setSelectedQuestionId}
                             />
                           ) : (
                             ""
