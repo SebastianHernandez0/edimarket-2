@@ -9,36 +9,20 @@ export function QuestionEditoModal({
   selectedQuestionToEdit,
 }) {
   const { questionsByProductId } = useContext(ProductContext);
-  const [question, setQuestion] = useState("");
   const [questionData, setQuestioData] = useState("");
-
-  const handleCloseModal = () => {
-    setEditQuestion(false);
-    setSelectedQuestionToEdit("");
-    setSelectedQuestionId("");
-  };
+  const [errorQuestionData, setErrorQuestionData] = useState("");
 
   const handleSubmitQuestion = async (e) => {
     e.preventDefault();
 
-    setInputFormError({
-      errorPreguntas: "",
-    });
-
-    if (userData.preguntas.trim() === "") {
-      setInputFormError((prevErrors) => ({
-        ...prevErrors,
-        errorPreguntas: "Ingresa una pregunta",
-      }));
-    } else if (userData.preguntas.trim().length < 5) {
-      setInputFormError((prevErrors) => ({
-        ...prevErrors,
-        errorPreguntas: "Ingresa mínimo 8 caracteres",
-      }));
+    if (questionData.trim() === "") {
+      setErrorQuestionData("Modifica tu pregunta.");
+    } else if (questionData.trim().length < 5) {
+      setErrorQuestionData("Ingresa mínimo 5 caracteres.");
     } else {
-      const res = await handleSendQuestion();
-      handleGetQuestionsByProductId();
-      setUserData(initialUserData);
+      setEditQuestion(false);
+      setSelectedQuestionToEdit("");
+      setSelectedQuestionId("");
     }
   };
 
@@ -51,21 +35,43 @@ export function QuestionEditoModal({
     }
   }, []);
 
+  useEffect(() => {
+    if (questionData !== "") {
+      setErrorQuestionData("");
+    }
+  }, [questionData]);
+
   return (
     <div className="">
-      <form className="flex items-center gap-2 shadow border rounded-md py-2 px-4">
-        <input
-          value={questionData}
-          onChange={(e) => {
-            setQuestioData(e.target.value);
-          }}
-          className="input w-full"
-          style={{ height: "40px" }}
-          placeholder="Edita tu pregunta..."
-          type="text"
-        />
+      <form
+        onSubmit={handleSubmitQuestion}
+        className="flex items-start gap-2 shadow border rounded-md py-2 px-4"
+      >
+        <div>
+          <input
+            value={questionData}
+            onChange={(e) => {
+              setQuestioData(e.target.value);
+            }}
+            className={`input w-full  ${
+              errorQuestionData
+                ? "focus: outline-2 outline outline-red-600"
+                : "focus: outline-2 outline-green-300"
+            }`}
+            style={{ height: "40px" }}
+            placeholder="Edita tu pregunta..."
+            type="text"
+          />
+          {errorQuestionData ? (
+            <p className="text-red-600 font-semibold text-sm ml-3">
+              {errorQuestionData}
+            </p>
+          ) : (
+            ""
+          )}
+        </div>
+
         <GeneralBtn
-          onClick={handleCloseModal}
           className="h-[40px] w-[80px] flex items-center justify-center text-sm"
           type="primary"
         >
