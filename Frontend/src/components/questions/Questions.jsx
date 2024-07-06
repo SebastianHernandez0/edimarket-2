@@ -4,10 +4,16 @@ import { useContext, useState } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import { UserContext } from "../../context/UserContext";
 import { useParams } from "react-router-dom";
+import { Loader } from "../loader/Loader";
+import { HiDotsVertical } from "react-icons/hi";
 
 export function Questions() {
-  const { questionsByProductId, handleGetQuestionsByProductId, setLoading } =
-    useContext(ProductContext);
+  const {
+    questionsByProductId,
+    handleGetQuestionsByProductId,
+    setLoading,
+    loading,
+  } = useContext(ProductContext);
   const {
     userData,
     inputFormError,
@@ -106,38 +112,45 @@ export function Questions() {
                 className="w-full h-12 flex items-center justify-center md:w-1/3"
                 type="secondary"
               >
-                Preguntar
+                Enviar
               </GeneralBtn>
             </div>
           </form>
         </div>
-        <div>
-          {questionsByProductId.length > 0 ? (
-            <div className="ml-5 questions__body mt-10 h-full">
-              {questionsByProductId.map((pregunta) => {
-                return (
-                  <div key={pregunta.id} className="mb-5">
-                    <p className="mt-2">{pregunta.pregunta}</p>
-                    {respuesta ? (
-                      <div className="flex items-center gap-3">
-                        <p className="ml-3 text-sm text-gray-400">Sí</p>
-                        <p className="text-sm text-gray-400">05/07/2024</p>
+        {loading ? (
+          <Loader />
+        ) : (
+          <div>
+            {questionsByProductId.length > 0 ? (
+              <div className="ml-5 questions__body mt-10 h-full">
+                {questionsByProductId.map((pregunta) => {
+                  return (
+                    <div key={pregunta.id} className="mb-5">
+                      <div className="flex items-center justify-between mt-2">
+                        <p className="">{pregunta.pregunta}</p>
+                        <HiDotsVertical className="scale-[2] cursor-pointer hover:bg-gray-200 p-[3px] rounded-full" />
                       </div>
-                    ) : (
-                      <p className="text-sm text-gray-400  ml-3">
-                        Esperando respuesta del vendedor...
-                      </p>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="flex items-center justify-center mt-10">
-              <p>Aún no han hecho preguntas sobre este producto.</p>
-            </div>
-          )}
-        </div>
+                      {respuesta ? (
+                        <div className="flex items-center gap-3">
+                          <p className="ml-3 text-sm text-gray-400">Sí</p>
+                          <p className="text-sm text-gray-400">05/07/2024</p>
+                        </div>
+                      ) : (
+                        <p className="text-sm text-gray-400  ml-3">
+                          Esperando respuesta del vendedor...
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center mt-10">
+                <p>Aún no han hecho preguntas sobre este producto.</p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );

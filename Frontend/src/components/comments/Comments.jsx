@@ -4,6 +4,7 @@ import { BsHandThumbsUp } from "react-icons/bs";
 import { BsHandThumbsDown } from "react-icons/bs";
 import { IoIosStarOutline } from "react-icons/io";
 
+
 export function Comments() {
   const prueba = "asd";
 
@@ -42,11 +43,11 @@ export function Comments() {
                     tempora nihil quae!
                   </p>
                   <div className="flex items-center gap-3 mt-3">
-                    <div className="flex items-center gap-2 cursor-pointer hover:outline outline-teal-500 outline-1 rounded-xl px-2">
+                    <div className="flex items-center gap-2 cursor-pointer hover:outline outline-teal-500 outline-1 rounded-xl px-2 select-none">
                       <BsHandThumbsUp />
                       <span>0</span>
                     </div>
-                    <div className="flex items-center gap-2 cursor-pointer hover:outline outline-teal-500 outline-1 rounded-xl px-2">
+                    <div className="flex items-center gap-2 cursor-pointer hover:outline outline-teal-500 outline-1 rounded-xl px-2 select-none">
                       <BsHandThumbsDown />
                       <span>0</span>
                     </div>
