@@ -1,11 +1,19 @@
 import "../questions/questions.css";
 import { GeneralBtn } from "../generalBtn/GeneralBtn";
-import { useContext, useState } from "react";
+import { forwardRef, useContext, useEffect, useRef, useState } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import { UserContext } from "../../context/UserContext";
 import { useParams } from "react-router-dom";
 import { Loader } from "../loader/Loader";
 import { HiDotsVertical } from "react-icons/hi";
+
+const EditIcon = forwardRef((props, ref) => {
+  return (
+    <div ref={ref}>
+      <HiDotsVertical {...props} />
+    </div>
+  );
+});
 
 export function Questions() {
   const {
@@ -26,6 +34,16 @@ export function Questions() {
   } = useContext(UserContext);
   const respuesta = "";
   const { id } = useParams();
+  const [selectedQuestionId, setSelectedQuestionId] = useState("");
+  const iconRef = useRef(null);
+  const modalRef = useRef(null);
+
+  const handleOpenModal = (id) => {
+    setSelectedQuestionId(id);
+    if (selectedQuestionId) {
+      setSelectedQuestionId("");
+    }
+  };
 
   const handleSendQuestion = async () => {
     try {
@@ -74,6 +92,25 @@ export function Questions() {
       setUserData(initialUserData);
     }
   };
+
+  const handleClickOutside = (e) => {
+    if (
+      modalRef.current &&
+      iconRef.current &&
+      !modalRef.current.contains(e.target) &&
+      !iconRef.current.contains(e.target)
+    ) {
+      setSelectedQuestionId("");
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  });
 
   return (
     <section className="questions__container">
@@ -126,9 +163,25 @@ export function Questions() {
                 {questionsByProductId.map((pregunta) => {
                   return (
                     <div key={pregunta.id} className="mb-5">
-                      <div className="flex items-center justify-between mt-2">
+                      <div className="flex items-center justify-between mt-2 relative">
                         <p className="">{pregunta.pregunta}</p>
-                        <HiDotsVertical className="scale-[2] cursor-pointer hover:bg-gray-200 p-[3px] rounded-full" />
+                        <EditIcon
+                          ref={
+                            selectedQuestionId === pregunta.id ? iconRef : null
+                          }
+                          onClick={() => handleOpenModal(pregunta.id)}
+                          className="scale-[2] cursor-pointer hover:bg-gray-200 p-[3px] rounded-full select-none"
+                        />
+                        {selectedQuestionId === pregunta.id ? (
+                          <div
+                            ref={modalRef}
+                            className="bg-gray-100 cursor-pointer shadow rounded-md border py-1 px-5 hover:bg-slate-300 select-none absolute right-8 -top-3"
+                          >
+                            <p className="font-medium">Editar</p>
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
                       {respuesta ? (
                         <div className="flex items-center gap-3">
