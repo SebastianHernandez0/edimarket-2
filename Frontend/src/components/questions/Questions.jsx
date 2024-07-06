@@ -121,9 +121,14 @@ export function Questions() {
         errorPreguntas: "Ingresa mínimo 5 caracteres",
       }));
     } else {
-      const res = await handleSendQuestion();
-      handleGetQuestionsByProductId();
-      setUserData(initialUserData);
+      try {
+        const res = await handleSendQuestion();
+        handleGetQuestionsByProductId();
+        setUserData(initialUserData);
+      } catch (error) {
+        console.error(error.message || "Error al enviar pregunta");
+        throw error;
+      }
     }
   };
 
