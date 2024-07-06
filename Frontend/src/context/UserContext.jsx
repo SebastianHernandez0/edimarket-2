@@ -27,6 +27,7 @@ const initialUserData = {
   cvv: "",
   postimg: "",
   productStock: "",
+  preguntas: "",
 };
 
 const initialFormError = {
@@ -51,6 +52,7 @@ const initialFormError = {
   errorCvv: "",
   errorPostimg: "",
   errorProductStock: "",
+  errorPreguntas: "",
 };
 
 const initialStateToken = localStorage.getItem("token") || null;
@@ -63,6 +65,7 @@ export function UserProvider({ children }) {
   const rutFormatRegex = /^[0-9]+-[0-9]$/;
   const onlyNumbersRegex = /^[0-9]+$/;
   const image_url_regex = /\bhttps?:\/\/\S+\.(?:png|jpe?g|gif|webp)\b/;
+  const regexMalasPalabras = /\b(palabra1|palabra2|palabra3)\b/gi;
   const [userData, setUserData] = useState(initialUserData);
   const [user, setUser] = useState(initialStateUser);
   const [userAddress, setUserAddress] = useState([]);
@@ -103,6 +106,7 @@ export function UserProvider({ children }) {
     postimg: useRef(null),
     productStock: useRef(null),
     timeoutRef: useRef(null),
+    preguntasRef: useRef(null),
   };
 
   useEffect(() => {
@@ -281,15 +285,12 @@ export function UserProvider({ children }) {
   const handleGetFavs = async () => {
     try {
       if (userToken) {
-        const response = await fetch(
-          "http://localhost:3000/favoritos",
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${userToken}`,
-            },
-          }
-        );
+        const response = await fetch("http://localhost:3000/favoritos", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || "Error al obtener favoritos");
@@ -311,19 +312,16 @@ export function UserProvider({ children }) {
   const handleDeleteFav = async (e, id) => {
     e.stopPropagation();
     try {
-      const response = await fetch(
-        `http://localhost:3000/favoritos/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`,
-          },
-          body: JSON.stringify({
-            usuario_id: addedToFav.usuario_id,
-          }),
-        }
-      );
+      const response = await fetch(`http://localhost:3000/favoritos/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          usuario_id: addedToFav.usuario_id,
+        }),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -456,6 +454,7 @@ export function UserProvider({ children }) {
         handleUserCards,
         selectedAddressId,
         setSelectedAddressId,
+        regexMalasPalabras,
       }}
     >
       {children}

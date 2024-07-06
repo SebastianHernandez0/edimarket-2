@@ -232,6 +232,7 @@ export function ProductProvider({ children }) {
         setServerError,
         handleDirectBuy,
         questionsByProductId,
+        handleGetQuestionsByProductId,
       }}
     >
       {children}
