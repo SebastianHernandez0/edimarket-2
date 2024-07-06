@@ -95,9 +95,9 @@ export function QuestionEditoModal({
   return (
     <form
       onSubmit={handleSubmitQuestion}
-      className="flex items-start gap-2 shadow border rounded-md py-2 px-4 relative"
+      className="flex items-start gap-2 shadow border rounded-md py-2 px-4 relative justify-between"
     >
-      <div>
+      <div className="w-full">
         <input
           ref={inputRef}
           value={questionData}

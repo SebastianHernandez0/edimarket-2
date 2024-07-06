@@ -288,7 +288,7 @@ export function ProductDetail() {
                           })
                         : null}
                     </p>
-                    {user.id === product?.vendedor_id && userToken ? (
+                    {user?.id === product?.vendedor_id && userToken ? (
                       ""
                     ) : (
                       <HeartIcon
@@ -315,7 +315,7 @@ export function ProductDetail() {
                     <select
                       disabled={
                         product?.stock === 0 ||
-                        (user.id === product?.vendedor_id && userToken)
+                        (user?.id === product?.vendedor_id && userToken)
                           ? true
                           : false
                       }
@@ -371,7 +371,7 @@ export function ProductDetail() {
                   )}
                 </div>
                 <div className="card__info__btn__container">
-                  {user.id === product?.vendedor_id && userToken ? (
+                  {user?.id === product?.vendedor_id && userToken ? (
                     <span className="">
                       Vista previa de tu producto Publicado.
                     </span>

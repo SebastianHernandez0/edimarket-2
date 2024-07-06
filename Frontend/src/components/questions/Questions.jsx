@@ -33,6 +33,7 @@ export function Questions() {
     inputRefs,
     userToken,
     user,
+    questionsByUser,
   } = useContext(UserContext);
   const respuesta = "";
   const { id } = useParams();
@@ -213,12 +214,16 @@ export function Questions() {
                             ref={modalRef}
                             className="bg-gray-100 cursor-pointer shadow rounded-md border hover:bg-slate-300 select-none absolute right-8 -top-3"
                           >
-                            <p
-                              onClick={() => handleEditQuestion(pregunta?.id)}
-                              className="font-medium  py-1 px-5"
-                            >
-                              Editar
-                            </p>
+                            {pregunta?.usuario_id === user?.id ? (
+                              <p
+                                onClick={() => handleEditQuestion(pregunta?.id)}
+                                className="font-medium  py-1 px-5"
+                              >
+                                Editar
+                              </p>
+                            ) : (
+                              <p className="font-medium  py-1 px-5">Reportar</p>
+                            )}
                           </div>
                         ) : (
                           ""

@@ -73,6 +73,7 @@ export function UserProvider({ children }) {
   const [inputFormError, setInputFormError] = useState(initialFormError);
   const [myProducts, setMyProducts] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [questionsByUser, setQuestionsByUser] = useState([]);
   const [AddAddressSuccess, setAddAddressSuccess] = useState({
     success: "",
     error: "",
@@ -115,6 +116,39 @@ export function UserProvider({ children }) {
       error: "",
     });
   }, [navigate]);
+
+  const handleGetQuestionsByUser = async () => {
+    try {
+      if (userToken) {
+        const response = await fetch(
+          `http://localhost:3000/usuarios/preguntas/${user.id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener preguntas");
+        }
+
+        const data = await response.json();
+        setQuestionsByUser(data.preguntas);
+        return data;
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    handleGetQuestionsByUser();
+  }, []);
 
   const handleUserCards = async () => {
     try {
@@ -402,6 +436,7 @@ export function UserProvider({ children }) {
   const logout = () => {
     setUserToken(null);
     setDirectBuy(null);
+    setUser(null);
     navigate("/");
   };
 
@@ -455,6 +490,7 @@ export function UserProvider({ children }) {
         selectedAddressId,
         setSelectedAddressId,
         regexMalasPalabras,
+        questionsByUser,
       }}
     >
       {children}
