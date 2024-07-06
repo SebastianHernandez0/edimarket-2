@@ -133,6 +133,13 @@ const borrarFavorito = async (idFavorito, idUsuario) => {
   }
 };
 
+const preguntasByProductId = async (idProduct) => {
+  const values = [idProduct];
+  const query = "SELECT * FROM preguntas_producto WHERE producto_id = $1";
+  const { rows: preguntas } = await db.query(query, values);
+  return preguntas;
+};
+
 export const productModel = {
   modificarProducto,
   venta,
@@ -142,4 +149,5 @@ export const productModel = {
   agregarFavorito,
   borrarFavorito,
   consultarFavoritos,
+  preguntasByProductId,
 };

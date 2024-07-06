@@ -8,5 +8,6 @@ router.get("/:id", productController.getProductoById);
 router.post("/", verificarToken, productController.agregarProducto);
 router.put("/:idProducto", verificarToken, productController.modifyProducto);
 router.get("/productos/all", productController.getAllProducts);
+router.get("/preguntas/:idProduct", productController.getPreguntasByProductId);
 
 export default router;

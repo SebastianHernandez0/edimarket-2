@@ -177,6 +177,27 @@ const ventaRealizada = async (req, res) => {
   }
 };
 
+const getPreguntasByProductId = async (req, res) => {
+  try {
+    const { idProduct } = req.params;
+    console.log(idProduct);
+    const preguntas = await productModel.preguntasByProductId(idProduct);
+    res.json({
+      preguntas: preguntas.map((pregunta) => {
+        return {
+          id: pregunta.id,
+          producto_id: pregunta.producto_id,
+          usuario_id: pregunta.usuario_id,
+          pregunta: pregunta.pregunta,
+          fecha: pregunta.fecha,
+        };
+      }),
+    });
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
+};
+
 export const productController = {
   getProductos,
   getProductoById,
@@ -188,4 +209,5 @@ export const productController = {
   ventaRealizada,
   modifyProducto,
   getAllProducts,
+  getPreguntasByProductId,
 };

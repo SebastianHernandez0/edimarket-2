@@ -411,9 +411,8 @@ const getPreguntas = async (req, res) => {
   try {
     const Authorization = req.header("Authorization");
     const token = Authorization.split("Bearer ")[1];
-    const { id } = req.params;
     jwt.verify(token, process.env.JWT_SECRET);
-    const { email } = jwt.decode(token);
+    const { email, id } = jwt.decode(token);
     const preguntas = await userModel.getPreguntasByUser(id);
     console.log(`El usuario ${email} ha consultado sus preguntas`);
     res.json({
