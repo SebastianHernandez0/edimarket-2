@@ -133,6 +133,14 @@ const borrarFavorito = async (idFavorito, idUsuario) => {
   }
 };
 
+const pregunta = async (idProducto, idUsuario, pregunta) => {
+  const values = [idProducto, idUsuario, pregunta];
+  const query =
+    "INSERT INTO preguntas_producto (id, producto_id , usuario_id , pregunta, fecha) VALUES (DEFAULT , $1 ,$2 ,$3, DEFAULT)";
+  await db.query(query, values);
+  return console.log("pregunta enviada");
+};
+
 export const productModel = {
   modificarProducto,
   venta,
@@ -142,4 +150,5 @@ export const productModel = {
   agregarFavorito,
   borrarFavorito,
   consultarFavoritos,
+  pregunta,
 };
