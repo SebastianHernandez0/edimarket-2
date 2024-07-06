@@ -27,9 +27,37 @@ export function ProductProvider({ children }) {
   const [limit, setLimit] = useState(12);
   const [totalProducts, setTotalProducts] = useState(0);
   const [directBuy, setDirectBuy] = useState(initialStateProduct);
+  const [questionsByProductId, setQuestionsByProductId] = useState([]);
   const [serverError, setServerError] = useState({
     myPostGetError: "",
   });
+
+  const handleGetQuestionsByProductId = async () => {
+    setLoading(true);
+    try {
+      if (productById) {
+        const response = await fetch(
+          `http://localhost:3000/productos/preguntas/${productById?.producto_id}`
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Error al obtener preguntas");
+        }
+
+        const data = await response.json();
+        setQuestionsByProductId(data.preguntas);
+      }
+    } catch (error) {
+      console.error("Error al obtener preguntas", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetQuestionsByProductId();
+  }, [productById]);
 
   const handleDirectBuy = (cantidad) => {
     setDirectBuy((prevData) => ({
@@ -134,9 +162,7 @@ export function ProductProvider({ children }) {
   const handleGetProduct = async (id) => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `http://localhost:3000/productos/${id}`
-      );
+      const response = await fetch(`http://localhost:3000/productos/${id}`);
       if (!response.ok) {
         throw new Error("Producto no encontrado");
       }
@@ -205,6 +231,7 @@ export function ProductProvider({ children }) {
         serverError,
         setServerError,
         handleDirectBuy,
+        questionsByProductId,
       }}
     >
       {children}

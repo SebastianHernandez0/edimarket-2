@@ -1,8 +1,11 @@
 import "../questions/questions.css";
 import { GeneralBtn } from "../generalBtn/GeneralBtn";
+import { useContext } from "react";
+import { ProductContext } from "../../context/ProductContext";
 
 export function Questions() {
-  const prueba = "sas";
+  const { questionsByProductId } = useContext(ProductContext);
+
   const respuesta = "";
 
   return (
@@ -27,28 +30,29 @@ export function Questions() {
           </form>
         </div>
         <div>
-          {prueba ? (
+          {questionsByProductId.length > 0 ? (
             <div className="ml-5 questions__body mt-10 h-full">
-              <div className="mb-5">
-                <p className="mt-2">
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Dolorum, accusamus.?
-                </p>
-                {respuesta ? (
-                  <div className="flex items-center gap-3">
-                    <p className="ml-3 text-sm text-gray-400">Sí</p>
-                    <p className="text-sm text-gray-400">05/07/2024</p>
+              {questionsByProductId.map((pregunta) => {
+                return (
+                  <div key={pregunta.id} className="mb-5">
+                    <p className="mt-2">{pregunta.pregunta}</p>
+                    {respuesta ? (
+                      <div className="flex items-center gap-3">
+                        <p className="ml-3 text-sm text-gray-400">Sí</p>
+                        <p className="text-sm text-gray-400">05/07/2024</p>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-gray-400  ml-3">
+                        Esperando respuesta del vendedor...
+                      </p>
+                    )}
                   </div>
-                ) : (
-                  <p className="text-sm text-gray-400 mt-2 ml-3">
-                    Esperando respuesta del vendedor...
-                  </p>
-                )}
-              </div>
+                );
+              })}
             </div>
           ) : (
             <div className="flex items-center justify-center mt-10">
-              <p>Aún no han hecho preguntas sobre este producto. </p>
+              <p>Aún no han hecho preguntas sobre este producto.</p>
             </div>
           )}
         </div>
