@@ -31,6 +31,7 @@ export function Questions() {
     handleChange,
     inputRefs,
     userToken,
+    user,
   } = useContext(UserContext);
   const respuesta = "";
   const { id } = useParams();
@@ -42,6 +43,31 @@ export function Questions() {
     setSelectedQuestionId(id);
     if (selectedQuestionId) {
       setSelectedQuestionId("");
+    }
+  };
+
+  const handleModifyQuestion = async (id) => {
+    try {
+      const response = await fetch("http://localhost:3000/usuarios/preguntas", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          usuarioId: id,
+          pregunta: userData.preguntas,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al modificar usuario");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error", error.message);
     }
   };
 

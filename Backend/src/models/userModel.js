@@ -30,6 +30,10 @@ const validarMetodoDePago = object({
   codigo_seguridad: string().min(3),
 });
 
+const validarPregunta = object({
+  question: string().min(3),
+});
+
 const consultarUsuario = async () => {
   const consulta = "SELECT * FROM usuarios";
   const { rows: users } = await db.query(consulta);
@@ -348,10 +352,10 @@ const getPreguntasByUser = async (idUsuario) => {
   return preguntas;
 };
 
-const modifyPreguntasByUser = async (pregunta, idUsuario) => {
-  const values = [pregunta, idUsuario];
-  const query =
-    "UPDATE preguntas_producto SET pregunta=$1 WHERE usuario_id=$2";
+const modifyPreguntasByUser = async (question, idPregunta) => {
+  validarPregunta.parse({ question });
+  const values = [question, idPregunta];
+  const query = "UPDATE preguntas_producto SET pregunta=$1 WHERE id=$2";
   const { rows: preguntas } = await db.query(query, values);
   console.log(preguntas);
   return preguntas;
