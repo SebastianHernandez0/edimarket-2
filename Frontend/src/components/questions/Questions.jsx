@@ -36,6 +36,8 @@ export function Questions() {
   const respuesta = "";
   const { id } = useParams();
   const [selectedQuestionId, setSelectedQuestionId] = useState("");
+  const [selectedQuestionToEdit, setSelectedQuestionToEdit] = useState("");
+  const [editQuestion, setEditoQuestion] = useState(false);
   const iconRef = useRef(null);
   const modalRef = useRef(null);
 
@@ -143,6 +145,14 @@ export function Questions() {
     };
   });
 
+  const handleEditQuestion = (id) => {
+    setSelectedQuestionId("");
+    setSelectedQuestionToEdit(id);
+    if (selectedQuestionToEdit) {
+      setEditoQuestion(true);
+    }
+  };
+
   return (
     <section className="questions__container">
       <h1 className="text-2xl mt-5">Preguntas</h1>
@@ -195,7 +205,18 @@ export function Questions() {
                   return (
                     <div key={pregunta.id} className="mb-5">
                       <div className="flex items-center justify-between mt-2 relative">
-                        <p className="">{pregunta.pregunta}</p>
+                        <div>
+                          <p className="">{pregunta.pregunta}</p>
+                          {selectedQuestionToEdit === pregunta?.id ? (
+                            <input
+                              className="input"
+                              placeholder="edita tu pregunta"
+                              type="text"
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </div>
                         <EditIcon
                           ref={
                             selectedQuestionId === pregunta.id ? iconRef : null
@@ -206,9 +227,14 @@ export function Questions() {
                         {selectedQuestionId === pregunta.id ? (
                           <div
                             ref={modalRef}
-                            className="bg-gray-100 cursor-pointer shadow rounded-md border py-1 px-5 hover:bg-slate-300 select-none absolute right-8 -top-3"
+                            className="bg-gray-100 cursor-pointer shadow rounded-md border hover:bg-slate-300 select-none absolute right-8 -top-3"
                           >
-                            <p className="font-medium">Editar</p>
+                            <p
+                              onClick={() => handleEditQuestion(pregunta?.id)}
+                              className="font-medium  py-1 px-5"
+                            >
+                              Editar
+                            </p>
                           </div>
                         ) : (
                           ""
