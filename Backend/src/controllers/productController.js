@@ -177,21 +177,6 @@ const ventaRealizada = async (req, res) => {
   }
 };
 
-const preguntaRealizada = async (req, res) => {
-  try {
-    const { idProducto, pregunta } = req.body;
-    const Authorization = req.header("Authorization");
-    const token = Authorization.split("Bearer ")[1];
-    jwt.verify(token, process.env.JWT_SECRET);
-    const { email, id } = jwt.decode(token);
-    await productModel.pregunta(idProducto, id, pregunta);
-    console.log(`El usuario ${email} ha realizado una pregunta`);
-    res.status(200).json({ mensaje: "pregunta realizada" });
-  } catch (error) {
-    res.status(500).json({ mensaje: error.message });
-  }
-};
-
 export const productController = {
   getProductos,
   getProductoById,
@@ -203,5 +188,4 @@ export const productController = {
   ventaRealizada,
   modifyProducto,
   getAllProducts,
-  preguntaRealizada,
 };

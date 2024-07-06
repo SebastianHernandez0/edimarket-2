@@ -392,6 +392,46 @@ const consultarVentas = async (req, res) => {
   }
 };
 
+const preguntaRealizada = async (req, res) => {
+  try {
+    const { idProducto, pregunta } = req.body;
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET);
+    const { email, id } = jwt.decode(token);
+    await userModel.pregunta(idProducto, id, pregunta);
+    console.log(`El usuario ${email} ha realizado una pregunta`);
+    res.status(200).json({ mensaje: "pregunta realizada" });
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
+};
+
+const getPreguntas = async (req, res) => {
+  try {
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    const { id } = req.params;
+    jwt.verify(token, process.env.JWT_SECRET);
+    const { email } = jwt.decode(token);
+    const preguntas = await userModel.getPreguntasByUser(id);
+    console.log(`El usuario ${email} ha consultado sus preguntas`);
+    res.json({
+      preguntas: preguntas.map((pregunta) => {
+        return {
+          id: pregunta.id,
+          producto_id: pregunta.producto_id,
+          usuario_id: pregunta.usuario_id,
+          pregunta: pregunta.pregunta,
+          fecha: pregunta.fecha,
+        };
+      }),
+    });
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
+};
+
 export const userController = {
   getAllUsers,
   getUserById,
@@ -413,4 +453,6 @@ export const userController = {
   deletePaymentMethod,
   deleteDomicilio,
   consultarVentas,
+  preguntaRealizada,
+  getPreguntas,
 };

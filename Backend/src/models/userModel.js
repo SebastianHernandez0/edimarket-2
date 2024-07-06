@@ -332,6 +332,22 @@ const consultarVentasUsuario = async (idUsuario) => {
   return ventas;
 };
 
+const pregunta = async (idProducto, idUsuario, pregunta) => {
+  const values = [idProducto, idUsuario, pregunta];
+  const query =
+    "INSERT INTO preguntas_producto (id, producto_id , usuario_id , pregunta, fecha) VALUES (DEFAULT , $1 ,$2 ,$3, DEFAULT)";
+  await db.query(query, values);
+  return console.log("pregunta enviada");
+};
+
+const getPreguntasByUser = async (idUsuario) => {
+  const values = [idUsuario];
+  const query = "SELECT * FROM preguntas_producto WHERE usuario_id = $1";
+  const { rows: preguntas } = await db.query(query, values);
+  console.log(preguntas);
+  return preguntas;
+};
+
 export const userModel = {
   consultarUsuario,
   consultarUsuarioById,
@@ -355,4 +371,6 @@ export const userModel = {
   eliminarMetodoDePago,
   eliminarDomicilio,
   consultarVentasUsuario,
+  pregunta,
+  getPreguntasByUser,
 };
