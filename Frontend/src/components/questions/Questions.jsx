@@ -213,6 +213,7 @@ export function Questions() {
                               setSelectedQuestionToEdit={
                                 setSelectedQuestionToEdit
                               }
+                              selectedQuestionToEdit={selectedQuestionToEdit}
                               setEditQuestion={setEditQuestion}
                               setSelectedQuestionId={setSelectedQuestionId}
                             />
