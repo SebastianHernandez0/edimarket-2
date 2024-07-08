@@ -43,13 +43,6 @@ export function Questions() {
   const iconRef = useRef(null);
   const modalRef = useRef(null);
 
-  const handleOpenModal = (id) => {
-    setSelectedQuestionId(id);
-    if (selectedQuestionId) {
-      setSelectedQuestionId("");
-    }
-  };
-
   const handleSendQuestion = async () => {
     try {
       const response = await fetch("http://localhost:3000/usuarios/preguntas", {
@@ -127,14 +120,6 @@ export function Questions() {
     };
   });
 
-  const handleEditQuestion = (id) => {
-    setSelectedQuestionId("");
-    setSelectedQuestionToEdit(id);
-    if (selectedQuestionToEdit) {
-      setEditQuestion(true);
-    }
-  };
-
   return (
     <section className="questions__container">
       <h1 className="text-2xl mt-5">Preguntas</h1>
@@ -183,63 +168,56 @@ export function Questions() {
           <div>
             {questionsByProductId.length > 0 ? (
               <div className="ml-5 questions__body mt-10 h-full">
-                {questionsByProductId.map((pregunta) => {
-                  return (
-                    <div key={pregunta.id} className="mb-5">
-                      <div className="flex items-center justify-between mt-2 relative">
-                        <div>
-                          <p className="">{pregunta.pregunta}</p>
-                          {selectedQuestionToEdit === pregunta?.id ? (
-                            <QuestionEditoModal
-                              setSelectedQuestionToEdit={
-                                setSelectedQuestionToEdit
-                              }
-                              selectedQuestionToEdit={selectedQuestionToEdit}
-                              setEditQuestion={setEditQuestion}
-                              setSelectedQuestionId={setSelectedQuestionId}
-                            />
-                          ) : (
-                            ""
-                          )}
+                <h3 className="mb-3 font-semibold">Tus preguntas</h3>
+                <div className="bg-gray-100 p-3 rounded-md flex flex-col gap-5">
+                  {questionsByProductId.map((pregunta) => {
+                    return pregunta?.usuario_id === user.id ? (
+                      <div key={pregunta?.id} className="">
+                        <div className="flex items-center justify-between relative">
+                          <div>
+                            <p className="">{pregunta?.pregunta}</p>
+                          </div>
                         </div>
-                        <EditIcon
-                          ref={
-                            selectedQuestionId === pregunta.id ? iconRef : null
-                          }
-                          onClick={() => handleOpenModal(pregunta.id)}
-                          className="scale-[2] cursor-pointer hover:bg-gray-200 p-[3px] rounded-full select-none"
-                        />
-                        {selectedQuestionId === pregunta.id ? (
-                          <div
-                            ref={modalRef}
-                            className="bg-gray-100 cursor-pointer shadow rounded-md border hover:bg-slate-300 select-none absolute right-8 -top-3"
-                          >
-                            {pregunta?.usuario_id === user?.id ? (
-                              <p
-                                onClick={() => handleEditQuestion(pregunta?.id)}
-                                className="font-medium  py-1 px-5"
-                              >
-                                Editar
-                              </p>
-                            ) : (
-                              <p className="font-medium  py-1 px-5">Reportar</p>
-                            )}
+                        {respuesta ? (
+                          <div className="flex items-center gap-3">
+                            <p className="ml-3 text-sm text-gray-400">Sí</p>
+                            <p className="text-sm text-gray-400">05/07/2024</p>
                           </div>
                         ) : (
-                          ""
+                          <p className="text-sm text-gray-400  ml-3">
+                            Esperando respuesta del vendedor...
+                          </p>
                         )}
                       </div>
-                      {respuesta ? (
-                        <div className="flex items-center gap-3">
-                          <p className="ml-3 text-sm text-gray-400">Sí</p>
-                          <p className="text-sm text-gray-400">05/07/2024</p>
+                    ) : (
+                      ""
+                    );
+                  })}
+                </div>
+                <h3 className="mb-3 font-semibold mt-3">Últimas hechas</h3>
+                {questionsByProductId.map((pregunta) => {
+                  return pregunta?.usuario_id !== user.id ? (
+                    <div key={pregunta?.id}>
+                      <div className="mb-5">
+                        <div className="flex items-center justify-between mt-2 relative">
+                          <div>
+                            <p className="">{pregunta?.pregunta}</p>
+                          </div>
                         </div>
-                      ) : (
-                        <p className="text-sm text-gray-400  ml-3">
-                          Esperando respuesta del vendedor...
-                        </p>
-                      )}
+                        {respuesta ? (
+                          <div className="flex items-center gap-3">
+                            <p className="ml-3 text-sm text-gray-400">Sí</p>
+                            <p className="text-sm text-gray-400">05/07/2024</p>
+                          </div>
+                        ) : (
+                          <p className="text-sm text-gray-400  ml-3">
+                            Esperando respuesta del vendedor...
+                          </p>
+                        )}
+                      </div>
                     </div>
+                  ) : (
+                    ""
                   );
                 })}
               </div>

@@ -91,6 +91,22 @@ export function QuestionEditoModal({
       handleCloseModal();
     }
   });
+/* 
+  const handleOpenModal = (id) => {
+    setSelectedQuestionId(id);
+    if (selectedQuestionId) {
+      setSelectedQuestionId("");
+    }
+  };
+
+  const handleEditQuestion = (id) => {
+    setSelectedQuestionId("");
+    setSelectedQuestionToEdit(id);
+    if (selectedQuestionToEdit) {
+      setEditQuestion(true);
+    }
+  }; */
+
 
   return (
     <form
