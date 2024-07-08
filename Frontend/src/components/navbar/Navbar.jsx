@@ -212,17 +212,17 @@ export function Navbar({ navbarRef }) {
                       Mi perfil
                     </NavLink>
                     <NavLink
-                      to="/"
+                      to="/my-questions"
                       className="navbar__menu__link navbar__menu__link__mobile"
                     >
-                      <CiSquareQuestion className="miperfil__icon"/>
+                      <CiSquareQuestion className="miperfil__icon" />
                       Preguntas
                     </NavLink>
                     <NavLink
                       to="/"
                       className="navbar__menu__link navbar__menu__link__mobile"
                     >
-                      <CiStar className="miperfil__icon"/>
+                      <CiStar className="miperfil__icon" />
                       Opiniones
                     </NavLink>
                     <NavLink
@@ -335,7 +335,10 @@ export function Navbar({ navbarRef }) {
                   <NavLink to="miperfil" className="navbar__user__menu__link">
                     Mi perfil
                   </NavLink>
-                  <NavLink to="/" className="navbar__user__menu__link">
+                  <NavLink
+                    to="/my-questions"
+                    className="navbar__user__menu__link"
+                  >
                     Preguntas
                   </NavLink>
                   <NavLink to="/" className="navbar__user__menu__link">

@@ -168,35 +168,43 @@ export function Questions() {
           <div>
             {questionsByProductId.length > 0 ? (
               <div className="ml-5 questions__body mt-10 h-full">
-                <h3 className="mb-3 font-semibold">Tus preguntas</h3>
-                <div className="bg-gray-100 p-3 rounded-md flex flex-col gap-5">
-                  {questionsByProductId.map((pregunta) => {
-                    return pregunta?.usuario_id === user.id ? (
-                      <div key={pregunta?.id} className="">
-                        <div className="flex items-center justify-between relative">
-                          <div>
-                            <p className="">{pregunta?.pregunta}</p>
-                          </div>
-                        </div>
-                        {respuesta ? (
-                          <div className="flex items-center gap-3">
-                            <p className="ml-3 text-sm text-gray-400">Sí</p>
-                            <p className="text-sm text-gray-400">05/07/2024</p>
+                {user?.id ? (
+                  <div>
+                    <h3 className="mb-3 font-semibold">Tus preguntas</h3>
+                    <div className="bg-gray-100 p-3 rounded-md flex flex-col gap-5">
+                      {questionsByProductId.map((pregunta) => {
+                        return pregunta?.usuario_id === user?.id ? (
+                          <div key={pregunta?.id} className="">
+                            <div className="flex items-center justify-between relative">
+                              <div>
+                                <p className="">{pregunta?.pregunta}</p>
+                              </div>
+                            </div>
+                            {respuesta ? (
+                              <div className="flex items-center gap-3">
+                                <p className="ml-3 text-sm text-gray-400">Sí</p>
+                                <p className="text-sm text-gray-400">
+                                  05/07/2024
+                                </p>
+                              </div>
+                            ) : (
+                              <p className="text-sm text-gray-400  ml-3">
+                                Esperando respuesta del vendedor...
+                              </p>
+                            )}
                           </div>
                         ) : (
-                          <p className="text-sm text-gray-400  ml-3">
-                            Esperando respuesta del vendedor...
-                          </p>
-                        )}
-                      </div>
-                    ) : (
-                      ""
-                    );
-                  })}
-                </div>
+                          ""
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <h3 className="mb-3 font-semibold mt-3">Últimas hechas</h3>
                 {questionsByProductId.map((pregunta) => {
-                  return pregunta?.usuario_id !== user.id ? (
+                  return pregunta?.usuario_id !== user?.id ? (
                     <div key={pregunta?.id}>
                       <div className="mb-5">
                         <div className="flex items-center justify-between mt-2 relative">
