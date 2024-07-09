@@ -85,6 +85,10 @@ export function Questions() {
     }
   };
 
+  const questionsFiltered = questionsByProductId.filter(
+    (question) => question.usuario_id === user?.id
+  );
+
   return (
     <section className="questions__container">
       <h1 className="text-2xl mt-5">Preguntas</h1>
@@ -133,7 +137,7 @@ export function Questions() {
           <div>
             {questionsByProductId.length > 0 ? (
               <div className="ml-5 questions__body mt-10 h-full">
-                {user?.id ? (
+                {user?.id && questionsFiltered?.length > 0 ? (
                   <div>
                     <h3 className="mb-3 font-semibold">Tus preguntas</h3>
                     <div className="bg-gray-100 p-3 rounded-md flex flex-col gap-5">

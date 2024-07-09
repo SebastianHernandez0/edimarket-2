@@ -460,7 +460,6 @@ export function ProductDetail() {
             </div>
             <div className="card__info__desc__comentary mt-8 p-4 w-full">
               <hr />
-              {/*COMPÓNENTE DE COMENTARIOS*/}
               <Comments />
             </div>
           </ProductCard>
