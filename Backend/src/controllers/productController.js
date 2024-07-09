@@ -198,6 +198,61 @@ const getPreguntasByProductId = async (req, res) => {
   }
 };
 
+const getProductOnQuestions = async (req, res) => {
+  try {
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET);
+    const { id } = jwt.decode(token);
+
+    const productos = await productModel.productOnQuestions(id);
+
+    if (!productos || productos.length === 0) {
+      return res.status(404).json({
+        mensaje: "No se encontraron productos con preguntas relacionadas.",
+      });
+    }
+
+    const productosConPreguntas = productos.reduce((acc, curr) => {
+      const {producto_id,producto_nombre,precio,imagen,stock,nombre_usuario,id_pregunta,pregunta,fecha,usuario_id,} = curr;
+      
+      const existingProduct = acc.find((p) => p.producto_id === producto_id);
+
+      if (existingProduct) {
+        existingProduct.preguntas.push({
+          id_pregunta,
+          usuario_id,
+          pregunta,
+          fecha,
+        });
+      } else {
+        acc.push({
+          producto_id,
+          titulo: producto_nombre,
+          precio,
+          imagen,
+          stock,
+          nombre_usuario,
+          preguntas: [
+            {
+              id_pregunta,
+              usuario_id,
+              pregunta,
+              fecha,
+            },
+          ],
+        });
+      }
+
+      return acc;
+    }, []);
+
+    res.json({ productos: productosConPreguntas });
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
+};
+
 export const productController = {
   getProductos,
   getProductoById,
@@ -210,4 +265,5 @@ export const productController = {
   modifyProducto,
   getAllProducts,
   getPreguntasByProductId,
+  getProductOnQuestions,
 };

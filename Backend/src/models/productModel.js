@@ -135,9 +135,19 @@ const borrarFavorito = async (idFavorito, idUsuario) => {
 
 const preguntasByProductId = async (idProduct) => {
   const values = [idProduct];
-  const query = "SELECT * FROM preguntas_producto WHERE producto_id = $1 ORDER BY id";
+  const query =
+    "SELECT * FROM preguntas_producto WHERE producto_id = $1 ORDER BY id";
   const { rows: preguntas } = await db.query(query, values);
   return preguntas;
+};
+
+const productOnQuestions = async (id) => {
+  const values = [id];
+  const query =
+    "SELECT preguntas_producto.id AS id_pregunta, preguntas_producto.producto_id, preguntas_producto.usuario_id, preguntas_producto.pregunta, preguntas_producto.fecha, productos.id AS productoId, productos.nombre AS producto_nombre, productos.precio, productos.stock, productos.imagen, usuarios.nombre AS nombre_usuario FROM preguntas_producto INNER JOIN productos ON preguntas_producto.producto_id = productos.id INNER JOIN usuarios ON usuarios.id = preguntas_producto.usuario_id WHERE usuarios.id = $1";
+  const { rows: producto } = await db.query(query, values);
+
+  return producto;
 };
 
 export const productModel = {
@@ -150,4 +160,5 @@ export const productModel = {
   borrarFavorito,
   consultarFavoritos,
   preguntasByProductId,
+  productOnQuestions,
 };

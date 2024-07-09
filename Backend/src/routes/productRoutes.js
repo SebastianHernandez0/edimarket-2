@@ -9,5 +9,6 @@ router.post("/", verificarToken, productController.agregarProducto);
 router.put("/:idProducto", verificarToken, productController.modifyProducto);
 router.get("/productos/all", productController.getAllProducts);
 router.get("/preguntas/:idProduct", productController.getPreguntasByProductId);
+router.get("/producto/:IdUser",verificarToken, productController.getProductOnQuestions);
 
 export default router;

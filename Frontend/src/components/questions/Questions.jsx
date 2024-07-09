@@ -182,13 +182,13 @@ export function Questions() {
                             </div>
                             {respuesta ? (
                               <div className="flex items-center gap-3">
-                                <p className="ml-3 text-sm text-gray-400">Sí</p>
-                                <p className="text-sm text-gray-400">
+                                <p className="ml-3 text-sm text-gray-400 font-medium">Sí</p>
+                                <p className="text-sm text-gray-400 font-medium">
                                   05/07/2024
                                 </p>
                               </div>
                             ) : (
-                              <p className="text-sm text-gray-400  ml-3">
+                              <p className="text-sm text-gray-400 font-medium ml-3">
                                 Esperando respuesta del vendedor...
                               </p>
                             )}
