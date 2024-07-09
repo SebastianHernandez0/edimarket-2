@@ -3,6 +3,7 @@ import "../myQuestions/myQuestions.css";
 import { UserContext } from "../../context/UserContext";
 import { ProductContext } from "../../context/ProductContext";
 import { HiDotsVertical } from "react-icons/hi";
+import { QuestionModal } from "../../components/questionModal/QuestionModal";
 
 export function MyQuestions() {
   const { user, userToken } = useContext(UserContext);
@@ -52,7 +53,7 @@ export function MyQuestions() {
               className="border p-4 rounded-md shadow-sm"
               key={element?.producto_id}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 relative">
                 <div className="border p-2 rounded-md shadow">
                   <img
                     className="w-[80px] object-cover "
@@ -60,9 +61,12 @@ export function MyQuestions() {
                     alt=""
                   />
                 </div>
-                <div className="flex items-center justify-between w-full overflow-hidden">
-                  <p className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[150px] md:max-w-full">{element?.titulo}</p>
-                  <HiDotsVertical className="cursor-pointer scale-[1.5] select-none"/>
+                <div className="flex items-center justify-between w-full overflow-hidden h-[40px]">
+                  <p className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[150px] md:max-w-full ">
+                    {element?.titulo}
+                  </p>
+                  <HiDotsVertical className="cursor-pointer scale-[1.8] select-none hover:bg-slate-200 rounded-full mr-2" />
+                  <QuestionModal />
                 </div>
               </div>
               <hr className="my-4" />
@@ -73,7 +77,9 @@ export function MyQuestions() {
                       key={pregunta?.id_pregunta}
                       className="flex items-center gap-3 ml-3 font-medium overflow-hidden"
                     >
-                      <p className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[180px] sm:max-w-full">• {pregunta?.pregunta}</p>
+                      <p className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[180px] sm:max-w-full">
+                        • {pregunta?.pregunta}
+                      </p>
                       <span className="text-sm text-gray-500">
                         {pregunta?.fecha}
                       </span>
