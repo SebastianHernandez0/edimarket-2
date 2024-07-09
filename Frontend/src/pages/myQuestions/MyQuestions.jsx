@@ -13,7 +13,8 @@ const DeleteIcon = forwardRef((props, ref) => (
 
 export function MyQuestions() {
   const { user, userToken } = useContext(UserContext);
-  const { loading, setLoading } = useContext(ProductContext);
+  const { loading, setLoading, handleProductDetail } =
+    useContext(ProductContext);
   const [product, setProduct] = useState([]);
   const [productId, setProductId] = useState("");
   const iconRef = useRef(null);
@@ -55,7 +56,8 @@ export function MyQuestions() {
     handleGetProductWithQuestions();
   }, []);
 
-  const handleOpenModal = (id) => {
+  const handleOpenModal = (id, e) => {
+    e.stopPropagation();
     setProductId(id);
     if (productId) {
       setProductId("");
@@ -91,7 +93,10 @@ export function MyQuestions() {
                 className="border p-4 rounded-md shadow-sm"
                 key={element?.producto_id}
               >
-                <div className="flex items-center gap-2 relative">
+                <div
+                  onClick={() => handleProductDetail(element?.producto_id)}
+                  className="flex items-center gap-2 relative cursor-pointer"
+                >
                   <div className="border p-2 rounded-md shadow">
                     <img
                       className="w-[80px] object-cover "
@@ -105,7 +110,7 @@ export function MyQuestions() {
                     </p>
                     <DeleteIcon
                       ref={element?.producto_id === productId ? iconRef : null}
-                      onClick={() => handleOpenModal(element?.producto_id)}
+                      onClick={(e) => handleOpenModal(element?.producto_id, e)}
                       className="cursor-pointer scale-[2] select-none hover:bg-slate-200 rounded-full mr-3 p-[3px]"
                     />
                     {element?.producto_id === productId ? (
