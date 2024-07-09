@@ -136,7 +136,7 @@ const borrarFavorito = async (idFavorito, idUsuario) => {
 const preguntasByProductId = async (idProduct) => {
   const values = [idProduct];
   const query =
-    "SELECT * FROM preguntas_producto WHERE producto_id = $1 ORDER BY id";
+    "SELECT * FROM preguntas_producto WHERE producto_id = $1 ORDER BY fecha DESC";
   const { rows: preguntas } = await db.query(query, values);
   return preguntas;
 };
