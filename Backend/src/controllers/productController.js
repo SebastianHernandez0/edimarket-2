@@ -207,12 +207,6 @@ const getProductOnQuestions = async (req, res) => {
 
     const productos = await productModel.productOnQuestions(id);
 
-    if (!productos || productos.length === 0) {
-      return res.status(404).json({
-        mensaje: "No se encontraron productos con preguntas relacionadas.",
-      });
-    }
-
     const productosConPreguntas = productos.reduce(
       (acumulador, elementoActual) => {
         const {

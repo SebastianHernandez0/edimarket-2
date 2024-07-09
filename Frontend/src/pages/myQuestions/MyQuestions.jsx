@@ -110,6 +110,9 @@ export function MyQuestions() {
                     />
                     {element?.producto_id === productId ? (
                       <QuestionModal
+                        handleGetProductWithQuestions={
+                          handleGetProductWithQuestions
+                        }
                         setProductId={setProductId}
                         productId={productId}
                         confirmProductId={element?.producto_id}
