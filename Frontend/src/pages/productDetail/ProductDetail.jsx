@@ -456,7 +456,7 @@ export function ProductDetail() {
             </div>
             <div className="card__info__questions mt-8 p-4 w-full h-full">
               <hr />
-              <Questions />
+              <Questions vendedor_id={product?.vendedor_id} />
             </div>
             <div className="card__info__desc__comentary mt-8 p-4 w-full">
               <hr />

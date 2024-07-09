@@ -6,7 +6,7 @@ import { UserContext } from "../../context/UserContext";
 import { useParams } from "react-router-dom";
 import { Loader } from "../loader/Loader";
 
-export function Questions() {
+export function Questions({ vendedor_id }) {
   const {
     questionsByProductId,
     handleGetQuestionsByProductId,
@@ -94,42 +94,46 @@ export function Questions() {
       <h1 className="text-2xl mt-5">Preguntas</h1>
       <div className="">
         <div className="questions__body __container w-full">
-          <form
-            onSubmit={handleSubmitQuestion}
-            className="questions__form__container mt-7"
-          >
-            <div className="questions__input__body flex flex-col gap-5 md:flex-row items-start">
-              <div className="w-full">
-                <input
-                  ref={inputRefs.preguntasRef}
-                  onChange={handleChange}
-                  value={userData.preguntas}
-                  name="preguntas"
-                  className={`input w-full  ${
-                    inputFormError.errorPreguntas
-                      ? "focus: outline-2 outline outline-red-600"
-                      : "focus: outline-2 outline-green-300"
-                  }`}
-                  type="text"
-                  placeholder="Haz una pregunta..."
-                />
-                {inputFormError.errorPreguntas ? (
-                  <p className="text-red-600 font-semibold text-sm ml-3">
-                    {inputFormError.errorPreguntas}
-                  </p>
-                ) : (
-                  ""
-                )}
-              </div>
+          {vendedor_id === user.id && userToken ? (
+            ""
+          ) : (
+            <form
+              onSubmit={handleSubmitQuestion}
+              className="questions__form__container mt-7"
+            >
+              <div className="questions__input__body flex flex-col gap-5 md:flex-row items-start">
+                <div className="w-full">
+                  <input
+                    ref={inputRefs.preguntasRef}
+                    onChange={handleChange}
+                    value={userData.preguntas}
+                    name="preguntas"
+                    className={`input w-full  ${
+                      inputFormError.errorPreguntas
+                        ? "focus: outline-2 outline outline-red-600"
+                        : "focus: outline-2 outline-green-300"
+                    }`}
+                    type="text"
+                    placeholder="Haz una pregunta..."
+                  />
+                  {inputFormError.errorPreguntas ? (
+                    <p className="text-red-600 font-semibold text-sm ml-3">
+                      {inputFormError.errorPreguntas}
+                    </p>
+                  ) : (
+                    ""
+                  )}
+                </div>
 
-              <GeneralBtn
-                className="w-full h-12 flex items-center justify-center md:w-1/3"
-                type="secondary"
-              >
-                Enviar
-              </GeneralBtn>
-            </div>
-          </form>
+                <GeneralBtn
+                  className="w-full h-12 flex items-center justify-center md:w-1/3"
+                  type="secondary"
+                >
+                  Enviar
+                </GeneralBtn>
+              </div>
+            </form>
+          )}
         </div>
         {loading ? (
           <Loader />

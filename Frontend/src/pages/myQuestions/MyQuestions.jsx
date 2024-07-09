@@ -106,7 +106,7 @@ export function MyQuestions() {
                     <DeleteIcon
                       ref={element?.producto_id === productId ? iconRef : null}
                       onClick={() => handleOpenModal(element?.producto_id)}
-                      className="cursor-pointer scale-[1.8] select-none hover:bg-slate-200 rounded-full mr-2"
+                      className="cursor-pointer scale-[2] select-none hover:bg-slate-200 rounded-full mr-3 p-[3px]"
                     />
                     {element?.producto_id === productId ? (
                       <QuestionModal
