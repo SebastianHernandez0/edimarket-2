@@ -1,15 +1,23 @@
-import { useContext, useEffect, useState } from "react";
+import { forwardRef, useContext, useEffect, useRef, useState } from "react";
 import "../myQuestions/myQuestions.css";
 import { UserContext } from "../../context/UserContext";
 import { ProductContext } from "../../context/ProductContext";
 import { HiDotsVertical } from "react-icons/hi";
 import { QuestionModal } from "../../components/questionModal/QuestionModal";
 
+const DeleteIcon = forwardRef((props, ref) => (
+  <div ref={ref}>
+    <HiDotsVertical {...props} />
+  </div>
+));
+
 export function MyQuestions() {
   const { user, userToken } = useContext(UserContext);
   const { loading, setLoading } = useContext(ProductContext);
-
   const [product, setProduct] = useState([]);
+  const [productId, setProductId] = useState("");
+  const iconRef = useRef(null);
+  const modalRef = useRef(null);
 
   const handleGetProductWithQuestions = async () => {
     try {
@@ -43,6 +51,31 @@ export function MyQuestions() {
     handleGetProductWithQuestions();
   }, []);
 
+  const handleOpenModal = (id) => {
+    setProductId(id);
+    if (productId) {
+      setProductId("");
+    }
+  };
+
+  const handleClickOutside = (e) => {
+    if (
+      modalRef.current &&
+      iconRef.current &&
+      !modalRef.current.contains(e.target) &&
+      !iconRef.current.contains(e.target)
+    ) {
+      setProductId("");
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <section className="myquestions___container bg-white shadow-sm rounded-sm">
       <h1 className="text-2xl font-semibold mb-5">Mis preguntas realizadas</h1>
@@ -65,8 +98,16 @@ export function MyQuestions() {
                   <p className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[150px] md:max-w-full ">
                     {element?.titulo}
                   </p>
-                  <HiDotsVertical className="cursor-pointer scale-[1.8] select-none hover:bg-slate-200 rounded-full mr-2" />
-                  <QuestionModal />
+                  <DeleteIcon
+                    ref={element?.producto_id === productId ? iconRef : null}
+                    onClick={() => handleOpenModal(element?.producto_id)}
+                    className="cursor-pointer scale-[1.8] select-none hover:bg-slate-200 rounded-full mr-2"
+                  />
+                  {element?.producto_id === productId ? (
+                    <QuestionModal ref={modalRef} />
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
               <hr className="my-4" />
