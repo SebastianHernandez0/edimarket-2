@@ -213,39 +213,65 @@ const getProductOnQuestions = async (req, res) => {
       });
     }
 
-    const productosConPreguntas = productos.reduce((acc, curr) => {
-      const {producto_id,producto_nombre,precio,imagen,stock,nombre_usuario,id_pregunta,pregunta,fecha,usuario_id,} = curr;
-      
-      const existingProduct = acc.find((p) => p.producto_id === producto_id);
-
-      if (existingProduct) {
-        existingProduct.preguntas.push({
-          id_pregunta,
-          usuario_id,
-          pregunta,
-          fecha,
-        });
-      } else {
-        acc.push({
+    const productosConPreguntas = productos.reduce(
+      (acumulador, elementoActual) => {
+        const {
           producto_id,
-          titulo: producto_nombre,
+          producto_nombre,
           precio,
           imagen,
           stock,
           nombre_usuario,
-          preguntas: [
-            {
-              id_pregunta,
-              usuario_id,
-              pregunta,
-              fecha,
-            },
-          ],
-        });
-      }
+          id_pregunta,
+          pregunta,
+          fecha,
+          usuario_id,
+        } = elementoActual;
 
-      return acc;
-    }, []);
+        const existingProduct = acumulador.find(
+          (p) => p.producto_id === producto_id
+        );
+
+        if (existingProduct) {
+          existingProduct.preguntas.push({
+            id_pregunta,
+            usuario_id,
+            pregunta,
+            fecha: fecha.toLocaleString("es-ES", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              timeZone: "UTC",
+            }),
+          });
+        } else {
+          acumulador.push({
+            producto_id,
+            titulo: producto_nombre,
+            precio,
+            imagen,
+            stock,
+            nombre_usuario,
+            preguntas: [
+              {
+                id_pregunta,
+                usuario_id,
+                pregunta,
+                fecha: fecha.toLocaleString("es-ES", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                  timeZone: "UTC",
+                }),
+              },
+            ],
+          });
+        }
+
+        return acumulador;
+      },
+      []
+    );
 
     res.json({ productos: productosConPreguntas });
   } catch (error) {

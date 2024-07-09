@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import "../myQuestions/myQuestions.css";
 import { UserContext } from "../../context/UserContext";
 import { ProductContext } from "../../context/ProductContext";
+import { HiDotsVertical } from "react-icons/hi";
 
 export function MyQuestions() {
-  const { questionsByUser, user, userToken } = useContext(UserContext);
+  const { user, userToken } = useContext(UserContext);
   const { loading, setLoading } = useContext(ProductContext);
 
   const [product, setProduct] = useState([]);
@@ -28,7 +29,7 @@ export function MyQuestions() {
         );
       }
       const data = await response.json();
-      console.log(data.productos);
+      setProduct(data.productos);
       return data;
     } catch (error) {
       console.error("Error:", error.message);
@@ -44,11 +45,42 @@ export function MyQuestions() {
   return (
     <section className="myquestions___container bg-white shadow-sm rounded-sm">
       <h1 className="text-2xl font-semibold mb-5">Mis preguntas realizadas</h1>
-      <div className="myquestions__body">
-        {questionsByUser.map((question) => {
+      <div className="myquestions__body flex flex-col gap-5">
+        {product.map((element) => {
           return (
-            <div className="" key={question?.id}>
-              <p>{question?.pregunta}</p>
+            <div
+              className="border p-4 rounded-md shadow-sm"
+              key={element?.producto_id}
+            >
+              <div className="flex items-center gap-2">
+                <div className="border p-2 rounded-md shadow">
+                  <img
+                    className="w-[80px] object-cover "
+                    src={element?.imagen}
+                    alt=""
+                  />
+                </div>
+                <div className="flex items-center justify-between w-full overflow-hidden">
+                  <p className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[150px] md:max-w-full">{element?.titulo}</p>
+                  <HiDotsVertical className="cursor-pointer scale-[1.5] select-none"/>
+                </div>
+              </div>
+              <hr className="my-4" />
+              <div className="flex flex-col gap-2">
+                {element?.preguntas.map((pregunta) => {
+                  return (
+                    <div
+                      key={pregunta?.id_pregunta}
+                      className="flex items-center gap-3 ml-3 font-medium overflow-hidden"
+                    >
+                      <p className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[180px] sm:max-w-full">• {pregunta?.pregunta}</p>
+                      <span className="text-sm text-gray-500">
+                        {pregunta?.fecha}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           );
         })}
