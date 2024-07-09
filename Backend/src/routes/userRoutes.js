@@ -24,5 +24,6 @@ router.get("/usuario/ventas", verificarToken, userController.consultarVentas);
 router.post("/preguntas", verificarToken, userController.preguntaRealizada);
 router.get("/preguntas/:id", verificarToken, userController.getPreguntas);
 router.put("/preguntas", verificarToken, userController.modifyPreguntas);
+router.delete("/preguntas/:productId", verificarToken, userController.deletePreguntas);
 
 export default router;

@@ -361,6 +361,14 @@ const modifyPreguntasByUser = async (question, idPregunta) => {
   return preguntas;
 };
 
+const deletePreguntasByUser = async (productId, id) => {
+  const values = [productId, id];
+  const query =
+    "DELETE FROM preguntas_producto WHERE producto_id = $1 AND usuario_id = $2";
+  await db.query(query, values);
+  return console.log("preguntas elimidanas");
+};
+
 export const userModel = {
   consultarUsuario,
   consultarUsuarioById,
@@ -387,4 +395,5 @@ export const userModel = {
   pregunta,
   getPreguntasByUser,
   modifyPreguntasByUser,
+  deletePreguntasByUser,
 };

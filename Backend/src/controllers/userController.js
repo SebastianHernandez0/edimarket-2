@@ -448,6 +448,22 @@ const modifyPreguntas = async (req, res) => {
   }
 };
 
+const deletePreguntas = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const Authorization = req.header("Authorization");
+    const token = Authorization.split("Bearer ")[1];
+    jwt.verify(token, process.env.JWT_SECRET);
+    const { id } = jwt.decode(token);
+    await userModel.deletePreguntasByUser(productId, id);
+    res.status(200).json({
+      message: "Preguntas eliminadas",
+    });
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
+};
+
 export const userController = {
   getAllUsers,
   getUserById,
@@ -472,4 +488,5 @@ export const userController = {
   preguntaRealizada,
   getPreguntas,
   modifyPreguntas,
+  deletePreguntas,
 };
