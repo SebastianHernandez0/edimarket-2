@@ -25,6 +25,7 @@ export function ProductProvider({ children }) {
   const [totalPage, setTotalPage] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);
+  const [order_by, setOrder_by] = useState("");
   const [totalProducts, setTotalProducts] = useState(0);
   const [directBuy, setDirectBuy] = useState(initialStateProduct);
   const [questionsByProductId, setQuestionsByProductId] = useState([]);
@@ -119,7 +120,7 @@ export function ProductProvider({ children }) {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3000/productos?page=${page}&limits=${limit}`
+        `http://localhost:3000/productos?page=${page}&limits=${limit}&order_by=${order_by}`
       );
       if (!response.ok) {
         const errorData = await response.json();
@@ -157,7 +158,7 @@ export function ProductProvider({ children }) {
 
   useEffect(() => {
     handleGetProducts();
-  }, [page]);
+  }, [page, order_by]);
 
   const handleGetProduct = async (id) => {
     setLoading(true);
@@ -233,6 +234,8 @@ export function ProductProvider({ children }) {
         handleDirectBuy,
         questionsByProductId,
         handleGetQuestionsByProductId,
+        order_by,
+        setOrder_by,
       }}
     >
       {children}

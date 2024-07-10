@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../../context/ProductContext";
 import { ProductCard } from "../../components/productCard/ProductCard";
 import { Loader } from "../../components/loader/Loader";
@@ -8,29 +8,27 @@ import { Pagination } from "../../components/pagination/Pagination.jsx";
 import star from "/imgs/aplication/estrella.png";
 
 export function AllProducts() {
-  const { handleProductDetail, loading, products, page } =
-    useContext(ProductContext);
-  const [orderBy, setOrderBy] = useState("");
+  const {
+    handleProductDetail,
+    loading,
+    products,
+    page,
+    order_by,
+    setOrder_by,
+  } = useContext(ProductContext);
+
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
 
-  let sortedProducts = [...products];
-
   const handleSortChange = (event) => {
-    setOrderBy(event.target.value);
+    setOrder_by(event.target.value);
   };
 
   useEffect(() => {
     if (navigate) {
-      setOrderBy("");
+      setOrder_by("");
     }
   }, [navigate]);
-
-  if (orderBy === "menorPrecio") {
-    sortedProducts.sort((a, b) => a.precio - b.precio);
-  } else if (orderBy === "mayorPrecio") {
-    sortedProducts.sort((a, b) => b.precio - a.precio);
-  }
 
   useEffect(() => {
     if (page !== 1) {
@@ -41,41 +39,36 @@ export function AllProducts() {
   return (
     <div className="product__list__container">
       <div className="products__container">
-        <h1 className="products__title text-2xl font-normal">
+        <h1 className="products__title text-2xl font-semibold">
           Todos los productos
         </h1>
-        {loading ? (
-          <Loader />
-        ) : (
-          <div>
-            <div className="product__list__filters">
-              <select
-                onChange={handleSortChange}
-                className="products__filter shadow-sm rounded-md py-1 px-2 w-56 text-center my-10 border border-gray-300"
-                name="orderBy"
-                id="orderBy"
-                value={orderBy}
-              >
-                <option className="text-start cursor-pointer" value="">
-                  Ordenar por
-                </option>
-                <option
-                  className="text-start cursor-pointer"
-                  value="menorPrecio"
-                >
-                  Menor precio
-                </option>
-                <option
-                  className="text-start cursor-pointer"
-                  value="mayorPrecio"
-                >
-                  Mayor precio
-                </option>
-              </select>
-              <Pagination />
-            </div>
+
+        <div>
+          <div className="product__list__filters">
+            <select
+              onChange={handleSortChange}
+              className="products__filter shadow-sm rounded-md py-1 px-2 w-56 text-center my-10 border border-gray-300"
+              name="order_by"
+              id="order_by"
+              value={order_by}
+            >
+              <option className="text-start cursor-pointer" value="">
+                Ordenar por
+              </option>
+              <option className="text-start cursor-pointer" value="precio_asc">
+                Menor precio
+              </option>
+              <option className="text-start cursor-pointer" value="precio_desc">
+                Mayor precio
+              </option>
+            </select>
+            <Pagination />
+          </div>
+          {loading ? (
+            <Loader />
+          ) : (
             <div className="products__cards__container">
-              {sortedProducts?.map((product) => (
+              {products?.map((product) => (
                 <ProductCard
                   onClick={() => handleProductDetail(product?.id)}
                   key={product?.id}
@@ -118,8 +111,8 @@ export function AllProducts() {
                 </ProductCard>
               ))}
             </div>
-          </div>
-        )}
+          )}
+        </div>
         <Pagination />
       </div>
     </div>
