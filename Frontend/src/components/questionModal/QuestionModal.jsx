@@ -66,21 +66,24 @@ export const QuestionModal = forwardRef(
     return (
       <div
         ref={ref}
-        className="questionmodal__container absolute top-[50px] right-[20px] border flex justify-center flex-col gap-2 z-50 rounded-md shadow bg-gray-100 overflow-hidden"
+        className="questionmodal__container absolute top-[50px] right-[25px] border flex justify-center flex-col gap-2 z-50 rounded-md shadow bg-gray-100 overflow-hidden"
       >
-        <p
-          onClick={() => handleOpenConfirmModal(productId)}
-          className="hover:bg-teal-200 rounded-sm cursor-pointer py-2 px-3 text-sm font-medium select-none"
-        >
-          Eliminar preguntas
-        </p>
-        <p className="hover:bg-teal-200 rounded-sm cursor-pointer py-2 px-3 text-sm font-medium select-none">
-          Reportar preguntas
-        </p>
+        <div onClick={(e) => e.stopPropagation()} className="">
+          <p
+            onClick={() => handleOpenConfirmModal(productId)}
+            className="hover:bg-teal-200 rounded-sm cursor-pointer py-[10px] px-3 text-sm font-medium select-none"
+          >
+            Eliminar preguntas
+          </p>
+          <p className="hover:bg-teal-200 rounded-sm cursor-pointer py-[10px] px-3 text-sm font-medium select-none">
+            Reportar preguntas
+          </p>
+        </div>
         {confirmDeleteId ? (
           <ConfirmDelete
+            onClick={(e) => e.stopPropagation()}
             ref={modalRef}
-            className="confirm__delete__modal__card bg-gray-100 shadow-sm p-3 rounded-md flex flex-col items-stretch gap-4 border"
+            className="confirm__delete__modal__card bg-gray-100 shadow-sm p-3 rounded-md flex flex-col items-stretch gap-4 border cursor-default"
           >
             <ModalIcon
               ref={iconRef}

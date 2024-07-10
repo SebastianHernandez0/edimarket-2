@@ -1,9 +1,9 @@
 import React, { forwardRef } from "react";
 
 export const ConfirmDelete = forwardRef(
-  ({ children, style, className }, ref) => {
+  ({ children, style, className,onClick }, ref) => {
     return (
-      <div ref={ref} style={style} className={className}>
+      <div onClick={onClick} ref={ref} style={style} className={className}>
         {children}
       </div>
     );
