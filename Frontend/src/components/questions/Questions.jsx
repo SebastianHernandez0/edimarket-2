@@ -1,6 +1,6 @@
 import "../questions/questions.css";
 import { GeneralBtn } from "../generalBtn/GeneralBtn";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../../context/ProductContext";
 import { UserContext } from "../../context/UserContext";
 import { useParams } from "react-router-dom";
@@ -23,9 +23,11 @@ export function Questions({ vendedor_id }) {
     inputRefs,
     userToken,
     user,
+    questionsByUser,
   } = useContext(UserContext);
   const respuesta = "";
   const { id } = useParams();
+  const [questionsByOtherUsers, setQuestionsByOtherUsers] = useState("");
 
   const handleSendQuestion = async () => {
     try {
@@ -89,12 +91,27 @@ export function Questions({ vendedor_id }) {
     (question) => question.usuario_id === user?.id
   );
 
+  useEffect(() => {
+    const questionsByUserNotIncluded = questionsByProductId.some(
+      (product) => product?.usuario_id !== user?.id
+    );
+    const questionsByUserIncluded = questionsByProductId.some(
+      (product) => product?.usuario_id === user?.id
+    );
+
+    if (questionsByUser !== 0 && !questionsByUserNotIncluded) {
+      setQuestionsByOtherUsers("No hay preguntas hechas por otros usuarios.");
+    } else if (questionsByUser !== 0 && questionsByUserIncluded) {
+      setQuestionsByOtherUsers("");
+    }
+  }, [questionsByProductId]);
+
   return (
     <section className="questions__container">
       <h1 className="text-2xl mt-5">Preguntas</h1>
       <div className="">
         <div className="questions__body __container w-full">
-          {vendedor_id === user.id && userToken ? (
+          {vendedor_id === user?.id && userToken ? (
             ""
           ) : (
             <form
@@ -177,7 +194,7 @@ export function Questions({ vendedor_id }) {
                 ) : (
                   ""
                 )}
-                <h3 className="mb-3 font-semibold mt-3">Últimas hechas</h3>
+                <h3 className="mb-3 font-semibold mt-6">Últimas hechas</h3>
                 {questionsByProductId.map((pregunta) => {
                   return pregunta?.usuario_id !== user?.id ? (
                     <div key={pregunta?.id}>
@@ -200,7 +217,7 @@ export function Questions({ vendedor_id }) {
                       </div>
                     </div>
                   ) : (
-                    ""
+                    <p key={pregunta?.id}>{questionsByOtherUsers}</p>
                   );
                 })}
               </div>
