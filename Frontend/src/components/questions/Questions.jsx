@@ -5,6 +5,7 @@ import { ProductContext } from "../../context/ProductContext";
 import { UserContext } from "../../context/UserContext";
 import { useParams } from "react-router-dom";
 import { Loader } from "../loader/Loader";
+import { CartAlert } from "../cartAlert/CartAlert";
 
 export function Questions({ vendedor_id }) {
   const {
@@ -28,6 +29,10 @@ export function Questions({ vendedor_id }) {
   const respuesta = "";
   const { id } = useParams();
   const [questionsByOtherUsers, setQuestionsByOtherUsers] = useState("");
+  const [sendQuestionSuccess, setSendQuestionSucces] = useState({
+    success: "",
+    error: "",
+  });
 
   const handleSendQuestion = async () => {
     try {
@@ -49,6 +54,7 @@ export function Questions({ vendedor_id }) {
       }
 
       const data = await response.json();
+      handleGetQuestionsByProductId();
       return data;
     } catch (error) {
       console.error("Error:", error.message);
@@ -78,10 +84,33 @@ export function Questions({ vendedor_id }) {
     } else {
       try {
         const res = await handleSendQuestion();
-        handleGetQuestionsByProductId();
         setUserData(initialUserData);
+        setSendQuestionSucces((prevData) => ({
+          ...prevData,
+          success: "¡Pregunta enviada!",
+        }));
+
+        inputRefs.timeoutRef.current = setTimeout(() => {
+          setSendQuestionSucces((prevState) => ({
+            ...prevState,
+            success: "",
+          }));
+          inputRefs.timeoutRef.current = null;
+        }, 3000);
       } catch (error) {
         console.error(error.message || "Error al enviar pregunta");
+        setSendQuestionSucces((prevData) => ({
+          ...prevData,
+          error: "No pudimos enviar tu pregunta.",
+        }));
+
+        inputRefs.timeoutRef.current = setTimeout(() => {
+          setSendQuestionSucces((prevState) => ({
+            ...prevState,
+            error: "",
+          }));
+          inputRefs.timeoutRef.current = null;
+        }, 3000);
         throw error;
       }
     }
@@ -152,84 +181,95 @@ export function Questions({ vendedor_id }) {
             </form>
           )}
         </div>
-        {loading ? (
-          <Loader />
-        ) : (
-          <div>
-            {questionsByProductId.length > 0 ? (
-              <div className="ml-5 questions__body mt-10 h-full">
-                {user?.id && questionsFiltered?.length > 0 ? (
-                  <div>
-                    <h3 className="mb-3 font-semibold">Tus preguntas</h3>
-                    <div className="bg-gray-100 p-3 rounded-md flex flex-col gap-5">
-                      {questionsByProductId.map((pregunta) => {
-                        return pregunta?.usuario_id === user?.id ? (
-                          <div key={pregunta?.id} className="">
-                            <div className="flex items-center justify-between relative">
-                              <div>
-                                <p className="">{pregunta?.pregunta}</p>
-                              </div>
+
+        <div>
+          {questionsByProductId.length > 0 ? (
+            <div className="ml-5 questions__body mt-10 h-full">
+              {user?.id && questionsFiltered?.length > 0 ? (
+                <div>
+                  <h3 className="mb-3 font-semibold">Tus preguntas</h3>
+                  <div className="bg-gray-100 p-3 rounded-md flex flex-col gap-5">
+                    {questionsByProductId.map((pregunta) => {
+                      return pregunta?.usuario_id === user?.id ? (
+                        <div key={pregunta?.id} className="">
+                          <div className="flex items-center justify-between relative">
+                            <div>
+                              <p className="">{pregunta?.pregunta}</p>
                             </div>
-                            {respuesta ? (
-                              <div className="flex items-center gap-3">
-                                <p className="ml-3 text-sm text-gray-400 font-medium">
-                                  Sí
-                                </p>
-                                <p className="text-sm text-gray-400 font-medium">
-                                  05/07/2024
-                                </p>
-                              </div>
-                            ) : (
-                              <p className="text-sm text-gray-400 font-medium ml-3">
-                                Esperando respuesta del vendedor...
-                              </p>
-                            )}
                           </div>
-                        ) : (
-                          ""
-                        );
-                      })}
+                          {respuesta ? (
+                            <div className="flex items-center gap-3">
+                              <p className="ml-3 text-sm text-gray-400 font-medium">
+                                Sí
+                              </p>
+                              <p className="text-sm text-gray-400 font-medium">
+                                05/07/2024
+                              </p>
+                            </div>
+                          ) : (
+                            <p className="text-sm text-gray-400 font-medium ml-3">
+                              Esperando respuesta del vendedor...
+                            </p>
+                          )}
+                        </div>
+                      ) : (
+                        ""
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+              <h3 className="mb-3 font-semibold mt-6">Últimas hechas</h3>
+              {questionsByProductId.map((pregunta) => {
+                return pregunta?.usuario_id !== user?.id ? (
+                  <div key={pregunta?.id}>
+                    <div className="mb-5">
+                      <div className="flex items-center justify-between mt-2 relative">
+                        <div>
+                          <p className="">{pregunta?.pregunta}</p>
+                        </div>
+                      </div>
+                      {respuesta ? (
+                        <div className="flex items-center gap-3">
+                          <p className="ml-3 text-sm text-gray-400">Sí</p>
+                          <p className="text-sm text-gray-400">05/07/2024</p>
+                        </div>
+                      ) : (
+                        <p className="text-sm text-gray-400  ml-3">
+                          Esperando respuesta del vendedor...
+                        </p>
+                      )}
                     </div>
                   </div>
                 ) : (
-                  ""
-                )}
-                <h3 className="mb-3 font-semibold mt-6">Últimas hechas</h3>
-                {questionsByProductId.map((pregunta) => {
-                  return pregunta?.usuario_id !== user?.id ? (
-                    <div key={pregunta?.id}>
-                      <div className="mb-5">
-                        <div className="flex items-center justify-between mt-2 relative">
-                          <div>
-                            <p className="">{pregunta?.pregunta}</p>
-                          </div>
-                        </div>
-                        {respuesta ? (
-                          <div className="flex items-center gap-3">
-                            <p className="ml-3 text-sm text-gray-400">Sí</p>
-                            <p className="text-sm text-gray-400">05/07/2024</p>
-                          </div>
-                        ) : (
-                          <p className="text-sm text-gray-400  ml-3">
-                            Esperando respuesta del vendedor...
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  ) : (
-                    <p key={pregunta?.id}>{questionsByOtherUsers}</p>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="flex justify-center mt-10 flex-col ml-5">
-                <h3 className="mb-3 font-semibold mt-6">Últimas hechas</h3>
-                <p>Aún no han hecho preguntas sobre este producto.</p>
-              </div>
-            )}
-          </div>
-        )}
+                  <p key={pregunta?.id}>{questionsByOtherUsers}</p>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="flex justify-center mt-10 flex-col ml-5">
+              <h3 className="mb-3 font-semibold mt-6">Últimas hechas</h3>
+              <p>Aún no han hecho preguntas sobre este producto.</p>
+            </div>
+          )}
+        </div>
       </div>
+      {sendQuestionSuccess.success && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-green-600">
+            {sendQuestionSuccess.success}
+          </p>
+        </CartAlert>
+      )}
+      {sendQuestionSuccess.error && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-red-600">
+            {sendQuestionSuccess.error}
+          </p>
+        </CartAlert>
+      )}
     </section>
   );
 }

@@ -67,11 +67,10 @@ export function ProductDetail() {
         (producto) => producto.producto_id === idProducto
       );
       if (productAdded) {
-        setProductAlert((prevState) => ({
-          ...prevState,
+        setProductAlert({
           success: "",
           error: "Ya añadiste este producto al carrito.",
-        }));
+        });
         openModalCart();
         inputRefs.timeoutRef.current = setTimeout(() => {
           setProductAlert((prevState) => ({
@@ -138,11 +137,10 @@ export function ProductDetail() {
           throw new Error(errorData.message || "Error al eliminar el favorito");
         }
         handleGetFavs();
-        setProductAlert((prevState) => ({
-          ...prevState,
+        setProductAlert({
           success: "¡Producto añadido a favoritos!.",
           error: "",
-        }));
+        });
 
         inputRefs.timeoutRef.current = setTimeout(() => {
           setProductAlert((prevState) => ({
@@ -177,11 +175,10 @@ export function ProductDetail() {
 
         const data = await response.json();
         handleGetFavs();
-        setProductAlert((prevState) => ({
-          ...prevState,
+        setProductAlert({
           success: "",
           error: "Producto eliminado de favoritos.",
-        }));
+        });
 
         inputRefs.timeoutRef.current = setTimeout(() => {
           setProductAlert((prevState) => ({
