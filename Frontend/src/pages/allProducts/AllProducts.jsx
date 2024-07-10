@@ -8,7 +8,7 @@ import { Pagination } from "../../components/pagination/Pagination.jsx";
 import star from "/imgs/aplication/estrella.png";
 
 export function AllProducts() {
-  const { handleProductDetail, loading, setLoading, products, page } =
+  const { handleProductDetail, loading, products, page } =
     useContext(ProductContext);
   const [orderBy, setOrderBy] = useState("");
   const navigate = useNavigate();
