@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { settings } from "../reactslick/ReactSlickSlider.jsx";
+import { Link } from "react-router-dom";
 
 export function Products() {
   const { products, handleProductDetail, loading, page } =
@@ -36,7 +37,9 @@ export function Products() {
           <div className="">
             {userToken ? (
               <div className="">
-                <p className="ml-auto">Ver más productos</p>
+                <Link className="block w-[160px] ml-auto mb-3 font-semibold text-base hover:text-teal-500 hover:underline">
+                  Ver más productos
+                </Link>
                 <Slider {...settings}>
                   {products?.map((product) => (
                     <ProductCard
