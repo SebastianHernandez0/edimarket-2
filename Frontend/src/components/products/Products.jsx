@@ -12,15 +12,8 @@ import { settings } from "../reactslick/ReactSlickSlider.jsx";
 import { Link } from "react-router-dom";
 
 export function Products() {
-  const { products, handleProductDetail, loading, page } =
-    useContext(ProductContext);
+  const { products, handleProductDetail, loading } = useContext(ProductContext);
   const { userToken, user } = useContext(UserContext);
-
-  useEffect(() => {
-    if (page !== 1) {
-      window.scrollTo(0, 600);
-    }
-  }, [page]);
 
   return (
     <section>
@@ -37,7 +30,10 @@ export function Products() {
           <div className="">
             {userToken ? (
               <div className="">
-                <Link className="block w-[160px] ml-auto mb-3 font-semibold text-base hover:text-teal-500 hover:underline">
+                <Link
+                  to="/all-products"
+                  className="block w-[160px] ml-auto mb-3 font-semibold text-base hover:text-teal-500 hover:underline"
+                >
                   Ver más productos
                 </Link>
                 <Slider {...settings}>
@@ -87,6 +83,12 @@ export function Products() {
               </div>
             ) : (
               <div className="">
+                <Link
+                  to="/all-products"
+                  className="block w-[160px] ml-auto mb-3 font-semibold text-base hover:text-teal-500 hover:underline"
+                >
+                  Ver más productos
+                </Link>
                 <Slider {...settings}>
                   {products?.map((product) => (
                     <ProductCard
