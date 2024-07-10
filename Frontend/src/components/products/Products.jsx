@@ -41,14 +41,14 @@ export function Products() {
                   >
                     <div className="products__card__img__container">
                       {user.id === product?.vendedor ? (
-                        <div className="product__star__container">
+                        <figure className="product__star__container">
                           <span className="font-semibold">Mi producto</span>
                           <img
                             className="product__star__icon"
                             src={star}
                             alt=""
                           />
-                        </div>
+                        </figure>
                       ) : (
                         ""
                       )}

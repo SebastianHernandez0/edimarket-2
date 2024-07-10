@@ -99,13 +99,13 @@ export function MyQuestions() {
                   onClick={() => handleProductDetail(element?.producto_id)}
                   className="flex items-center gap-2 relative cursor-pointer p-[15px]"
                 >
-                  <div className="border p-2 rounded-md shadow">
+                  <figure className="border p-2 rounded-md shadow">
                     <img
                       className="w-[80px] h-[65px] object-cover "
                       src={element?.imagen}
                       alt=""
                     />
-                  </div>
+                  </figure>
                   <div className="flex items-center justify-between w-full overflow-hidden h-[40px]">
                     <p className="text-ellipsis overflow-hidden whitespace-nowrap max-w-[150px] md:max-w-full ">
                       {element?.titulo}

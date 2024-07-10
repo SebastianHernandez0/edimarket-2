@@ -5,21 +5,21 @@ export function NotFound() {
   return (
     <section className="notfound__container">
       <header className="notfound__header">
-        <div className="notfound__img__container">
+        <figure className="notfound__img__container">
           <img
             className="notfound__header__img"
             src="/imgs/aplication/navLogo2.1.png"
             alt=""
           />
-        </div>
+        </figure>
       </header>
-      <div className="notfound__body flex items-center justify-center flex-col gap-5">
+      <figure className="notfound__body flex items-center justify-center flex-col gap-5">
         <img src="/imgs/aplication/404.png" alt="" className="notfound__img" />
         <h1 className="text-center">Ups... Parece que esta página no existe</h1>
         <Link to="/" className="font-semibold text-teal-500 text-lg">
           Volver
         </Link>
-      </div>
+      </figure>
     </section>
   );
 }
