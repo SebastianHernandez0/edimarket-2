@@ -36,6 +36,7 @@ export function Products() {
           <div className="">
             {userToken ? (
               <div className="">
+                <p className="ml-auto">Ver más productos</p>
                 <Slider {...settings}>
                   {products?.map((product) => (
                     <ProductCard
