@@ -131,7 +131,7 @@ export function ProductList() {
                       src={product?.imagen}
                       alt={product?.nombre}
                     />
-                    {user.id === product?.vendedor ? (
+                    {user?.id === product?.vendedor ? (
                       <div className="product__star__container">
                         <span className="font-semibold">Mi producto</span>
                         <img
