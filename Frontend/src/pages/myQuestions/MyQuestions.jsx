@@ -4,6 +4,7 @@ import { UserContext } from "../../context/UserContext";
 import { ProductContext } from "../../context/ProductContext";
 import { HiDotsVertical } from "react-icons/hi";
 import { QuestionModal } from "../../components/questionModal/QuestionModal";
+import { BsDot } from "react-icons/bs";
 
 const DeleteIcon = forwardRef((props, ref) => (
   <div ref={ref}>
@@ -90,12 +91,12 @@ export function MyQuestions() {
           product.map((element) => {
             return (
               <div
-                className="border p-4 rounded-md shadow-sm"
+                className="border rounded-md shadow-sm"
                 key={element?.producto_id}
               >
                 <div
                   onClick={() => handleProductDetail(element?.producto_id)}
-                  className="flex items-center gap-2 relative cursor-pointer"
+                  className="flex items-center gap-2 relative cursor-pointer p-[15px]"
                 >
                   <div className="border p-2 rounded-md shadow">
                     <img
@@ -128,16 +129,16 @@ export function MyQuestions() {
                     )}
                   </div>
                 </div>
-                <hr className="my-4" />
-                <div className="flex flex-col gap-2">
+                <hr className="" />
+                <div className="flex flex-col gap-2 h-[50px]">
                   {element?.preguntas.map((pregunta) => {
                     return (
                       <div
                         key={pregunta?.id_pregunta}
-                        className="flex items-center gap-3 ml-3 font-medium overflow-hidden"
+                        className="flex items-center gap-3 font-medium overflow-hidden h-full bg-gray-100"
                       >
-                        <p className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[180px] sm:max-w-full">
-                          • {pregunta?.pregunta}
+                        <p className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[180px] sm:max-w-full flex items-center pl-[16px]">
+                        <BsDot className="scale-150"/> {pregunta?.pregunta}
                         </p>
                         <span className="text-sm text-gray-500">
                           {pregunta?.fecha}
