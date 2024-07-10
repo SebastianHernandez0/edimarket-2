@@ -66,9 +66,12 @@ export const QuestionModal = forwardRef(
     return (
       <div
         ref={ref}
-        className="questionmodal__container absolute top-[50px] right-[25px] border flex justify-center flex-col gap-2 z-50 rounded-md shadow bg-gray-100 overflow-hidden"
+        className="questionmodal__container absolute top-[70px] right-[45px] border flex justify-center flex-col gap-2 z-50 rounded-md shadow bg-gray-100 overflow-hidden"
       >
-        <div onClick={(e) => e.stopPropagation()} className="">
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className={`${confirmDeleteId ? "hidden" : ""}`}
+        >
           <p
             onClick={() => handleOpenConfirmModal(productId)}
             className="hover:bg-teal-200 rounded-sm cursor-pointer py-[10px] px-3 text-sm font-medium select-none"

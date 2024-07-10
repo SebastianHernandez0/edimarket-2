@@ -91,7 +91,7 @@ export function MyQuestions() {
           product.map((element) => {
             return (
               <div
-                className="border rounded-md shadow-sm"
+                className="border rounded-md shadow"
                 key={element?.producto_id}
               >
                 <div
@@ -100,7 +100,7 @@ export function MyQuestions() {
                 >
                   <div className="border p-2 rounded-md shadow">
                     <img
-                      className="w-[80px] object-cover "
+                      className="w-[80px] h-[65px] object-cover "
                       src={element?.imagen}
                       alt=""
                     />
@@ -130,15 +130,15 @@ export function MyQuestions() {
                   </div>
                 </div>
                 <hr className="" />
-                <div className="flex flex-col gap-2 h-[50px]">
+                <div className="flex flex-col min-h-[50px]">
                   {element?.preguntas.map((pregunta) => {
                     return (
                       <div
                         key={pregunta?.id_pregunta}
-                        className="flex items-center gap-3 font-medium overflow-hidden h-full bg-gray-100"
+                        className="flex items-center gap-3 font-medium overflow-hidden h-full bg-gray-100 min-h-[50px]"
                       >
                         <p className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[180px] sm:max-w-full flex items-center pl-[16px]">
-                        <BsDot className="scale-150"/> {pregunta?.pregunta}
+                          <BsDot className="scale-150" /> {pregunta?.pregunta}
                         </p>
                         <span className="text-sm text-gray-500">
                           {pregunta?.fecha}
