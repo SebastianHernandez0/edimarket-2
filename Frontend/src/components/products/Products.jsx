@@ -1,10 +1,9 @@
+import "../products/products.css";
 import { useContext, useEffect } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
 import { Loader } from "../loader/Loader.jsx";
-import "../products/products.css";
 import { UserContext } from "../../context/UserContext.jsx";
-import { Pagination } from "../pagination/Pagination.jsx";
 import star from "/imgs/aplication/estrella.png";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
