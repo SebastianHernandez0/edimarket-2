@@ -12,7 +12,15 @@ const ModalIcon = forwardRef((props, ref) => (
 ));
 
 export const QuestionModal = forwardRef(
-  ({ productId, setProductId, handleGetProductWithQuestions }, ref) => {
+  (
+    {
+      productId,
+      setProductId,
+      handleGetProductWithQuestions,
+      setQuestionsDeleted,
+    },
+    ref
+  ) => {
     const { userToken, user } = useContext(UserContext);
     const { setLoading, loading } = useContext(ProductContext);
     const modalRef = useRef(null);
@@ -40,6 +48,10 @@ export const QuestionModal = forwardRef(
 
         const data = await response.json();
         handleGetProductWithQuestions();
+        setQuestionsDeleted("Preguntas eliminadas.");
+        setTimeout(() => {
+          setQuestionsDeleted("");
+        }, 3000);
         return data;
       } catch (error) {
         console.error("Error:", error.message);
@@ -52,7 +64,6 @@ export const QuestionModal = forwardRef(
     const handleConfirmDeleteQuestions = (productId) => {
       if (productId) {
         handleDeleteQuestions();
-
         setProductId("");
       }
     };

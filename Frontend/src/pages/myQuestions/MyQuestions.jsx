@@ -5,6 +5,7 @@ import { ProductContext } from "../../context/ProductContext";
 import { HiDotsVertical } from "react-icons/hi";
 import { QuestionModal } from "../../components/questionModal/QuestionModal";
 import { BsDot } from "react-icons/bs";
+import { CartAlert } from "../../components/cartAlert/CartAlert";
 
 const DeleteIcon = forwardRef((props, ref) => (
   <div ref={ref}>
@@ -20,7 +21,7 @@ export function MyQuestions() {
   const [productId, setProductId] = useState("");
   const iconRef = useRef(null);
   const modalRef = useRef(null);
-
+  const [questionsDeleted, setQuestionsDeleted] = useState("");
   const handleGetProductWithQuestions = async () => {
     try {
       if (userToken) {
@@ -119,6 +120,7 @@ export function MyQuestions() {
                         handleGetProductWithQuestions={
                           handleGetProductWithQuestions
                         }
+                        setQuestionsDeleted={setQuestionsDeleted}
                         setProductId={setProductId}
                         productId={productId}
                         confirmProductId={element?.producto_id}
@@ -157,6 +159,13 @@ export function MyQuestions() {
           </div>
         )}
       </div>
+      {questionsDeleted && (
+        <CartAlert>
+          <p className="card__perfil__alert shadow-md rounded-md bg-slate-700">
+            {questionsDeleted}
+          </p>
+        </CartAlert>
+      )}
     </section>
   );
 }
