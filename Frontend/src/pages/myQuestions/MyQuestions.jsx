@@ -85,14 +85,14 @@ export function MyQuestions() {
   }, []);
 
   return (
-    <section className="myquestions___container bg-white shadow-sm rounded-sm">
+    <section className="myquestions___container ">
       <h1 className="text-2xl font-semibold mb-5">Mis preguntas realizadas</h1>
-      <div className="myquestions__body flex flex-col gap-5">
+      <div className="myquestions__body flex flex-col gap-5 bg-white shadow-sm rounded-md p-3 h-[480px]">
         {product.length > 0 ? (
           product.map((element) => {
             return (
               <div
-                className="border rounded-md shadow"
+                className="border rounded-md shadow w-full max-w-[800px] mx-auto"
                 key={element?.producto_id}
               >
                 <div

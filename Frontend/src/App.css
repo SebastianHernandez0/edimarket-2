@@ -5,19 +5,10 @@ body {
 }
 
 .app__container {
-  display: grid;
-  grid-template-areas:
-    "header"
-    "home"
-    "footer";
   width: 100%;
-    grid-template-rows: 10px 1fr;
   min-width: 375px;
   background-color: var(--backgroundHomeColor);
-  /* font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  font-style: normal; */
-  min-height: 100vh;
+  
 }
 
 /* BASIC STYLES */

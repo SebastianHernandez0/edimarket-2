@@ -154,12 +154,12 @@ export function AddUserAdress() {
   }, [navigate]);
 
   return (
-    <section className="adduseraddress__container bg-white shadow-sm rounded-sm">
+    <section className="adduseraddress__container ">
       <h1 className="mb-5">Añadir dirección</h1>
-      <div className="edituseraddress__body">
+      <div className="edituseraddress__body bg-white shadow-sm rounded-md flex p-3">
         <form
           onSubmit={handleAddressSubmit}
-          className="edituseraddress__form border rounded-md shadow-sm"
+          className="edituseraddress__form border rounded-md shadow-sm my-8 m-auto"
         >
           <div className="nombre">
             <label htmlFor="">Dirección</label>

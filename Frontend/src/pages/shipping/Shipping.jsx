@@ -26,7 +26,7 @@ export function Shipping() {
       {userAddress.length ? (
         <div>
           <h1 className="ml-5 mb-10">Elige dónde quieres recibir tu compra:</h1>
-          <div className="shipping__container flex mx-8 md:mx-8 lg:mx-28 flex-col md:flex-row">
+          <div className="shipping__container flex lg:mx-28 flex-col md:flex-row gap-6 md:gap-0">
             <div className="delivery w-full md:w-2/3">
               <Adresses />
             </div>

@@ -13,20 +13,21 @@ export function Favorites() {
   const { handleDeleteFav } = useContext(UserContext);
 
   return (
-    <section className="favorites__container bg-white shadow-sm">
-      <h1 className="favorites__title text-2xl font-semibold">Mis favoritos</h1>
+    <section className="favorites__container ">
+      <h1 className="text-2xl font-semibold mb-5">Mis favoritos</h1>
       <div className="">
         {loading ? (
           <Loader />
         ) : (
           <div>
-            <div className="favorites__cards__container">
+            <div className="favorites__cards__container bg-white shadow-sm rounded-md p-3 h-[480px]">
               {addedToFav.length > 0 ? (
                 addedToFav.map((product) => {
                   return (
                     <ProductCard
                       onClick={() => handleProductDetail(product?.producto_id)}
                       key={product.id}
+                      className="max-w-[800px] mx-auto"
                     >
                       <div className="favorites__card__body">
                         <img
@@ -35,7 +36,7 @@ export function Favorites() {
                           alt=""
                         />
                         <div className="favorites__card__info">
-                          <p className="favorites__card__paragraph text-md font-light text-lg">
+                          <p className="favorites__card__paragraph text-md font-light text-lg text-ellipsis whitespace-nowrap overflow-hidden">
                             {product.nombre}
                           </p>
                           <p className="favorites__card__info">

@@ -159,12 +159,12 @@ export function EditUserData() {
   }, []);
 
   return (
-    <section className="edituserdata__container bg-white shadow-sm rounded-sm">
-      <h1 className="mb-5">Edita y guarda tus datos</h1>
-      <div className="edituserdata__body">
+    <section className="edituserdata__container ">
+      <h1 className="text-2xl font-semibold mb-5">Edita y guarda tus datos</h1>
+      <div className="edituserdata__body bg-white shadow-sm  rounded-md">
         <form
           onSubmit={handleSubmitEditData}
-          className="edituserdata__form border rounded-md py-5 px-3 flex flex-col gap-5"
+          className="edituserdata__form border rounded-md py-5 px-3 flex flex-col gap-5 my-8"
         >
           <div className="user__input__container">
             <label className="font-semibold" htmlFor="nombre">

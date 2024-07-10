@@ -123,7 +123,7 @@ export function ProductList() {
                 <ProductCard
                   onClick={() => handleProductDetail(product?.id)}
                   key={product?.id}
-                  className="products__card shadow-md bg-white"
+                  className="products__card__list shadow-md bg-white"
                 >
                   <div className="products__card__img__container">
                     <img
@@ -131,7 +131,7 @@ export function ProductList() {
                       src={product?.imagen}
                       alt={product?.nombre}
                     />
-                    {user.id === product?.vendedor ? (
+                    {user?.id === product?.vendedor ? (
                       <div className="product__star__container">
                         <span className="font-semibold">Mi producto</span>
                         <img

@@ -118,14 +118,14 @@ export function MyPosts() {
     };
   }, []);
   return (
-    <section className="myposts__container bg-white shadow-sm">
+    <section className="myposts__container ">
       <h1 className="text-2xl font-semibold mb-5">Mis publicaciones</h1>
       {loading ? (
         <Loader />
       ) : serverError.myPostGetError ? (
         <p>{serverError.myPostGetError}</p>
       ) : (
-        <div className="myposts__body flex flex-col gap-5 h-full">
+        <div className="myposts__body flex flex-col gap-5 h-full bg-white shadow-sm p-3 rounded-md">
           {myProducts.length > 0 ? (
             myProducts.map((product) => (
               <ProductCard

@@ -102,8 +102,8 @@ export function SingIn() {
   };
 
   return (
-    <section className="login__container shadow-md rounded-md">
-      <div className="login__form__container">
+    <section className="login__container ">
+      <div className="login__form__container shadow-md rounded-md bg-white">
         <form onSubmit={handleSingInSubmit} className="login__form">
           <div className="login__form__title__container">
             <h1 className="login__form__title text-center text-2xl font-medium">

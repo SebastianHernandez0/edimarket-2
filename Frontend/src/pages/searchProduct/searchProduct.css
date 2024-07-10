@@ -1,7 +1,6 @@
 .searchproduct__container {
-  grid-area: home;
-  padding: 0 25px;
-  margin: 60px auto;
+  padding: 25px;
+  margin: 0 auto;
   max-width: 1400px;
   width: 100%;
 }

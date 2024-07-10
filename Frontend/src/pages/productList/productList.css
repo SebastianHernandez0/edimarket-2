@@ -1,6 +1,4 @@
 .product__list__container {
-  grid-area: home;
-  padding: 0 25px;
   margin: 0 auto;
   max-width: 1400px;
   width: 100%;
@@ -12,7 +10,18 @@
 .products__filter {
   cursor: pointer;
 }
-
+.products__card__list {
+  position: relative;
+  transition: 0.2s ease-out;
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 416px;
+  width: 100%;
+  max-width: 300px;
+}
 .product__list__filters {
   display: flex;
   flex-direction: column;
