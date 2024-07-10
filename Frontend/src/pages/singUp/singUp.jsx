@@ -140,8 +140,8 @@ export function SingUp() {
   };
 
   return (
-    <section className="register__container shadow-md rounded-md">
-      <div className="register__form__container">
+    <section className="register__container">
+      <div className="register__form__container shadow-md rounded-md bg-white">
         <form onSubmit={handleSingupSubmit} className="register__form">
           <div className="register__form__title__container">
             <h1 className="register__form__title text-center text-2xl font-medium">

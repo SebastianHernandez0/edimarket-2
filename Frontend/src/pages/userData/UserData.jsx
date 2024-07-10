@@ -13,9 +13,9 @@ export function UserData() {
   const { user } = useContext(UserContext);
 
   return (
-    <section className="personaldata__container bg-white shadow-sm rounded-sm">
+    <section className="personaldata__container">
       <h1 className="text-2xl font-semibold mb-5">Datos personales</h1>
-      <div className="personaldata__body flex flex-col gap-2">
+      <div className="personaldata__body flex flex-col gap-2 bg-white shadow-sm rounded-md p-[25px]">
         <hr />
         <div className="personaldata__name flex items-center justify-between my-5">
           <div className="flex items-center gap-10 flex-wrap w-full">

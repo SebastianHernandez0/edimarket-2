@@ -1,7 +1,7 @@
 .myquestions___container {
-  grid-area: home;
   padding: 25px;
-  margin: 60px auto;
+  margin: 0 auto;
   width: 100%;
   max-width: 1000px;
+
 }

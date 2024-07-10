@@ -1,9 +1,8 @@
 .login__container {
-  grid-area: home;
-  margin: 60px auto;
+  padding: 25px;
+  margin: 0 auto;
 }
 .login__container {
-  background: #ffffff;
   max-width: 550px;
   display: flex;
 }

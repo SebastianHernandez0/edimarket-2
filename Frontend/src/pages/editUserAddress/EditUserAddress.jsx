@@ -36,25 +36,22 @@ export function EditUserAddress() {
     idUsuario
   ) => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/usuarios/domicilio",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userToken}`,
-          },
-          body: JSON.stringify({
-            direccion,
-            numero_casa,
-            ciudad,
-            comuna,
-            region,
-            codigo_postal,
-            idUsuario,
-          }),
-        }
-      );
+      const response = await fetch("http://localhost:3000/usuarios/domicilio", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify({
+          direccion,
+          numero_casa,
+          ciudad,
+          comuna,
+          region,
+          codigo_postal,
+          idUsuario,
+        }),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -161,12 +158,12 @@ export function EditUserAddress() {
   }, []);
 
   return (
-    <section className="edituseraddress__container bg-white shadow-sm rounded-sm">
+    <section className="edituseraddress__container ">
       <h1 className="mb-5">Editar dirección</h1>
-      <div className="edituseraddress__body">
+      <div className="edituseraddress__body bg-white shadow-sm rounded-md flex p-3">
         <form
           onSubmit={handleAddressSubmit}
-          className="edituseraddress__form border rounded-md shadow-sm"
+          className="edituseraddress__form border rounded-md shadow-sm my-8 m-auto"
         >
           <div className="nombre">
             <label htmlFor="">Dirección</label>

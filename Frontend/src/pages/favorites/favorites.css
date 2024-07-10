@@ -1,7 +1,6 @@
 .favorites__container {
-  grid-area: home;
   padding: 25px;
-  margin: 60px auto;
+  margin: 0 auto;
   width: 100%;
   max-width: 1000px;
 }
@@ -14,7 +13,7 @@
 }
 .favorites__card__img {
   width: 100%;
-  max-width: 120px;
+  max-width: 80px;
   object-fit: cover;
 }
 .favorites__card__body {
@@ -22,7 +21,7 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 5px;
   border-bottom: 1px solid var(--dark_2);
   padding: 6px 0;
 }

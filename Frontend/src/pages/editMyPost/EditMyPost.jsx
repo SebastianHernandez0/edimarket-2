@@ -186,10 +186,10 @@ export function EditMyPost() {
   }, [product]);
 
   return (
-    <section className="editmypost__container bg-white shadow-sm">
+    <section className="editmypost__container ">
       <h1 className="text-2xl font-semibold mb-5">Editar publicación</h1>
       <div className="editmypost__body">
-        <div className="createpost__card__container ">
+        <div className="createpost__card__container bg-white shadow-sm rounded-md p-3">
           <form
             onSubmit={handlePostSubmit}
             className="createpost__card__form bg-white shadow-sm mt-4 border rounded-md"

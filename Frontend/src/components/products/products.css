@@ -1,7 +1,6 @@
 .products__container {
-  grid-area: home;
-  padding: 0 25px;
-  margin: 60px auto;
+  padding: 25px;
+  margin: 0 auto;
   max-width: 1400px;
   width: 100%;
 }
@@ -46,6 +45,7 @@
   min-height: 416px;
   width: 100%;
   max-width: 300px;
+  margin: 0 auto;
 }
 .products__card:hover {
   filter: brightness(90%);
@@ -64,6 +64,9 @@
 }
 .product__star__icon {
   width: 20px;
+}
+.slick-list {
+  height: 430px;
 }
 /*MODO DESKTOP*/
 

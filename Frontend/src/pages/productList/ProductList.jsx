@@ -123,7 +123,7 @@ export function ProductList() {
                 <ProductCard
                   onClick={() => handleProductDetail(product?.id)}
                   key={product?.id}
-                  className="products__card shadow-md bg-white"
+                  className="products__card__list shadow-md bg-white"
                 >
                   <div className="products__card__img__container">
                     <img

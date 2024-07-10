@@ -111,7 +111,7 @@ export function Billing() {
       {userCreditCards.length ? (
         <div>
           <h1 className="mb-10 ml-5">¿Cómo quieres pagar?</h1>
-          <div className="flex mx-8 md:mx-8 lg:mx-28 flex-col md:flex-row">
+          <div className="flex  lg:mx-28 flex-col md:flex-row gap-6 md:gap-0">
             <div className="delivery w-full md:w-2/3">
               <PaymentMethods />
             </div>

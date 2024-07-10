@@ -1,5 +1,4 @@
 .cartmodal__container {
-  grid-area: home;
   position: fixed;
   bottom: 0;
   right: 0;

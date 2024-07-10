@@ -100,18 +100,18 @@ export function UserCards() {
   }, []);
 
   return (
-    <section className="usercards__container bg-white shadow-sm rounded-sm">
-      <h1 className="mb-5">Mis tarjetas</h1>
+    <section className="usercards__container ">
+      <h1 className="text-2xl font-semibold mb-5">Mis tarjetas</h1>
       {loading ? (
         <Loader />
       ) : (
-        <div className="usercards__body">
+        <div className="usercards__body bg-white shadow-sm rounded-md p-3 ">
           {userCreditCards.length ? (
             <div className="credit-card__body">
               {userCreditCards.map((card) => (
                 <div
                   key={card?.numero_tarjeta}
-                  className="usercards__card__body flex border rounded-md p-5"
+                  className="usercards__card__body flex w-full border rounded-md p-3 max-w-[800px] mx-auto "
                 >
                   <div className="flex items-center justify-start gap-5 w-full">
                     <div className="credit-card-container">

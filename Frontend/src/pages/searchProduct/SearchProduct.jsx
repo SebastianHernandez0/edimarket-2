@@ -24,7 +24,7 @@ export function SearchProduct() {
             <ProductCard
               onClick={() => handleProductDetail(product?.producto_id)}
               key={product?.producto_id}
-              className="products__card shadow-md bg-white"
+              className="products__card__list shadow-md bg-white"
             >
               <div className="products__card__img__container">
                 {user.id === product?.vendedor_id ? (

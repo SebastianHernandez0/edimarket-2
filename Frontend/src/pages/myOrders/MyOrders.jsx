@@ -63,14 +63,14 @@ export function MyOrders() {
   };
 
   return (
-    <div
+    <section
       className={classNames(
-        "myOrders__container pt-10 bg-white shadow-sm rounded-sm",
+        "myOrders__container pt-10 ",
         myOrders.myOrders__container
       )}
     >
-      <h1 className="mb-4">Mis compras</h1>
-      <div className="orders_box ">
+      <h1 className="text-2xl font-semibold mb-5">Mis compras</h1>
+      <div className="orders_box bg-white shadow-sm rounded-md p-3 h-[480px]">
         {loading ? (
           <Loader />
         ) : (
@@ -80,7 +80,7 @@ export function MyOrders() {
                 return (
                   <div
                     className={classNames(
-                      "order_box flex flex-row w-full border shadow-sm rounded-md gap-2",
+                      "order_box flex flex-row w-full border shadow-sm rounded-md gap-2 max-w-[800px] mx-auto",
                       myOrders.order__container
                     )}
                     key={`${order.producto_id}_${index}`}
@@ -96,15 +96,21 @@ export function MyOrders() {
                         {formatearPrecio(order.valor_total)}
                       </p>
                     </div>
-                    <div>
-                      <img className="w-[100px] h-[80px] sm:w-[120px]h-[100px] object-cover" src={order.imagen} alt="" />
-                    </div>
+                    <figure className="w-[100px] h-[80px] sm:w-[150px]h-[120px]">
+                      <img
+                        className="w-[80px] h-[60px] sm:w-full sm:h-full object-cover"
+                        src={order.imagen}
+                        alt=""
+                      />
+                    </figure>
                   </div>
                 );
               })
             ) : (
               <div className="flex flex-col items-center gap-12">
-                <h2 className="text-center font-semibold text-3xl">Aún no tienes compras.</h2>
+                <h2 className="text-center font-semibold text-3xl">
+                  Aún no tienes compras.
+                </h2>
                 <p>Cuando compres , tus compras aparecerán acá</p>
                 <img className="w-[200px]" src={delivery} alt="" />
               </div>
@@ -112,6 +118,6 @@ export function MyOrders() {
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 }

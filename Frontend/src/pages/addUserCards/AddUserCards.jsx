@@ -166,9 +166,9 @@ export function AddUserCards() {
   };
 
   return (
-    <section className="addusercards__container bg-white shadow-sm rounded-sm">
-      <h1 className="mb-5">Añade una tarjeta</h1>
-      <div className="addusercards__body">
+    <section className="addusercards__container">
+      <h1 className="text-2xl font-semibold mb-5">Añade una tarjeta</h1>
+      <div className="addusercards__body bg-white shadow-sm rounded-sm p-3">
         <div className="flex items center justify-center">
           <img
             className="creditcards "

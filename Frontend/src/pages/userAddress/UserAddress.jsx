@@ -116,12 +116,12 @@ export function UserAddress() {
   }, [navigate]);
 
   return (
-    <section className="useraddress__container bg-white shadow-sm rounded-sm">
+    <section className="useraddress__container ">
       <h1 className="text-2xl font-semibold mb-5">Direcciones</h1>
       {loading ? (
         <Loader />
       ) : (
-        <div>
+        <div className="bg-white shadow-sm rounded-md p-[25px]">
           {userAddress.length > 0 ? (
             userAddress.map((address) => (
               <div
