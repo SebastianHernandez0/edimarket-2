@@ -222,7 +222,8 @@ export function Questions({ vendedor_id }) {
                 })}
               </div>
             ) : (
-              <div className="flex items-center justify-center mt-10">
+              <div className="flex justify-center mt-10 flex-col ml-5">
+                <h3 className="mb-3 font-semibold mt-6">Últimas hechas</h3>
                 <p>Aún no han hecho preguntas sobre este producto.</p>
               </div>
             )}
