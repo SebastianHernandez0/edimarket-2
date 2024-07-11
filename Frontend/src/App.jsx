@@ -35,6 +35,7 @@ import { NoAddressAdded } from "./components/noAddressAdded/NoAddressAdded.jsx";
 import { NoPaymentMethodsAdded } from "./components/noPaymentMethodsAdded/NoPaymentMethodsAdded.jsx";
 import { MyQuestions } from "./pages/myQuestions/MyQuestions.jsx";
 import { AllProducts } from "./pages/allProducts/AllProducts.jsx";
+import { MyValorations } from "./pages/myValorations/MyValorations.jsx";
 
 function App() {
   const { userToken } = useContext(UserContext);
@@ -166,6 +167,10 @@ function App() {
           <Route
             path="/my-questions"
             element={userToken ? <MyQuestions /> : <Navigate to="/sign-in" />}
+          />
+          <Route
+            path="/my-valorations"
+            element={userToken ? <MyValorations /> : <Navigate to="/sign-in" />}
           />
           <Route path="/not-found" element={<NotFound />} />
           <Route path="*" element={<Navigate to="/not-found" />} />

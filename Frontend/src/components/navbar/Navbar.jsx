@@ -219,7 +219,7 @@ export function Navbar({ navbarRef }) {
                       Preguntas
                     </NavLink>
                     <NavLink
-                      to="/"
+                      to="/my-valorations"
                       className="navbar__menu__link navbar__menu__link__mobile"
                     >
                       <CiStar className="miperfil__icon" />
@@ -341,7 +341,7 @@ export function Navbar({ navbarRef }) {
                   >
                     Preguntas
                   </NavLink>
-                  <NavLink to="/" className="navbar__user__menu__link">
+                  <NavLink to="/my-valorations" className="navbar__user__menu__link">
                     Opiniones
                   </NavLink>
                   <NavLink
