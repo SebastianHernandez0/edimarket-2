@@ -25,7 +25,7 @@ export function ProductProvider({ children }) {
   const [totalPage, setTotalPage] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);
-  const [order_by, setOrder_by] = useState("");
+  const [order_by, setOrder_by] = useState("fecha_desc");
   const [totalProducts, setTotalProducts] = useState(0);
   const [directBuy, setDirectBuy] = useState(initialStateProduct);
   const [questionsByProductId, setQuestionsByProductId] = useState([]);
@@ -87,6 +87,10 @@ export function ProductProvider({ children }) {
       errorCart: "",
     });
     setProductQuantity(1);
+  }, [navigate]);
+
+  useEffect(() => {
+    setOrder_by("fecha_desc");
   }, [navigate]);
 
   const getUserById = async (vendedor_id) => {
