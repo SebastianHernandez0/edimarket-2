@@ -6,6 +6,7 @@ const validarProducto = object({
   descripcion: string().min(0),
   precio: number().min(0),
   stock: number().min(0),
+  imagen: string().min(3),
   categoria: string().min(3),
 });
 
@@ -51,8 +52,8 @@ const idCategoria = async (categoria) => {
   return rows[0].id;
 };
 
-const registrarProducto = async (producto, vendedor_id , imagen) => {
-  const { nombre, descripcion, estado, precio, stock,categoria } =
+const registrarProducto = async (producto, vendedor_id) => {
+  const { nombre, descripcion, estado, precio, stock, imagen, categoria } =
     producto;
   validarProducto.parse(producto);
   try {
@@ -81,8 +82,8 @@ const registrarProducto = async (producto, vendedor_id , imagen) => {
   }
 };
 
-const modificarProducto = async (idUsuario, idProducto, producto, imagen) => {
-  let { nombre, descripcion, estado, precio, stock} = producto;
+const modificarProducto = async (idUsuario, idProducto, producto) => {
+  let { nombre, descripcion, estado, precio, stock, imagen } = producto;
   const values = [
     nombre,
     descripcion,

@@ -6,7 +6,7 @@ import db from "../config/database.js";
 const validarUsuario = object({
   nombre: string().min(3),
   email: string().email(),
-  contraseña: string(),
+  contraseña: string().min(8),
 });
 const validarUser = object({
   email: string().email(),
@@ -71,11 +71,13 @@ const registrarUsuario = async (usuario) => {
     }
     const parsedUser = validarUsuario.parse(usuario);
 
+    let hashedPassword = contraseña;
+
     if (contraseña) {
-      contraseña = bcrypt.hashSync(contraseña);
+      hashedPassword = bcrypt.hashSync(contraseña);
     }
 
-    const values = [parsedUser.nombre, parsedUser.email, contraseña];
+    const values = [parsedUser.nombre, parsedUser.email, hashedPassword];
     const consulta =
       "INSERT INTO usuarios (id,nombre, email, contraseña) VALUES (DEFAULT, $1, $2, $3) RETURNING id, nombre, email";
     const {
