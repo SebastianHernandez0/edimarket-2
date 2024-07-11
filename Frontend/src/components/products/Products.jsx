@@ -110,7 +110,7 @@ export function Products() {
                           <p className="products__card__paragraph pt-8 text-left">
                             {product?.nombre}
                           </p>
-                          <h6 className="products__card__paragraph pb-8 text-left">
+                          <h6 className="products__card__paragraph pb-8 text-left ">
                             {product?.precio.toLocaleString("es-CL", {
                               style: "currency",
                               currency: "CLP",
