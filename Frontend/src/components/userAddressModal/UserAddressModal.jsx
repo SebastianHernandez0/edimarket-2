@@ -16,7 +16,7 @@ export const UserAddressModal = forwardRef(
     return (
       <section
         ref={ref}
-        className="addressmodal__container bg-white shadow-sm rounded-md border select-none"
+        className="addressmodal__container bg-white shadow-sm rounded-md border"
       >
         <button
           onClick={() => handleNavigateToEditAddress(selectedAddressId)}
