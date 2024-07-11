@@ -4,44 +4,11 @@ import { Loader } from "../../components/loader/Loader";
 import { UserContext } from "../../context/UserContext";
 import myOrders from "./myOrders.module.css";
 import delivery from "/imgs/aplication/delivery.png";
+import { ProductContext } from "../../context/ProductContext";
 
 export function MyOrders() {
-  const { userToken, user } = useContext(UserContext);
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        if (userToken) {
-          const response = await fetch(
-            `http://localhost:3000/usuarios/usuario/ventas/?idUsuario=${user.id}`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${userToken}`,
-              },
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error("Error fetching orders");
-          }
-          const data = await response.json();
-
-          setOrders(data.ventas);
-          setLoading(false);
-        } else {
-          return;
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchOrders();
-  }, []);
+  const { orders } = useContext(UserContext);
+  const { loading } = useContext(ProductContext);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

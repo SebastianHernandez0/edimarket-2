@@ -74,6 +74,7 @@ export function UserProvider({ children }) {
   const [myProducts, setMyProducts] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [questionsByUser, setQuestionsByUser] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [AddAddressSuccess, setAddAddressSuccess] = useState({
     success: "",
     error: "",
@@ -116,6 +117,42 @@ export function UserProvider({ children }) {
       error: "",
     });
   }, [navigate]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        if (userToken) {
+          const response = await fetch(
+            `http://localhost:3000/usuarios/usuario/ventas/?idUsuario=${user.id}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${userToken}`,
+              },
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Error fetching orders");
+          }
+          const data = await response.json();
+
+          setOrders(data.ventas);
+
+          return data;
+        } else {
+          return;
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
 
   const handleGetQuestionsByUser = async () => {
     try {
@@ -188,12 +225,6 @@ export function UserProvider({ children }) {
       setLoading(false);
     }
   };
-
-  // useEffect(() => {
-  //   if (userToken) {
-  //     handleUserCards();
-  //   }
-  // }, [userToken]);
 
   useEffect(() => {
     handleUserCards();
@@ -491,6 +522,8 @@ export function UserProvider({ children }) {
         setSelectedAddressId,
         regexMalasPalabras,
         questionsByUser,
+        orders,
+        setOrders,
       }}
     >
       {children}
