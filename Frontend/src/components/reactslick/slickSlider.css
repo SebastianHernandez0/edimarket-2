@@ -1,0 +1,30 @@
+.arrow {
+  transform: scale(2.2);
+  color: #141414;
+}
+.arrow:hover {
+  color: #141414;
+  background: #00000018;
+  border-radius: 50%;
+  z-index: 100;
+}
+.slick-next {
+  right: -10px;
+}
+.slick-prev {
+  left: -10px;
+}
+
+@media (min-width: 576px) {
+  .arrow {
+    transform: scale(2.8);
+    color: #141414;
+    padding: 3px;
+  }
+  .slick-next {
+    right: -20px;
+  }
+  .slick-prev {
+    left: -20px;
+  }
+}

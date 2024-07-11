@@ -66,8 +66,9 @@
   width: 20px;
 }
 .slick-list {
-  height: 430px;
+  height: 450px;
 }
+
 /*MODO DESKTOP*/
 
 @media (min-width: 576px) {
@@ -80,4 +81,8 @@
     max-width: 1400px;
     margin: 0 auto;
   }
+  .slick-list {
+    height: 430px;
+  }
+  
 }
