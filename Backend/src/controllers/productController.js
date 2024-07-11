@@ -75,11 +75,12 @@ const modifyProducto = async (req, res) => {
   try {
     const { idProducto } = req.params;
     const producto = req.body;
+    const imagen = req.file.location;
     const Authorization = req.header("Authorization");
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
-    await productModel.modificarProducto(id, idProducto, producto);
+    await productModel.modificarProducto(id, idProducto, producto, imagen);
     console.log(
       `El usuario ${email} con el id ${id} ha modificado un producto`
     );

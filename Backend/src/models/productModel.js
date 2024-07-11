@@ -81,8 +81,8 @@ const registrarProducto = async (producto, vendedor_id , imagen) => {
   }
 };
 
-const modificarProducto = async (idUsuario, idProducto, producto) => {
-  let { nombre, descripcion, estado, precio, stock, imagen } = producto;
+const modificarProducto = async (idUsuario, idProducto, producto, imagen) => {
+  let { nombre, descripcion, estado, precio, stock} = producto;
   const values = [
     nombre,
     descripcion,
