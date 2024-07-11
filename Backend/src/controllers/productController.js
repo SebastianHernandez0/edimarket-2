@@ -45,25 +45,26 @@ const getProductoById = async (req, res) => {
 const agregarProducto = async (req, res) => {
   try {
     const producto = req.body;
+    const imagen= req.file.location;
     const Authorization = req.header("Authorization");
     const token = Authorization.split("Bearer ")[1];
     jwt.verify(token, process.env.JWT_SECRET);
     const { email, id } = jwt.decode(token);
 
-    await productModel.registrarProducto(producto, id);
+    await productModel.registrarProducto(producto, id, imagen);
 
     console.log(
       `El usuario ${email} con el id ${id} ha registrado un producto`
     );
     res.status(201).json({
+      message: "Producto registrado correctamente",
       nombre: producto.nombre,
       descripcion: producto.descripcion,
       estado: producto.estado,
       precio: producto.precio,
       stock: producto.stock,
-      imagen: producto.imagen,
+      imagen: imagen,
       categoria: producto.categoria,
-      fecha: producto.fecha_producto,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
