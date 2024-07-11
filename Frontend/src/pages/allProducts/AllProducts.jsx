@@ -6,6 +6,7 @@ import { Loader } from "../../components/loader/Loader";
 import { UserContext } from "../../context/UserContext";
 import { Pagination } from "../../components/pagination/Pagination.jsx";
 import star from "/imgs/aplication/estrella.png";
+import "../allProducts/allProducts.css";
 
 export function AllProducts() {
   const {
@@ -72,7 +73,7 @@ export function AllProducts() {
                 <ProductCard
                   onClick={() => handleProductDetail(product?.id)}
                   key={product?.id}
-                  className="products__card shadow-md bg-white"
+                  className="products__card__allproducts shadow-md bg-white"
                 >
                   <div className="products__card__img__container">
                     {user?.id === product?.vendedor ? (

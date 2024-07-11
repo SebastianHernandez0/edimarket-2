@@ -118,38 +118,42 @@ export function ProductList() {
                 <ProductCard
                   onClick={() => handleProductDetail(product?.id)}
                   key={product?.id}
-                  className="products__card__list shadow-md bg-white"
+                  className="products__card__allproducts shadow-md bg-white"
                 >
                   <div className="products__card__img__container">
-                    <img
-                      className="products__card__img"
-                      src={product?.imagen}
-                      alt={product?.nombre}
-                    />
                     {user?.id === product?.vendedor ? (
-                      <div className="product__star__container">
+                      <figure className="product__star__container">
                         <span className="font-semibold">Mi producto</span>
                         <img
                           className="product__star__icon"
                           src={star}
                           alt=""
                         />
-                      </div>
+                      </figure>
                     ) : (
                       ""
                     )}
+                    <img
+                      className="products__card__img"
+                      src={
+                        product?.imagen
+                          ? product?.imagen
+                          : "/imgs/aplication/img-notfound.png"
+                      }
+                      alt={product?.nombre}
+                    />
                     <div className="products__card__desc__container px-4">
-                      <p className="products__card__paragraph text-slate-700 font-semibold text-lg">
+                      <p className="products__card__paragraph pt-8 text-left">
                         {product?.nombre}
                       </p>
-                      <p className="products__card__paragraph font-semibold text-2xl">
+                      <h6 className="products__card__paragraph pb-8 text-left">
                         {product?.precio
                           ? Number(product.precio).toLocaleString("es-CL", {
                               style: "currency",
                               currency: "CLP",
                             })
                           : null}
-                      </p>
+                      </h6>
                     </div>
                   </div>
                 </ProductCard>
