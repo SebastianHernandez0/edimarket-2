@@ -82,42 +82,37 @@ export function ProductList() {
             {categoria.charAt(0).toUpperCase() + categoria.slice(1)}
           </span>
         </h1>
-        {loading ? (
-          <Loader />
-        ) : (
-          <div>
-            <div className="product__list__filters">
-              <select
-                onChange={handleSortChange}
-                className="products__filter shadow-sm rounded-md py-1 px-2 w-56 text-center my-10 border border-gray-300"
-                name="orderBy"
-                id="orderBy"
-                value={orderBy}
-              >
-                <option className="text-start cursor-pointer" value="">
-                  Ordenar por
-                </option>
-                <option
-                  className="text-start cursor-pointer"
-                  value="menorPrecio"
-                >
-                  Menor precio
-                </option>
-                <option
-                  className="text-start cursor-pointer"
-                  value="mayorPrecio"
-                >
-                  Mayor precio
-                </option>
-              </select>
-              <PaginationCategory
-                totalPage={totalPage}
-                page={page}
-                setPage={setPage}
-                limit={limit}
-                totalProducts={totalProducts}
-              />
-            </div>
+
+        <div>
+          <div className="product__list__filters">
+            <select
+              onChange={handleSortChange}
+              className="products__filter shadow-sm rounded-md py-1 px-2 w-56 text-center my-10 border border-gray-300"
+              name="orderBy"
+              id="orderBy"
+              value={orderBy}
+            >
+              <option className="text-start cursor-pointer" value="">
+                Ordenar por
+              </option>
+              <option className="text-start cursor-pointer" value="menorPrecio">
+                Menor precio
+              </option>
+              <option className="text-start cursor-pointer" value="mayorPrecio">
+                Mayor precio
+              </option>
+            </select>
+            <PaginationCategory
+              totalPage={totalPage}
+              page={page}
+              setPage={setPage}
+              limit={limit}
+              totalProducts={totalProducts}
+            />
+          </div>
+          {loading ? (
+            <Loader />
+          ) : (
             <div className="products__cards__container">
               {sortedProducts?.map((product) => (
                 <ProductCard
@@ -160,8 +155,8 @@ export function ProductList() {
                 </ProductCard>
               ))}
             </div>
-          </div>
-        )}
+          )}
+        </div>
         <PaginationCategory
           totalPage={totalPage}
           page={page}

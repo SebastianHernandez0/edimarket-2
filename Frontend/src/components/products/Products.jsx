@@ -1,60 +1,19 @@
+import "../products/products.css";
 import { useContext, useEffect } from "react";
 import { ProductCard } from "../../components/productCard/ProductCard.jsx";
 import { ProductContext } from "../../context/ProductContext.jsx";
 import { Loader } from "../loader/Loader.jsx";
-import "../products/products.css";
 import { UserContext } from "../../context/UserContext.jsx";
-import { Pagination } from "../pagination/Pagination.jsx";
 import star from "/imgs/aplication/estrella.png";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { settings } from "../reactslick/ReactSlickSlider.jsx";
+import { Link } from "react-router-dom";
 
 export function Products() {
-  const { products, handleProductDetail, loading, page } =
-    useContext(ProductContext);
+  const { products, handleProductDetail, loading } = useContext(ProductContext);
   const { userToken, user } = useContext(UserContext);
-
-  useEffect(() => {
-    if (page !== 1) {
-      window.scrollTo(0, 600);
-    }
-  }, [page]);
-
-  const settings = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
 
   return (
     <section>
@@ -71,6 +30,12 @@ export function Products() {
           <div className="">
             {userToken ? (
               <div className="">
+                <Link
+                  to="/all-products"
+                  className="block w-[160px] ml-auto mb-3 font-semibold text-base hover:text-teal-500 hover:underline"
+                >
+                  Ver más productos
+                </Link>
                 <Slider {...settings}>
                   {products?.map((product) => (
                     <ProductCard
@@ -118,6 +83,12 @@ export function Products() {
               </div>
             ) : (
               <div className="">
+                <Link
+                  to="/all-products"
+                  className="block w-[160px] ml-auto mb-3 font-semibold text-base hover:text-teal-500 hover:underline"
+                >
+                  Ver más productos
+                </Link>
                 <Slider {...settings}>
                   {products?.map((product) => (
                     <ProductCard

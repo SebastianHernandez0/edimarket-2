@@ -155,7 +155,7 @@ export function MyQuestions() {
         ) : (
           <div className="flex flex-col items-center justify-center h-full mt-6">
             <h3>No has hecho preguntas aún.</h3>
-            <p>Cuando hagas rpeguntas en algún producto aparecerán acá.</p>
+            <p>Cuando hagas preguntas aparecerán acá.</p>
           </div>
         )}
       </div>
