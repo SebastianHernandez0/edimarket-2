@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { HiEye } from "react-icons/hi";
 import { HiEyeOff } from "react-icons/hi";
+import google from "/imgs/aplication/google.png";
 
 export function SingUp() {
   const {
@@ -32,14 +33,11 @@ export function SingUp() {
   };
 
   const registerNewUser = async (nombre, email, contraseña) => {
-    const response = await fetch(
-      "http://localhost:3000/usuarios/registro",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombre, email, contraseña }),
-      }
-    );
+    const response = await fetch("http://localhost:3000/usuarios/registro", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre, email, contraseña }),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -136,6 +134,22 @@ export function SingUp() {
         }));
         setUserData(initialUserData);
       }
+    }
+  };
+
+  const handleGoogleAuth = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/auth/google");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al autenticar con google");
+      }
+
+      const data = response.json();
+      return data;
+    } catch (error) {
+      console.error(error.message || "No pudimos auntenticar tu cuenta");
     }
   };
 
@@ -280,7 +294,7 @@ export function SingUp() {
           )}
           <PerfilBtn
             type="submit"
-            className="register__form__btn bg-teal-300 w-6/12 h-11 rounded-3xl font-semibold text-center"
+            className="register__form__btn bg-teal-300 w-6/12 h-11 rounded-3xl font-semibold text-center shadow-md"
           >
             CREAR CUENTA
           </PerfilBtn>
@@ -296,6 +310,20 @@ export function SingUp() {
             </NavLink>
           </div>
         </form>
+        <hr className="w-full my-4" />
+        <h4 className="text-center mt-3 font-medium text-md text-gray-800">
+          También puedes crear tu cuenta con
+        </h4>
+        <div className="flex justify-center">
+          <PerfilBtn
+            onClick={handleGoogleAuth}
+            type="submit"
+            className=" bg-gray-100 h-[40px] rounded-3xl font-semibold text-center shadow-md flex items-center gap-2 hover:brightness-90 duration-[0.3s] px-3 my-3"
+          >
+            <img className="w-[20px]" src={google} alt="" />
+            Ingresar con google
+          </PerfilBtn>
+        </div>
       </div>
     </section>
   );
