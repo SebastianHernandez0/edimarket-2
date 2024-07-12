@@ -5,8 +5,6 @@ import { userController } from "../controllers/userController.js";
 
 import verificarToken from "../middlewares/verificarToken.js";
 
-
-
 router.get("/", userController.getAllUsers);
 router.get("/:id", userController.getUserById);
 router.get("/usuario/productos",verificarToken,userController.consultarProductosPerUser);
