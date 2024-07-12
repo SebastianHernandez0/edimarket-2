@@ -8,7 +8,7 @@ passport.use(
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "https://edimarket.onrender.com/auth/google/callback",
+        callbackURL: "https://edi-market-fr.vercel.app/auth/google/callback",
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
